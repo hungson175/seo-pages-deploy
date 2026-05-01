@@ -26,7 +26,7 @@ export function generateInsights(chartData: {
     {
       type: 'menh',
       title: 'Mệnh Cung — Tổng Quan Vận Mệnh',
-      content: `Sao ${primaryStar?.name || 'chủ mệnh'} ${primaryStar?.brightness === 'minh' ? 'sáng rõ' : primaryStar?.brightness === 'ham' ? 'bị hãm' : 'bình hòa'} tại Mệnh cung, ${transformation ? `có Hóa ${transformation.replace('Hoa ', '')} chiếu` : 'không có Hóa chiếu'}. Đây là nền tảng vận mệnh cả đờii, cần xem xét kỹ cùng các cung liên quan.`,
+      content: `Sao ${primaryStar?.name || 'chủ mệnh'} ${primaryStar?.brightness === 'minh' ? 'sáng rõ' : primaryStar?.brightness === 'hãm' ? 'bị hãm' : 'bình hòa'} tại Mệnh cung, ${transformation ? `có Hóa ${transformation.replace('Hoa ', '')} chiếu` : 'không có Hóa chiếu'}. Đây là nền tảng vận mệnh cả đờii, cần xem xét kỹ cùng các cung liên quan.`,
     },
     {
       type: 'life-area',

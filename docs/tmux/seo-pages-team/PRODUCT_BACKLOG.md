@@ -9,18 +9,18 @@
 
 ### STORY-001: Next.js SSG Migration for Tử Vi
 **Priority:** P0
-**Status:** Ready
+**Status:** ✅ DONE (Sprint 1)
 **Estimate:** XL
 
 **Description:**
 Migrate Tử Vi pages from React SPA to Next.js SSG/ISR for SEO compatibility.
 
 **Acceptance Criteria:**
-- [ ] Next.js 15 project setup with App Router
-- [ ] SSG/ISR configuration for dynamic routes
-- [ ] Vietnamese slug support (strip diacritics)
-- [ ] Vercel deployment pipeline
-- [ ] Lighthouse mobile score ≥90
+- [x] Next.js 15 project setup with App Router
+- [x] SSG/ISR configuration for dynamic routes
+- [x] Vietnamese slug support (strip diacritics)
+- [x] Vercel deployment pipeline
+- [ ] Lighthouse mobile score ≥90 (deferred to Sprint 2)
 
 **Notes:**
 - Current chamque.com is React SPA = zero SEO surface
@@ -30,20 +30,20 @@ Migrate Tử Vi pages from React SPA to Next.js SSG/ISR for SEO compatibility.
 
 ### STORY-002: Free Tool /lap-la-so/ Page
 **Priority:** P0
-**Status:** Ready
+**Status:** Partially DONE (shell complete in Sprint 1, chart integration in Sprint 2)
 **Estimate:** L
 
 **Description:**
 Build the free lá số tử vi generator page (65K monthly searches).
 
 **Acceptance Criteria:**
-- [ ] User inputs: name, birth date, birth time, gender
-- [ ] iztro integration for chart generation
-- [ ] SVG chart display
-- [ ] 3 free insights preview
-- [ ] CTA for paid deep reading
-- [ ] FAQPage schema markup
-- [ ] Mobile responsive
+- [x] User inputs: name, birth date, birth time, gender
+- [ ] iztro integration for chart generation (Sprint 2)
+- [ ] SVG chart display (Sprint 2)
+- [ ] 3 free insights preview (Sprint 2)
+- [ ] CTA for paid deep reading (Sprint 2)
+- [x] FAQPage schema markup
+- [x] Mobile responsive
 
 **Notes:**
 - Highest search volume keyword
@@ -51,13 +51,40 @@ Build the free lá số tử vi generator page (65K monthly searches).
 
 ---
 
-### STORY-003: Birth-Year Forecast Template
+### STORY-010: Lighthouse ≥90 Mobile Optimization
 **Priority:** P0
-**Status:** Ready
+**Status:** In Sprint 2
+**Estimate:** M
+
+**Description:**
+Deploy to Vercel preview and optimize to Lighthouse ≥90 mobile.
+
+**Acceptance Criteria:**
+- [ ] Deploy to Vercel preview
+- [ ] Lighthouse mobile score ≥90
+- [ ] LCP <2.5s
+- [ ] CLS <0.1
+- [ ] FID <100ms
+- [ ] Image optimization
+- [ ] Font loading optimized
+- [ ] JS bundle splitting
+
+**Notes:**
+- Sprint 1 accepted proxy indicators (106-108 KB, build green)
+- Sprint 2 must verify with actual Lighthouse audit
+- If <90, performance fixes become P0 within Sprint 2
+
+---
+
+## P1 - High Priority
+
+### STORY-003: Birth-Year Forecast Template
+**Priority:** P1
+**Status:** In Sprint 2
 **Estimate:** L
 
 **Description:**
-Create template for ~144 birth-year forecast pages (12 animals × ~6 years × 2 genders).
+Create template for ~96 birth-year forecast pages (12 animals × 4 years × 2 genders). **NOTE: Allow-list has 4 years, not 6.**
 
 **Acceptance Criteria:**
 - [ ] Dynamic route: `/tuvi/{animal}-{year}-{gender}/`
@@ -71,10 +98,32 @@ Create template for ~144 birth-year forecast pages (12 animals × ~6 years × 2 
 **Notes:**
 - This is where ALL search volume lives
 - Use iztro JSON for genuinely unique predictions
+- **Split across sprints:** STORY-012a (12-24 pages in Sprint 2), STORY-012b (remaining 72+ pages in Sprint 3)
+- May split into two sprints (72 + 72) based on TL capacity
 
 ---
 
-## P1 - High Priority
+### STORY-011: iztro Chart Integration for /lap-la-so/
+**Priority:** P1
+**Status:** In Sprint 2
+**Estimate:** M
+
+**Description:**
+Integrate iztro library for SVG birth chart generation in the free tool page.
+
+**Acceptance Criteria:**
+- [ ] iztro generates chart from user input (name, birth date/time, gender)
+- [ ] SVG chart renders client-side
+- [ ] 3 free insights preview
+- [ ] CTA for paid deep reading
+- [ ] Mobile responsive chart display
+
+**Notes:**
+- Client-side rendering (SSR not needed for interactive tool)
+- Bói-Toán consultant input pending on chart elements and insights
+- CMO consultant input pending on conversion funnel optimization
+
+---
 
 ### STORY-004: Educational Hub Pages (Star Guide)
 **Priority:** P1
@@ -111,23 +160,44 @@ Create annual forecast hub and compatibility pages.
 
 ### STORY-006: Schema Markup System
 **Priority:** P1
-**Status:** New
+**Status:** Partially DONE (basic schemas in Sprint 1)
 **Estimate:** M
 
 **Description:**
 Implement comprehensive schema markup for all page types.
 
 **Acceptance Criteria:**
-- [ ] FAQPage schema
-- [ ] HowTo schema (for tool pages)
-- [ ] BreadcrumbList schema
-- [ ] Article schema
-- [ ] Service schema
-- [ ] All with `"inLanguage": "vi"`
+- [x] FAQPage schema
+- [x] HowTo schema (for tool pages)
+- [x] BreadcrumbList schema
+- [x] Article schema
+- [ ] Service schema (deferred from Sprint 1)
+- [x] All with `"inLanguage": "vi"`
 
 ---
 
 ## P2 - Medium Priority
+
+### STORY-013: Gieo Quẻ 64-Quẻ Pages Scaffold
+**Priority:** P2
+**Status:** In Sprint 2
+**Estimate:** L
+
+**Description:**
+Build 64 quẻ pages scaffold for Gieo Quẻ Kinh Dịch.
+
+**Acceptance Criteria:**
+- [ ] URL pattern: `/que/{id}-{name-vn}/`
+- [ ] 5-7 semantic H2s per page
+- [ ] Lục Hào interpretation sections
+- [ ] Career, love, finance sections
+- [ ] FAQ section
+
+**Notes:**
+- Leverage existing chamque.com content structure
+- Scaffold only in Sprint 2; full content in future sprint
+
+---
 
 ### STORY-007: Life-Area Hub Pages
 **Priority:** P2
@@ -145,29 +215,9 @@ Create ~12 life-area hub pages (career, love, health, wealth, etc.).
 
 ---
 
-### STORY-008: Gieo Quẻ 64-Quẻ Pages
-**Priority:** P2
-**Status:** New
-**Estimate:** L
-
-**Description:**
-Build 64 quẻ pages for Gieo Quẻ Kinh Dịch.
-
-**Acceptance Criteria:**
-- [ ] URL pattern: `/que/{id}-{name-vn}/`
-- [ ] 5-7 semantic H2s per page
-- [ ] Lục Hào interpretation
-- [ ] Career, love, finance sections
-- [ ] FAQ section
-
-**Notes:**
-- Leverage existing chamque.com content structure
-
----
-
 ### STORY-009: Sitemap & Indexation
 **Priority:** P2
-**Status:** New
+**Status:** Partially DONE (single-file sitemap in Sprint 1)
 **Estimate:** S
 
 **Description:**
@@ -183,7 +233,7 @@ Implement segmented sitemaps and indexation strategy.
 
 ## P3 - Low Priority
 
-### STORY-010: Tứ Trụ (Bazi) Pages
+### STORY-014: Tứ Trụ (Bazi) Pages
 **Priority:** P3
 **Status:** New
 **Estimate:** TBD
@@ -196,8 +246,24 @@ Build SEO pages for Tứ Trụ (Bazi) app.
 
 ---
 
+## Tech Debt & Sprint Carry-Forward
+
+### Sprint 1 → Sprint 2
+- [ ] ISR configuration
+- [ ] Segmented sitemaps (from single-file)
+- [ ] Full Supabase integration (from types-only)
+- [ ] ServiceSchema for /lap-la-so/
+- [ ] Hub index pages (/tuvi, /sao, /que)
+- [ ] Allow-list consolidation
+- [ ] Metadata typo fix
+- [ ] Remove duplicate next.config.js
+- [ ] Fix OG URL path
+
+---
+
 ## Backlog Notes
 
 - Priorities based on search volume and business value
 - Estimates: S (1-2 days), M (3-5 days), L (1-2 weeks), XL (2-4 weeks)
 - PO will reprioritize based on Sprint Review feedback
+- PO cross-domain awareness: SEO, Marketing, Bói Toán, TikTok

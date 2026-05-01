@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
+import { toTitleCase } from '@/lib/casing'
 import { STARS } from '@/lib/data/allow-lists'
 import {
   ArticleSchema,
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ star: str
     })
   }
   return buildMetadata({
-    title: `Sao ${star.replace(/-/g, ' ').toUpperCase()} - Ý Nghĩa Chi Tiết`,
+    title: `Sao ${toTitleCase(star.replace(/-/g, ' '))} - Ý Nghĩa Chi Tiết`,
     description: `Tìm hiểu ý nghĩa sao ${star.replace(/-/g, ' ')} trong lá số tử vi. Vị trí, tính chất và ảnh hưởng đến vận mệnh.`,
     path: `/sao/${star}`,
   })
@@ -36,7 +37,7 @@ export default async function StarPage({
     notFound()
   }
 
-  const displayName = star.replace(/-/g, ' ')
+  const displayName = toTitleCase(star.replace(/-/g, ' '))
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">

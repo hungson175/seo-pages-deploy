@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
+import { toTitleCase } from '@/lib/casing'
 import { FORECAST_SLUGS } from '@/lib/data/allow-lists'
 import {
   ArticleSchema,
@@ -20,9 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       path: `/tuvi/${slug}`,
     })
   }
+  const displayName = toTitleCase(slug.replace(/-/g, ' '))
   return buildMetadata({
-    title: `Tử Vi ${slug.replace(/-/g, ' ').toUpperCase()} - Xem Chi Tiết`,
-    description: `Xem tử vi chi tiết cho ${slug.replace(/-/g, ' ')}. Luận giải vận mệnh, công danh, tài lộc, tình duyên và sức khỏe năm 2026.`,
+    title: `Tử Vi ${displayName} - Xem Chi Tiết`,
+    description: `Xem tử vi chi tiết cho ${displayName}. Luận giải vận mệnh, công danh, tài lộc, tình duyên và sức khỏe năm 2026.`,
     path: `/tuvi/${slug}`,
   })
 }
@@ -37,7 +39,7 @@ export default async function ForecastPage({
     notFound()
   }
 
-  const displayName = slug.replace(/-/g, ' ')
+  const displayName = toTitleCase(slug.replace(/-/g, ' '))
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">

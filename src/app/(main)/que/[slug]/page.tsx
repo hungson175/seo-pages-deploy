@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
+import { toTitleCase } from '@/lib/casing'
 import { QUE_SLUGS } from '@/lib/data/allow-lists'
 import {
   ArticleSchema,
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     })
   }
   return buildMetadata({
-    title: `Quẻ ${slug.replace(/-/g, ' ').toUpperCase()} - Kinh Dịch`,
+    title: `Quẻ ${toTitleCase(slug.replace(/-/g, ' '))} - Kinh Dịch`,
     description: `Luận giải quẻ ${slug.replace(/-/g, ' ')} trong Kinh Dịch. Ý nghĩa, biến quẻ và ứng dụng trong cuộc sống.`,
     path: `/que/${slug}`,
   })
@@ -37,7 +38,7 @@ export default async function QuePage({
     notFound()
   }
 
-  const displayName = slug.replace(/-/g, ' ')
+  const displayName = toTitleCase(slug.replace(/-/g, ' '))
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">

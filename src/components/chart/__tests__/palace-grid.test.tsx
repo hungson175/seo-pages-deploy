@@ -4,38 +4,9 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
-
-// Types for chart rendering
-export interface Star {
-  name: string
-  brightness: 'minh' | 'hãm' | 'bình'
-}
-
-export interface Palace {
-  name: string
-  index: number
-  majorStars: Star[]
-  minorStars: string[]
-  transformation?: string
-}
-
-export interface ChartProps {
-  palaces: Palace[]
-}
-
-// Components to test (not yet implemented)
-export function PalaceGrid({ palaces }: ChartProps) {
-  throw new Error('Not implemented')
-}
-
-export function StarTooltip({ star }: { star: Star }) {
-  throw new Error('Not implemented')
-}
-
-export function PalaceDetail({ palace }: { palace: Palace }) {
-  throw new Error('Not implemented')
-}
+import { render, screen } from '@testing-library/react'
+import { PalaceGrid, StarTooltip, PalaceDetail } from '../palace-grid'
+import type { Palace } from '../palace-grid'
 
 // Mock data — 12 palaces traditional layout
 const MOCK_PALACES: Palace[] = [

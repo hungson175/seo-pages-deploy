@@ -4,20 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-
-export function buildH1(
-  action: string,
-  keyword: string,
-  benefit?: string
-): string {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
-
-export function getActionVerb(pageType: 'forecast' | 'star' | 'que' | 'tool'): string {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { buildH1, getActionVerb } from '../h1-optimization'
 
 describe('buildH1', () => {
   it('formats H1 with action + keyword', () => {

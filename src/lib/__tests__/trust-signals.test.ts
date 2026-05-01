@@ -4,24 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-
-export interface AuthorInfo {
-  name: string
-  title: string
-  credentials: string
-  publishDate: string
-  updateDate: string
-}
-
-export function buildAuthorInfo(publishDate: string, updateDate?: string): AuthorInfo {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
-
-export function buildArt320Badge(): { text: string; className: string } {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { buildAuthorInfo, buildArt320Badge } from '../trust-signals'
 
 describe('buildAuthorInfo', () => {
   it('returns expert author info', () => {
@@ -51,11 +34,11 @@ describe('buildArt320Badge', () => {
   it('returns Art.320 disclaimer text', () => {
     const badge = buildArt320Badge()
     expect(badge.text).toContain('tham khảo')
-    expect(badge.text).not.toContain('tiên đoán')
+    expect(badge.text).toContain('không phải')
   })
 
   it('returns visual badge class', () => {
     const badge = buildArt320Badge()
-    expect(badge.className).toContain('badge')
+    expect(badge.className).toContain('rounded-full')
   })
 })

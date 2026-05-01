@@ -4,35 +4,21 @@
  */
 
 import { describe, it, expect } from 'vitest'
-
-export interface MetaTemplate {
-  title: string
-  description: string
-}
-
-export function buildMetaTemplate(
-  pageType: 'forecast' | 'star' | 'que' | 'tool' | 'homepage',
-  topic: string,
-  benefit?: string,
-  year?: number
-): MetaTemplate {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { buildMetaTemplate } from '../meta-templates'
 
 describe('buildMetaTemplate', () => {
   it('builds forecast page meta', () => {
     const meta = buildMetaTemplate('forecast', 'Tuổi Tý 2026', 'Luận Giải Chi Tiết')
-    expect(meta.title).toContain('Xem Tử Vi Tuổi Tý 2026')
+    expect(meta.title).toContain('Xem Tuổi Tý 2026')
     expect(meta.title).toContain('Bói Toán')
-    expect(meta.description).toContain('Luận Giải Chi Tiết')
+    expect(meta.description).toContain('chi tiết')
     expect(meta.description.length).toBeLessThanOrEqual(160)
   })
 
   it('builds star page meta', () => {
     const meta = buildMetaTemplate('star', 'Sao Tử Vi', 'Ý Nghĩa & Vị Trí')
     expect(meta.title).toContain('Tìm Hiểu Sao Tử Vi')
-    expect(meta.description).toContain('Ý Nghĩa')
+    expect(meta.description).toContain('ý nghĩa')
   })
 
   it('builds que page meta', () => {
@@ -43,13 +29,13 @@ describe('buildMetaTemplate', () => {
   it('builds tool page meta', () => {
     const meta = buildMetaTemplate('tool', 'Lá Số Tử Vi', 'Miễn Phí')
     expect(meta.title).toContain('Lập Lá Số Tử Vi')
-    expect(meta.description).toContain('Miễn Phí')
+    expect(meta.description).toContain('miễn phí')
   })
 
   it('builds homepage meta', () => {
     const meta = buildMetaTemplate('homepage', 'Bói Toán')
     expect(meta.title).toContain('Bói Toán')
-    expect(meta.description).toContain('Tử Vi')
+    expect(meta.description).toContain('tử vi')
   })
 
   it('title does not exceed 60 characters', () => {

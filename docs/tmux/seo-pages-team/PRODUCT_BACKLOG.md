@@ -172,7 +172,12 @@ Implement comprehensive schema markup for all page types.
 - [x] BreadcrumbList schema
 - [x] Article schema
 - [ ] Service schema (deferred from Sprint 1)
+- [ ] WebSite schema (competitor gap — aituvi missing)
 - [x] All with `"inLanguage": "vi"`
+
+**Notes:**
+- Competitor analysis (OPC): aituvi.com has incomplete schema. We can outrank by having full Schema.org coverage.
+- tuvi.vn NOINDEXES year pages — we SHOULD index ours for long-tail SEO.
 
 ---
 
@@ -221,13 +226,18 @@ Create ~12 life-area hub pages (career, love, health, wealth, etc.).
 **Estimate:** S
 
 **Description:**
-Implement segmented sitemaps and indexation strategy.
+Implement segmented sitemaps and indexation strategy. All 440+ pages should be indexed.
 
 **Acceptance Criteria:**
 - [ ] Segmented sitemaps (tuvi.xml, gieoque.xml, tools.xml, blog.xml)
 - [ ] Max 10K URLs per sitemap
+- [ ] Sitemap includes all 440+ pages
 - [ ] Google Search Console setup
 - [ ] Index coverage monitoring
+- [ ] Index strategy: index all SEO pages, noindex only forms/tools
+
+**Notes:**
+- Competitor gap: tuvi.vn NOINDEXES year pages. We gain advantage by indexing all forecast pages.
 
 ---
 
@@ -267,3 +277,119 @@ Build SEO pages for Tứ Trụ (Bazi) app.
 - Estimates: S (1-2 days), M (3-5 days), L (1-2 weeks), XL (2-4 weeks)
 - PO will reprioritize based on Sprint Review feedback
 - PO cross-domain awareness: SEO, Marketing, Bói Toán, TikTok
+
+---
+
+## New Stories (From Competitor Analysis — OPC 2026-05-01)
+
+### STORY-015: HTML lang="vi" Fix
+**Priority:** P2
+**Status:** New
+**Estimate:** XS
+
+**Description:**
+Fix `<html lang="vi">` on all pages. Competitor aituvi.com has lang="en" which is an SEO mistake.
+
+**Acceptance Criteria:**
+- [ ] All pages have `<html lang="vi">`
+- [ ] No pages have lang="en" or missing lang
+
+---
+
+### STORY-016: H1 Optimization
+**Priority:** P1
+**Status:** New
+**Estimate:** S
+
+**Description:**
+Optimize H1 tags per tuvi.vn formula: [action] + [keyword] + [benefit/emotional].
+
+**Acceptance Criteria:**
+- [ ] H1 formula applied to all page types
+- [ ] Birth-year pages: "Xem tử vi [năm] tuổi [con giáp] [giới tính]: [lợi ích]"
+- [ ] Tool pages: "Lập lá số tử vi: Khám phá vận mệnh chính xác"
+- [ ] Each H1 is unique per page
+
+**Notes:**
+- Competitor insight: tuvi.vn uses formulaic H1s that rank well.
+
+---
+
+### STORY-017: Internal Linking Matrix
+**Priority:** P2
+**Status:** New
+**Estimate:** M
+
+**Description:**
+Build internal linking matrix where every page links to 10+ related pages.
+
+**Acceptance Criteria:**
+- [ ] Birth-year pages link to: same animal other years, same year other animals, compatible animals, tool page
+- [ ] Tool page links to: popular forecasts, educational content
+- [ ] Educational pages link to: related stars, related forecasts
+- [ ] Footer: category hubs (/tuvi, /sao, /que)
+
+**Notes:**
+- Competitor insight: tuvi.vn ranks on category pages with deep internal linking.
+
+---
+
+### STORY-018: Meta Tag Template System
+**Priority:** P2
+**Status:** New
+**Estimate:** S
+
+**Description:**
+Create meta tag templates per page type for consistent, optimized SEO.
+
+**Acceptance Criteria:**
+- [ ] Title template: [keyword] | [brand] for each page type
+- [ ] Description template: 150-160 chars with CTA
+- [ ] OG tags per page type
+- [ ] Twitter cards per page type
+
+---
+
+### STORY-019: Trust Signals
+**Priority:** P2
+**Status:** New
+**Estimate:** XS
+
+**Description:**
+Add trust signals in footer to match competitor standards.
+
+**Acceptance Criteria:**
+- [ ] Art. 320 compliance badge
+- [ ] "Kết quả chỉ mang tính tham khảo" disclaimer
+- [ ] Contact info
+- [ ] Privacy policy link
+- [ ] Last updated date
+
+---
+
+### STORY-020: Daily Auto-Articles
+**Priority:** P3
+**Status:** New
+**Estimate:** L
+
+**Description:**
+Daily auto-generated articles for content freshness (competitor aituvi strategy).
+
+**Acceptance Criteria:**
+- [ ] Daily horoscope auto-generation
+- [ ] Daily "ngày tốt xấu" article
+- [ ] Auto-publish to site
+- [ ] dateModified schema updates
+
+**Notes:**
+- Complex feature — likely Sprint 4+ scope.
+
+---
+
+## Backlog Notes
+
+- Priorities based on search volume and business value
+- Estimates: XS (few hours), S (1-2 days), M (3-5 days), L (1-2 weeks), XL (2-4 weeks)
+- PO will reprioritize based on Sprint Review feedback
+- PO cross-domain awareness: SEO, Marketing, Bói Toán, TikTok
+- Competitor analysis integrated: tuvi.vn, aituvi.com patterns

@@ -1,64 +1,85 @@
 # SEO Pages Team - Sprint Backlog
 
 **Owned by:** SM
-**Current Sprint:** Sprint 2
+**Current Sprint:** Sprint 3
 **Last Updated:** 2026-05-01
 
 ---
 
 ## Sprint Goal
 
-Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynamic loading, and build birth-year forecast content pipeline for 12-24 MVP pages.
+Render iztro charts with full 12-palace grid UI, deploy to Vercel production (boitoan.vn), complete birth-year forecast content for 72+ pages, and implement competitor quick-wins (H1 optimization, lang='vi', meta tag templates, trust signals).
 
 ---
 
 ## Sprint Items
 
-### PRIMARY
+### P0 (MUST HAVE)
 
-#### STORY-010: Lighthouse ≥90 Mobile Optimization (P0)
-- [ ] Deploy to Vercel preview
-- [ ] Run actual Lighthouse audit
-- [ ] Fix: image optimization, font loading, JS bundle splitting
-- [ ] Core Web Vitals: LCP <2.5s, CLS <0.1, FID <100ms
-- [ ] Acceptance: Lighthouse mobile ≥90 on Vercel preview
+#### STORY-011b: iztro UI Rendering (P0)
+- [ ] 12-palace SVG grid layout (4x3 traditional)
+- [ ] Star brightness color coding (minh/hãm/bình)
+- [ ] Interactive features: hover tooltip, click expand
+- [ ] Insight card refinement with star icons
+- [ ] Paid CTA with full feature list
+- [ ] Performance: render < 1s, responsive 375px+
+- [ ] Accessibility: keyboard nav, aria labels, screen reader
+- [ ] Dynamic import with ssr: false
+- [ ] Acceptance: Functional chart rendering, <1s render, mobile responsive, a11y compliant
 
-#### STORY-011: iztro Chart Integration for /lap-la-so/ (P1)
-- [ ] Install iztro library
-- [ ] Dynamic import with ssr: false (next/dynamic)
-- [ ] Use iztro locale 'vi-VN' for native Vietnamese output
-- [ ] Chart renders client-side after form submission
-- [ ] **12-PALACE GRID MUST DISPLAY:** Mệnh Cung, Phụ Mẫu, Phúc Đức, Điền Trạch, Quan Lộc, Nô Bộc, Thiên Di, Tật Ách, Tài Bạch, Tử Nữ, Phu Thê, Huynh Đệ
-- [ ] **3 FREE INSIGHTS:** (1) Mệnh Cung verdict, (2) One life area teaser, (3) Lucky element snapshot
-- [ ] **PAID UPSELL CTA:** full 12-palace analysis + decadal breakdown + monthly forecast + PDF export
-- [ ] Mobile responsive
-- [ ] Acceptance: Functional chart generation with full 12-palace grid, 3 insights, paid CTA
+#### Vercel Production Deploy (P0)
+- [ ] Configure Vercel CLI with token
+- [ ] Deploy to boitoan.vn
+- [ ] Verify build output on production
+- [ ] Run Lighthouse audit ≥90 mobile
+- [ ] Acceptance: Live on boitoan.vn, Lighthouse ≥90
 
-#### STORY-012a: Birth-Year Forecast Content Pipeline MVP (P1)
-- [ ] Content pipeline: iztro JSON → LLM → 1,200-1,500 words
-- [ ] Generate 12-24 MVP pages (one animal or one year as sample)
-- [ ] 80%+ uniqueness per page
-- [ ] "Thầy bói nói chuyện" tone
-- [ ] Art. 320 compliance ("tham khảo" not "tiên đoán")
-- [ ] BreadcrumbList + Article schema
-- [ ] Supabase data layer for content storage
-- [ ] **DOMAIN REQUIREMENTS:**
-  - [ ] Use Tam Hợp Phái algorithm (iztro default)
-  - [ ] Include Four Transformations (Tứ Hóa): Hóa Lộc, Hóa Quyền, Hóa Khoa, Hóa Kỵ — determined by birth year stem
-  - [ ] Reference Five Elements Class (Ngũ Hành Cục): Thủy Nhị Cục, Mộc Tam Cục, Kim Tứ Cục, Thổ Ngũ Cục, Hỏa Lục Cục
-  - [ ] Include major star brightness levels (Miếu/Vượng/Đắc/Lợi/Bình/Bất/Hạn) — brightness changes interpretation
-  - [ ] NO Western astrology terms
-- [ ] Acceptance: Pipeline functional, 12-24 pages generated, uniqueness ≥80%, domain accuracy verified
+### P1 (SHOULD HAVE)
+
+#### STORY-012b: Birth-Year Forecast Content Pipeline (72+ pages) (P1)
+- [ ] Scale pipeline from 12-24 to 72+ pages
+- [ ] LLM integration for 80%+ uniqueness (Claude/OpenAI)
+- [ ] Content generation: 1,200-1,500 words per page
+- [ ] Art. 320 compliance ('tham khảo' mandatory)
+- [ ] Domain rules: Tam Hợp Phái, Tứ Hóa, Ngũ Hành, độ sáng
+- [ ] NO Western astrology terms
+- [ ] Supabase seeding with real data layer
+- [ ] Acceptance: 72+ pages generated, uniqueness ≥80%, tone correct
+
+#### STORY-016: H1 Optimization (P1)
+- [ ] H1 formula: [action] + [keyword] + [benefit/emotional]
+- [ ] Action verbs: 'Xem', 'Tìm Hiểu', 'Khám Phá', 'Lập'
+- [ ] Benefit phrases: 'Luận Giải Chi Tiết', 'Miễn Phí', 'Chính Xác'
+- [ ] Update all page templates (tuvi, sao, que)
+- [ ] Acceptance: All pages have optimized H1s per formula
+
+### P2 (QUICK WINS — parallelizable)
+
+#### STORY-015: HTML lang='vi' Verification (P2)
+- [ ] Verify lang='vi' on all pages
+- [ ] Fix any missing lang attributes
+- [ ] Acceptance: 100% pages have lang='vi'
+
+#### STORY-018: Meta Tag Template System (P2)
+- [ ] Enhance buildMetadata() with templates per page type
+- [ ] Title template: '{action} {topic} {year?} {benefit} | Bói Toán'
+- [ ] Description templates with CTA
+- [ ] Apply to all page types
+- [ ] Acceptance: All pages have optimized meta tags
+
+#### STORY-019: Trust Signals (P2)
+- [ ] Add authorExpertise component (name, title, publish date)
+- [ ] Enhance Art.320 with visual badge styling
+- [ ] Add 'Cập nhật: [date]' metadata line
+- [ ] Acceptance: Trust signals visible on all content pages
 
 ### STRETCH
 
-#### STORY-013: Gieo Quẻ 64-Quẻ Pages Scaffold (P2)
-- [ ] 64 quẻ pages scaffold
-- [ ] URL: /que/{id}-{name-vn}/
-- [ ] 5-7 semantic H2s per page
-- [ ] Lục Hào interpretation sections
-- [ ] FAQ section
-- [ ] Acceptance: 64 scaffold pages, correct URL pattern, semantic structure
+#### STORY-017: Internal Linking Matrix (STRETCH — only if P0+P1 done early)
+- [ ] Data structure: Map<slug, relatedSlugs[]>
+- [ ] Logic: Same animal/year/adjacent animals → related
+- [ ] FE renders 'Xem thêm' section with 10 related links
+- [ ] Acceptance: 10+ related links per content page
 
 ---
 
@@ -66,10 +87,14 @@ Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynami
 
 | Story | Assignee | Status | Notes |
 |-------|----------|--------|-------|
-| STORY-010 | FE | GitHub Pages deploy IN PROGRESS. **PO hard gate: Actual Lighthouse ≥90 on deployed URL** | Proxy tests pass (5/5). Local preview: 100/100/96/100. **PO DECISION: GitHub Pages acceptable for Sprint 2 Lighthouse evidence. Vercel production deploy → Sprint 3.** Spec at docs/specs/story-010-lighthouse.md |
-| STORY-011 | BE/FE | TL review: PARTIAL APPROVE. **PO ACCEPTED (partial)** ✅ | Infrastructure (form mapping, chart extraction, 3 insights) ACCEPTED. UI rendering (dynamic import, SVG chart) deferred to Sprint 3 as STORY-011b. QA validated. |
-| STORY-012a | BE/FE | **PO ACCEPTED** ✅ | BE: 56/56 tests. QA: 12/12 CNT tests PASS. Art.320 confirmed ('tham khảo' ×17, 'không phải tiên đoán' ×11). All DoD gates cleared. |
-| STORY-013 | FE | TL review: APPROVE. QA validation IN PROGRESS. PO acceptance pending. | Stretch delivered. 6/6 tests — validateQueSections. QA validating now. PO will accept after QA validation. Spec at docs/specs/story-013-gieo-que-scaffold.md |
+| STORY-011b | FE | Not started | TL spec ready: docs/specs/story-011b-iztro-ui-rendering.md |
+| Vercel Deploy | BE | Not started | Token ready, needs env config |
+| STORY-012b | BE | Not started | LLM provider decision needed |
+| STORY-016 | FE | Not started | h1Formatter utility approach ready |
+| STORY-015 | FE | Not started | Already done, verify maintained |
+| STORY-018 | FE | Not started | buildMetadata() enhancement approach ready |
+| STORY-019 | FE | Not started | authorExpertise component approach ready |
+| STORY-017 | FE/BE | Not started | Stretch — only if P0+P1 done early |
 
 ---
 
@@ -86,44 +111,33 @@ For each story:
 
 ---
 
-## Sprint 1 Carryover (Tech Debt)
-
-| # | Item | Priority | Owner | Status |
-|---|------|----------|-------|--------|
-| 1 | Segmented sitemaps (currently single-file) | P2 | FE | Not started |
-| 2 | Hub index pages (/tuvi, /sao, /que) | P2 | FE | Not started |
-| 3 | Fix metadata typo (đờii → đờii) | P2 | FE | Not started |
-| 4 | Remove duplicate next.config.js | P2 | FE | Not started |
-| 5 | Fix OG URL to full path | P2 | FE | Not started |
-| 6 | Allow-list consolidation | P2 | BE | Not started |
-| 7 | Configure ISR for dynamic routes | P3 | TL | Not started |
-| 8 | CI/CD Lighthouse check in build pipeline | P3 | TL | Not started |
-
----
-
-## Consultant Input
-
-| Consultant | Status | Impact | Key Input |
-|-----------|--------|--------|-----------|
-| Bói-Toán | ✅ RECEIVED & INTEGRATED | STORY-011, STORY-012a | 12-palace grid, 3 free insights, paid upsell, Four Transformations, Five Elements, star brightness, Tam Hợp Phái, Art. 320 |
-| SEO | ⏳ PENDING | STORY-010, STORY-012a | Technical SEO requirements, schema strategy |
-| CMO | ⏳ PENDING | STORY-011 | Conversion funnel, CTA placement, paywall strategy |
-
-*SM will route additional consultant requirements to team immediately when PO relays them. Does not block Sprint 2 execution.*
-
----
-
-## Sprint 2 Active Improvements (SM Monitoring)
+## Sprint 3 Active Improvements (SM Monitoring)
 
 | # | Improvement | Target Roles | Status |
 |---|-------------|--------------|--------|
-| 1 | BE→FE Interface Contract + Single Source of Truth | TL (spec), BE/FE (impl) | Monitoring |
-| 2 | AC Checklist Review Gate before TDD | BE + FE | Monitoring |
-
-*SM will spot-check during Sprint 2. Evidence determines status at Sprint 2 retrospective.*
+| 1 | Credential Readiness Check at Sprint Start | SM + TL | Effective ✅ (Vercel token obtained) |
+| 2 | Early Spec for High-Risk Stories | TL | Effective ✅ (STORY-011b spec ready) |
 
 ---
 
-## Confidence
+## Sprint 3 Blockers to Resolve
 
-75% delivery with revised scope (vs 40% with original scope)
+| Blocker | Owner | Status |
+|---------|-------|--------|
+| LLM provider selection (Claude vs OpenAI vs local) | Boss/PO | Pending |
+| Supabase real credentials + schema migration | BE | Pending |
+| Vercel env variable configuration | BE | Pending |
+
+---
+
+## Sprint 3 Tech Debt Carryover
+
+| # | Item | Priority | Owner |
+|---|------|----------|-------|
+| 1 | STORY-017: Internal linking matrix (if not completed) | P1 | FE/BE |
+| 2 | STORY-020: Daily auto-articles | P3 | BE |
+| 3 | ISR configuration | P2 | TL |
+| 4 | Full Supabase integration with real data fetching | P1 | BE |
+| 5 | Segmented sitemaps expansion | P2 | FE |
+| 6 | Hub index pages (/tuvi, /sao, /que) | P2 | FE |
+| 7 | CI/CD Lighthouse check in build pipeline | P3 | TL |

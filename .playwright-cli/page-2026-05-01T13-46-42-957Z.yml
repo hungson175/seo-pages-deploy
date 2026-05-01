@@ -1,0 +1,422 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "Back" [ref=e10] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e12]
+            - generic [ref=e14]: Back
+          - button "Find… F" [ref=e16]:
+            - generic [ref=e18]:
+              - img [ref=e20]
+              - generic [ref=e22]: Find…
+              - generic [ref=e24]: F
+        - navigation [ref=e26]:
+          - generic [ref=e29]:
+            - link "Overview" [ref=e30] [cursor=pointer]:
+              - /url: /account
+              - img [ref=e32]
+              - generic [ref=e35]: Overview
+            - link "Domains" [ref=e36] [cursor=pointer]:
+              - /url: /account/domains
+              - img [ref=e38]
+              - generic [ref=e41]: Domains
+            - link "Activity" [ref=e42] [cursor=pointer]:
+              - /url: /account/activity
+              - img [ref=e44]
+              - generic [ref=e47]: Activity
+            - link "Support" [ref=e48] [cursor=pointer]:
+              - /url: /account/support
+              - img [ref=e50]
+              - generic [ref=e53]: Support
+            - separator [ref=e54]
+            - link "Settings" [ref=e55] [cursor=pointer]:
+              - /url: /account/settings
+              - img [ref=e57]
+              - generic [ref=e60]: Settings
+            - link "Authentication" [ref=e61] [cursor=pointer]:
+              - /url: /account/settings/authentication
+              - generic [ref=e64]: Authentication
+            - link "Sign in with Vercel" [ref=e65] [cursor=pointer]:
+              - /url: /account/settings/sign-in-with-vercel
+              - generic [ref=e68]: Sign in with Vercel
+            - link "Billing Information" [ref=e69] [cursor=pointer]:
+              - /url: /account/settings/billing-information
+              - generic [ref=e72]: Billing Information
+            - link "Billing Items" [ref=e73] [cursor=pointer]:
+              - /url: /account/settings/billing-items
+              - generic [ref=e76]: Billing Items
+            - link "Invoices" [ref=e77] [cursor=pointer]:
+              - /url: /account/settings/invoices
+              - generic [ref=e80]: Invoices
+            - link "Tokens" [ref=e81] [cursor=pointer]:
+              - /url: /account/settings/tokens
+              - generic [ref=e84]: Tokens
+        - button "Avatar for hungson175 hungson175" [ref=e219] [cursor=pointer]:
+          - img "Avatar for hungson175" [ref=e220]:
+            - img "Avatar for hungson175" [ref=e221]
+          - generic [ref=e223]: hungson175
+          - img [ref=e225]
+      - button [ref=e93] [cursor=pointer]:
+        - img [ref=e94]
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e101]: Tokens
+        - button "Open page actions menu" [ref=e103] [cursor=pointer]:
+          - img [ref=e105]
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - heading "Tokens" [level=1] [ref=e114]
+          - paragraph [ref=e115]: These tokens allow other apps to control your whole account. Be careful!
+        - generic [ref=e116]:
+          - generic [ref=e118]: Create Token
+          - generic [ref=e121]:
+            - paragraph [ref=e122]:
+              - text: Enter a unique name for your token to differentiate it from other tokens.
+              - text: Then select the scope for the token.
+            - generic [ref=e123]:
+              - generic [ref=e125]:
+                - generic [ref=e126]: TOKEN NAME
+                - textbox "TOKEN NAME" [ref=e128]:
+                  - /placeholder: New Token
+                  - text: SEO Pages Team
+              - generic [ref=e130]:
+                - generic [ref=e131]: SCOPE
+                - combobox [ref=e133]:
+                  - generic [ref=e134]:
+                    - generic:
+                      - img
+                    - searchbox "Select scope…" [ref=e135]: Hung-Son Pham's projects
+                    - button "Open menu" [ref=e707] [cursor=pointer]:
+                      - img [ref=e137]
+              - generic [ref=e139]:
+                - generic [ref=e140]:
+                  - generic [ref=e141]: EXPIRATION
+                  - generic [ref=e144]:
+                    - combobox "EXPIRATION" [ref=e145] [cursor=pointer]:
+                      - option "Select Date" [disabled] [selected]
+                      - option "1 Hour"
+                      - option "1 Day"
+                      - option "7 Days"
+                      - option "30 Days"
+                      - option "60 Days"
+                      - option "90 Days"
+                      - option "180 Days"
+                      - option "1 Year"
+                      - option "No Expiration"
+                    - generic:
+                      - img
+                - alert [ref=e708]:
+                  - img [ref=e710]
+                  - generic [ref=e712]: Select a valid expiration option.
+          - generic [ref=e146]:
+            - paragraph [ref=e148]:
+              - text: Learn more about
+              - link "Access Tokens" [ref=e149] [cursor=pointer]:
+                - /url: /guides/how-do-i-use-a-vercel-api-access-token
+                - text: Access Tokens
+                - img [ref=e150]
+            - button "Create" [ref=e154] [cursor=pointer]:
+              - generic [ref=e155]: Create
+        - generic [ref=e156]:
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - radio "All" [checked] [ref=e160]
+              - generic [ref=e227] [cursor=pointer]: All
+            - generic [ref=e161]:
+              - radio "Active" [ref=e162]
+              - generic [ref=e228] [cursor=pointer]: Active
+            - generic [ref=e163]:
+              - radio "Expired" [ref=e164]
+              - generic [ref=e229] [cursor=pointer]: Expired
+            - generic [ref=e165]:
+              - radio "Revoked" [ref=e166]
+              - generic [ref=e230] [cursor=pointer]: Revoked
+          - table [ref=e170]:
+            - rowgroup [ref=e178]:
+              - row "Select all Scope Last active Menu" [ref=e179]:
+                - columnheader "Select all" [ref=e180]:
+                  - generic [ref=e181] [cursor=pointer]:
+                    - generic [ref=e182]:
+                      - checkbox "Select all" [ref=e183]
+                      - img [ref=e185]
+                    - generic [ref=e186]: Select all
+                - columnheader "Scope" [ref=e187]
+                - columnheader "Last active" [ref=e188]
+                - columnheader "Menu" [ref=e189]:
+                  - button "Menu" [ref=e190] [cursor=pointer]:
+                    - img [ref=e194]
+            - rowgroup [ref=e196]:
+              - row "Vercel Dashboard from Chrome on Linux (current) Created Just now • Never expires Just now Menu" [ref=e231]:
+                - cell [ref=e232]:
+                  - generic [ref=e236]:
+                    - checkbox [disabled] [ref=e237]
+                    - img [ref=e239]
+                - cell [ref=e240]:
+                  - generic [ref=e243]:
+                    - img [ref=e244]
+                    - img [ref=e246]
+                - cell "Vercel Dashboard from Chrome on Linux (current) Created Just now • Never expires" [ref=e251]:
+                  - paragraph [ref=e252]:
+                    - generic [ref=e253]: Vercel Dashboard from Chrome on Linux (current)
+                  - generic [ref=e254]:
+                    - generic [ref=e255]: Created Just now •
+                    - text: Never expires
+                - cell [ref=e256]:
+                  - img [ref=e261]
+                - cell "Just now" [ref=e262]:
+                  - paragraph [ref=e263]: Just now
+                - cell "Menu" [ref=e264]:
+                  - button "Menu" [disabled] [ref=e266]:
+                    - img [ref=e268]
+              - row "Vercel Dashboard from Chrome on Linux Created Just now • Never expires Just now Menu" [ref=e270]:
+                - cell [ref=e271]:
+                  - generic [ref=e275] [cursor=pointer]:
+                    - checkbox [ref=e276]
+                    - img [ref=e278]
+                - cell [ref=e279]:
+                  - generic [ref=e282]:
+                    - img [ref=e283]
+                    - img [ref=e285]
+                - cell "Vercel Dashboard from Chrome on Linux Created Just now • Never expires" [ref=e290]:
+                  - paragraph [ref=e291]:
+                    - generic [ref=e292]: Vercel Dashboard from Chrome on Linux
+                  - generic [ref=e293]:
+                    - generic [ref=e294]: Created Just now •
+                    - text: Never expires
+                - cell [ref=e295]:
+                  - img [ref=e300]
+                - cell "Just now" [ref=e301]:
+                  - paragraph [ref=e302]: Just now
+                - cell "Menu" [ref=e303]:
+                  - button "Menu" [ref=e305] [cursor=pointer]:
+                    - img [ref=e307]
+              - row "Vercel Dashboard from Chrome on macOS Created 10m ago • Never expires 10m ago Menu" [ref=e720]:
+                - cell [ref=e310]:
+                  - generic [ref=e314] [cursor=pointer]:
+                    - checkbox [ref=e315]
+                    - img [ref=e317]
+                - cell [ref=e318]:
+                  - generic [ref=e321]:
+                    - img [ref=e322]
+                    - img [ref=e324]
+                - cell "Vercel Dashboard from Chrome on macOS Created 10m ago • Never expires" [ref=e721]:
+                  - paragraph [ref=e330]:
+                    - generic [ref=e331]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e332]:
+                    - generic [ref=e333]: Created 10m ago •
+                    - text: Never expires
+                - cell [ref=e334]:
+                  - img [ref=e339]
+                - cell "10m ago" [ref=e722]:
+                  - paragraph [ref=e341]: 10m ago
+                - cell "Menu" [ref=e342]:
+                  - button "Menu" [ref=e344] [cursor=pointer]:
+                    - img [ref=e346]
+              - row "Vercel Dashboard from Chrome on Android Created 6/6/25 • Never expires Jan 9 Menu" [ref=e348]:
+                - cell [ref=e349]:
+                  - generic [ref=e353] [cursor=pointer]:
+                    - checkbox [ref=e354]
+                    - img [ref=e356]
+                - cell [ref=e357]:
+                  - generic [ref=e360]:
+                    - img [ref=e361]
+                    - img [ref=e363]
+                - cell "Vercel Dashboard from Chrome on Android Created 6/6/25 • Never expires" [ref=e368]:
+                  - paragraph [ref=e369]:
+                    - generic [ref=e370]: Vercel Dashboard from Chrome on Android
+                  - generic [ref=e371]:
+                    - generic [ref=e372]: Created 6/6/25 •
+                    - text: Never expires
+                - cell [ref=e373]:
+                  - img [ref=e378]
+                - cell "Jan 9" [ref=e379]:
+                  - paragraph [ref=e380]: Jan 9
+                - cell "Menu" [ref=e381]:
+                  - button "Menu" [ref=e383] [cursor=pointer]:
+                    - img [ref=e385]
+              - row "Vercel Dashboard from Chrome on macOS Created 8/28/25 • Never expires 12/28/25 Menu" [ref=e387]:
+                - cell [ref=e388]:
+                  - generic [ref=e392] [cursor=pointer]:
+                    - checkbox [ref=e393]
+                    - img [ref=e395]
+                - cell [ref=e396]:
+                  - generic [ref=e399]:
+                    - img [ref=e400]
+                    - img [ref=e402]
+                - cell "Vercel Dashboard from Chrome on macOS Created 8/28/25 • Never expires" [ref=e407]:
+                  - paragraph [ref=e408]:
+                    - generic [ref=e409]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e410]:
+                    - generic [ref=e411]: Created 8/28/25 •
+                    - text: Never expires
+                - cell [ref=e412]:
+                  - img [ref=e417]
+                - cell "12/28/25" [ref=e418]:
+                  - paragraph [ref=e419]: 12/28/25
+                - cell "Menu" [ref=e420]:
+                  - button "Menu" [ref=e422] [cursor=pointer]:
+                    - img [ref=e424]
+              - row "Vercel Dashboard from Chrome on macOS Created 12/5/25 • Never expires 12/24/25 Menu" [ref=e426]:
+                - cell [ref=e427]:
+                  - generic [ref=e431] [cursor=pointer]:
+                    - checkbox [ref=e432]
+                    - img [ref=e434]
+                - cell [ref=e435]:
+                  - generic [ref=e438]:
+                    - img [ref=e439]
+                    - img [ref=e441]
+                - cell "Vercel Dashboard from Chrome on macOS Created 12/5/25 • Never expires" [ref=e446]:
+                  - paragraph [ref=e447]:
+                    - generic [ref=e448]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e449]:
+                    - generic [ref=e450]: Created 12/5/25 •
+                    - text: Never expires
+                - cell [ref=e451]:
+                  - img [ref=e456]
+                - cell "12/24/25" [ref=e457]:
+                  - paragraph [ref=e458]: 12/24/25
+                - cell "Menu" [ref=e459]:
+                  - button "Menu" [ref=e461] [cursor=pointer]:
+                    - img [ref=e463]
+              - row "Vercel Dashboard from Chrome on macOS Created 10/21/25 • Never expires 12/9/25 Menu" [ref=e465]:
+                - cell [ref=e466]:
+                  - generic [ref=e470] [cursor=pointer]:
+                    - checkbox [ref=e471]
+                    - img [ref=e473]
+                - cell [ref=e474]:
+                  - generic [ref=e477]:
+                    - img [ref=e478]
+                    - img [ref=e480]
+                - cell "Vercel Dashboard from Chrome on macOS Created 10/21/25 • Never expires" [ref=e485]:
+                  - paragraph [ref=e486]:
+                    - generic [ref=e487]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e488]:
+                    - generic [ref=e489]: Created 10/21/25 •
+                    - text: Never expires
+                - cell [ref=e490]:
+                  - img [ref=e495]
+                - cell "12/9/25" [ref=e496]:
+                  - paragraph [ref=e497]: 12/9/25
+                - cell "Menu" [ref=e498]:
+                  - button "Menu" [ref=e500] [cursor=pointer]:
+                    - img [ref=e502]
+              - row "Vercel Dashboard from Chrome on macOS Created 12/6/25 • Never expires 12/6/25 Menu" [ref=e504]:
+                - cell [ref=e505]:
+                  - generic [ref=e509] [cursor=pointer]:
+                    - checkbox [ref=e510]
+                    - img [ref=e512]
+                - cell [ref=e513]:
+                  - generic [ref=e516]:
+                    - img [ref=e517]
+                    - img [ref=e519]
+                - cell "Vercel Dashboard from Chrome on macOS Created 12/6/25 • Never expires" [ref=e522]:
+                  - paragraph [ref=e523]:
+                    - generic [ref=e524]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e525]:
+                    - generic [ref=e526]: Created 12/6/25 •
+                    - text: Never expires
+                - cell [ref=e527]:
+                  - img [ref=e532]
+                - cell "12/6/25" [ref=e533]:
+                  - paragraph [ref=e534]: 12/6/25
+                - cell "Menu" [ref=e535]:
+                  - button "Menu" [ref=e537] [cursor=pointer]:
+                    - img [ref=e539]
+              - row "Website, Login with Google Created 10/1/25 • Never expires 11/27/25 Menu" [ref=e541]:
+                - cell [ref=e542]:
+                  - generic [ref=e546] [cursor=pointer]:
+                    - checkbox [ref=e547]
+                    - img [ref=e549]
+                - cell [ref=e550]:
+                  - generic [ref=e553]:
+                    - img [ref=e554]
+                    - img [ref=e556]
+                - cell "Website, Login with Google Created 10/1/25 • Never expires" [ref=e561]:
+                  - paragraph [ref=e562]:
+                    - generic [ref=e563]: Website, Login with Google
+                  - generic [ref=e564]:
+                    - generic [ref=e565]: Created 10/1/25 •
+                    - text: Never expires
+                - cell [ref=e566]:
+                  - img [ref=e571]
+                - cell "11/27/25" [ref=e572]:
+                  - paragraph [ref=e573]: 11/27/25
+                - cell "Menu" [ref=e574]:
+                  - button "Menu" [ref=e576] [cursor=pointer]:
+                    - img [ref=e578]
+              - row "CLI Deployment Created 10/1/25 • Never expires 10/1/25 Menu" [ref=e580]:
+                - cell [ref=e581]:
+                  - generic [ref=e585] [cursor=pointer]:
+                    - checkbox [ref=e586]
+                    - img [ref=e588]
+                - cell [ref=e589]:
+                  - generic [ref=e592]:
+                    - img [ref=e593]
+                    - img [ref=e595]
+                - cell "CLI Deployment Created 10/1/25 • Never expires" [ref=e597]:
+                  - paragraph [ref=e598]:
+                    - generic [ref=e599]: CLI Deployment
+                  - generic [ref=e600]:
+                    - generic [ref=e601]: Created 10/1/25 •
+                    - text: Never expires
+                - cell [ref=e602]:
+                  - img [ref=e607]
+                - cell "10/1/25" [ref=e608]:
+                  - paragraph [ref=e609]: 10/1/25
+                - cell "Menu" [ref=e610]:
+                  - button "Menu" [ref=e612] [cursor=pointer]:
+                    - img [ref=e614]
+              - row "Vercel Dashboard from Chrome on macOS Created 9/22/24 • Never expires 7/24/25 Menu" [ref=e616]:
+                - cell [ref=e617]:
+                  - generic [ref=e621] [cursor=pointer]:
+                    - checkbox [ref=e622]
+                    - img [ref=e624]
+                - cell [ref=e625]:
+                  - generic [ref=e628]:
+                    - img [ref=e629]
+                    - img [ref=e631]
+                - cell "Vercel Dashboard from Chrome on macOS Created 9/22/24 • Never expires" [ref=e634]:
+                  - paragraph [ref=e635]:
+                    - generic [ref=e636]: Vercel Dashboard from Chrome on macOS
+                  - generic [ref=e637]:
+                    - generic [ref=e638]: Created 9/22/24 •
+                    - text: Never expires
+                - cell [ref=e639]:
+                  - img [ref=e644]
+                - cell "7/24/25" [ref=e645]:
+                  - paragraph [ref=e646]: 7/24/25
+                - cell "Menu" [ref=e647]:
+                  - button "Menu" [ref=e649] [cursor=pointer]:
+                    - img [ref=e651]
+              - row "Website, Login with one-time password (Chrome on Android) Created 4/16/25 • Never expires 4/18/25 Menu" [ref=e653]:
+                - cell [ref=e654]:
+                  - generic [ref=e658] [cursor=pointer]:
+                    - checkbox [ref=e659]
+                    - img [ref=e661]
+                - cell [ref=e662]:
+                  - generic [ref=e665]:
+                    - img [ref=e666]
+                    - img [ref=e668]
+                - cell "Website, Login with one-time password (Chrome on Android) Created 4/16/25 • Never expires" [ref=e670]:
+                  - paragraph [ref=e671]:
+                    - generic [ref=e672]: Website, Login with one-time password (Chrome on Android)
+                  - generic [ref=e673]:
+                    - generic [ref=e674]: Created 4/16/25 •
+                    - text: Never expires
+                - cell [ref=e675]:
+                  - img [ref=e680]
+                - cell "4/18/25" [ref=e681]:
+                  - paragraph [ref=e682]: 4/18/25
+                - cell "Menu" [ref=e683]:
+                  - button "Menu" [ref=e685] [cursor=pointer]:
+                    - img [ref=e687]
+  - alert [ref=e218]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img

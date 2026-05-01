@@ -1,0 +1,374 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e9]:
+            - link "Hung-Son Pham's projects Hobby" [ref=e10] [cursor=pointer]:
+              - /url: /hung-son-phams-projects
+              - img [ref=e11]
+              - generic [ref=e12]:
+                - generic [ref=e13]: Hung-Son Pham's projects
+                - generic [ref=e15]: Hobby
+            - button [ref=e16] [cursor=pointer]:
+              - img [ref=e18]
+          - button "Find… F" [ref=e21]:
+            - generic [ref=e23]:
+              - img [ref=e25]
+              - generic [ref=e27]: Find…
+              - generic [ref=e29]: F
+        - navigation [ref=e31]:
+          - generic [ref=e34]:
+            - link "Projects" [ref=e35] [cursor=pointer]:
+              - /url: /hung-son-phams-projects
+              - img [ref=e37]
+              - generic [ref=e40]: Projects
+            - link "Deployments" [ref=e41] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/deployments
+              - img [ref=e43]
+              - generic [ref=e46]: Deployments
+            - link "Logs" [ref=e47] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/logs
+              - img [ref=e49]
+              - generic [ref=e52]: Logs
+            - link "Analytics" [ref=e53] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/analytics
+              - img [ref=e55]
+              - generic [ref=e58]: Analytics
+            - link "Speed Insights" [ref=e59] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/speed-insights
+              - img [ref=e61]
+              - generic [ref=e64]: Speed Insights
+            - link "Observability" [ref=e65] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/observability
+              - img [ref=e67]
+              - generic [ref=e70]: Observability
+              - img [ref=e72]
+            - link "Firewall" [ref=e74] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/firewall
+              - img [ref=e76]
+              - generic [ref=e80]: Firewall
+            - link "CDN" [ref=e81] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/cdn
+              - img [ref=e83]
+              - generic [ref=e86]: CDN
+            - separator [ref=e87]
+            - link "Environment Variables" [ref=e88] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/settings/environment-variables
+              - img [ref=e90]
+              - generic [ref=e93]: Environment Variables
+            - link "Domains" [ref=e94] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/domains
+              - img [ref=e96]
+              - generic [ref=e99]: Domains
+            - link "Integrations" [ref=e100] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/integrations
+              - img [ref=e102]
+              - generic [ref=e105]: Integrations
+            - link "Storage" [ref=e106] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/stores
+              - img [ref=e108]
+              - generic [ref=e111]: Storage
+            - link "Flags" [ref=e112] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/experimentation/collections
+              - img [ref=e114]
+              - generic [ref=e117]: Flags
+            - link "Agent" [ref=e118] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/agent
+              - img [ref=e120]
+              - generic [ref=e123]: Agent
+              - img [ref=e125]
+            - link "AI Gateway" [ref=e127] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/ai-gateway
+              - img [ref=e129]
+              - generic [ref=e132]: AI Gateway
+              - img [ref=e134]
+            - link "Sandboxes" [ref=e136] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/sandboxes
+              - img [ref=e138]
+              - generic [ref=e141]: Sandboxes
+            - link "Workflows" [ref=e142] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/workflows
+              - img [ref=e144]
+              - generic [ref=e147]: Workflows
+            - separator [ref=e148]
+            - link "Usage" [ref=e149] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/usage
+              - img [ref=e151]
+              - generic [ref=e154]: Usage
+            - link "Support" [ref=e155] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/support
+              - img [ref=e157]
+              - generic [ref=e160]: Support
+            - link "Settings" [ref=e161] [cursor=pointer]:
+              - /url: /hung-son-phams-projects/~/settings
+              - img [ref=e163]
+              - generic [ref=e166]: Settings
+              - img [ref=e168]
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - generic [ref=e174]:
+              - generic [ref=e177]:
+                - generic [ref=e178]: Ship
+                - generic [ref=e180]: "26"
+              - button "Dismiss" [ref=e181] [cursor=pointer]:
+                - img [ref=e183]
+            - generic [ref=e185]:
+              - generic [ref=e186]: Coming to five cities worldwide.
+              - button "Request your ticket" [ref=e188] [cursor=pointer]:
+                - generic [ref=e189]: Request your ticket
+          - generic [ref=e191]:
+            - button "Avatar for hungson175 hungson175" [ref=e192] [cursor=pointer]:
+              - img "Avatar for hungson175" [ref=e193]:
+                - img "Avatar for hungson175" [ref=e194]
+              - generic [ref=e196]: hungson175
+              - img [ref=e198]
+            - button "18 unseen notifications" [ref=e202] [cursor=pointer]:
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - img
+                - img [ref=e205]
+      - button [ref=e208] [cursor=pointer]:
+        - img [ref=e209]
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - button "All projects" [ref=e217] [cursor=pointer]:
+          - generic [ref=e218]: All projects
+          - img [ref=e220]
+        - generic [ref=e224]: Overview
+        - button "Open page actions menu" [ref=e226] [cursor=pointer]:
+          - img [ref=e228]
+      - generic [ref=e233]:
+        - generic [ref=e235]:
+          - generic [ref=e236]:
+            - searchbox "Search" [ref=e237]
+            - img [ref=e239]
+          - button "Filter and Sort Projects" [ref=e241] [cursor=pointer]:
+            - img [ref=e243]
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - radio "grid" [checked] [ref=e247]
+              - generic [ref=e248] [cursor=pointer]:
+                - img [ref=e249]
+                - generic [ref=e251]: grid
+            - generic [ref=e252]:
+              - radio "list" [ref=e253]
+              - generic [ref=e254] [cursor=pointer]:
+                - img [ref=e255]
+                - generic [ref=e257]: list
+          - button "Add New..." [ref=e258] [cursor=pointer]:
+            - generic [ref=e259]: Add New...
+            - img [ref=e261]
+        - generic [ref=e263]:
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - link "Usage" [ref=e269] [cursor=pointer]:
+                - /url: /hung-son-phams-projects/~/usage
+              - generic [ref=e270]:
+                - generic [ref=e271]:
+                  - link "Last 30 days" [ref=e273] [cursor=pointer]:
+                    - /url: /hung-son-phams-projects/~/usage
+                  - button "Upgrade" [ref=e274] [cursor=pointer]:
+                    - generic [ref=e275]: Upgrade
+                - list [ref=e276]:
+                  - listitem [ref=e277]:
+                    - link "0.017638888888888888 Fluid Active CPU 3s / 4h 16h" [ref=e278] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/vercel-functions-fluid-cpu-duration
+                      - progressbar [ref=e279]:
+                        - img [ref=e280]
+                      - generic [ref=e283]:
+                        - generic [ref=e284]: Fluid Active CPU
+                        - img [ref=e287]
+                      - generic [ref=e290]:
+                        - text: 3s /
+                        - generic [ref=e291]: 4h
+                      - generic: 16h
+                  - listitem [ref=e292]:
+                    - link "0.009255822222222222 Fluid Provisioned Memory 0.03 GB-Hrs / 360 GB-Hrs 1,440 GB-Hrs" [ref=e293] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/vercel-functions-fluid-duration
+                      - progressbar [ref=e294]:
+                        - img [ref=e295]
+                      - generic [ref=e298]:
+                        - generic [ref=e299]: Fluid Provisioned Memory
+                        - img [ref=e302]
+                      - generic [ref=e305]:
+                        - text: 0.03 GB-Hrs /
+                        - generic [ref=e306]: 360 GB-Hrs
+                      - generic: 1,440 GB-Hrs
+                  - listitem [ref=e307]:
+                    - link "0.0019000000000000002 Edge Requests 19 / 1M 10M" [ref=e308] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/networking-edge-requests
+                      - progressbar [ref=e309]:
+                        - img [ref=e310]
+                      - generic [ref=e313]:
+                        - generic [ref=e314]: Edge Requests
+                        - img [ref=e317]
+                      - generic [ref=e320]:
+                        - text: 19 /
+                        - generic [ref=e321]: 1M
+                      - generic: 10M
+                  - listitem [ref=e322]:
+                    - link "0.0009 Function Invocations 9 / 1M" [ref=e323] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/vercel-functions-invocations
+                      - progressbar [ref=e324]:
+                        - img [ref=e325]
+                      - generic [ref=e328]:
+                        - generic [ref=e329]: Function Invocations
+                        - img [ref=e332]
+                      - generic [ref=e335]: 9 / 1M
+                  - listitem [ref=e336]:
+                    - link "0.0003484 Fast Origin Transfer 34.84 kB / 10 GB 100 GB" [ref=e337] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/networking-fast-origin-transfer
+                      - progressbar [ref=e338]:
+                        - img [ref=e339]
+                      - generic [ref=e342]:
+                        - generic [ref=e343]: Fast Origin Transfer
+                        - img [ref=e346]
+                      - generic [ref=e349]:
+                        - text: 34.84 kB /
+                        - generic [ref=e350]: 10 GB
+                      - generic: 100 GB
+                  - listitem [ref=e351]:
+                    - link "0.00019999999999999998 ISR Reads 2 / 1M 10M" [ref=e352] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/isr-reads
+                      - progressbar [ref=e353]:
+                        - img [ref=e354]
+                      - generic [ref=e357]:
+                        - generic [ref=e358]: ISR Reads
+                        - img [ref=e361]
+                      - generic [ref=e364]:
+                        - text: 2 /
+                        - generic [ref=e365]: 1M
+                      - generic: 10M
+                  - listitem [ref=e366]:
+                    - link "0.000113499 Fast Data Transfer 113.5 kB / 100 GB 1 TB" [ref=e367] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/networking-fast-data-transfer
+                      - progressbar [ref=e368]:
+                        - img [ref=e369]
+                      - generic [ref=e372]:
+                        - generic [ref=e373]: Fast Data Transfer
+                        - img [ref=e376]
+                      - generic [ref=e379]:
+                        - text: 113.5 kB /
+                        - generic [ref=e380]: 100 GB
+                      - generic: 1 TB
+                  - listitem [ref=e381]:
+                    - link "0 Edge Request CPU Duration 0 / 1h" [ref=e382] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/networking-edge-request-cpu-duration
+                      - progressbar [ref=e383]:
+                        - img [ref=e384]
+                      - generic [ref=e387]:
+                        - generic [ref=e388]: Edge Request CPU Duration
+                        - img [ref=e391]
+                      - generic [ref=e394]: 0 / 1h
+                  - listitem [ref=e395]:
+                    - link "0 Microfrontends Routing 0 / 50K" [ref=e396] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/networking-microfrontends-routing
+                      - progressbar [ref=e397]:
+                        - img [ref=e398]
+                      - generic [ref=e401]:
+                        - generic [ref=e402]: Microfrontends Routing
+                        - img [ref=e405]
+                      - generic [ref=e408]: 0 / 50K
+                  - listitem [ref=e409]:
+                    - link "0 ISR Writes 0 / 200K 2M" [ref=e410] [cursor=pointer]:
+                      - /url: /hung-son-phams-projects/~/usage/isr-writes
+                      - progressbar [ref=e411]:
+                        - img [ref=e412]
+                      - generic [ref=e415]:
+                        - generic [ref=e416]: ISR Writes
+                        - img [ref=e419]
+                      - generic [ref=e422]:
+                        - text: 0 /
+                        - generic [ref=e423]: 200K
+                      - generic: 2M
+              - button "Show More Usage" [ref=e424] [cursor=pointer]:
+                - img [ref=e426]
+            - generic [ref=e428]:
+              - link "Alerts" [ref=e430] [cursor=pointer]:
+                - /url: /hung-son-phams-projects/~/observability/alerts
+              - generic [ref=e435]:
+                - generic [ref=e436]:
+                  - generic [ref=e437]: Get alerted for anomalies
+                  - generic [ref=e438]: Automatically monitor your projects for anomalies and get notified.
+                - button "Upgrade to Pro" [ref=e439] [cursor=pointer]:
+                  - generic [ref=e440]: Upgrade to Pro
+            - generic [ref=e441]:
+              - generic [ref=e443]: Recent Previews
+              - list [ref=e444]:
+                - generic [ref=e446]:
+                  - img [ref=e448]
+                  - generic [ref=e451]: Preview deployments that you have recently visited or created will appear here.
+          - generic [ref=e453]:
+            - generic [ref=e455]: Projects
+            - generic [ref=e459]:
+              - img [ref=e461]
+              - generic [ref=e463]:
+                - generic [ref=e464]: Deploy your first project
+                - generic [ref=e465]: Start with one of our templates or create something new.
+              - generic [ref=e466]:
+                - generic [ref=e467]:
+                  - generic [ref=e468]:
+                    - img [ref=e471]
+                    - generic [ref=e473]:
+                      - paragraph [ref=e474]: Import Project
+                      - paragraph [ref=e475]: Add a repo from your git provider
+                  - link "Import" [ref=e477] [cursor=pointer]:
+                    - /url: /new
+                    - generic [ref=e478]: Import
+                - generic [ref=e479]:
+                  - generic [ref=e480]:
+                    - img [ref=e483]
+                    - generic [ref=e486]:
+                      - paragraph [ref=e487]: Next.js Boilerplate
+                      - paragraph [ref=e488]: Get started with Next.js and React.
+                  - link "Deploy" [ref=e490] [cursor=pointer]:
+                    - /url: /new/clone?demo-description=Get%20started%20with%20Next.js%20and%20React%20in%20seconds.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F1aHobcZ8H6WY48u5CMXlOe%2F0f0efe6bd469985b692555fbcad1cc01%2Fnextjs-template.png&demo-title=Next.js%20Boilerplate&demo-url=https%3A%2F%2Fnextjs-template.vercel.app%2F&from=templates&project-name=Next.js%20Boilerplate&repository-name=nextjs-boilerplate&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fvercel%2Ftree%2Fmain%2Fexamples%2Fnextjs
+                    - generic [ref=e491]: Deploy
+                - generic [ref=e492]:
+                  - generic [ref=e493]:
+                    - img [ref=e496]
+                    - generic [ref=e500]:
+                      - paragraph [ref=e501]: Chatbot
+                      - paragraph [ref=e502]: A full featured, hackable Next.js AI chatbot.
+                  - link "Deploy" [ref=e504] [cursor=pointer]:
+                    - /url: /new/clone?demo-description=A%20full-featured%2C%20hackable%20Next.js%20AI%20chatbot%20built%20by%20Vercel&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4cmiDM859wtut7XeG0iFYq%2F953f071e4556b8a07bcab042f3a08db3%2FUntitled_design__17_.png&demo-title=Chatbot&demo-url=https%3A%2F%2Fchatbot.ai-sdk.dev%2Fdemo&env=AUTH_SECRET&envDescription=Set%20a%20random%20secret%20to%20use%20for%20authentication.&from=templates&products=%255B%257B%2522type%2522%253A%2522integration%2522%252C%2522protocol%2522%253A%2522storage%2522%252C%2522productSlug%2522%253A%2522neon%2522%252C%2522integrationSlug%2522%253A%2522neon%2522%257D%252C%257B%2522type%2522%253A%2522integration%2522%252C%2522protocol%2522%253A%2522storage%2522%252C%2522productSlug%2522%253A%2522upstash-kv%2522%252C%2522integrationSlug%2522%253A%2522upstash%2522%257D%252C%257B%2522type%2522%253A%2522blob%2522%257D%255D&project-name=Chatbot&repository-name=chatbot&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fchatbot&skippable-integrations=1
+                    - generic [ref=e505]: Deploy
+                - generic [ref=e506]:
+                  - generic [ref=e507]:
+                    - img [ref=e510]
+                    - generic [ref=e512]:
+                      - paragraph [ref=e513]: Express.js
+                      - paragraph [ref=e514]: Get started with Express.js on Vercel
+                  - link "Deploy" [ref=e516] [cursor=pointer]:
+                    - /url: /new/clone?demo-description=Simple%20Express.js%20%2B%20Vercel%20example%20that%20serves%20html%20content%2C%20JSON%20data%20and%20simulates%20an%20API%20route.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2FswUZt4R6yxCjtb5PaoSMT%2F250fb904d33f82b2b96769b964d7848b%2FFlagsmith_Dark__1_.png&demo-title=Express.js%20on%20Vercel&demo-url=https%3A%2F%2Fexpress-vercel-example-demo.vercel.app&from=templates&project-name=Express.js%20on%20Vercel&repository-name=express-js-on-vercel&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fsolutions%2Fexpress&skippable-integrations=1
+                    - generic [ref=e517]: Deploy
+                - generic [ref=e518]:
+                  - generic [ref=e519]:
+                    - img [ref=e522]
+                    - generic [ref=e525]:
+                      - paragraph [ref=e526]: FastAPI Boilerplate
+                      - paragraph [ref=e527]: Deploy Python FastAPI applications with zero configuration.
+                  - link "Deploy" [ref=e529] [cursor=pointer]:
+                    - /url: /new/clone?demo-description=Deploy%20Python%20FastAPI%20applications%20with%20zero%20configuration.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F6bdnndVO6Gu140EhF4cswf%2F5ade97c12cd5f7f570da998e61dc5e01%2FFastAPI-light.png&demo-title=FastAPI%20Boilerplate&demo-url=https%3A%2F%2Fvercel-plus-fastapi.vercel.app%2F&from=templates&project-name=FastAPI%20Boilerplate&project-names=Comma%20separated%20list%20of%20project%20names%2Cto%20match%20the%20root-directories&repository-name=fastapi-python-boilerplate&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Ffastapi&root-directories=List%20of%20directory%20paths%20for%20the%20directories%20to%20clone%20into%20projects&skippable-integrations=1
+                    - generic [ref=e530]: Deploy
+              - generic [ref=e532]:
+                - generic [ref=e533]:
+                  - paragraph [ref=e534]: Browse Templates
+                  - paragraph [ref=e535]: Jumpstart AI projects, ecommerce, and more
+                - generic [ref=e536]:
+                  - generic [ref=e537]:
+                    - img [ref=e539]
+                    - img [ref=e542]
+                    - img [ref=e546]
+                  - link "templates marketplace" [ref=e550] [cursor=pointer]:
+                    - /url: /templates
+                    - img [ref=e552]
+  - alert [ref=e554]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img

@@ -5,24 +5,24 @@
 
 ---
 
-## Observed (This Sprint)
+## Observed (Current Sprint)
 
 | # | Observation | Role(s) | Severity | Logged |
 |---|-------------|---------|----------|--------|
 | - | - | - | - | - |
 
-*(Sprint 1 complete — observations moved to Active Improvement or Backlog below)*
+*(No new observations — Sprint 2 complete)*
 
 ---
 
-## Active Improvement (Sprint 2)
+## Active Improvement (Sprint 3)
 
 | # | Improvement | Target Roles | Status | Since | Evidence |
 |---|-------------|--------------|--------|-------|----------|
-| 1 | BE→FE Interface Contract + Single Source of Truth | TL (spec), BE/FE (impl) | Monitoring | Sprint 2 start | TL drafting interface-contract.md |
-| 2 | AC Checklist Review Gate before TDD | BE + FE | Monitoring | Sprint 2 start | **FE Spot Check #1: PASS** (19:04) — FE reviewed all 4 Sprint 2 ACs. **FE Spot Check #2: PASS** (19:09) — FE started AC Checklist Review Gate. **BE Spot Check #1: PASS** (19:09) — BE completed full AC review for STORY-011 + STORY-012a, correctly identified scope boundaries, confirmed domain rules. **FE Spot Check #3: PASS** (19:10) — FE completed AC review for all 4 specs, identified clear scope per story, planned TDD approach. |
+| 1 | Credential Readiness Check at Sprint Start | SM + TL | Effective | Sprint 3 start | Vercel token obtained BEFORE Sprint 3 Planning. Proactive resolution. ✅ |
+| 2 | Early Spec for High-Risk Stories | TL | Effective | Sprint 3 start | STORY-011b spec drafted BEFORE Sprint 3 Planning. 140 lines, zero code samples. ✅ |
 
-*Monitoring: SM will spot-check during Sprint 2 for compliance.*
+*Monitoring: SM will spot-check during Sprint 3 for compliance.*
 
 ---
 
@@ -30,9 +30,8 @@
 
 | # | Improvement | Result | Sprint |
 |---|-------------|--------|--------|
-| - | - | - | - |
-
-*(Empty — first sprint)*
+| 1 | BE→FE Interface Contract + Single Source of Truth | **Effective** — BE stayed in src/lib/, zero unauthorized FE edits, interface-contract.md finalized | Sprint 2 |
+| 2 | AC Checklist Review Gate before TDD | **Effective** — 4 spot checks PASS, zero AC gaps found post-implementation | Sprint 2 |
 
 ---
 

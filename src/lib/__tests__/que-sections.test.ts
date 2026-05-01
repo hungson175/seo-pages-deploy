@@ -12,7 +12,7 @@ describe('validateQueSections', () => {
     const incomplete = QUE_SECTIONS.filter((s) => s.id !== 'y-nghia')
     const result = validateQueSections(incomplete)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Thieu section: Y Nghia Que')
+    expect(result.errors).toContain('Thieu section: Ý Nghĩa Quẻ')
   })
 
   it('accepts optional sections missing', () => {

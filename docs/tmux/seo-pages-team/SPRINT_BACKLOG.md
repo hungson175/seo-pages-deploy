@@ -66,10 +66,10 @@ Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynami
 
 | Story | Assignee | Status | Notes |
 |-------|----------|--------|-------|
-| STORY-010 | FE | TL review: NEEDS ACTION. **PO NOT ACCEPTED** ❌ | Proxy tests pass (5/5). **PO HARD GATE: Must deploy to Vercel + actual Lighthouse ≥90. Proxy metrics ≠ acceptance.** Spec at docs/specs/story-010-lighthouse.md |
+| STORY-010 | FE | GitHub Pages deploy IN PROGRESS. **PO hard gate: Actual Lighthouse ≥90 on deployed URL** | Proxy tests pass (5/5). Local preview: 100/100/96/100. **PO DECISION: GitHub Pages acceptable for Sprint 2 Lighthouse evidence. Vercel production deploy → Sprint 3.** Spec at docs/specs/story-010-lighthouse.md |
 | STORY-011 | BE/FE | TL review: PARTIAL APPROVE. **PO ACCEPTED (partial)** ✅ | Infrastructure (form mapping, chart extraction, 3 insights) ACCEPTED. UI rendering (dynamic import, SVG chart) deferred to Sprint 3 as STORY-011b. QA validated. |
 | STORY-012a | BE/FE | **PO ACCEPTED** ✅ | BE: 56/56 tests. QA: 12/12 CNT tests PASS. Art.320 confirmed ('tham khảo' ×17, 'không phải tiên đoán' ×11). All DoD gates cleared. |
-| STORY-013 | FE | TL review: APPROVE. QA validation starting | Stretch delivered. 6/6 tests — validateQueSections. QA validating now. Spec at docs/specs/story-013-gieo-que-scaffold.md |
+| STORY-013 | FE | TL review: APPROVE. QA validation IN PROGRESS. PO acceptance pending. | Stretch delivered. 6/6 tests — validateQueSections. QA validating now. PO will accept after QA validation. Spec at docs/specs/story-013-gieo-que-scaffold.md |
 
 ---
 

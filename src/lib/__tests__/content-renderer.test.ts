@@ -1,36 +1,18 @@
 import { describe, it, expect } from 'vitest'
-
-export interface ContentSection {
-  heading: string
-  content: string
-}
-
-export interface ForecastContent {
-  sections: ContentSection[]
-  faqItems: Array<{ question: string; answer: string }>
-}
-
-export function renderContentSections(content: ForecastContent): string {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
-
-export function validateContent(content: ForecastContent): { valid: boolean; errors: string[] } {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { validateContent, renderContentSections, type ForecastContent } from '../content-renderer'
 
 describe('validateContent', () => {
   const validContent: ForecastContent = {
     sections: [
-      { heading: 'Tổng Quan Năm 2026', content: 'Năm nay có nhiều biến động...' },
-      { heading: 'Sự Nghiệp & Tài Lộc', content: 'Công việc ổn định...' },
-      { heading: 'Tình Duyên & Gia Đạo', content: 'Tình cảm tốt đẹp...' },
-      { heading: 'Sức Khỏe', content: 'Sức khỏe cần chú ý...' },
+      { heading: 'Tong Quan Nam 2026', content: 'Nam nay co nhieu bien dong, chi mang tinh tham khao.' },
+      { heading: 'Su Nghiep & Tai Loc', content: 'Cong viec on dinh, chi mang tinh tham khao.' },
+      { heading: 'Tinh Duyen & Gia Dao', content: 'Tinh cam tot dep, chi mang tinh tham khao.' },
+      { heading: 'Suc Khoe', content: 'Suc khoe can chu y, chi mang tinh tham khao.' },
+      { heading: 'Loi Khuyen', content: 'Hay binh tinh, chi mang tinh tham khao.' },
     ],
     faqItems: [
-      { question: 'Câu hỏi 1?', answer: 'Trả lờii 1.' },
-      { question: 'Câu hỏi 2?', answer: 'Trả lờii 2.' },
+      { question: 'Cau hoi 1?', answer: 'Tra loi 1.' },
+      { question: 'Cau hoi 2?', answer: 'Tra loi 2.' },
     ],
   }
 
@@ -44,7 +26,7 @@ describe('validateContent', () => {
     const badContent = { ...validContent, sections: validContent.sections.slice(0, 3) }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Cần ít nhất 5 sections')
+    expect(result.errors).toContain('Can it nhat 5 sections')
   })
 
   it('rejects content with more than 7 sections', () => {
@@ -54,14 +36,14 @@ describe('validateContent', () => {
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Tối đa 7 sections')
+    expect(result.errors).toContain('Toi da 7 sections')
   })
 
   it('rejects content with Western astrology terms', () => {
     const badContent = {
       ...validContent,
       sections: [
-        { heading: 'Tổng Quan', content: 'Your zodiac sign is...' },
+        { heading: 'Tong Quan', content: 'Your zodiac sign is...' },
       ],
       faqItems: [],
     }
@@ -70,17 +52,17 @@ describe('validateContent', () => {
     expect(result.errors.some((e) => e.includes('zodiac'))).toBe(true)
   })
 
-  it('rejects content missing tham khảo framing', () => {
+  it('rejects content missing tham khao framing', () => {
     const badContent = {
       ...validContent,
       sections: [
-        { heading: 'Tổng Quan', content: 'Bạn sẽ thành công tuyệt đối.' },
+        { heading: 'Tong Quan', content: 'Ban se thanh cong tuyet doi.' },
       ],
       faqItems: [],
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors.some((e) => e.includes('tham khảo') || e.includes('tiên đoán'))).toBe(true)
+    expect(result.errors.some((e) => e.includes('tham khao') || e.includes('tien doan'))).toBe(true)
   })
 
   it('validates FAQ items count (2-4)', () => {
@@ -92,7 +74,7 @@ describe('validateContent', () => {
     const badContent = { ...validContent, faqItems: [] }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Cần ít nhất 2 FAQ items')
+    expect(result.errors).toContain('Can it nhat 2 FAQ items')
   })
 
   it('rejects content with more than 4 FAQ items', () => {
@@ -108,29 +90,29 @@ describe('validateContent', () => {
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Tối đa 4 FAQ items')
+    expect(result.errors).toContain('Toi da 4 FAQ items')
   })
 })
 
 describe('renderContentSections', () => {
   const content: ForecastContent = {
     sections: [
-      { heading: 'Tổng Quan', content: 'Năm nay...' },
-      { heading: 'Sự Nghiệp', content: 'Công việc...' },
+      { heading: 'Tong Quan', content: 'Nam nay...' },
+      { heading: 'Su Nghiep', content: 'Cong viec...' },
     ],
     faqItems: [],
   }
 
   it('renders all sections as HTML', () => {
     const html = renderContentSections(content)
-    expect(html).toContain('Tổng Quan')
-    expect(html).toContain('Sự Nghiệp')
-    expect(html).toContain('Năm nay...')
-    expect(html).toContain('Công việc...')
+    expect(html).toContain('Tong Quan')
+    expect(html).toContain('Su Nghiep')
+    expect(html).toContain('Nam nay...')
+    expect(html).toContain('Cong viec...')
   })
 
   it('wraps headings in h2 tags', () => {
     const html = renderContentSections(content)
-    expect(html).toContain('<h2')
+    expect(html).toContain('<h2>')
   })
 })

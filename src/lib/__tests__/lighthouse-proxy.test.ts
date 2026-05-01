@@ -1,15 +1,5 @@
 import { describe, it, expect } from 'vitest'
-
-// STORY-010: Performance proxy tests
-export function estimateBundleSize(pageType: 'static' | 'tool'): number {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
-
-export function checkAccessibilityRules(html: string): { violations: string[] } {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { estimateBundleSize, checkAccessibilityRules } from '../lighthouse-proxy'
 
 describe('STORY-010: Performance', () => {
   it('static page bundle < 150 KB', () => {

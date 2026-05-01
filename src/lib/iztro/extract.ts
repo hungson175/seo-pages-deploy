@@ -38,9 +38,9 @@ export function extractIztroData(input: {
   date: string
   timeIndex: number
   gender: string
-}): IztroData {
+}): IztroData | null {
   if (!input.date || input.date === 'invalid') {
-    throw new Error('Invalid date')
+    return null
   }
 
   // Since iztro is a browser-only library, we return mock data for build/test

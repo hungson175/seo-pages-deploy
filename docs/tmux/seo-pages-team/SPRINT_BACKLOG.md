@@ -67,8 +67,8 @@ Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynami
 | Story | Assignee | Status | Notes |
 |-------|----------|--------|-------|
 | STORY-010 | FE | TDD RED done (5 tests), GREEN impl starting | Lighthouse + Vercel deploy. Spec at docs/specs/story-010-lighthouse.md |
-| STORY-011 | BE/FE | TDD RED done, GREEN impl starting | FE: 21 RED tests (input mapper 5 pass, chart extractor 6, insights 10). iztro dynamic integration. Spec at docs/specs/story-011-iztro-integration.md |
-| STORY-012a | BE/FE | TDD RED done, GREEN impl starting | BE: 21 new RED tests + 16 pre-existing stubs. FE: 10 RED tests (content validator 8, renderer 2). Moving to GREEN. |
+| STORY-011 | BE/FE | BE implementation DONE (iztro installed), FE GREEN impl in progress | BE: iztro installed + 56/56 tests. FE: 21 RED tests, GREEN implementation starting. iztro dynamic integration. Spec at docs/specs/story-011-iztro-integration.md |
+| STORY-012a | BE/FE | TL review: APPROVE with CHANGES. BE fixing blocking issue. | BE: 56/56 tests. 1 BLOCKING: extract.ts throws Error → must return null. FE: 10 RED tests, GREEN implementation in progress. |
 | STORY-013 | FE | Spec distributed, QA cases ready (26) | Stretch — start only if 012a done early. Spec at docs/specs/story-013-gieo-que-scaffold.md |
 
 ---

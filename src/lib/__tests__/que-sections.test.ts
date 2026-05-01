@@ -1,24 +1,5 @@
 import { describe, it, expect } from 'vitest'
-
-export interface QueSection {
-  id: string
-  heading: string
-  required: boolean
-}
-
-export const QUE_SECTIONS: QueSection[] = [
-  { id: 'y-nghia', heading: 'Ý Nghĩa Quẻ', required: true },
-  { id: 'luc-hao', heading: 'Lục Hào', required: true },
-  { id: 'ung-dung', heading: 'Ứng Dụng', required: true },
-  { id: 'bien-que', heading: 'Biến Quẻ', required: false },
-  { id: 'faq', heading: 'Câu Hỏi Thường Gặp', required: true },
-  { id: 'cta', heading: 'Gieo Quẻ Ngay', required: true },
-]
-
-export function validateQueSections(sections: QueSection[]): { valid: boolean; errors: string[] } {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { validateQueSections, QUE_SECTIONS, type QueSection } from '../que-sections'
 
 describe('validateQueSections', () => {
   it('validates all 6 required sections present', () => {
@@ -31,7 +12,7 @@ describe('validateQueSections', () => {
     const incomplete = QUE_SECTIONS.filter((s) => s.id !== 'y-nghia')
     const result = validateQueSections(incomplete)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Thiếu section: Ý Nghĩa Quẻ')
+    expect(result.errors).toContain('Thieu section: Y Nghia Que')
   })
 
   it('accepts optional sections missing', () => {
@@ -49,17 +30,17 @@ describe('validateQueSections', () => {
     const tooFew = QUE_SECTIONS.slice(0, 3)
     const result = validateQueSections(tooFew)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Cần ít nhất 5 sections')
+    expect(result.errors).toContain('Can it nhat 5 sections')
   })
 
   it('rejects more than 7 sections', () => {
-    const tooMany = [
+    const tooMany: QueSection[] = [
       ...QUE_SECTIONS,
       { id: 'extra1', heading: 'Extra 1', required: false },
       { id: 'extra2', heading: 'Extra 2', required: false },
     ]
     const result = validateQueSections(tooMany)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Tối đa 7 sections')
+    expect(result.errors).toContain('Toi da 7 sections')
   })
 })

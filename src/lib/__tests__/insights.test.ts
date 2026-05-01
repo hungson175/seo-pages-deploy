@@ -1,45 +1,28 @@
 import { describe, it, expect } from 'vitest'
-
-export interface Insight {
-  title: string
-  content: string
-  type: 'menh' | 'life-area' | 'lucky-element'
-}
-
-export function generateInsights(chartData: {
-  palaces: Array<{
-    name: string
-    majorStars: Array<{ name: string; brightness: 'minh' | 'ham' | 'binh' }>
-    transformation?: string
-  }>
-  yearElement: string
-}): Insight[] {
-  // TODO: implement
-  throw new Error('Not implemented')
-}
+import { generateInsights, type Insight } from '../insights'
 
 describe('generateInsights', () => {
   const mockChart = {
     palaces: [
       {
-        name: 'Mệnh',
-        majorStars: [{ name: 'Tử Vi', brightness: 'minh' as const }],
+        name: 'Menh',
+        majorStars: [{ name: 'Tu Vi', brightness: 'minh' as const }],
         transformation: 'Hoa Loc',
       },
       {
-        name: 'Quan Lộc',
-        majorStars: [{ name: 'Vũ Khúc', brightness: 'minh' as const }],
+        name: 'Quan Loc',
+        majorStars: [{ name: 'Vu Khuc', brightness: 'minh' as const }],
       },
       {
-        name: 'Tài Bạch',
-        majorStars: [{ name: 'Liêm Trinh', brightness: 'ham' as const }],
+        name: 'Tai Bach',
+        majorStars: [{ name: 'Liem Trinh', brightness: 'ham' as const }],
       },
       {
-        name: 'Phu Thê',
-        majorStars: [{ name: 'Thái Âm', brightness: 'binh' as const }],
+        name: 'Phu The',
+        majorStars: [{ name: 'Thai Am', brightness: 'binh' as const }],
       },
       {
-        name: 'Tật Ách',
+        name: 'Tat Ach',
         majorStars: [],
       },
     ],
@@ -51,10 +34,10 @@ describe('generateInsights', () => {
     expect(insights).toHaveLength(3)
   })
 
-  it('first insight is Mệnh Cung Verdict', () => {
+  it('first insight is Menh Cung Verdict', () => {
     const insights = generateInsights(mockChart)
     expect(insights[0].type).toBe('menh')
-    expect(insights[0].title).toContain('Mệnh')
+    expect(insights[0].title).toContain('Menh')
   })
 
   it('second insight is Life Area Teaser', () => {
@@ -65,23 +48,23 @@ describe('generateInsights', () => {
   it('third insight is Lucky Element', () => {
     const insights = generateInsights(mockChart)
     expect(insights[2].type).toBe('lucky-element')
-    expect(insights[2].title).toContain('Ngũ Hành')
+    expect(insights[2].title).toContain('Ngu Hanh')
   })
 
-  it('Mệnh insight references primary star and brightness', () => {
+  it('Menh insight references primary star and brightness', () => {
     const insights = generateInsights(mockChart)
-    expect(insights[0].content).toContain('Tử Vi')
+    expect(insights[0].content).toContain('Tu Vi')
     expect(insights[0].content).toContain('minh')
   })
 
-  it('Mệnh insight references transformation', () => {
+  it('Menh insight references transformation', () => {
     const insights = generateInsights(mockChart)
     expect(insights[0].content).toContain('Hoa Loc')
   })
 
   it('Life Area insight references specific palace', () => {
     const insights = generateInsights(mockChart)
-    expect(insights[1].content).toMatch(/Quan Lộc|Tài Bạch|Phu Thê|Tật Ách/)
+    expect(insights[1].content).toMatch(/Quan Loc|Tai Bach|Phu The|Tat Ach/)
   })
 
   it('Lucky Element insight references year element', () => {

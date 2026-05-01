@@ -67,9 +67,9 @@ describe('extractIztroData', () => {
     expect(['Kim', 'Mộc', 'Thủy', 'Hỏa', 'Thổ']).toContain(data.fiveElements)
   })
 
-  it('throws for invalid date', () => {
-    expect(() =>
+  it('returns null for invalid date', () => {
+    expect(
       extractIztroData({ date: 'invalid', timeIndex: 0, gender: 'male' })
-    ).toThrow()
+    ).toBeNull()
   })
 })

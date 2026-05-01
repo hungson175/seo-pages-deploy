@@ -7,17 +7,20 @@
 **Sprint Dates:** 2026-05-01 → 2026-05-15
 **Sprint Goal:** Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynamic loading, and build birth-year forecast content pipeline for 12-24 MVP pages
 
-**Status:** 
+**Status:**
 - **SPRINT 1 ACCEPTED by PO (18:38)** ✅
 - **SPRINT 2 COMMITTED by PO (19:01)** ✅
 - **SPRINT 2 EXECUTING AT FULL CAPACITY (19:10)**
+- **MAJOR PROGRESS (19:33):** BE STORY-012a TL approved (56/56 tests). FE ALL 4 STORIES green (101/101 tests).
+- **STORY-012a ACCEPTED by PO (19:34)** ✅ — All DoD complete: code, tests 56/56, TL review, QA validation 12/12, Art. 320 confirmed, PO accepts.
 - TL capacity assessment: ACCEPTED. Revised scope: 12-24 MVP pages (not 144). Data correction: 96 total pages (4 years, not 6).
-- Blockers: iztro not installed (TL to handle), no Supabase data layer (TL to assess)
+- Blockers: None currently
 - **Bói-Toán consultant: RECEIVED & INTEGRATED (19:05)** — 12-palace grid, 3 free insights, paid upsell, Four Transformations, Five Elements, star brightness, Tam Hợp Phái, Art. 320
 - SEO consultant: Pending
 - CMO consultant: Pending
-- **Dev Status:** BE cleared for TDD (STORY-011, 012a). FE cleared for TDD (STORY-010, 011, 012a, 013 stretch). QA reviewing specs (49 test cases planned).
-- **Next:** Sprint 2 execution continues, awaiting SEO/CMO consultant inputs
+- **Dev Status:** STORY-012a ACCEPTED. STORY-010/011/013: FE code green, TL review in progress, QA standing by.
+- **PO HARD GATE:** STORY-010 requires ACTUAL Lighthouse ≥90 on Vercel deploy. Proxy metrics ≠ acceptance. Vercel deploy prioritized.
+- **Next:** TL FE code review → QA validation → Vercel deploy + Lighthouse audit (STORY-010) → PO acceptance
 **Last Updated:** 2026-05-01
 
 ---

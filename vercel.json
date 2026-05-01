@@ -1,6 +1,6 @@
 {
   "buildCommand": "next build",
-  "outputDirectory": "dist",
+  "outputDirectory": "out",
   "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",

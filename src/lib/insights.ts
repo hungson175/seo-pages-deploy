@@ -7,18 +7,18 @@ export interface Insight {
 export function generateInsights(chartData: {
   palaces: Array<{
     name: string
-    majorStars: Array<{ name: string; brightness: 'minh' | 'ham' | 'binh' }>
+    majorStars: Array<{ name: string;         brightness: 'minh' | 'hãm' | 'bình' }>
     transformation?: string
   }>
   yearElement: string
 }): Insight[] {
-  const menh = chartData.palaces.find((p) => p.name === 'Mệnh')
+  const menh = chartData.palaces.find((p) => p.name === 'Mệnh' || p.name === 'Menh')
   const primaryStar = menh?.majorStars[0]
   const transformation = menh?.transformation || ''
 
   // Life area: pick first palace with a major star (excluding Mệnh)
   const lifeAreaPalaces = chartData.palaces.filter(
-    (p) => p.name !== 'Mệnh' && p.majorStars.length > 0
+    (p) => (p.name !== 'Mệnh' && p.name !== 'Menh') && p.majorStars.length > 0
   )
   const lifeArea = lifeAreaPalaces[0] || chartData.palaces[1]
 

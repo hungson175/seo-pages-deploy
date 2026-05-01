@@ -26,7 +26,7 @@ describe('validateContent', () => {
     const badContent = { ...validContent, sections: validContent.sections.slice(0, 3) }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Can it nhat 5 sections')
+    expect(result.errors).toContain('Cần ít nhất 5 sections')
   })
 
   it('rejects content with more than 7 sections', () => {
@@ -36,7 +36,7 @@ describe('validateContent', () => {
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Toi da 7 sections')
+    expect(result.errors).toContain('Tối đa 7 sections')
   })
 
   it('rejects content with Western astrology terms', () => {
@@ -56,13 +56,13 @@ describe('validateContent', () => {
     const badContent = {
       ...validContent,
       sections: [
-        { heading: 'Tong Quan', content: 'Ban se thanh cong tuyet doi.' },
+        { heading: 'Tong Quan', content: 'Ban se thanh cong tuyet doi trong nam nay. Day la mot doan van dai de vuot qua nguong 100 ky tu. Moi thu deu tot dep.' },
       ],
       faqItems: [],
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors.some((e) => e.includes('tham khao') || e.includes('tien doan'))).toBe(true)
+    expect(result.errors.some((e) => e.includes('tham khảo') || e.includes('tien doan'))).toBe(true)
   })
 
   it('validates FAQ items count (2-4)', () => {
@@ -74,7 +74,7 @@ describe('validateContent', () => {
     const badContent = { ...validContent, faqItems: [] }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Can it nhat 2 FAQ items')
+    expect(result.errors).toContain('Cần ít nhất 2 FAQ items')
   })
 
   it('rejects content with more than 4 FAQ items', () => {
@@ -90,7 +90,7 @@ describe('validateContent', () => {
     }
     const result = validateContent(badContent)
     expect(result.valid).toBe(false)
-    expect(result.errors).toContain('Toi da 4 FAQ items')
+    expect(result.errors).toContain('Tối đa 4 FAQ items')
   })
 })
 

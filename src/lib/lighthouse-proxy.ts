@@ -15,10 +15,10 @@ export function checkAccessibilityRules(html: string): { violations: string[] } 
     const hasId = /id="[^"]+"/.test(input)
     const hasAriaLabel = /aria-label="[^"]+"/.test(input)
     const hasAriaLabelledBy = /aria-labelledby="[^"]+"/.test(input)
-    if (hasId && !html.includes(`for="${input.match(/id="([^"]+)"/)?.[1] || ''}"`)) {
-      if (!hasAriaLabel && !hasAriaLabelledBy) {
-        violations.push('Form input missing label')
-      }
+    const inputId = input.match(/id="([^"]+)"/)?.[1] || ''
+    const hasForLabel = inputId && html.includes(`for="${inputId}"`)
+    if (!hasForLabel && !hasAriaLabel && !hasAriaLabelledBy) {
+      violations.push('Form input missing label')
     }
   }
 

@@ -5,12 +5,12 @@ export interface QueSection {
 }
 
 export const QUE_SECTIONS: QueSection[] = [
-  { id: 'y-nghia', heading: 'Y Nghia Que', required: true },
-  { id: 'luc-hao', heading: 'Luc Hao', required: true },
-  { id: 'ung-dung', heading: 'Ung Dung', required: true },
-  { id: 'bien-que', heading: 'Bien Que', required: false },
-  { id: 'faq', heading: 'Cau Hoi Thuong Gap', required: true },
-  { id: 'cta', heading: 'Gieo Que Ngay', required: true },
+  { id: 'y-nghia', heading: 'Ý Nghĩa Quẻ', required: true },
+  { id: 'luc-hao', heading: 'Lục Hào', required: true },
+  { id: 'ung-dung', heading: 'Ứng Dụng', required: true },
+  { id: 'bien-que', heading: 'Biến Quẻ', required: false },
+  { id: 'faq', heading: 'Câu Hỏi Thường Gặp', required: true },
+  { id: 'cta', heading: 'Gieo Quẻ Ngay', required: true },
 ]
 
 export function validateQueSections(sections: QueSection[]): { valid: boolean; errors: string[] } {

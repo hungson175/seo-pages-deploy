@@ -66,10 +66,10 @@ Deploy to Vercel with Lighthouse ≥90 mobile, integrate iztro chart with dynami
 
 | Story | Assignee | Status | Notes |
 |-------|----------|--------|-------|
-| STORY-010 | FE | TDD RED done (5 tests), GREEN impl starting | Lighthouse + Vercel deploy. Spec at docs/specs/story-010-lighthouse.md |
-| STORY-011 | BE/FE | BE implementation DONE (iztro installed), FE GREEN impl in progress | BE: iztro installed + 56/56 tests. FE: 21 RED tests, GREEN implementation starting. iztro dynamic integration. Spec at docs/specs/story-011-iztro-integration.md |
-| STORY-012a | BE/FE | TL review: APPROVE with CHANGES. BE fixing blocking issue. | BE: 56/56 tests. 1 BLOCKING: extract.ts throws Error → must return null. FE: 10 RED tests, GREEN implementation in progress. |
-| STORY-013 | FE | Spec distributed, QA cases ready (26) | Stretch — start only if 012a done early. Spec at docs/specs/story-013-gieo-que-scaffold.md |
+| STORY-010 | FE | TL review: NEEDS ACTION. **PO NOT ACCEPTED** ❌ | Proxy tests pass (5/5). **PO HARD GATE: Must deploy to Vercel + actual Lighthouse ≥90. Proxy metrics ≠ acceptance.** Spec at docs/specs/story-010-lighthouse.md |
+| STORY-011 | BE/FE | TL review: PARTIAL APPROVE. **PO ACCEPTED (partial)** ✅ | Infrastructure (form mapping, chart extraction, 3 insights) ACCEPTED. UI rendering (dynamic import, SVG chart) deferred to Sprint 3 as STORY-011b. QA validated. |
+| STORY-012a | BE/FE | **PO ACCEPTED** ✅ | BE: 56/56 tests. QA: 12/12 CNT tests PASS. Art.320 confirmed ('tham khảo' ×17, 'không phải tiên đoán' ×11). All DoD gates cleared. |
+| STORY-013 | FE | TL review: APPROVE. QA validation starting | Stretch delivered. 6/6 tests — validateQueSections. QA validating now. Spec at docs/specs/story-013-gieo-que-scaffold.md |
 
 ---
 

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { STARS } from '@/content/routes'
+import { PRIORITY_STAR_SLUGS } from '@/content/stars'
 import { SEO_FORECAST_SEEDS, getForecastCanonicalPath } from '@/content/seo-forecasts'
 import { ANIMAL_HUB_SLUGS } from '@/content/animal-hubs'
 
@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.82,
   }))
 
-  const saoPages: MetadataRoute.Sitemap = STARS.map((star) => ({
+  const saoPages: MetadataRoute.Sitemap = PRIORITY_STAR_SLUGS.map((star) => ({
     url: `${base}/sao/${star}/`,
     lastModified: lastmod,
     changeFrequency: 'monthly' as const,

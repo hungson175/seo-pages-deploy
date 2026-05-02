@@ -3,6 +3,15 @@ const path = require('path')
 const routes = require('../src/content/routes.json')
 const seoForecasts = require('../src/content/seo-forecasts.json')
 
+const priorityStarSlugs = [
+  'tu-vi',
+  'thai-duong',
+  'thai-am',
+  'thien-co',
+  'vu-khuc',
+  'thien-luong',
+]
+
 const base = 'https://boitoan.vn'
 const lastmod = '2026-05-02'
 
@@ -91,7 +100,7 @@ const gieoqueUrls = routes.queSlugs.map((slug) => ({
   priority: '0.7',
 }))
 
-const starUrls = routes.stars.map((slug) => ({
+const starUrls = priorityStarSlugs.map((slug) => ({
   loc: `${base}/sao/${slug}/`,
   lastmod,
   changefreq: 'monthly',

@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
-import { STARS } from '@/content/routes'
-import { getStarFoundationPage } from '@/content/stars'
+import {
+  PRIORITY_STAR_SLUGS,
+  getStarFoundationPage,
+  isPriorityStarSlug,
+} from '@/content/stars'
 import {
   ArticleSchema,
   BreadcrumbListSchema,
@@ -13,15 +16,17 @@ import {
 const BASE_URL = 'https://boitoan.vn'
 const LAST_UPDATED = '2026-05-02'
 
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return STARS.map((star) => ({ star }))
+  return PRIORITY_STAR_SLUGS.map((star) => ({ star }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ star: string }> }) {
   const { star } = await params
   const page = getStarFoundationPage(star)
 
-  if (!STARS.includes(star as (typeof STARS)[number]) || !page) {
+  if (!isPriorityStarSlug(star) || !page) {
     return buildMetadata({
       title: 'Không tìm thấy',
       description: 'Trang bạn tìm không tồn tại.',
@@ -46,7 +51,7 @@ export default async function StarPage({
   const { star } = await params
   const page = getStarFoundationPage(star)
 
-  if (!STARS.includes(star as (typeof STARS)[number]) || !page) {
+  if (!isPriorityStarSlug(star) || !page) {
     notFound()
   }
 

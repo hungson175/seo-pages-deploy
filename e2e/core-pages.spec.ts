@@ -82,6 +82,11 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
+  test('legacy non-priority star page is not indexable', async ({ page }) => {
+    const response = await page.goto('/sao/thien-phu/')
+    expect(response?.status()).toBe(404)
+  })
+
   test('que page renders', async ({ page }) => {
     await page.goto('/que/1-kien-vi-thien')
     

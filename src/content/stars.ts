@@ -256,7 +256,11 @@ export const PRIORITY_STAR_SLUGS = [
   'thien-luong',
 ] as const
 
-type PriorityStarSlug = (typeof PRIORITY_STAR_SLUGS)[number]
+export type PriorityStarSlug = (typeof PRIORITY_STAR_SLUGS)[number]
+
+export function isPriorityStarSlug(slug: string): slug is PriorityStarSlug {
+  return (PRIORITY_STAR_SLUGS as readonly string[]).includes(slug)
+}
 
 interface StarProfile {
   slug: PriorityStarSlug
@@ -626,10 +630,9 @@ function buildLegacyStarPage(content: StarContent): StarFoundationPage {
 }
 
 export function getStarFoundationPage(slug: string): StarFoundationPage | null {
-  if ((PRIORITY_STAR_SLUGS as readonly string[]).includes(slug)) {
+  if (isPriorityStarSlug(slug)) {
     return buildRichStarPage(STAR_PROFILES[slug as PriorityStarSlug])
   }
 
-  const legacy = STAR_CONTENT[slug]
-  return legacy ? buildLegacyStarPage(legacy) : null
+  return null
 }

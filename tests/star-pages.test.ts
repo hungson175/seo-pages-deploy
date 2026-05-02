@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   PRIORITY_STAR_SLUGS,
   getStarFoundationPage,
+  isPriorityStarSlug,
 } from '../src/content/stars'
 
 function wordCount(text: string): number {
@@ -33,6 +34,13 @@ describe('priority star foundation pages', () => {
       'vu-khuc',
       'thien-luong',
     ])
+  })
+
+  it('keeps legacy unsafe star pages disabled until rewritten', () => {
+    expect(isPriorityStarSlug('tu-vi')).toBe(true)
+    expect(isPriorityStarSlug('thien-phu')).toBe(false)
+    expect(getStarFoundationPage('thien-phu')).toBeNull()
+    expect(getStarFoundationPage('thien-dong')).toBeNull()
   })
 
   it('generates complete 1,500+ word pages with SEO fields', () => {

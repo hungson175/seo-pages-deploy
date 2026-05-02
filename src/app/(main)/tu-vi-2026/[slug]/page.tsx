@@ -8,6 +8,9 @@ import {
   FAQPageSchema,
   JsonLd,
 } from '@/components/json-ld/json-ld'
+import { MethodLimitModule } from '@/components/trust/method-limit'
+import { ConversionCTA } from '@/components/trust/conversion-cta'
+import { TrustBox } from '@/components/trust/trust-box'
 
 const BASE_URL = 'https://boitoan.com.vn'
 const LAST_UPDATED = '2026-05-02'
@@ -173,6 +176,8 @@ export default async function TuViForecastPage({
           </p>
         </section>
 
+        <MethodLimitModule pageType="forecast" className="mt-8" />
+
         <div className="mt-8 space-y-8">
           {page.sections.map((section) => (
             <section key={section.heading} className="mv-card">
@@ -216,18 +221,9 @@ export default async function TuViForecastPage({
           </div>
         </section>
 
-        <section className="mv-cta mt-10">
-          <h2 className="mv-section-title-light">Tìm hiểu cách lập lá số theo ngày giờ sinh</h2>
-          <p className="mx-auto mt-3 max-w-2xl leading-7">
-            Bài viết này là bản tổng quan theo tuổi. Trang lập lá số giải thích vì sao cần ngày sinh, giờ sinh, Mệnh Cung, Thân Cung và Cục trước khi đọc cá nhân hóa.
-          </p>
-          <Link
-            href="/lap-la-so/"
-            className="mv-button-primary mt-5"
-          >
-            Tìm hiểu cách lập lá số Tử Vi
-          </Link>
-        </section>
+        <ConversionCTA pageType="forecast" className="mt-10" />
+
+        <TrustBox variant="short" className="mt-8" />
 
         <p className="mv-disclaimer mt-10">
           * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Bói Toán là nội dung giải trí và thuật toán tham khảo theo văn hóa Tử Vi; không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.

@@ -24,6 +24,7 @@ For visual direction, study `docs/reference/horoscope-ui-theme.md`; it distills 
 - `npm run dev` — start local dev server on port `3347`.
 - `npm run build` — generate sitemaps, then build the app.
 - `npm run start` — serve the production build.
+- `npm run deploy:vercel` — deploy production using ignored `.env.vercel` (`VERCEL_TOKEN`).
 - `npm test` — run Vitest tests.
 - `npm run test:watch` — run Vitest in watch mode.
 - `npx playwright test` — run E2E tests in `e2e/`.

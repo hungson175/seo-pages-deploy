@@ -40,6 +40,17 @@ Vitest covers unit/integration tests; Playwright covers browser-level SEO, respo
 
 For SEO content changes, verify: no placeholders, one H1, `lang="vi"`, indexable metadata, schema, and visible “tham khảo” disclaimer.
 
+## SEO Quality Gate & Legacy Pages
+
+Never publish unreviewed, thin, or template-only SEO pages. If a route was previously reachable but is not approved for indexing, gate it deliberately:
+
+1. Remove it from `sitemap.xml` and any segmented sitemap such as `stars.xml`.
+2. Prevent unsafe generation with `dynamicParams = false` or an equivalent allow-list.
+3. Add an explicit `301` redirect to the nearest useful hub, e.g. gated `/sao/*` pages redirect to `/tu-vi/`, to preserve backlink equity.
+4. Add targeted Vitest/Playwright checks for approved pages, gated pages, sitemap contents, and redirect status.
+
+Only re-enable a gated page after rich content, domain review, compliance review, and passing tests.
+
 ## Commit & Pull Request Guidelines
 
 History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STORY-012a: ...`. PRs should include summary, affected routes, test results, screenshots for visual changes, and relevant docs/story IDs.

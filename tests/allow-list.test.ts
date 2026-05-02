@@ -14,6 +14,8 @@ describe('validateSlug', () => {
   it('returns true for allowed animal hub slugs', () => {
     expect(validateSlug('tuoi-ty')).toBe(true)
     expect(validateSlug('tuoi-thin')).toBe(true)
+    expect(validateSlug('tuoi-ti')).toBe(true)
+    expect(validateSlug('tuoi-hoi')).toBe(true)
   })
 
   it('returns true for allowed star slugs', () => {

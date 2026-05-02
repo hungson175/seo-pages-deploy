@@ -153,7 +153,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
   const h1 = `Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`
   const description = `Xem tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026: tổng quan công việc, tài chính, tình duyên, sức khỏe và gợi ý hành động. Lập lá số cá nhân hóa theo ngày giờ sinh.`
   const methodNote =
-    'Phương pháp tham khảo: thuật ngữ Tử Vi Tam Hợp Phái và các khái niệm nền tảng thường gặp trong 《紫微斗数全书》, nhưng bài viết không an sao cá nhân khi chưa có ngày giờ sinh.'
+    'Tham khảo thuật ngữ Tam Hợp Phái / 《紫微斗数全书》; không an sao cá nhân khi chưa có ngày giờ sinh.'
 
   const summaryRows: SummaryRow[] = [
     {

@@ -23,13 +23,17 @@ function visiblePageText(page: NonNullable<ReturnType<typeof getSeoForecastPage>
 }
 
 describe('static SEO forecast content', () => {
-  it('ships the first 10 real P0 birth-year pages', () => {
-    expect(SEO_FORECAST_SLUGS).toHaveLength(10)
-    expect(new Set(SEO_FORECAST_SLUGS).size).toBe(10)
+  it('ships 24 real birth-year pages across all 12 animal signs', () => {
+    expect(SEO_FORECAST_SLUGS).toHaveLength(24)
+    expect(new Set(SEO_FORECAST_SLUGS).size).toBe(24)
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-ty-1984-nam')
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-thin-1988-nu')
+    expect(SEO_FORECAST_SLUGS).toContain('tuoi-ti-1989-nam')
+    expect(SEO_FORECAST_SLUGS).toContain('tuoi-hoi-1995-nu')
     expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('giap-ty-1984-nam-mang')
     expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('mau-thin-1988-nu-mang')
+    expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('ky-ty-1989-nam-mang')
+    expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('at-hoi-1995-nu-mang')
   })
 
   it('maps every seed to a complete static page', () => {

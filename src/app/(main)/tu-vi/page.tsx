@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
-import { SEO_FORECAST_SEEDS } from '@/content/seo-forecasts'
+import { SEO_FORECAST_SEEDS, getSeoForecastPage, type SeoForecastPage } from '@/content/seo-forecasts'
 import {
   BreadcrumbListSchema,
   FAQPageSchema,
@@ -75,6 +75,8 @@ export const metadata = buildMetadata({
 
 export default function TuViHubPage() {
   const featuredPages = SEO_FORECAST_SEEDS
+    .map((seed) => getSeoForecastPage(seed.slug))
+    .filter((page): page is SeoForecastPage => Boolean(page))
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,#1f2f4a_0,#0a1628_46%,#050914_100%)] text-white">
@@ -108,7 +110,7 @@ export default function TuViHubPage() {
             itemListElement: featuredPages.map((page, index) => ({
               '@type': 'ListItem',
               position: index + 1,
-              url: `${BASE_URL}/tu-vi/${page.slug}/`,
+              url: `${BASE_URL}${page.urlPath}`,
               name: `Tử vi tuổi ${page.animal} ${page.year} ${page.genderLabel} năm 2026`,
             })),
           },
@@ -179,7 +181,7 @@ export default function TuViHubPage() {
           {featuredPages.map((page) => (
             <Link
               key={page.slug}
-              href={`/tu-vi/${page.slug}/`}
+              href={page.urlPath}
               className="group rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:-translate-y-0.5 hover:border-gold/70 hover:bg-gold/10 focus:outline-none focus:ring-2 focus:ring-gold-light"
             >
               <p className="text-sm font-semibold text-gold-light">{page.canChi} • {page.element}</p>

@@ -26,7 +26,7 @@ test.describe('Sprint 2 - Mobile Responsiveness', () => {
 
   test('forecast page is responsive on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 })
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     await expect(page.locator('h1')).toBeVisible()
     const bodyWidth = await page.locator('body').evaluate(el => el.scrollWidth)

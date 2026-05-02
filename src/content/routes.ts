@@ -1,4 +1,6 @@
 import routes from './routes.json'
+import { SEO_FORECAST_CANONICAL_SLUGS } from './seo-forecasts'
+import { ANIMAL_HUB_SLUGS } from './animal-hubs'
 
 /** Canonical route/content allow-lists for all generated SEO pages. */
 export const ANIMALS = routes.animals
@@ -18,6 +20,8 @@ export const FORECAST_SLUGS = ANIMALS.flatMap((animal) =>
 export const SLUG_ALLOW_LIST = [
   ...new Set([
     ...FORECAST_SLUGS,
+    ...SEO_FORECAST_CANONICAL_SLUGS,
+    ...ANIMAL_HUB_SLUGS,
     ...STARS,
     ...QUE_SLUGS,
     ...TOOL_SLUGS,

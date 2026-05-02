@@ -7,61 +7,91 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-ty-1984-nam/</loc>
+    <loc>https://boitoan.vn/tu-vi/tuoi-ty/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://boitoan.vn/tu-vi/tuoi-suu/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://boitoan.vn/tu-vi/tuoi-dan/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://boitoan.vn/tu-vi/tuoi-mao/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://boitoan.vn/tu-vi/tuoi-thin/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
+    <loc>https://boitoan.vn/tu-vi-2026/giap-ty-1984-nam-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-ty-1984-nu/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/giap-ty-1984-nu-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-suu-1985-nam/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/at-suu-1985-nam-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-suu-1985-nu/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/at-suu-1985-nu-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-dan-1986-nam/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/binh-dan-1986-nam-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-dan-1986-nu/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/binh-dan-1986-nu-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-mao-1987-nam/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/dinh-mao-1987-nam-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-mao-1987-nu/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/dinh-mao-1987-nu-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-thin-1988-nam/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/mau-thin-1988-nam-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>
   </url>
   <url>
-    <loc>https://boitoan.vn/tu-vi/tuoi-thin-1988-nu/</loc>
+    <loc>https://boitoan.vn/tu-vi-2026/mau-thin-1988-nu-mang/</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.82</priority>

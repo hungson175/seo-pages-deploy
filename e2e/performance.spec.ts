@@ -23,7 +23,7 @@ test.describe('Sprint 2 - Performance', () => {
 
   test('forecast page loads under 3 seconds', async ({ page }) => {
     const start = Date.now()
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     await page.waitForLoadState('networkidle')
     const loadTime = Date.now() - start
     
@@ -40,7 +40,7 @@ test.describe('Sprint 2 - Performance', () => {
       }
     })
     
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     await page.waitForLoadState('networkidle')
     expect(errors).toHaveLength(0)
   })

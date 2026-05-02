@@ -5,7 +5,29 @@ const seoForecasts = require('../src/content/seo-forecasts.json')
 
 const base = 'https://boitoan.vn'
 const lastmod = '2026-05-02'
-const SEO_FORECAST_SLUGS = seoForecasts.map((item) => item.slug)
+
+function toSlug(input) {
+  return input
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function canonicalForecastPath(item) {
+  return `/tu-vi-2026/${toSlug(item.canChi)}-${item.year}-${item.gender}-mang/`
+}
+
+function animalHubSlug(item) {
+  return item.slug.split('-').slice(0, 2).join('-')
+}
+
+const animalHubSlugs = [...new Set(seoForecasts.map(animalHubSlug))]
 
 function buildSitemap(urls) {
   const urlEntries = urls
@@ -48,8 +70,14 @@ const tuviUrls = [
     changefreq: 'weekly',
     priority: '0.95',
   },
-  ...SEO_FORECAST_SLUGS.map((slug) => ({
+  ...animalHubSlugs.map((slug) => ({
     loc: `${base}/tu-vi/${slug}/`,
+    lastmod,
+    changefreq: 'weekly',
+    priority: '0.86',
+  })),
+  ...seoForecasts.map((item) => ({
+    loc: `${base}${canonicalForecastPath(item)}`,
     lastmod,
     changefreq: 'yearly',
     priority: '0.82',

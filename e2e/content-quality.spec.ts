@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Sprint 2 - Content Quality', () => {
   test('forecast page has sufficient content length', async ({ page }) => {
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     const main = page.locator('main')
     const text = await main.textContent()
@@ -24,16 +24,18 @@ test.describe('Sprint 2 - Content Quality', () => {
     expect(scripts.some((script) => script.includes('CollectionPage'))).toBe(true)
   })
 
-  test('forecast page has Article and FAQ schema', async ({ page }) => {
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+  test('forecast page has Article, FAQ, Breadcrumb, and WebPage schema', async ({ page }) => {
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
     expect(scripts.some((script) => script.includes('Article'))).toBe(true)
     expect(scripts.some((script) => script.includes('FAQPage'))).toBe(true)
+    expect(scripts.some((script) => script.includes('BreadcrumbList'))).toBe(true)
+    expect(scripts.some((script) => script.includes('WebPage'))).toBe(true)
   })
 
   test('no Western astrology terms used', async ({ page }) => {
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     const main = page.locator('main')
     const text = await main.textContent()

@@ -1,4 +1,5 @@
 import rawForecasts from './seo-forecasts.json'
+import { toSlug } from '@/lib/slug'
 
 export interface SeoForecastSeed {
   slug: string
@@ -22,8 +23,8 @@ export interface SummaryRow {
   action: string
 }
 
-export interface RelatedForecastLink {
-  slug: string
+export interface InternalLink {
+  href: string
   label: string
   relation: string
 }
@@ -32,24 +33,46 @@ export interface SeoForecastPage extends SeoForecastSeed {
   title: string
   h1: string
   description: string
+  canonicalSlug: string
+  urlPath: string
+  legacyUrlPath: string
+  animalHubSlug: string
+  animalHubPath: string
   intro: string[]
   summaryRows: SummaryRow[]
   sections: Array<{ heading: string; content: string[] }>
   faqs: Array<{ question: string; answer: string }>
-  relatedLinks: RelatedForecastLink[]
+  internalLinks: InternalLink[]
 }
 
 export const SEO_FORECAST_SEEDS = rawForecasts as SeoForecastSeed[]
-export const SEO_FORECAST_SLUGS = SEO_FORECAST_SEEDS.map((item) => item.slug)
 
-const seedBySlug = new Map(SEO_FORECAST_SEEDS.map((item) => [item.slug, item]))
+export function getCanonicalForecastSlug(seed: SeoForecastSeed): string {
+  return `${toSlug(seed.canChi)}-${seed.year}-${seed.gender}-mang`
+}
+
+export function getAnimalHubSlug(seed: SeoForecastSeed): string {
+  return seed.slug.split('-').slice(0, 2).join('-')
+}
+
+export function getForecastCanonicalPath(seed: SeoForecastSeed): string {
+  return `/tu-vi-2026/${getCanonicalForecastSlug(seed)}/`
+}
+
+export function getForecastLegacyPath(seed: SeoForecastSeed): string {
+  return `/tu-vi/${seed.slug}/`
+}
+
+export const SEO_FORECAST_SLUGS = SEO_FORECAST_SEEDS.map((item) => item.slug)
+export const SEO_FORECAST_CANONICAL_SLUGS = SEO_FORECAST_SEEDS.map(getCanonicalForecastSlug)
+
+const seedByLegacySlug = new Map(SEO_FORECAST_SEEDS.map((item) => [item.slug, item]))
+const seedByCanonicalSlug = new Map(
+  SEO_FORECAST_SEEDS.map((item) => [getCanonicalForecastSlug(item), item])
+)
 
 function vietnameseAge(seed: SeoForecastSeed): number {
   return 2026 - seed.year + 1
-}
-
-function branchFromCanChi(seed: SeoForecastSeed): string {
-  return seed.canChi.split(' ').slice(1).join(' ') || seed.animal
 }
 
 function relationshipFocus(seed: SeoForecastSeed): string {
@@ -70,31 +93,52 @@ function moneyAction(seed: SeoForecastSeed): string {
     : 'ghi lại dòng tiền đều đặn, đặt giới hạn cho mua sắm theo cảm xúc, và ưu tiên khoản dự phòng giúp mình an tâm hơn'
 }
 
-function buildRelatedLinks(seed: SeoForecastSeed): RelatedForecastLink[] {
-  const sameAnimal = SEO_FORECAST_SEEDS
-    .filter((item) => item.animal === seed.animal && item.slug !== seed.slug)
-    .map((item) => ({
-      slug: item.slug,
-      label: `Tử vi tuổi ${item.canChi} ${item.year} ${item.genderLabel}`,
-      relation: `Cùng tuổi ${item.animal}`,
-    }))
-
+function buildInternalLinks(seed: SeoForecastSeed): InternalLink[] {
+  const canonical = (item: SeoForecastSeed) => getForecastCanonicalPath(item)
   const currentIndex = SEO_FORECAST_SEEDS.findIndex((item) => item.slug === seed.slug)
-  const neighbors = [SEO_FORECAST_SEEDS[currentIndex - 1], SEO_FORECAST_SEEDS[currentIndex + 1]]
-    .filter(Boolean)
-    .filter((item) => item.slug !== seed.slug && item.animal !== seed.animal)
-    .slice(0, 2)
-    .map((item) => ({
-      slug: item.slug,
-      label: `Tử vi tuổi ${item.canChi} ${item.year} ${item.genderLabel}`,
-      relation: 'Tuổi lân cận trong cụm P0',
-    }))
+  const siblingGender = SEO_FORECAST_SEEDS.find(
+    (item) => item.year === seed.year && item.animal === seed.animal && item.gender !== seed.gender
+  )
+  const previous = SEO_FORECAST_SEEDS[currentIndex - 1]
+  const next = SEO_FORECAST_SEEDS[currentIndex + 1]
+  const sameAnimal = SEO_FORECAST_SEEDS.find(
+    (item) => item.animal === seed.animal && item.slug !== seed.slug && item.slug !== siblingGender?.slug
+  )
 
-  return [...sameAnimal, ...neighbors].slice(0, 3)
+  const links: InternalLink[] = [
+    { href: '/tu-vi/', label: 'Tử vi 2026 theo năm sinh', relation: 'Hub chính' },
+    {
+      href: `/tu-vi/${getAnimalHubSlug(seed)}/`,
+      label: `Tử vi tuổi ${seed.animal}`,
+      relation: 'Animal cluster',
+    },
+    { href: '/lap-la-so/', label: 'Lập lá số Tử Vi miễn phí', relation: 'Cá nhân hóa theo ngày giờ sinh' },
+    { href: '/sao/tu-vi/', label: 'Ý nghĩa sao Tử Vi', relation: 'Nền tảng sao' },
+    { href: '/sao/thai-duong/', label: 'Ý nghĩa sao Thái Dương', relation: 'Nền tảng sao' },
+  ]
+
+  if (siblingGender) {
+    links.push({
+      href: canonical(siblingGender),
+      label: `Tử vi tuổi ${siblingGender.canChi} ${siblingGender.year} ${siblingGender.genderLabel}`,
+      relation: 'Cùng tuổi khác giới tính',
+    })
+  }
+
+  for (const item of [previous, next, sameAnimal]) {
+    if (!item || item.slug === seed.slug || links.some((link) => link.href === canonical(item))) continue
+    links.push({
+      href: canonical(item),
+      label: `Tử vi tuổi ${item.canChi} ${item.year} ${item.genderLabel}`,
+      relation: item.animal === seed.animal ? `Cùng tuổi ${item.animal}` : 'Tuổi lân cận',
+    })
+  }
+
+  return links.slice(0, 7)
 }
 
 export function getSeoForecastSeed(slug: string): SeoForecastSeed | null {
-  return seedBySlug.get(slug) ?? null
+  return seedByLegacySlug.get(slug) ?? seedByCanonicalSlug.get(slug) ?? null
 }
 
 export function getSeoForecastPage(slug: string): SeoForecastPage | null {
@@ -102,10 +146,11 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
   if (!seed) return null
 
   const age = vietnameseAge(seed)
-  const branch = branchFromCanChi(seed)
+  const canonicalSlug = getCanonicalForecastSlug(seed)
+  const animalHubSlug = getAnimalHubSlug(seed)
   const title = `Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`
   const h1 = `Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`
-  const description = `Xem tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026: tổng quan công việc, tài chính, tình duyên, sức khỏe và gợi ý hành động.`
+  const description = `Xem tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026: tổng quan công việc, tài chính, tình duyên, sức khỏe và gợi ý hành động. Lập lá số cá nhân hóa theo ngày giờ sinh.`
 
   const summaryRows: SummaryRow[] = [
     {
@@ -140,6 +185,11 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
     title,
     h1,
     description,
+    canonicalSlug,
+    urlPath: getForecastCanonicalPath(seed),
+    legacyUrlPath: getForecastLegacyPath(seed),
+    animalHubSlug,
+    animalHubPath: `/tu-vi/${animalHubSlug}/`,
     intro: [
       `Bài viết này phân tích xu hướng Tử Vi năm 2026 cho tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} theo khung tham khảo truyền thống. Đây là bản xem theo năm sinh, giới tính và con giáp, không phải lá số cá nhân đã an đủ 12 cung. Một lá số riêng còn cần ngày sinh, giờ sinh, Mệnh Cung, Thân Cung, Cục và vị trí các sao. Vì vậy nội dung dưới đây nên được dùng như bản tổng quan giúp bạn tự soi lại công việc, tiền bạc, gia đạo và sức khỏe trong năm mới.`,
       `Người sinh năm ${seed.year} thuộc tuổi ${seed.canChi}, nạp âm ${seed.element}; trong năm Bính Ngọ 2026 bước vào khoảng ${age} tuổi theo cách tính tuổi âm. Ở giai đoạn này, câu hỏi quan trọng không còn là “năm nay tốt hay xấu” một cách tuyệt đối, mà là phần nào cần chủ động, phần nào nên đi chậm, phần nào phải đặt ranh giới rõ.`,
@@ -147,7 +197,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
     summaryRows,
     sections: [
       {
-        heading: `Tổng quan tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`,
+        heading: 'Tổng quan năm 2026',
         content: [
           `Tuổi ${seed.canChi} mang khí chất ${seed.tone}. Khi gặp nhịp 2026, điểm mạnh của bản mệnh là khả năng quan sát tình thế và tự điều chỉnh để không bị cuốn theo biến động bên ngoài. Tuy nhiên, chính vì quen tự xử lý, ${seed.genderLabel} tuổi ${seed.animal} cũng dễ giữ mọi thứ trong lòng, đến lúc mệt mới nhận ra mình đã ôm quá nhiều việc. Năm này vì thế hợp với cách sống có kế hoạch: biết việc nào cần tiến, việc nào cần tạm dừng, việc nào nên nhờ người khác cùng gánh.`,
           `Về tổng thể, đây không phải năm nên chạy theo các lời hứa quá lớn. Cát nằm ở chỗ bền bỉ, biết tích lũy, biết sửa thói quen nhỏ mỗi ngày. Hung thường đến từ sự nóng vội, cả nể hoặc giữ một vai trò không còn phù hợp chỉ vì sợ thay đổi. Nếu đang có nhiều mục tiêu cùng lúc, hãy chọn ra một đến hai trọng tâm: công việc chính, sức khỏe nền tảng, hoặc một kế hoạch tài chính cần hoàn thành trước cuối năm.`,
@@ -177,8 +227,8 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
       {
         heading: 'Sức khỏe, tinh thần và nhịp sống cần chú ý',
         content: [
-          `Về sức khỏe, tuổi ${seed.canChi} năm 2026 nên chú ý ${seed.health}. Đây là nhóm vấn đề dễ bị xem nhẹ vì không phải lúc nào cũng hiện thành triệu chứng lớn ngay lập tức. Người ở độ tuổi ${age} thường vừa phải giữ công việc, vừa lo gia đình, vừa nghĩ đến tương lai tài chính. Khi nhiều trách nhiệm chồng lên nhau, cơ thể có thể phản ứng qua giấc ngủ kém, căng vai gáy, tiêu hóa thất thường hoặc tâm trạng dễ cáu.`,
-          `Trong khung Tử Vi, sức khỏe thường liên hệ đến cung Tật Ách; nhưng trang theo năm sinh không có đủ dữ liệu để đọc cung này của riêng bạn. Vì vậy, phần này chỉ nên xem như lời nhắc giữ nền. Hãy ưu tiên những việc rất cơ bản: ngủ đúng giờ hơn, giảm thức khuya kéo dài, đi bộ hoặc vận động nhẹ, ăn uống bớt thất thường và kiểm tra sức khỏe khi có dấu hiệu bất thường. Đừng đợi đến khi cơ thể buộc mình dừng lại mới bắt đầu chăm sóc.`,
+          `Về sức khỏe theo nghĩa nhịp sống, tuổi ${seed.canChi} năm 2026 nên chú ý ${seed.health}. Đây là nhóm vấn đề dễ bị xem nhẹ vì không phải lúc nào cũng hiện thành dấu hiệu lớn ngay lập tức. Người ở độ tuổi ${age} thường vừa phải giữ công việc, vừa lo gia đình, vừa nghĩ đến tương lai tài chính. Khi nhiều trách nhiệm chồng lên nhau, cơ thể có thể phản ứng bằng mệt mỏi, thiếu tập trung hoặc dễ cáu hơn bình thường.`,
+          `Trong khung Tử Vi, mảng này thường liên hệ đến cung Tật Ách; nhưng trang theo năm sinh không có đủ dữ liệu để đọc cung này của riêng bạn. Vì vậy, phần này chỉ nên xem như lời nhắc giữ nền. Hãy ưu tiên ngủ đúng giờ hơn, giảm thức khuya kéo dài, đi bộ hoặc vận động nhẹ, ăn uống bớt thất thường và kiểm tra định kỳ khi có dấu hiệu bất thường. Nội dung này không thay thế tư vấn y tế.`,
         ],
       },
       {
@@ -213,6 +263,6 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
         answer: 'Không. Đây là nội dung tham khảo theo văn hóa tử vi, không phải lời tiên đoán và không thay thế tư vấn chuyên môn.',
       },
     ],
-    relatedLinks: buildRelatedLinks(seed),
+    internalLinks: buildInternalLinks(seed),
   }
 }

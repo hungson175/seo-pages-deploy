@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   SEO_FORECAST_SEEDS,
   SEO_FORECAST_SLUGS,
+  SEO_FORECAST_CANONICAL_SLUGS,
   getSeoForecastPage,
   getSeoForecastSeed,
 } from '../src/content/seo-forecasts'
@@ -17,7 +18,6 @@ function visiblePageText(page: NonNullable<ReturnType<typeof getSeoForecastPage>
     ...page.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
     ...page.sections.flatMap((section) => [section.heading, ...section.content]),
     ...page.faqs.flatMap((faq) => [faq.question, faq.answer]),
-    ...page.relatedLinks.flatMap((link) => [link.label, link.relation]),
   ].join(' ')
 }
 
@@ -27,6 +27,8 @@ describe('static SEO forecast content', () => {
     expect(new Set(SEO_FORECAST_SLUGS).size).toBe(10)
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-ty-1984-nam')
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-thin-1988-nu')
+    expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('giap-ty-1984-nam-mang')
+    expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('mau-thin-1988-nu-mang')
   })
 
   it('maps every seed to a complete static page', () => {
@@ -39,14 +41,16 @@ describe('static SEO forecast content', () => {
       expect(page?.intro.length).toBeGreaterThanOrEqual(2)
       expect(page?.summaryRows).toHaveLength(5)
       expect(page?.sections).toHaveLength(7)
-      expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Tổng quan')
+      expect(page?.sections[0].heading).toBe('Tổng quan năm 2026')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Công danh')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Tài lộc')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Tình duyên')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Sức khỏe')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Lời khuyên')
       expect(page?.faqs.length).toBeGreaterThanOrEqual(4)
-      expect(page?.relatedLinks.length).toBeGreaterThanOrEqual(1)
+      expect(page?.internalLinks.length).toBeGreaterThanOrEqual(6)
+      expect(page?.urlPath).toMatch(/^\/tu-vi-2026\/[a-z0-9-]+-\d{4}-(nam|nu)-mang\/$/)
+      expect(page?.legacyUrlPath).toBe(`/tu-vi/${seed.slug}/`)
     }
   })
 
@@ -57,6 +61,28 @@ describe('static SEO forecast content', () => {
       const count = wordCount(visiblePageText(page!))
       expect(count, `${slug} word count`).toBeGreaterThanOrEqual(1500)
       expect(count, `${slug} word count`).toBeLessThanOrEqual(2000)
+    }
+  })
+
+  it('keeps Tật Ách/health copy in wellbeing-only framing', () => {
+    const forbiddenHealthPatterns = [
+      /tim mạch/,
+      /huyết áp/,
+      /\bgan\b/,
+      /nội tiết/,
+      /\bda\b/,
+      /dạ dày/,
+    ]
+
+    for (const slug of SEO_FORECAST_SLUGS) {
+      const page = getSeoForecastPage(slug)
+      expect(page).not.toBeNull()
+      const text = visiblePageText(page!).toLowerCase()
+
+      for (const pattern of forbiddenHealthPatterns) {
+        expect(text, `${slug} should not mention ${pattern}`).not.toMatch(pattern)
+      }
+      expect(text).toContain('không thay thế tư vấn y tế')
     }
   })
 

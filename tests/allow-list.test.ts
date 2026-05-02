@@ -7,6 +7,13 @@ describe('validateSlug', () => {
     expect(validateSlug('tuoi-ty-1984-nu')).toBe(true)
     expect(validateSlug('tuoi-suu-1984-nam')).toBe(true)
     expect(validateSlug('tuoi-dan-1984-nu')).toBe(true)
+    expect(validateSlug('giap-ty-1984-nam-mang')).toBe(true)
+    expect(validateSlug('mau-thin-1988-nu-mang')).toBe(true)
+  })
+
+  it('returns true for allowed animal hub slugs', () => {
+    expect(validateSlug('tuoi-ty')).toBe(true)
+    expect(validateSlug('tuoi-thin')).toBe(true)
   })
 
   it('returns true for allowed star slugs', () => {

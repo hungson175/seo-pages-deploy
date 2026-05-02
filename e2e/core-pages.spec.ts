@@ -20,13 +20,13 @@ test.describe('Sprint 2 - Core Pages', () => {
 
     await expect(page).toHaveTitle(/Tử Vi 2026 - Xem Lá Số Tử Vi Online/)
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
-    await expect(page.locator('a[href^="/tu-vi/tuoi-ty-1984-nam"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nam-mang"]')).toBeVisible()
     await expect(page.locator('text=Câu hỏi thường gặp')).toBeVisible()
     await expect(page.locator('main')).toContainText('chỉ mang tính chất tham khảo')
   })
 
   test('new static forecast page renders with real content', async ({ page }) => {
-    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     await expect(page).toHaveTitle(/Tử vi tuổi Giáp Tý 1984 nam mạng năm 2026/)
     
@@ -43,12 +43,28 @@ test.describe('Sprint 2 - Core Pages', () => {
   })
 
   test('second static forecast page renders with real content', async ({ page }) => {
-    await page.goto('/tu-vi/tuoi-dan-1986-nu')
+    await page.goto('/tu-vi-2026/binh-dan-1986-nu-mang')
     
     await expect(page).toHaveTitle(/Tử vi tuổi Bính Dần 1986 nữ mạng năm 2026/)
     await expect(page.locator('h1')).toContainText('tuổi Bính Dần 1986 nữ mạng')
     await expect(page.locator('main')).toContainText('Lư Trung Hỏa')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+  })
+
+
+  test('animal hub page renders with links to canonical birth-year pages', async ({ page }) => {
+    await page.goto('/tu-vi/tuoi-ty/')
+
+    await expect(page).toHaveTitle(/Tử vi tuổi Tý năm 2026/)
+    await expect(page.locator('h1')).toContainText('Tử vi tuổi Tý năm 2026')
+    await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nam-mang"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nu-mang"]')).toBeVisible()
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+  })
+
+  test('legacy birth-year URL redirects to canonical Can Chi URL', async ({ page }) => {
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    await expect(page).toHaveURL(/\/tu-vi-2026\/giap-ty-1984-nam-mang\/?$/)
   })
 
   test('star page renders', async ({ page }) => {

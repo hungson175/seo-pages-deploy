@@ -167,6 +167,9 @@ export default async function TuViForecastPage({
           <p className="mt-4 leading-8 text-white/75">
             Bài theo tuổi chỉ có năm sinh và giới tính, nên không thể xác định chính xác Mệnh Cung, Thân Cung, Cục và vị trí sao trong 12 cung. Lá số cá nhân cần ngày sinh và giờ sinh để an cung đúng hơn. Vì vậy trang này dùng để đọc tổng quan, còn phần cá nhân hóa phải đi qua dữ liệu ngày giờ sinh riêng.
           </p>
+          <p className="mt-4 rounded-2xl border border-gold/20 bg-gold/10 p-4 text-sm leading-7 text-gold-light">
+            {page.methodNote}
+          </p>
         </section>
 
         <div className="mt-8 space-y-8">

@@ -14,6 +14,7 @@ function wordCount(text: string): number {
 function visiblePageText(page: NonNullable<ReturnType<typeof getSeoForecastPage>>): string {
   return [
     page.h1,
+    page.methodNote,
     ...page.intro,
     ...page.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
     ...page.sections.flatMap((section) => [section.heading, ...section.content]),
@@ -38,6 +39,8 @@ describe('static SEO forecast content', () => {
       expect(page?.h1).toBe(`Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`)
       expect(page?.title).toContain(`${seed.canChi} ${seed.year}`)
       expect(page?.description).toContain('công việc')
+      expect(page?.methodNote).toContain('Tam Hợp Phái')
+      expect(page?.methodNote).toContain('紫微斗数全书')
       expect(page?.intro.length).toBeGreaterThanOrEqual(2)
       expect(page?.summaryRows).toHaveLength(5)
       expect(page?.sections).toHaveLength(7)

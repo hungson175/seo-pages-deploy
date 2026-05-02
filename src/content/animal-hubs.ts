@@ -6,6 +6,7 @@ export interface AnimalHubPage {
   title: string
   h1: string
   description: string
+  methodNote: string
   urlPath: string
   linkedForecasts: Array<{
     title: string
@@ -51,6 +52,8 @@ export function getAnimalHubPage(slug: string): AnimalHubPage | null {
     title: `Tử vi tuổi ${animal} năm 2026`,
     h1: `Tử vi tuổi ${animal} năm 2026`,
     description: `Tổng hợp tử vi tuổi ${animal} năm 2026 theo năm sinh và giới tính. Đọc tổng quan công việc, tài chính, tình duyên và link đến từng bài chi tiết.`,
+    methodNote:
+      'Phương pháp tham khảo: thuật ngữ Tử Vi Tam Hợp Phái và các khái niệm nền tảng thường gặp trong 《紫微斗数全书》; các bài theo tuổi không thay thế lá số cá nhân theo ngày giờ sinh.',
     urlPath: `/tu-vi/${slug}/`,
     linkedForecasts,
     faqs: [

@@ -155,6 +155,9 @@ export default async function TuViAnimalOrLegacyPage({
             <p>
               Dù vậy, các bài theo tuổi vẫn chỉ là tổng quan. Lá số cá nhân cần ngày sinh và giờ sinh để xác định Mệnh Cung, Thân Cung, Cục và vị trí sao. Bói Toán không giả lập sao/cung khi chưa có đủ dữ liệu ngày giờ sinh.
             </p>
+            <p className="rounded-2xl border border-gold/20 bg-gold/10 p-4 text-sm leading-7 text-gold-light">
+              {animalHub.methodNote}
+            </p>
           </div>
         </section>
 

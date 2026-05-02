@@ -38,6 +38,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('text=Tài lộc và kế hoạch tiền bạc')).toBeVisible()
     await expect(page.locator('text=Tình duyên, gia đạo')).toBeVisible()
     await expect(page.locator('text=Sức khỏe, tinh thần')).toBeVisible()
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
     await expect(page.locator('text=Nội dung đang được cập nhật')).toHaveCount(0)
   })
@@ -59,6 +60,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toContainText('Tử vi tuổi Tý năm 2026')
     await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nam-mang"]')).toBeVisible()
     await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nu-mang"]')).toBeVisible()
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
   })
 

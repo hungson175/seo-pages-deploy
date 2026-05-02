@@ -105,6 +105,13 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })
 
+  test('unapproved star×cung page remains gated', async ({ page }) => {
+    const response = await page.goto('/sao/tu-vi/cung/menh/')
+
+    expect(response?.status()).toBe(404)
+    await expect(page.locator('body')).not.toContainText('Sao Tử Vi Ở Cung Mệnh')
+  })
+
   test('que page renders', async ({ page }) => {
     await page.goto('/que/1-kien-vi-thien')
     

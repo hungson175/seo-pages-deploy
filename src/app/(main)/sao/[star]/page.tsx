@@ -6,6 +6,7 @@ import {
   getStarFoundationPage,
   isPriorityStarSlug,
 } from '@/content/stars'
+import { getApprovedStarPalaceLinksForStar } from '@/content/star-palace'
 import {
   ArticleSchema,
   BreadcrumbListSchema,
@@ -56,6 +57,7 @@ export default async function StarPage({
   }
 
   const pageUrl = `${BASE_URL}${page.urlPath}`
+  const internalLinks = [...page.internalLinks, ...getApprovedStarPalaceLinksForStar(star)]
   const breadcrumbItems = [
     { name: 'Trang chủ', url: `${BASE_URL}/` },
     { name: 'Tử vi', url: `${BASE_URL}/tu-vi/` },
@@ -171,7 +173,7 @@ export default async function StarPage({
         <section className="mv-card mt-10">
           <h2 className="mv-section-title">Liên kết nội bộ nên đọc tiếp</h2>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {page.internalLinks.map((link) => (
+            {internalLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

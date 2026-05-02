@@ -4,7 +4,7 @@
 
 import type { Metadata } from 'next'
 
-export type PageType = 'forecast' | 'star' | 'palace' | 'que' | 'tool' | 'hub' | 'form' | 'error'
+export type PageType = 'forecast' | 'star' | 'star-palace' | 'palace' | 'que' | 'tool' | 'hub' | 'form' | 'error'
 
 interface PageMetaInput {
   title: string
@@ -26,6 +26,7 @@ function getRobots(pageType?: PageType): Metadata['robots'] {
     case 'forecast':
     case 'star':
     case 'palace':
+    case 'star-palace':
     case 'que':
     case 'tool':
     case 'hub':

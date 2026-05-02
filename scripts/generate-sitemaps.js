@@ -136,6 +136,10 @@ const palaceUrls = palaceSlugs.map((slug) => ({
   priority: '0.74',
 }))
 
+// Phase 0 mechanism for future approved star×cung pages. Keep empty until
+// Bói-Toán + CMO + SEO explicitly approve specific combinations.
+const starPalaceUrls = []
+
 const publicDir = path.join(__dirname, '..', 'public')
 fs.mkdirSync(publicDir, { recursive: true })
 
@@ -144,6 +148,7 @@ fs.writeFileSync(path.join(publicDir, 'stars.xml'), buildSitemap(starUrls))
 fs.writeFileSync(path.join(publicDir, 'gieoque.xml'), buildSitemap(gieoqueUrls))
 fs.writeFileSync(path.join(publicDir, 'tools.xml'), buildSitemap(toolsUrls))
 fs.writeFileSync(path.join(publicDir, 'palaces.xml'), buildSitemap(palaceUrls))
+fs.writeFileSync(path.join(publicDir, 'star-palace.xml'), buildSitemap(starPalaceUrls))
 fs.writeFileSync(
   path.join(publicDir, 'sitemap-index.xml'),
   buildSitemapIndex([
@@ -151,6 +156,7 @@ fs.writeFileSync(
     { loc: `${base}/tuvi.xml`, lastmod },
     { loc: `${base}/stars.xml`, lastmod },
     { loc: `${base}/palaces.xml`, lastmod },
+    ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod }] : []),
     { loc: `${base}/gieoque.xml`, lastmod },
     { loc: `${base}/tools.xml`, lastmod },
   ])

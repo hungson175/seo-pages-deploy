@@ -32,6 +32,16 @@ describe('buildMetadata — robots directive', () => {
     expect(meta.robots).toEqual({ index: true, follow: true })
   })
 
+  it('indexes approved star×cung pages', () => {
+    const meta = buildMetadata({
+      title: 'Test',
+      description: 'Test desc',
+      path: '/sao/tu-vi/cung/menh/',
+      pageType: 'star-palace',
+    })
+    expect(meta.robots).toEqual({ index: true, follow: true })
+  })
+
   it('indexes que pages', () => {
     const meta = buildMetadata({
       title: 'Test',

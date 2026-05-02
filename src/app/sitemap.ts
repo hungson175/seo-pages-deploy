@@ -3,6 +3,7 @@ import { PRIORITY_STAR_SLUGS } from '@/content/stars'
 import { PALACE_SLUGS } from '@/content/palaces'
 import { SEO_FORECAST_SEEDS, getForecastCanonicalPath } from '@/content/seo-forecasts'
 import { ANIMAL_HUB_SLUGS } from '@/content/animal-hubs'
+import { getApprovedStarPalacePages } from '@/content/star-palace'
 
 export const dynamic = 'force-static'
 
@@ -44,5 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.74,
   }))
 
-  return [...staticPages, ...animalHubPages, ...forecastPages, ...saoPages, ...palacePages]
+  const starPalacePages: MetadataRoute.Sitemap = getApprovedStarPalacePages().map((page) => ({
+    url: `${base}${page.urlPath}`,
+    lastModified: lastmod,
+    changeFrequency: 'monthly' as const,
+    priority: 0.68,
+  }))
+
+  return [...staticPages, ...animalHubPages, ...forecastPages, ...saoPages, ...palacePages, ...starPalacePages]
 }

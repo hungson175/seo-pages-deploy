@@ -34,6 +34,12 @@ export interface StarPalaceExample {
   better: string
 }
 
+export interface StarPalaceInternalLink {
+  href: string
+  label: string
+  relation: string
+}
+
 export interface StarPalaceTemplateSection {
   heading: string
   writingBrief: string
@@ -80,6 +86,8 @@ export interface StarPalaceDraftPage extends StarPalaceCombinationKey {
   contrastNotes: string[]
   summaryRows: StarPalaceSummaryRow[]
   wrongVsBetterExamples: StarPalaceExample[]
+  faqs: Array<{ question: string; answer: string }>
+  internalLinks: StarPalaceInternalLink[]
   qualityGate: string[]
   sections: StarPalaceTemplateSection[]
 }
@@ -104,8 +112,14 @@ export const CMO_FIRST_BATCH_STAR_PALACE_COMBINATIONS = [
 // Bói-Toán, CMO, and SEO review. This prevents accidental pSEO thin pages.
 export const APPROVED_STAR_PALACE_COMBINATIONS: readonly StarPalaceCombinationKey[] = []
 
+export function getApprovedStarPalaceCombinations(): readonly StarPalaceCombinationKey[] {
+  return APPROVED_STAR_PALACE_COMBINATIONS
+}
+
 const STAR_PALACE_DISCLAIMER =
   '* Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Bói Toán là nội dung giải trí và thuật toán tham khảo theo văn hóa Tử Vi; không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.'
+
+export const MIN_STAR_PALACE_WORDS = 1500
 
 function comboKey(star: PriorityStarSlug, palace: PalaceSlug): string {
   return `${star}:${palace}`
@@ -305,7 +319,7 @@ const FIRST_BATCH_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
     ],
     sections: [
       { key: 'core-interpretation', content: ['Thái Dương ở Quan Lộc đưa biểu tượng ánh sáng vào mảng nghề nghiệp. Điều đáng đọc không phải là hào quang, mà là trách nhiệm công khai: người này làm việc có minh bạch không, có dám đứng ra nhận phần mình không, và có biết giữ sức khi vai trò đại diện trở nên dày đặc.', 'So với trang Thái Dương chung, tổ hợp này cụ thể hơn ở nghề và tiêu chuẩn làm việc. So với trang Quan Lộc chung, nó cho biết phong cách nghề nghiêng về sự rõ ràng, cống hiến và hiện diện trước người khác.'] },
-      { key: 'strengths', content: ['Khi đọc thuận, đây là tổ hợp tốt cho việc cần sự tin cậy, truyền đạt và trách nhiệm. Người học có thể dùng nó như lời nhắc chọn môi trường minh bạch, có phản hồi công bằng và có mục tiêu phục vụ rõ ràng.'] },
+      { key: 'strengths', content: ['Khi đọc thuận, đây là tổ hợp tốt cho việc cần sự tin cậy, truyền đạt và trách nhiệm. Người học có thể dùng nó như lời nhắc chọn môi trường minh bạch, có phản hồi công bằng và có mục tiêu phục vụ rõ ràng.', 'Giá trị tốt nhất của tổ hợp không nằm ở danh xưng, mà ở khả năng biến sự hiện diện thành chuẩn mực phục vụ: nói rõ điều mình làm được, nhận phản hồi đúng lúc và giữ lời hứa trong phạm vi thực tế.'] },
       { key: 'balancing-risks', content: ['Điểm cần cân bằng là danh dự. Nếu người xem quá cần được công nhận, mỗi hiểu lầm nghề nghiệp đều có thể thành áp lực tinh thần. Bài đọc nên khuyên đặt tiêu chuẩn giao tiếp, phân vai và lịch nghỉ, thay vì thúc người đó phải tỏa sáng mọi lúc.'] },
       { key: 'tam-phuong-tu-chinh', content: ['Quan Lộc tam hợp với Tài Bạch và Mệnh, nên ánh sáng nghề phải có năng lực cá nhân và nguồn lực đi kèm. Cung Phu Thê đối chiếu nhắc rằng công việc công khai có thể ảnh hưởng đời sống thân cận; nếu quan hệ riêng luôn bị lịch nghề chiếm chỗ, cần điều chỉnh.'] },
       { key: 'self-check', content: ['Câu hỏi tự kiểm chứng nên xoay quanh sự công nhận, trách nhiệm và nhịp hiện diện. Nếu người đọc chỉ thấy mình cần được nhìn nhận mà không thấy tiêu chuẩn phục vụ cụ thể, Thái Dương dễ thành áp lực hình ảnh.'] },
@@ -454,6 +468,44 @@ export function isApprovedStarPalaceCombination(star: string, palace: string): b
   )
 }
 
+export function getStarPalaceRenderedText(page: StarPalaceDraftPage): string {
+  return [
+    page.h1,
+    page.title,
+    page.description,
+    page.methodNote,
+    page.intersectionThesis,
+    page.misreadWarning,
+    ...page.contextChecklist,
+    ...page.selfCheckQuestions,
+    ...page.contrastNotes,
+    ...page.summaryRows.flatMap((row) => [row.aspect, row.meaning, row.readingCue]),
+    ...page.wrongVsBetterExamples.flatMap((example) => [example.wrong, example.better]),
+    ...page.faqs.flatMap((faq) => [faq.question, faq.answer]),
+    ...page.internalLinks.flatMap((link) => [link.label, link.relation, link.href]),
+    ...page.sections.flatMap((section) => [
+      section.heading,
+      section.writingBrief,
+      ...section.requiredLinks,
+      ...(section.content ?? []),
+    ]),
+  ].join(' ')
+}
+
+export function getStarPalaceWordCount(page: StarPalaceDraftPage): number {
+  return getStarPalaceRenderedText(page).trim().split(/\s+/).filter(Boolean).length
+}
+
+export function isStarPalaceReadyForIndex(page: StarPalaceDraftPage): boolean {
+  return (
+    getStarPalaceWordCount(page) >= MIN_STAR_PALACE_WORDS &&
+    page.summaryRows.length >= 5 &&
+    page.faqs.length >= 5 &&
+    page.internalLinks.length >= 4 &&
+    page.sections.every((section) => (section.content?.length ?? 0) > 0)
+  )
+}
+
 function buildGenericDraftProfile(starName: string, palaceName: string): StarPalaceDraftProfile {
   return {
     intersectionThesis: `${starName} đem sắc thái riêng của chính tinh; cung ${palaceName} là mảng đời sống cần đọc; câu hỏi hữu ích là sắc thái sao này biểu hiện qua chủ đề cung như thế nào trong khung tham khảo.`,
@@ -500,6 +552,50 @@ function sectionContent(profile: StarPalaceDraftProfile, key: StarPalaceDraftPro
   return profile.sections.find((section) => section.key === key)?.content ?? []
 }
 
+function buildStarPalaceFaqs(
+  starName: string,
+  palaceName: string,
+  starUrl: string,
+  palaceUrl: string
+): Array<{ question: string; answer: string }> {
+  return [
+    {
+      question: `Sao ${starName} ở cung ${palaceName} có ý nghĩa gì?`,
+      answer: `Đây là cách đọc tham khảo về việc sao ${starName} biểu hiện qua chủ đề cung ${palaceName}. Ý nghĩa cụ thể còn phụ thuộc Mệnh Cung, Thân Cung, tam phương tứ chính, Tứ Hóa và bối cảnh thực tế.`,
+    },
+    {
+      question: `Có thể kết luận tốt xấu chỉ từ sao ${starName} ở cung ${palaceName} không?`,
+      answer: 'Không. Một tổ hợp sao×cung riêng lẻ không đủ để kết luận. Cần đọc toàn cục lá số và dùng nội dung như tham khảo, không phải lời tiên đoán.',
+    },
+    {
+      question: `Muốn biết mình có sao ${starName} ở cung ${palaceName} cần gì?`,
+      answer: 'Cần lập lá số theo ngày sinh, giờ sinh, giới tính, lịch âm/dương chính xác để xác định Mệnh Cung, Thân Cung, Cục và vị trí sao trong đủ 12 cung.',
+    },
+    {
+      question: `Cần đọc thêm cung/sao nào?`,
+      answer: `Nên đọc thêm trang sao ${starName} (${starUrl}), trang cung ${palaceName} (${palaceUrl}), cung xung chiếu, tam hợp của cung và các sao đồng cung/hội chiếu.`,
+    },
+    {
+      question: 'Trang này có thay thế tư vấn chuyên môn không?',
+      answer: 'Không. Nội dung chỉ mang tính tham khảo văn hóa và không thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.',
+    },
+  ]
+}
+
+function buildStarPalaceInternalLinks(
+  starName: string,
+  palaceName: string,
+  starUrl: string,
+  palaceUrl: string
+): StarPalaceInternalLink[] {
+  return [
+    { href: starUrl, label: `Sao ${starName}`, relation: 'Nền tảng về chính tinh' },
+    { href: palaceUrl, label: `Cung ${palaceName}`, relation: 'Nền tảng về cung vị' },
+    { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Thư viện Tử Vi' },
+    { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
+  ]
+}
+
 export function getStarPalaceDraftPage(
   star: string,
   palace: string
@@ -541,6 +637,8 @@ export function getStarPalaceDraftPage(
     contrastNotes: profile.contrastNotes,
     summaryRows: profile.summaryRows,
     wrongVsBetterExamples: profile.wrongVsBetterExamples,
+    faqs: buildStarPalaceFaqs(starName, palaceName, starPage.urlPath, palacePage.urlPath),
+    internalLinks: buildStarPalaceInternalLinks(starName, palaceName, starPage.urlPath, palacePage.urlPath),
     qualityGate: [
       '1,500+ words of unique, non-template educational content',
       'Bói-Toán domain review for star meaning in this palace',
@@ -609,6 +707,7 @@ export function getStarPalacePage(star: string, palace: string): StarPalacePage 
 
   const draft = getStarPalaceDraftPage(star, palace)
   if (!draft) return null
+  if (!isStarPalaceReadyForIndex(draft)) return null
 
   return {
     ...draft,
@@ -621,6 +720,36 @@ export function getStarPalaceTemplateMatrix(): StarPalaceDraftPage[] {
   return PRIORITY_STAR_SLUGS.flatMap((star) =>
     PALACE_SLUGS.map((palace) => getStarPalaceDraftPage(star, palace))
   ).filter((page): page is StarPalaceDraftPage => Boolean(page))
+}
+
+export function getApprovedStarPalacePages(): StarPalacePage[] {
+  return APPROVED_STAR_PALACE_COMBINATIONS.map((combo) =>
+    getStarPalacePage(combo.star, combo.palace)
+  ).filter((page): page is StarPalacePage => Boolean(page))
+}
+
+export function getApprovedStarPalaceLinksForStar(star: string): StarPalaceInternalLink[] {
+  if (!isPriorityStarSlug(star)) return []
+
+  return getApprovedStarPalacePages()
+    .filter((page) => page.star === star)
+    .map((page) => ({
+      href: page.urlPath,
+      label: page.h1.replace(' — Ý Nghĩa, Cách Đọc Và Lưu Ý', ''),
+      relation: 'Tổ hợp sao×cung đã duyệt',
+    }))
+}
+
+export function getApprovedStarPalaceLinksForPalace(palace: string): StarPalaceInternalLink[] {
+  if (!isPalaceSlug(palace)) return []
+
+  return getApprovedStarPalacePages()
+    .filter((page) => page.palace === palace)
+    .map((page) => ({
+      href: page.urlPath,
+      label: page.h1.replace(' — Ý Nghĩa, Cách Đọc Và Lưu Ý', ''),
+      relation: 'Tổ hợp sao×cung đã duyệt',
+    }))
 }
 
 export function getFirstBatchStarPalaceDrafts(): StarPalaceDraftPage[] {

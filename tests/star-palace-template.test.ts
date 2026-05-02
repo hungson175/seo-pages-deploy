@@ -1,15 +1,25 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
 import { PALACE_SLUGS } from '../src/content/palaces'
 import { PRIORITY_STAR_SLUGS } from '../src/content/stars'
 import {
   APPROVED_STAR_PALACE_COMBINATIONS,
   CMO_FIRST_BATCH_STAR_PALACE_COMBINATIONS,
+  MIN_STAR_PALACE_WORDS,
   buildStarPalacePath,
+  getApprovedStarPalaceLinksForPalace,
+  getApprovedStarPalaceLinksForStar,
+  getApprovedStarPalacePages,
   getFirstBatchStarPalaceDrafts,
   getStarPalaceDraftPage,
   getStarPalacePage,
   getStarPalaceTemplateMatrix,
+  getStarPalaceWordCount,
+  isStarPalaceReadyForIndex,
 } from '../src/content/star-palace'
+import rootSitemap from '../src/app/sitemap'
+import starPalaceSitemap from '../src/app/sitemap-star-palace'
+import { generateStaticParams } from '../src/app/(main)/sao/[star]/cung/[palace]/page'
 
 function draftText(page: NonNullable<ReturnType<typeof getStarPalaceDraftPage>>): string {
   return [
@@ -24,6 +34,8 @@ function draftText(page: NonNullable<ReturnType<typeof getStarPalaceDraftPage>>)
     ...page.contrastNotes,
     ...page.summaryRows.flatMap((row) => [row.aspect, row.meaning, row.readingCue]),
     ...page.wrongVsBetterExamples.flatMap((example) => [example.wrong, example.better]),
+    ...page.faqs.flatMap((faq) => [faq.question, faq.answer]),
+    ...page.internalLinks.flatMap((link) => [link.label, link.relation, link.href]),
     ...page.sections.flatMap((section) => [
       section.heading,
       section.writingBrief,
@@ -44,6 +56,8 @@ describe('star×cung expansion template', () => {
 
   it('does not publish or index star×cung pages until approved', () => {
     expect(APPROVED_STAR_PALACE_COMBINATIONS).toHaveLength(0)
+    expect(getApprovedStarPalacePages()).toHaveLength(0)
+    expect(generateStaticParams()).toHaveLength(0)
     expect(getStarPalacePage('tu-vi', 'menh')).toBeNull()
     expect(getStarPalacePage('thai-duong', 'quan-loc')).toBeNull()
   })
@@ -131,6 +145,48 @@ describe('star×cung expansion template', () => {
     expect(getStarPalaceDraftPage('thai-am', 'phuc-duc')?.sensitiveTopicFlags).toContain(
       'wellbeing'
     )
+  })
+
+  it('has rendered word-count verification before index approval', () => {
+    for (const draft of getFirstBatchStarPalaceDrafts()) {
+      const wordCount = getStarPalaceWordCount(draft)
+
+      expect(wordCount, `${draft.star}×${draft.palace} draft should meet SEO depth`).toBeGreaterThanOrEqual(MIN_STAR_PALACE_WORDS)
+      expect(isStarPalaceReadyForIndex(draft)).toBe(true)
+    }
+  })
+
+  it('keeps star×cung sitemap entries closed while approvals are empty', () => {
+    const rootUrls = rootSitemap().map((entry) => entry.url)
+    const comboPattern = /\/sao\/[^/]+\/cung\/[^/]+\//
+
+    expect(starPalaceSitemap()).toHaveLength(0)
+    expect(rootUrls.some((url) => comboPattern.test(url))).toBe(false)
+  })
+
+  it('does not add combo links to star or palace pages before approval', () => {
+    expect(getApprovedStarPalaceLinksForStar('tu-vi')).toEqual([])
+    expect(getApprovedStarPalaceLinksForStar('thai-duong')).toEqual([])
+    expect(getApprovedStarPalaceLinksForPalace('menh')).toEqual([])
+    expect(getApprovedStarPalaceLinksForPalace('quan-loc')).toEqual([])
+  })
+
+  it('has Phase 0 route/schema/linking infrastructure in code', () => {
+    const routeSource = readFileSync(
+      'src/app/(main)/sao/[star]/cung/[palace]/page.tsx',
+      'utf8'
+    )
+    const starSource = readFileSync('src/app/(main)/sao/[star]/page.tsx', 'utf8')
+    const palaceSource = readFileSync('src/app/(main)/cung/[palace]/page.tsx', 'utf8')
+
+    expect(routeSource).toContain('dynamicParams = false')
+    expect(routeSource).toContain('ArticleSchema')
+    expect(routeSource).toContain('FAQPageSchema')
+    expect(routeSource).toContain('BreadcrumbListSchema')
+    expect(routeSource).toContain("'@type': 'WebPage'")
+    expect(routeSource).toContain('getApprovedStarPalacePages')
+    expect(starSource).toContain('getApprovedStarPalaceLinksForStar')
+    expect(palaceSource).toContain('getApprovedStarPalaceLinksForPalace')
   })
 
   it('rejects legacy stars and invalid public terminology', () => {

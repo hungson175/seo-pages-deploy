@@ -82,9 +82,10 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
-  test('legacy non-priority star page is not indexable', async ({ page }) => {
-    const response = await page.goto('/sao/thien-phu/')
-    expect(response?.status()).toBe(404)
+  test('legacy non-priority star page redirects to preserve equity', async ({ page }) => {
+    await page.goto('/sao/thien-phu/')
+    await expect(page).toHaveURL(/\/tu-vi\/?$/)
+    await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })
 
   test('que page renders', async ({ page }) => {

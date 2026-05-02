@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
 import {
   PALACE_FOUNDATION_PAGES,
   PALACE_SLUGS,
@@ -112,6 +113,13 @@ describe('12 cung foundation pages', () => {
     expect(text).not.toContain('cung Mệnh có vai trò riêng nhưng luôn liên hệ với Mệnh Cung')
     expect(text).not.toContain('cung Mệnh liên hệ với Mệnh Cung')
     expect(text).toContain('cung Mệnh là trục gốc của toàn lá số')
+  })
+
+  it('keeps exactly one reflectiveQuestions field per palace profile', () => {
+    const source = readFileSync('src/content/palaces.ts', 'utf8')
+    const reflectiveQuestionKeys = source.match(/\breflectiveQuestions:\s*\[/g) ?? []
+
+    expect(reflectiveQuestionKeys).toHaveLength(PALACE_SLUGS.length)
   })
 
 

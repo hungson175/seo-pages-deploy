@@ -3,11 +3,35 @@ import { PALACE_SLUGS } from '../src/content/palaces'
 import { PRIORITY_STAR_SLUGS } from '../src/content/stars'
 import {
   APPROVED_STAR_PALACE_COMBINATIONS,
+  CMO_FIRST_BATCH_STAR_PALACE_COMBINATIONS,
   buildStarPalacePath,
+  getFirstBatchStarPalaceDrafts,
   getStarPalaceDraftPage,
   getStarPalacePage,
   getStarPalaceTemplateMatrix,
 } from '../src/content/star-palace'
+
+function draftText(page: NonNullable<ReturnType<typeof getStarPalaceDraftPage>>): string {
+  return [
+    page.h1,
+    page.title,
+    page.description,
+    page.methodNote,
+    page.intersectionThesis,
+    page.misreadWarning,
+    ...page.contextChecklist,
+    ...page.selfCheckQuestions,
+    ...page.contrastNotes,
+    ...page.summaryRows.flatMap((row) => [row.aspect, row.meaning, row.readingCue]),
+    ...page.wrongVsBetterExamples.flatMap((example) => [example.wrong, example.better]),
+    ...page.sections.flatMap((section) => [
+      section.heading,
+      section.writingBrief,
+      ...section.requiredLinks,
+      ...(section.content ?? []),
+    ]),
+  ].join(' ')
+}
 
 describe('star×cung expansion template', () => {
   it('prepares a full draft matrix for reviewed priority stars and 12 palaces', () => {
@@ -28,7 +52,7 @@ describe('star×cung expansion template', () => {
     const draft = getStarPalaceDraftPage('tu-vi', 'menh')
 
     expect(draft).not.toBeNull()
-    expect(draft?.h1).toBe('Sao Tử Vi Ở Cung Mệnh — Ý Nghĩa Và Cách Đọc')
+    expect(draft?.h1).toBe('Sao Tử Vi Ở Cung Mệnh — Ý Nghĩa, Cách Đọc Và Lưu Ý')
     expect(draft?.urlPath).toBe('/sao/tu-vi/cung/menh/')
     expect(draft?.canonicalWhenApproved).toBe('/sao/tu-vi/cung/menh/')
     expect(draft?.qualityGate.join(' ')).toContain('Bói-Toán domain review')
@@ -37,6 +61,76 @@ describe('star×cung expansion template', () => {
     expect(draft?.methodNote).toContain('Tam Hợp Phái')
     expect(draft?.methodNote).toContain('không suy diễn từ một sao hoặc một cung riêng lẻ')
     expect(draft?.sections.length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('implements CMO first-batch drafts with intersection-specific fields', () => {
+    const firstBatch = getFirstBatchStarPalaceDrafts()
+
+    expect(firstBatch).toHaveLength(CMO_FIRST_BATCH_STAR_PALACE_COMBINATIONS.length)
+
+    for (const draft of firstBatch) {
+      const starName = draft.h1.match(/^Sao (.+?) Ở Cung/)?.[1]
+      const palaceName = draft.h1.match(/Ở Cung (.+?) —/)?.[1]
+      const sectionContentCount = draft.sections.flatMap((section) => section.content ?? []).length
+
+      expect(draft.indexable).toBe(false)
+      expect(draft.intersectionThesis).toContain(starName)
+      expect(draft.intersectionThesis).toContain(palaceName)
+      expect(draft.misreadWarning.length).toBeGreaterThan(80)
+      expect(draft.contextChecklist.length).toBeGreaterThanOrEqual(6)
+      expect(draft.selfCheckQuestions.length).toBeGreaterThanOrEqual(3)
+      expect(draft.contrastNotes.length).toBeGreaterThanOrEqual(2)
+      expect(draft.summaryRows.map((row) => row.aspect)).toEqual([
+        'Từ khóa chính',
+        'Khi đọc thuận',
+        'Khi cần cân bằng',
+        'Không nên hiểu là',
+        'Cần kiểm tra thêm',
+      ])
+      expect(draft.wrongVsBetterExamples.length).toBeGreaterThanOrEqual(2)
+      expect(sectionContentCount, `${draft.star}×${draft.palace} content sections`).toBeGreaterThanOrEqual(7)
+    }
+  })
+
+  it('keeps first-batch copy compliant and specific', () => {
+    const forbiddenPatterns = [
+      /đúng 100%/i,
+      /dự đoán chính xác/i,
+      /chắc chắn giàu/i,
+      /phát tài/i,
+      /giải hạn/i,
+      /chữa bệnh/i,
+      /sống lâu/i,
+      /ít bệnh/i,
+      /khỏi bệnh/i,
+      /miễn phí/i,
+      /mở khóa ngay/i,
+    ]
+
+    for (const draft of getFirstBatchStarPalaceDrafts()) {
+      const text = draftText(draft)
+
+      for (const pattern of forbiddenPatterns) {
+        expect(text, `${draft.star}×${draft.palace} should avoid ${pattern}`).not.toMatch(pattern)
+      }
+
+      expect(text).toContain('không phải lá số cá nhân')
+      expect(text).toContain('Tam Hợp Phái')
+      expect(text).toContain('không phải lời tiên đoán')
+      expect(text).toContain('không suy diễn từ một sao hoặc một cung riêng lẻ')
+    }
+  })
+
+  it('flags sensitive first-batch topics for extra compliance review', () => {
+    expect(getStarPalaceDraftPage('vu-khuc', 'tai-bach')?.sensitiveTopicFlags).toContain(
+      'resource-management'
+    )
+    expect(getStarPalaceDraftPage('thien-luong', 'tat-ach')?.sensitiveTopicFlags).toContain(
+      'wellbeing'
+    )
+    expect(getStarPalaceDraftPage('thai-am', 'phuc-duc')?.sensitiveTopicFlags).toContain(
+      'wellbeing'
+    )
   })
 
   it('rejects legacy stars and invalid public terminology', () => {

@@ -28,16 +28,16 @@ test.describe('Sprint 2 - Core Pages', () => {
   test('new static forecast page renders with real content', async ({ page }) => {
     await page.goto('/tu-vi/tuoi-ty-1984-nam')
     
-    await expect(page).toHaveTitle(/Tử vi tuổi Tý 1984 nam mạng năm 2026/)
+    await expect(page).toHaveTitle(/Tử vi tuổi Giáp Tý 1984 nam mạng năm 2026/)
     
     const h1 = page.locator('h1')
     await expect(h1).toBeVisible()
-    await expect(h1).toContainText('Xem tử vi tuổi Tý 1984 nam mạng năm 2026')
+    await expect(h1).toContainText('Tử vi tuổi Giáp Tý 1984 nam mạng năm 2026')
     
-    await expect(page.locator('text=Công danh và sự nghiệp')).toBeVisible()
-    await expect(page.locator('text=Tài lộc và tiền bạc')).toBeVisible()
-    await expect(page.locator('text=Tình duyên và gia đạo')).toBeVisible()
-    await expect(page.locator('text=Sức khỏe và tinh thần')).toBeVisible()
+    await expect(page.locator('text=Công danh và sự nghiệp tuổi Giáp Tý')).toBeVisible()
+    await expect(page.locator('text=Tài lộc và kế hoạch tiền bạc')).toBeVisible()
+    await expect(page.locator('text=Tình duyên, gia đạo')).toBeVisible()
+    await expect(page.locator('text=Sức khỏe, tinh thần')).toBeVisible()
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
     await expect(page.locator('text=Nội dung đang được cập nhật')).toHaveCount(0)
   })
@@ -45,8 +45,8 @@ test.describe('Sprint 2 - Core Pages', () => {
   test('second static forecast page renders with real content', async ({ page }) => {
     await page.goto('/tu-vi/tuoi-dan-1986-nu')
     
-    await expect(page).toHaveTitle(/Tử vi tuổi Dần 1986 nữ mạng năm 2026/)
-    await expect(page.locator('h1')).toContainText('tuổi Dần 1986 nữ mạng')
+    await expect(page).toHaveTitle(/Tử vi tuổi Bính Dần 1986 nữ mạng năm 2026/)
+    await expect(page.locator('h1')).toContainText('tuổi Bính Dần 1986 nữ mạng')
     await expect(page.locator('main')).toContainText('Lư Trung Hỏa')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
   })

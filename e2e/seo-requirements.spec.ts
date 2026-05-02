@@ -21,7 +21,7 @@ test.describe('Sprint 2 - SEO Requirements', () => {
   test('forecast pages have proper meta tags', async ({ page }) => {
     await page.goto('/tu-vi/tuoi-ty-1984-nam')
     
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /công danh/i)
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /công việc/i)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.vn/tu-vi/tuoi-ty-1984-nam/')
   })
 

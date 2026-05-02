@@ -63,29 +63,35 @@ export default async function TuViForecastPage({
         items={[
           { name: 'Trang chủ', url: `${BASE_URL}/` },
           { name: 'Tử vi 2026', url: `${BASE_URL}/tu-vi/` },
-          { name: `Tuổi ${page.animal} ${page.year} ${page.genderLabel}`, url: pageUrl },
+          { name: `Tuổi ${page.canChi} ${page.year} ${page.genderLabel}`, url: pageUrl },
         ]}
       />
 
       <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <Link href="/tu-vi/" className="text-sm font-semibold text-gold-light hover:text-gold">
-          ← Tử vi 2026
+          ← Quay lại hub Tử vi 2026
         </Link>
 
         <header className="mt-6 rounded-3xl border border-gold/30 bg-white/[0.04] p-6 md:p-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">{page.canChi} • {page.element}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">
+            {page.canChi} • Nạp âm {page.element}
+          </p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gold-light sm:text-4xl lg:text-5xl">
             {page.h1}
           </h1>
-          <p className="mt-5 text-lg leading-8 text-white/75">{page.description}</p>
+          <div className="mt-5 space-y-4 text-lg leading-8 text-white/75">
+            {page.intro.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl bg-navy/70 p-4">
               <p className="text-xs uppercase tracking-wide text-white/45">Con giáp</p>
               <p className="mt-1 font-bold text-white">Tuổi {page.animal}</p>
             </div>
             <div className="rounded-2xl bg-navy/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-white/45">Năm sinh</p>
-              <p className="mt-1 font-bold text-white">{page.year}</p>
+              <p className="text-xs uppercase tracking-wide text-white/45">Can chi</p>
+              <p className="mt-1 font-bold text-white">{page.canChi}</p>
             </div>
             <div className="rounded-2xl bg-navy/70 p-4">
               <p className="text-xs uppercase tracking-wide text-white/45">Giới tính</p>
@@ -93,6 +99,37 @@ export default async function TuViForecastPage({
             </div>
           </div>
         </header>
+
+        <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
+          <h2 className="text-2xl font-bold text-gold-light">Bảng nhanh các phương diện chính trong năm 2026</h2>
+          <div className="mt-5 overflow-x-auto">
+            <table className="w-full min-w-[680px] border-collapse text-left text-sm leading-6">
+              <thead>
+                <tr className="border-b border-white/15 text-gold-light">
+                  <th className="py-3 pr-4 font-semibold">Phương diện</th>
+                  <th className="px-4 py-3 font-semibold">Xu hướng tham khảo</th>
+                  <th className="py-3 pl-4 font-semibold">Gợi ý hành động</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/10 text-white/75">
+                {page.summaryRows.map((row) => (
+                  <tr key={row.aspect}>
+                    <th className="py-4 pr-4 align-top font-semibold text-white">{row.aspect}</th>
+                    <td className="px-4 py-4 align-top">{row.trend}</td>
+                    <td className="py-4 pl-4 align-top">{row.action}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-6 rounded-2xl border border-gold/25 bg-gold/10 p-4 text-sm leading-7 text-gold-light">
+            Bài này mới xem theo tuổi và giới tính. Muốn đọc theo ngày giờ sinh của riêng bạn, hãy xem trang{' '}
+            <Link href="/lap-la-so/" className="font-bold underline underline-offset-4 hover:text-white">
+              lập lá số Tử Vi online
+            </Link>{' '}
+            để hiểu thông tin cần chuẩn bị trước khi đọc lá số cá nhân.
+          </div>
+        </section>
 
         <div className="mt-8 space-y-8">
           {page.sections.map((section) => (
@@ -106,6 +143,29 @@ export default async function TuViForecastPage({
             </section>
           ))}
         </div>
+
+        <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
+          <h2 className="text-2xl font-bold text-white">Trang liên quan nên đọc tiếp</h2>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/tu-vi/"
+              className="rounded-2xl border border-gold/25 bg-gold/10 p-4 text-gold-light transition hover:border-gold hover:bg-gold/15"
+            >
+              <p className="text-sm font-semibold">Hub chính</p>
+              <p className="mt-1 font-bold">Tử vi 2026 theo năm sinh</p>
+            </Link>
+            {page.relatedLinks.map((link) => (
+              <Link
+                key={link.slug}
+                href={`/tu-vi/${link.slug}/`}
+                className="rounded-2xl border border-white/10 bg-navy/70 p-4 transition hover:border-gold/60 hover:bg-gold/10"
+              >
+                <p className="text-sm font-semibold text-gold-light">{link.relation}</p>
+                <p className="mt-1 font-bold text-white">{link.label}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
           <h2 className="text-2xl font-bold text-white">Câu hỏi thường gặp</h2>
@@ -122,7 +182,7 @@ export default async function TuViForecastPage({
         </section>
 
         <p className="mt-10 rounded-2xl border border-gold/30 bg-gold/10 p-5 text-sm leading-7 text-gold-light">
-          * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.
+          * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Bói Toán là nội dung giải trí và thuật toán tham khảo theo văn hóa Tử Vi; không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.
         </p>
       </article>
     </main>

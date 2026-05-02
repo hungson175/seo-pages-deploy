@@ -65,6 +65,13 @@ Key references: `~/data/sbrain/CLAUDE.md`, `~/data/sbrain/wiki/RESOLVER.md`, `~/
 
 Future SEO Pages release gates, launch status, and blockers should update the canonical SBrain team/product/blocker pages (`teams/seo-pages-team`, `products/boi-toan`, `blockers/seo-pages-release-gate`) before handoff.
 
+## Report Transport Protocol
+
+For reports, specs, scripts, copy packs, or reviews longer than ~1500 chars:
+1. Write full artifact to `/tmp/{slug}_{YYYYMMDDHHMM}.txt`
+2. `tm-send` only a short pointer: file path + 3-5 bullet summary + SBrain page/commit + requested decision
+3. Durable company truth still goes to SBrain; `/tmp` is transport only
+
 
 ## Commit & Pull Request Guidelines
 

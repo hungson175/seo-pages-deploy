@@ -17,14 +17,14 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
+  title: 'Bói Toán - Đọc Tử Vi 2026, Lá Số Và Kinh Dịch',
   description:
-    'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí. Tham khảo vận mệnh, sự nghiệp, tình duyên theo phương pháp cổ truyền Việt Nam.',
+    'Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.',
   metadataBase: new URL('https://boitoan.vn'),
   openGraph: {
-    title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
+    title: 'Bói Toán - Đọc Tử Vi 2026, Lá Số Và Kinh Dịch',
     description:
-      'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
+      'Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.',
     url: 'https://boitoan.vn',
     siteName: 'Bói Toán',
     locale: 'vi_VN',
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
+    title: 'Bói Toán - Đọc Tử Vi 2026, Lá Số Và Kinh Dịch',
     description:
-      'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
+      'Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.',
   },
   robots: {
     index: true,

@@ -224,6 +224,13 @@ body {
     border-color: var(--vermillion-2);
   }
 
+  .mv-button-primary:focus-visible,
+  .mv-button-secondary:focus-visible {
+    outline: 2px solid var(--gold-3);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(201, 169, 97, 0.24);
+  }
+
   .mv-button-secondary {
     color: var(--indigo);
     border: 1px solid var(--rule);

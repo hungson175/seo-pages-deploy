@@ -1,4 +1,4 @@
-/** Real Kinh Dịch quẻ content for /que/* SEO pages. */
+/** Reviewed Kinh Dịch quẻ content for /que/* SEO pages. */
 
 export interface QueContent {
   name: string
@@ -12,57 +12,57 @@ export interface QueContent {
 
 export const QUE_CONTENT: Record<string, QueContent> = {
   '1-kien-vi-thien': {
-    name: 'Kiển Vi Thiên',
+    name: 'Càn Vi Thiên',
     slug: '1-kien-vi-thien',
-    meaning: `Quẻ Kiển (乾) là quẻ thuần Dương, biểu tượng cho Trời. Đây là quẻ đầu tiên trong Kinh Dịch, đại diện cho sự sáng tạo, năng lượng tích cực và sự mạnh mẽ. Quẻ Kiển tượng trưng cho nguyên khí ban đầu của vũ trụ, là nguồn gốc của mọi sự sống và vận động.`,
-    judgment: `Quẻ Kiển cho thấy thời điểm thuận lợi để hành động. Mọi việc đều có thể thành công nếu bạn có ý chí kiên định và hành động đúng đắn. Đây là quẻ của sự khởi đầu tốt đẹp, của năng lượng dồi dào và sự tự tin. Tuy nhiên, cũng cần cẩn thận vì sức mạnh quá lớn có thể dẫn đến kiêu ngạo.`,
-    application: `Trong công việc: Đây là thời điểm tốt để khởi nghiệp, bắt đầu dự án mới hoặc thăng tiến trong sự nghiệp.\n\nTrong tình cảm: Nên chủ động thể hiện tình cảm, nhưng cũng cần tôn trọng đối phương.\n\nTrong tài chính: Có thể đầu tư mạo hiểm nhưng cần có kế hoạch rõ ràng.\n\nTrong sức khỏe: Năng lượng dồi dào, nhưng cần chú ý không làm việc quá sức.`,
-    advice: `Hãy tận dụng năng lượng tích cực của quẻ Kiển để hành động. Nhưng nhớ rằng sức mạnh thật sự đến từ sự khiêm tốn và biết lắng nghe. Đừng để thành công làm bạn kiêu ngạo.`,
-    changingLines: `Hào Sơ Cửu: Long ẩn tại điền, bất khả dụng. (Rồng ẩn trong ruộng, chưa nên dùng) - Chưa phải thời điểm hành động.\n\nHào Cửu Nhị: Long hiện tại điền, lợi kiến đại nhân. (Rồng xuất hiện trên ruộng, nên gặp người lớn) - Bắt đầu có cơ hội.\n\nHào Cửu Tam: Quân tử chung nhật càn càn, tịch dịch nhược, lệ, vô cữu. (Quân tử ngày đêm siêng năng, lo lắng nhưng không có lỗi) - Cần siêng năng và cẩn thận.\n\nHào Cửu Tứ: Hoặc dược tại uyên, vô cữu. (Có thể nhảy vào vực sâu, không có lỗi) - Có thể mạo hiểm.\n\nHào Cửu Ngũ: Long phi tại thiên, lợi kiến đại nhân. (Rồng bay trên trời, nên gặp người lớn) - Thời điểm đỉnh cao.\n\nHào Thượng Cửu: Khang long, hữu họ. (Rồng bay quá cao, có điều hối tiếc) - Không nên quá tự mãn.`
+    meaning: `Quẻ Càn (乾) là tượng Trời, biểu thị sức khởi phát, sự chủ động và ý chí tiến lên. Khi đọc theo tinh thần Kinh Dịch, Càn không phải lời hứa rằng mọi việc sẽ như ý, mà là lời nhắc về cách dùng sức mạnh đúng lúc, đúng mức và có trách nhiệm.`,
+    judgment: `Tinh thần chính của quẻ Càn là tiến nhưng không kiêu. Người hỏi có thể đang ở giai đoạn cần đứng ra dẫn dắt, mở đầu một việc mới hoặc tự chịu trách nhiệm nhiều hơn. Điểm cần giữ là kỷ luật, sự khiêm nhường và khả năng lắng nghe người có kinh nghiệm trước khi quyết định.`,
+    application: `Trong công việc: phù hợp để sắp xếp lại mục tiêu, nhận vai trò rõ hơn hoặc bắt đầu một dự án đã chuẩn bị kỹ.\n\nTrong quan hệ: nên chủ động đối thoại, nhưng không biến sự chủ động thành áp đặt.\n\nTrong quản trị nguồn lực: ưu tiên kế hoạch có mốc kiểm tra, tránh dùng cảm hứng nhất thời làm thay dữ liệu.\n\nTrong nhịp sống: sức tiến cần đi cùng nghỉ ngơi, nếu không dễ chuyển thành căng thẳng kéo dài.`,
+    advice: `Hãy dùng tinh thần Càn để hành động có trật tự. Việc nào đã đủ dữ kiện thì tiến; việc nào còn mơ hồ thì hỏi thêm, thử nhỏ và ghi lại kết quả. Sức mạnh bền nhất là sức mạnh biết tự kiểm soát.`,
+    changingLines: `Sơ Cửu nhắc về giai đoạn còn ẩn: chưa cần phô trương, nên chuẩn bị nền.\n\nCửu Nhị nhắc về lúc năng lực bắt đầu hiện ra: nên gặp người đáng tin để nhận phản biện.\n\nCửu Tam nhấn mạnh sự chuyên cần: có áp lực nhưng không nên bỏ nhịp.\n\nCửu Tứ nói về bước thử: có thể tiến, nhưng cần biên an toàn.\n\nCửu Ngũ là vị trí sáng nhất: càng ở cao càng cần khiêm.\n\nThượng Cửu cảnh báo quá đà: nếu đi quá xa khỏi thực tế, kết quả dễ sinh hối tiếc.`
   },
   '2-khon-vi-dia': {
     name: 'Khôn Vi Địa',
     slug: '2-khon-vi-dia',
-    meaning: `Quẻ Khôn (坤) là quẻ thuần Âm, biểu tượng cho Đất. Đây là quẻ thứ hai trong Kinh Dịch, đại diện cho sự nhu thuận, bao dung và khả năng chịu đựng. Quẻ Khôn tượng trưng cho sự nuôi dưỡng, đỡ đần và hỗ trợ.`,
-    judgment: `Quẻ Khôn cho thấy thời điểm nên thuận theo tự nhiên, không nên cưỡng cầu. Mọi việc sẽ thành công nếu bạn biết nhu thuận, kiên nhẫn và chờ đợi thời cơ. Đây là quẻ của sự khiêm tốn, của lòng bao dung và sự nhẫn nại.`,
-    application: `Trong công việc: Nên hỗ trợ người khác, làm việc nhóm tốt hơn là làm một mình.\n\nTrong tình cảm: Nên thể hiện sự quan tâm, chăm sóc đối phương.\n\nTrong tài chính: Nên tiết kiệm, tích lũy hơn là đầu tư mạo hiểm.\n\nTrong sức khỏe: Cần nghỉ ngơi, bồi bổ, không nên làm việc quá sức.`,
-    advice: `Hãy học cách nhu thuận và bao dung như đất. Sức mạnh thật sự đôi khi đến từ sự kiên nhẫn và khả năng chịu đựng, không phải từ sự cưỡng cầu.`,
-    changingLines: `Hào Sơ Lục: Tức sương, toanh băng chí. (Dẫm lên sương, băng giá đến) - Bắt đầu có dấu hiệu khó khăn.\n\nHào Lục Nhị: Trực, phương, đại, bất tập, vô bất lợi. (Thẳng, vuông, lớn, không học cũng không hại) - Giữ bản chất tốt đẹp.\n\nHào Lục Tam: Hàm chương, khả trinh. Hoặc tòng vương sự, vô thành hữu chung. (Có tài đức, có thể giữ vững. Hoặc theo việc vua, không thành có kết quả) - Cần kiên trì.\n\nHào Lục Tứ: Quát, nang, vô cữu, vô dự. (Đóng kín túi, không có lỗi, không được khen) - Nên giữ im lặng.\n\nHào Lục Ngũ: Hoàng thường, nguyên, cát. (Áo vàng, rất tốt) - Sắp có may mắn lớn.\n\nHào Thượng Lục: Long chiến vu dã, kỳ huyết huyền hoàng. (Rồng chiến ở đồng, máu đen vàng) - Có thể có xung đột lớn.`
+    meaning: `Quẻ Khôn (坤) là tượng Đất, biểu thị sự nâng đỡ, bao dung và khả năng làm nền. Nếu Càn là lực mở đường, Khôn là năng lực tiếp nhận, nuôi dưỡng và giữ cho mọi việc có chỗ đứng vững.`,
+    judgment: `Tinh thần chính của quẻ Khôn là thuận nhưng không yếu. Người hỏi nên quan sát bối cảnh, phối hợp với người khác và đi theo nhịp bền thay vì cưỡng ép kết quả. Quẻ này hợp với việc củng cố nền tảng, sửa quy trình và chăm lại các cam kết đang có.`,
+    application: `Trong công việc: nên hỗ trợ nhóm, ghi rõ phần việc và tránh ôm quá nhiều vai trò âm thầm.\n\nTrong quan hệ: sự mềm mại có giá trị, nhưng vẫn cần ranh giới và tiếng nói rõ.\n\nTrong quản trị nguồn lực: ưu tiên tích lũy đều, giảm việc phát sinh và giữ khoảng dự phòng cho giai đoạn dài.\n\nTrong nhịp sống: chú ý sự đều đặn; việc nhỏ lặp lại đúng cách sẽ tạo nền tốt hơn hành động bốc đồng.`,
+    advice: `Hãy học cách làm nền mà không tự xóa mình. Khôn nhắc rằng sự bền bỉ, kiên nhẫn và khả năng nâng đỡ là sức mạnh thật, miễn là bạn không biến bao dung thành chịu đựng vô hạn.`,
+    changingLines: `Sơ Lục nhắc rằng dấu hiệu nhỏ có thể báo trước xu hướng lớn: nên xử lý sớm.\n\nLục Nhị nói về sự thẳng, vuông, lớn: giữ nguyên tắc cơ bản.\n\nLục Tam khuyên làm việc có đầu có cuối, không tranh công.\n\nLục Tứ nhắc biết giữ lời và giữ khoảng cách khi cần.\n\nLục Ngũ là hình ảnh trung hòa: khiêm tốn nhưng có phẩm chất.\n\nThượng Lục cảnh báo khi nhu thuận bị dồn nén quá lâu, xung đột có thể bộc phát.`
   },
   '3-ton-vi-loi': {
-    name: 'Trùn Vi Lôi',
+    name: 'Truân Vi Lôi',
     slug: '3-ton-vi-loi',
-    meaning: `Quẻ Trùn (屯) là quẻ khó khăn ban đầu, biểu tượng cho sự khởi đầu đầy thử thách. Đây là quẻ của những người mới bắt đầu, đang đối mặt với nhiều khó khăn nhưng có tiềm năng phát triển.`,
-    judgment: `Quẻ Trùn cho thấy thời điểm khó khăn ban đầu, nhưng không nên bỏ cuộc. Mọi sự khởi đầu đều khó khăn, nhưng nếu kiên trì và có chiến lược đúng đắn, sẽ vượt qua được. Đây là quẻ của sự kiên nhẫn và sự chuẩn bị kỹ lưỡng.`,
-    application: `Trong công việc: Khởi nghiệp gặp khó khăn, cần kiên trì và chuẩn bị kỹ.\n\nTrong tình cảm: Mối quan hệ mới cần thời gian để phát triển, không nên vội vàng.\n\nTrong tài chính: Đầu tư ban đầu có thể gặp khó khăn, cần kiên nhẫn.\n\nTrong sức khỏe: Cần chú ý sức khỏe, không nên làm việc quá sức.`,
-    advice: `Đừng nản lòng trước khó khăn ban đầu. Mọi sự khởi đầu đều khó khăn. Hãy kiên trì, chuẩn bị kỹ lưỡng và chờ đợi thời cơ chín muồi.`,
-    changingLines: `Hào Sửu Cửu: Bàn hoàn, lợi kiện, lợi kiến hầu. (Vướng víu, nên kiên trì, nên gặp chư hầu) - Cần kiên nhẫn.\n\nHào Lục Nhị: Trùn như đàn như, mãn như, thừa mã ban như. (Khó khăn như xe, ngựa quay lại) - Gặp trở ngại.\n\nHào Lục Tam: Lữc tử bôi vô chính, dĩ hạu khắc đại. (Săn hươu không có chủ dẫn, nên đợi) - Chưa nên hành động.\n\nHào Lục Tứ: Trùn kỳ cao, khứ tức, lai tức. (Xe ngựa đi rồi lại về) - Có thể quay lại.\n\nHào Cửu Ngũ: Trùn kỳ cao, nguyên hênh, trinh, đại lợi. (Xe ngựa, nguyên hênh, tốt, rất lợi) - Sắp thành công.\n\nHào Thượng Lục: Trùn kỳ cao, huyết liên như, khả phúc như. (Xe ngựa máu, nhưng có thể phúc) - Có khó khăn nhưng sẽ vượt qua.`
+    meaning: `Quẻ Truân (屯) nói về khó khăn ban đầu: mầm cây mới nhú, lực sống đã có nhưng đường đi còn rối. Đây là quẻ rất hợp để đọc khi một việc vừa bắt đầu, dữ kiện chưa đủ và tâm lý dễ nôn nóng.`,
+    judgment: `Tinh thần chính của quẻ Truân là khởi đầu cần trật tự. Không nên bỏ cuộc chỉ vì bước đầu vướng, nhưng cũng không nên lao nhanh khi chưa có người hỗ trợ, kế hoạch thử nhỏ và cách đo tiến triển.`,
+    application: `Trong công việc: nên chia việc lớn thành giai đoạn nhỏ, xác định người phụ trách và điểm kiểm tra.\n\nTrong quan hệ: mối liên hệ mới cần thời gian, đừng ép người khác phải hiểu mình ngay.\n\nTrong quản trị nguồn lực: ưu tiên an toàn, ghi chép rõ và tránh dàn trải quá nhiều hướng cùng lúc.\n\nTrong nhịp sống: giữ lịch sinh hoạt ổn định để tâm trí không bị cuốn theo cảm giác rối ban đầu.`,
+    advice: `Truân không khuyên dừng lại; quẻ khuyên đi chậm và có người đồng hành. Hãy chọn một việc cốt lõi, làm rõ bước tiếp theo, rồi kiểm tra sau một chu kỳ ngắn thay vì cố giải mọi thứ trong một lần.`,
+    changingLines: `Sơ Cửu nhắc về sự vướng ban đầu: nên kiên trì và tìm người chỉ dẫn.\n\nLục Nhị mô tả trạng thái quanh co: chưa cần kết luận vội.\n\nLục Tam cảnh báo đi vào chỗ lạ mà không có người dẫn.\n\nLục Tứ nói về việc quay lại điều chỉnh là bình thường.\n\nCửu Ngũ nhắc rằng khi trục chính rõ, tiến triển sẽ ổn hơn.\n\nThượng Lục cho thấy nếu để rối quá lâu, tâm lý dễ mệt; cần giảm tải và sắp xếp lại.`
   },
   '4-mong-vi-thuy': {
     name: 'Mông Vi Thủy',
     slug: '4-mong-vi-thuy',
-    meaning: `Quẻ Mông (蒙) là quẻ mông muội, biểu tượng cho sự non nớt và cần học hỏi. Đây là quẻ của những người đang trong giai đoạn đầu của sự học tập, cần được dẫn dắt và chỉ bảo.`,
-    judgment: `Quẻ Mông cho thấy bạn đang trong giai đoạn học hỏi, cần tìm kiếm sự hướng dẫn từ người có kinh nghiệm. Đây là thời điểm tốt để học tập, nghiên cứu và xây dựng nền tảng kiến thức. Đừng ngại hỏi, đừng sợ sai.`,
-    application: `Trong công việc: Nên học hỏi từ đồng nghiệp cấp trên, không nên tự làm theo ý mình.\n\nTrong tình cảm: Cần học cách yêu thương và chia sẻ, đừng quá non nớt.\n\nTrong tài chính: Nên học hỏi về quản lý tài chính trước khi đầu tư.\n\nTrong sức khỏe: Cần học cách chăm sóc bản thân, xây dựng thói quen tốt.`,
-    advice: `Hãy khiêm tốn học hỏi. Tìm kiếm người thầy hoặc người có kinh nghiệm để hướng dẫn. Đừng ngại thừa nhận sự non nớt của mình, vì đó là bước đầu của sự trưởng thành.`,
-    changingLines: `Hào Sơ Lục: Phát mông, lợi dụng hình nhân, dụng thuyết cổ trời, vãng linh. (Khai mông, nên dùng hình nhân, dùng lời nói, đi) - Cần giáo dục.\n\nHào Cửu Nhị: Bao mông, cát. Nạp phụ, cát. Tử khắc gia. (Bao bọc mông, tốt. Nạp phụ, tốt. Con cái khắc gia) - Cần che chở.\n\nHào Lục Tam: Vô dục, diệu nữ kiến kim phu, bất tự li. (Không nên cưới gái, thấy chồng, không tự lợi) - Không nên vội vàng.\n\nHào Lục Tứ: Khốn mông, lệnh. (Mông khốn, xấu hổ) - Cần cố gắng hơn.\n\nHào Lục Ngũ: Đồng mông, cát. (Mông đồng, tốt) - Học tập cùng nhau tốt.\n\nHào Thượng Cửu: Kích mông, bất lợi vi khắc, lợi ngự khắc. (Đánh mông, không lợi làm kẻ thù, lợi làm kẻ cướp) - Cần cách giáo dục phù hợp.`
+    meaning: `Quẻ Mông (蒙) nói về giai đoạn chưa sáng: người hỏi có thể thiếu thông tin, thiếu kinh nghiệm hoặc đang nhìn vấn đề bằng cảm xúc nhiều hơn cấu trúc. Mông không phải lời chê, mà là lời nhắc cần học đúng cách.`,
+    judgment: `Tinh thần chính của quẻ Mông là khiêm tốn học hỏi. Việc quan trọng lúc này không phải chứng minh mình đúng, mà là đặt câu hỏi đúng, tìm người có kinh nghiệm và xây nền hiểu biết trước khi đi sâu.`,
+    application: `Trong công việc: nên học quy trình, hỏi lại tiêu chuẩn và tránh tự xử lý việc vượt quá hiểu biết hiện tại.\n\nTrong quan hệ: cần nói rõ điều mình chưa hiểu, đừng đoán ý rồi tự buồn.\n\nTrong quản trị nguồn lực: trước khi cam kết lớn, hãy đọc kỹ điều kiện, hỏi lại người hiểu việc và giữ phương án dự phòng.\n\nTrong nhịp sống: nên xây thói quen nhỏ, đều, dễ giữ; không cần thay đổi toàn bộ một lúc.`,
+    advice: `Hãy xem sự chưa biết là điểm khởi đầu, không phải lỗi. Mông khuyên bạn tìm thầy, tìm tài liệu tốt, hỏi lại cho rõ và kiên nhẫn với quá trình trưởng thành của chính mình.`,
+    changingLines: `Sơ Lục nhắc mở đầu bằng kỷ luật học tập.\n\nCửu Nhị nói về sự bao dung với người mới học.\n\nLục Tam cảnh báo bị hấp dẫn bởi điều bên ngoài mà quên nền tảng.\n\nLục Tứ cho thấy càng đóng kín càng dễ lúng túng.\n\nLục Ngũ là sự trong sáng của người biết học.\n\nThượng Cửu nhắc rằng sửa sai cần đúng cách, không dùng áp lực để thay cho hiểu biết.`
   },
   '5-tung-vi-thuy': {
-    name: 'Tống Vi Thủy',
+    name: 'Tụng Vi Thủy',
     slug: '5-tung-vi-thuy',
-    meaning: `Quẻ Tống (讼) là quẻ tranh tụng, biểu tượng cho sự tranh cãi và kiện tụng. Đây là quẻ của những xung đột, bất đồng và sự cần thiết phải giải quyết thông qua luật pháp hoặc trọng tài.`,
-    judgment: `Quẻ Tống cho thấy có sự tranh chấp, bất đồng đang diễn ra. Đây không phải là thời điểm tốt để hành động một cách độc lập. Nên tìm cách hòa giải, tránh đưa ra tòa án nếu có thể. Nếu buộc phải tranh tụng, cần chuẩn bị kỹ lưỡng và có bằng chứng rõ ràng.`,
-    application: `Trong công việc: Có thể có tranh chấp với đồng nghiệp hoặc đối tác, cần hòa giải.\n\nTrong tình cảm: Có thể có bất đồng, cần giao tiếp cởi mở.\n\nTrong tài chính: Có thể có tranh chấp về tiền bạc, cần giữ chứng từ.\n\nTrong sức khỏe: Căng thẳng có thể ảnh hưởng đến sức khỏe, cần thư giãn.`,
-    advice: `Tránh tranh cãi nếu có thể. Hòa giải luôn tốt hơn kiện tụng. Nếu buộc phải tranh tụng, hãy chuẩn bị kỹ lưỡng và giữ bình tĩnh.`,
-    changingLines: `Hào Sơ Lục: Bất vĩnh sở sự, tiểu hữu ngôn, chung cát. (Không làm việc lâu, có chút nói, cuối tốt) - Tranh cãi nhỏ.\n\nHào Cửu Nhị: Bất khắc tụng, quy nhi bốn, kỳ ấp nhân tam bách hộ, vô xuyến. (Không thắng kiện, về thành, ấp 300 hộ, không sao) - Nên rút lui.\n\nHào Lục Tam: Ẩm cực chi đức, hoặc tòng vương sự, vô thành. (Ăn cũ, theo việc vua, không thành) - Không nên tranh.\n\nHào Cửu Tứ: Bất khắc tụng, phục tức mệnh, an trinh, cát. (Không thắng kiện, theo mệnh, yên, tốt) - Nên chấp nhận.\n\nHào Cửu Ngũ: Tống, nguyên cát. (Kiện, rất tốt) - Có thể thắng kiện.\n\nHào Thượng Cửu: Hoặc tích chi bì dai, chung triêu tam thực chi. (Hoặc được da, cuối cùng ba lần bị bắt) - Có thể thắng nhưng không vui.`
+    meaning: `Quẻ Tụng (讼) nói về bất đồng, tranh luận và cảm giác mỗi bên đều có lý. Trong ứng dụng hiện đại, quẻ này nên được đọc như lời nhắc về quản trị xung đột: làm rõ dữ kiện, giữ lời nói có chứng cứ và ưu tiên hòa giải khi còn có thể.`,
+    judgment: `Tinh thần chính của quẻ Tụng là không thắng bằng nóng giận. Nếu đang có mâu thuẫn, người hỏi cần tách cảm xúc khỏi dữ kiện, ghi lại thỏa thuận, hỏi người trung lập khi cần và tránh đẩy sự việc lên mức không thể quay lại.`,
+    application: `Trong công việc: nên làm rõ phạm vi trách nhiệm, lịch trao đổi và tiêu chí hoàn thành.\n\nTrong quan hệ: bất đồng cần được nói thẳng nhưng mềm, không dùng im lặng hoặc công kích để giành phần hơn.\n\nTrong quản trị nguồn lực: mọi cam kết nên có ghi chép rõ để giảm hiểu lầm về sau.\n\nTrong nhịp sống: căng thẳng kéo dài dễ làm quyết định kém sáng; nên tạm dừng trước khi phản hồi việc nhạy cảm.`,
+    advice: `Tụng khuyên giảm nhu cầu thắng đúng lúc. Trước khi tranh luận, hãy hỏi: điều mình cần bảo vệ là nguyên tắc, cảm xúc hay sĩ diện? Nếu mục tiêu là giữ việc và giữ người, hòa giải có cấu trúc thường tốt hơn đối đầu kéo dài.`,
+    changingLines: `Sơ Lục nhắc tranh luận nhỏ nên kết thúc sớm.\n\nCửu Nhị khuyên biết lùi để giữ tổng thể.\n\nLục Tam nói về việc dựa vào nền cũ và giữ điều đúng.\n\nCửu Tứ nhắc quay lại nguyên tắc, đừng để lời nói vượt quá sự việc.\n\nCửu Ngũ là khi có người công tâm giúp nhìn lại vấn đề.\n\nThượng Cửu cảnh báo thắng phần lời nhưng mất sự yên ổn thì không đáng.`
   },
   '6-tung-vi-thien': {
-    name: 'Tống Vi Thiên',
+    name: 'Thiên Thủy Tụng',
     slug: '6-tung-vi-thien',
-    meaning: `Quẻ Tống Vi Thiên (Thiên Thủy Tống) là quẻ tranh tụng có sự can thiệp của bề trên. Biểu tượng cho sự tranh chấp cần được giải quyết thông qua thẩm quyền cao hơn hoặc luật pháp.`,
-    judgment: `Quẻ này cho thấy tranh chấp đã leo thang đến mức cần sự can thiệp. Đây là lúc cần tìm đến công lý, luật pháp hoặc người có thẩm quyền để phân xử. Tuy nhiên, cũng cần cân nhắc xem việc tranh tụng có đáng hay không.`,
-    application: `Trong công việc: Có thể cần đưa ra tòa án hoặc trọng tài để giải quyết tranh chấp.\n\nTrong tình cảm: Có thể cần sự can thiệp của gia đình hoặc bạn bè để hòa giải.\n\nTrong tài chính: Cần giữ chứng từ, hợp đồng rõ ràng để bảo vệ quyền lợi.`,
-    advice: `Đôi khi cần đấu tranh cho công lý. Nhưng cũng cần cân nhắc xem chi phí (thời gian, tiền bạc, cảm xúc) có đáng hay không. Hãy chọn trận chiến đáng đấu.`,
-    changingLines: `Các hào biến cho thấy các mức độ khác nhau của tranh tụng, từ tranh chấp nhỏ đến kiện tụng lớn. Mỗi hào đều khuyên nên cân nhắc kỹ trước khi hành động.`
+    meaning: `Thiên Thủy Tụng vẫn thuộc tinh thần bất đồng, nhưng mức độ đã rõ hơn: bên trên có lực cứng, bên dưới có dòng nước khó nắm. Quẻ này thường nhắc người hỏi về sự lệch nhịp giữa nguyên tắc, cảm xúc và cách truyền đạt.`,
+    judgment: `Tinh thần chính của quẻ là cần người công tâm, quy trình rõ và giới hạn trao đổi. Khi mâu thuẫn đã tích tụ, tự nói thêm chưa chắc giúp tốt hơn; điều cần là khung đối thoại, dữ kiện chung và một điểm dừng để tránh hao tổn.`,
+    application: `Trong công việc: nên đưa vấn đề về văn bản ngắn, rõ việc, rõ thời hạn, rõ phần chịu trách nhiệm.\n\nTrong quan hệ: cần tránh lôi chuyện cũ vào chuyện mới; hãy thống nhất một chủ đề mỗi lần nói.\n\nTrong quản trị nguồn lực: khi nhiều bên cùng liên quan, cần minh bạch kỳ vọng và giới hạn ngay từ đầu.\n\nTrong nhịp sống: nếu tâm trí đã căng, hãy nghỉ một nhịp trước khi gửi thông điệp quan trọng.`,
+    advice: `Quẻ này không khuyến khích đối đầu bằng mọi giá. Nó khuyên người hỏi giữ phẩm chất trong lúc bất đồng: nói đúng phần mình biết, thừa nhận phần chưa rõ, và chọn cách giải quyết giúp tương lai bớt lặp lại lỗi cũ.`,
+    changingLines: `Các hào của Tụng nhắc rằng bất đồng có nhiều tầng: có việc chỉ cần nói lại, có việc cần lùi, có việc cần người công tâm giúp soi. Điểm chung là không để nhu cầu hơn thua làm mờ mục tiêu ban đầu.`
   }
 }

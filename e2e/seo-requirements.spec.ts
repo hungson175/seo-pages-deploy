@@ -18,6 +18,14 @@ test.describe('Sprint 2 - SEO Requirements', () => {
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.vn/tu-vi/')
   })
 
+  test('home metadata avoids unsupported product promises', async ({ page }) => {
+    await page.goto('/')
+
+    const description = page.locator('meta[name="description"]')
+    await expect(description).toHaveAttribute('content', /tham khảo/)
+    await expect(description).not.toHaveAttribute('content', /trọn đời|miễn phí|vận mệnh/i)
+  })
+
   test('forecast pages have proper meta tags', async ({ page }) => {
     await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     

@@ -12,7 +12,7 @@ export default function HomePage() {
         <p className="mv-kicker">Bói Toán • Tử Vi Đẩu Số</p>
         <h1 className="mv-h1-large mt-4">Bói Toán</h1>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-ink-soft">
-          Xem tử vi trọn đời, lập lá số tử vi và đọc quẻ Kinh Dịch theo tinh thần tham khảo, rõ nguồn và không hù dọa.
+          Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a href="/tu-vi/" className="mv-button-primary">

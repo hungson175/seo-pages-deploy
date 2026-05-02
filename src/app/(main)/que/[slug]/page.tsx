@@ -94,7 +94,7 @@ export default async function QuePage({
           {
             question: 'Có nên dùng quẻ để quyết định thay chuyên gia không?',
             answer:
-              'Không nên. Luận quẻ chỉ mang tính tham khảo văn hóa và tinh thần, không thay thế tư vấn pháp lý, y tế, tài chính hoặc quyết định chuyên môn.',
+              'Không nên. Luận quẻ chỉ mang tính tham khảo văn hóa và tinh thần, không thay thế tư vấn chuyên môn hoặc quyết định quan trọng.',
           },
         ]}
       />
@@ -106,13 +106,13 @@ export default async function QuePage({
           <h1 className="mv-h1">{h1}</h1>
           <p className="mt-5 text-lg leading-8 text-ink-soft">
             Luận giải quẻ {content.name} theo tinh thần Kinh Dịch: xem tượng quẻ,
-            lời đoán, ứng dụng trong công việc, tình cảm, tài chính, sức khỏe và cách hành động
-            khôn ngoan.
+            tinh thần chính, ứng dụng trong công việc, quan hệ, quản trị nguồn lực, nhịp sống và cách hành động
+            thận trọng.
           </p>
         </header>
 
         <Section heading="Ý Nghĩa Quẻ">{content.meaning}</Section>
-        <Section heading="Lời Đoán Và Tinh Thần Chính">{content.judgment}</Section>
+        <Section heading="Tinh Thần Chính Của Quẻ">{content.judgment}</Section>
         <Section heading="Ứng Dụng Trong Đời Sống">{content.application}</Section>
         <Section heading="Lời Khuyên Cho Người Hỏi">{content.advice}</Section>
         <Section heading="Các Hào Biến Cần Chú Ý">{content.changingLines}</Section>
@@ -137,7 +137,7 @@ export default async function QuePage({
         </section>
 
         <p className="mv-disclaimer mt-10">
-          * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán hay căn cứ để thay thế quyết định chuyên môn.
+          * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán hay căn cứ để thay thế tư vấn chuyên môn.
         </p>
       </article>
     </main>

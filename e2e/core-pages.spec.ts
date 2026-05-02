@@ -12,7 +12,9 @@ test.describe('Sprint 2 - Core Pages', () => {
     
     await expect(page.locator('a[href="/lap-la-so/"]')).toBeVisible()
     await expect(page.locator('a[href="/tu-vi/"]')).toBeVisible()
-    await expect(page.locator('text=Xem tử vi trọn đời')).toBeVisible()
+    await expect(page.locator('text=Đọc Tử Vi 2026')).toBeVisible()
+    await expect(page.locator('main')).not.toContainText('trọn đời')
+    await expect(page.locator('main')).not.toContainText('miễn phí')
   })
 
   test('/tu-vi hub renders static SEO content', async ({ page }) => {
@@ -96,6 +98,8 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(h1).toContainText('Quẻ')
     await expect(page.locator('main')).toBeVisible()
     await expect(page.locator('text=tham khảo')).toBeVisible()
+    await expect(page.locator('main')).not.toContainText('lời đoán')
+    await expect(page.locator('main')).not.toContainText('đầu tư mạo hiểm')
   })
 
   test('lap-la-so page renders as static landing content', async ({ page }) => {

@@ -91,6 +91,13 @@ const gieoqueUrls = routes.queSlugs.map((slug) => ({
   priority: '0.7',
 }))
 
+const starUrls = routes.stars.map((slug) => ({
+  loc: `${base}/sao/${slug}/`,
+  lastmod,
+  changefreq: 'monthly',
+  priority: '0.75',
+}))
+
 const toolsUrls = routes.toolSlugs.map((slug) => ({
   loc: `${base}/${slug}/`,
   lastmod,
@@ -102,6 +109,7 @@ const publicDir = path.join(__dirname, '..', 'public')
 fs.mkdirSync(publicDir, { recursive: true })
 
 fs.writeFileSync(path.join(publicDir, 'tuvi.xml'), buildSitemap(tuviUrls))
+fs.writeFileSync(path.join(publicDir, 'stars.xml'), buildSitemap(starUrls))
 fs.writeFileSync(path.join(publicDir, 'gieoque.xml'), buildSitemap(gieoqueUrls))
 fs.writeFileSync(path.join(publicDir, 'tools.xml'), buildSitemap(toolsUrls))
 fs.writeFileSync(
@@ -109,6 +117,7 @@ fs.writeFileSync(
   buildSitemapIndex([
     { loc: `${base}/sitemap.xml`, lastmod },
     { loc: `${base}/tuvi.xml`, lastmod },
+    { loc: `${base}/stars.xml`, lastmod },
     { loc: `${base}/gieoque.xml`, lastmod },
     { loc: `${base}/tools.xml`, lastmod },
   ])

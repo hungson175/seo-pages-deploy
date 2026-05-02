@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: [
       'https://boitoan.vn/sitemap.xml',
       'https://boitoan.vn/sitemap-index.xml',
+      'https://boitoan.vn/stars.xml',
     ],
   }
 }

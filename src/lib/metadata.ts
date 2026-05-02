@@ -79,6 +79,9 @@ export function buildMetadata({
     },
     alternates: {
       canonical: fullUrl,
+      languages: {
+        vi: fullUrl,
+      },
     },
   }
 }

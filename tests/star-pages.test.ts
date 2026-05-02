@@ -1,0 +1,89 @@
+import { describe, expect, it } from 'vitest'
+import {
+  PRIORITY_STAR_SLUGS,
+  getStarFoundationPage,
+} from '../src/content/stars'
+
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length
+}
+
+function pageText(page: NonNullable<ReturnType<typeof getStarFoundationPage>>): string {
+  return [
+    page.h1,
+    page.title,
+    page.description,
+    page.methodNote,
+    ...page.intro,
+    ...page.summaryRows.flatMap((row) => [row.aspect, row.meaning, row.readingCue]),
+    ...page.sections.flatMap((section) => [section.heading, ...section.content]),
+    ...page.faqs.flatMap((faq) => [faq.question, faq.answer]),
+    ...page.internalLinks.flatMap((link) => [link.label, link.relation]),
+    page.disclaimer,
+  ].join(' ')
+}
+
+describe('priority star foundation pages', () => {
+  it('ships the six requested P1 star pages', () => {
+    expect(PRIORITY_STAR_SLUGS).toEqual([
+      'tu-vi',
+      'thai-duong',
+      'thai-am',
+      'thien-co',
+      'vu-khuc',
+      'thien-luong',
+    ])
+  })
+
+  it('generates complete 1,500+ word pages with SEO fields', () => {
+    for (const slug of PRIORITY_STAR_SLUGS) {
+      const page = getStarFoundationPage(slug)
+      expect(page, `${slug} page`).not.toBeNull()
+      expect(page?.urlPath).toBe(`/sao/${slug}/`)
+      expect(page?.h1).toContain('Sao')
+      expect(page?.description.length).toBeGreaterThan(90)
+      expect(page?.summaryRows.length).toBeGreaterThanOrEqual(5)
+      expect(page?.sections.length).toBeGreaterThanOrEqual(7)
+      expect(page?.faqs.length).toBeGreaterThanOrEqual(5)
+      expect(page?.internalLinks.length).toBeGreaterThanOrEqual(6)
+      expect(wordCount(pageText(page!)), `${slug} word count`).toBeGreaterThanOrEqual(1500)
+    }
+  })
+
+  it('keeps visible method citation and Article 320 framing', () => {
+    for (const slug of PRIORITY_STAR_SLUGS) {
+      const text = pageText(getStarFoundationPage(slug)!)
+      expect(text).toContain('Tam Hợp Phái')
+      expect(text).toContain('紫微斗数全书')
+      expect(text).toContain('giải trí')
+      expect(text).toContain('thuật toán tham khảo')
+      expect(text).toContain('không dùng bài viết này để thay thế tư vấn y tế')
+      expect(text).toContain('không phải lời tiên đoán')
+    }
+  })
+
+  it('avoids deterministic, medical, and financial-promise wording', () => {
+    const forbiddenPatterns = [
+      /chắc chắn/i,
+      /dự đoán chính xác/i,
+      /cực kỳ tốt/i,
+      /giàu sang/i,
+      /phát tài/i,
+      /tài chính dồi dào/i,
+      /sống lâu/i,
+      /khỏi bệnh/i,
+      /bệnh tật/i,
+      /tim mạch/i,
+      /huyết áp/i,
+      /\bgan\b/i,
+      /dạ dày/i,
+    ]
+
+    for (const slug of PRIORITY_STAR_SLUGS) {
+      const text = pageText(getStarFoundationPage(slug)!)
+      for (const pattern of forbiddenPatterns) {
+        expect(text, `${slug} should avoid ${pattern}`).not.toMatch(pattern)
+      }
+    }
+  })
+})

@@ -164,10 +164,10 @@ export default async function TuViAnimalOrLegacyPage({
         <section className="mt-8 rounded-3xl border border-gold/30 bg-gold/10 p-6 text-center">
           <h2 className="text-2xl font-bold text-gold-light">Muốn đọc sâu hơn tuổi {animalHub.animal}?</h2>
           <p className="mx-auto mt-3 max-w-2xl leading-7 text-white/75">
-            Hãy lập lá số cá nhân hóa theo ngày giờ sinh để xem Mệnh Cung, Thân Cung và các insight đầu tiên thay vì chỉ đọc bản tổng quan theo tuổi.
+            Hãy xem cách lập lá số theo ngày giờ sinh để hiểu vì sao Mệnh Cung, Thân Cung, Cục và vị trí sao không thể suy ra chỉ từ năm sinh.
           </p>
           <Link href="/lap-la-so/" className="mt-5 inline-flex rounded-lg bg-gold px-6 py-3 font-bold text-navy transition hover:bg-gold-light">
-            Lập lá số Tử Vi miễn phí
+            Tìm hiểu cách lập lá số Tử Vi
           </Link>
         </section>
 

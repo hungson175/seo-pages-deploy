@@ -216,15 +216,15 @@ export default async function TuViForecastPage({
         </section>
 
         <section className="mt-10 rounded-3xl border border-gold/30 bg-gold/10 p-6 text-center">
-          <h2 className="text-2xl font-bold text-gold-light">Lập lá số cá nhân hóa theo ngày giờ sinh</h2>
+          <h2 className="text-2xl font-bold text-gold-light">Tìm hiểu cách lập lá số theo ngày giờ sinh</h2>
           <p className="mx-auto mt-3 max-w-2xl leading-7 text-white/75">
-            Bài viết này mới là bản tổng quan theo tuổi. Lập lá số miễn phí để xem Mệnh Cung, Thân Cung và 3 insight đầu tiên theo dữ liệu ngày giờ sinh của bạn.
+            Bài viết này là bản tổng quan theo tuổi. Trang lập lá số giải thích vì sao cần ngày sinh, giờ sinh, Mệnh Cung, Thân Cung và Cục trước khi đọc cá nhân hóa.
           </p>
           <Link
             href="/lap-la-so/"
             className="mt-5 inline-flex rounded-lg bg-gold px-6 py-3 font-bold text-navy transition hover:bg-gold-light focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-navy"
           >
-            Lập lá số Tử Vi miễn phí
+            Tìm hiểu cách lập lá số Tử Vi
           </Link>
         </section>
 

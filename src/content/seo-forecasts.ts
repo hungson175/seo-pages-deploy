@@ -94,6 +94,24 @@ function moneyAction(seed: SeoForecastSeed): string {
     : 'ghi lại dòng tiền đều đặn, đặt giới hạn cho mua sắm theo cảm xúc, và ưu tiên khoản dự phòng giúp mình an tâm hơn'
 }
 
+function overviewPacing(seed: SeoForecastSeed): string {
+  return seed.gender === 'nam'
+    ? `Với nam mạng tuổi ${seed.canChi}, phần “tiến” trong năm 2026 nên gắn với trách nhiệm rõ: việc nào làm để tăng uy tín, việc nào làm để giữ nền gia đình, việc nào chỉ là sĩ diện cần bỏ bớt. Nếu đang ở vai trò quản lý, làm chủ hoặc trụ cột tài chính, bản mệnh càng cần lịch làm việc có khoảng nghỉ và cơ chế kiểm tra quyết định lớn. Điểm cát nằm ở sự đáng tin; điểm hung thường xuất hiện khi cố chứng minh mình ổn trong khi nội lực đã mỏng.`
+    : `Với nữ mạng tuổi ${seed.canChi}, phần “tiến” trong năm 2026 nên gắn với quyền tự chủ và nhịp sống bền: việc nào thật sự thuộc ưu tiên của mình, việc nào đang làm vì cả nể, việc nào cần nói lại để người thân cùng chia sẻ. Nếu vừa giữ công việc vừa lo gia đình, bản mệnh nên bảo vệ thời gian riêng và không biến sự chu đáo thành nghĩa vụ vô hạn. Điểm cát nằm ở sự rõ ràng; điểm hung thường đến từ việc im lặng quá lâu.`
+}
+
+function moneyRiskLens(seed: SeoForecastSeed): string {
+  return seed.gender === 'nam'
+    ? `Với nam mạng, rủi ro tiền bạc thường không nằm ở chi tiêu nhỏ mà ở quyết định lớn: mở rộng quá nhanh, đứng tên giúp người khác, góp vốn vì nể, hoặc nhận thêm trách nhiệm tài chính khi chưa có phương án dự phòng. Năm 2026 nên ghi rõ ai chịu phần nào, mốc nào cần dừng, và khoản nào tuyệt đối không dùng cho thử nghiệm. Sự thận trọng này không làm giảm bản lĩnh; nó giúp bản lĩnh có nền để phát huy lâu hơn.`
+    : `Với nữ mạng, rủi ro tiền bạc thường đến từ cảm xúc và trách nhiệm chăm lo: mua để tự thưởng sau giai đoạn mệt, chi hộ người thân rồi ngại nhắc lại, hoặc giữ quá nhiều khoản nhỏ mà không thấy tổng áp lực. Năm 2026 nên có sổ dòng tiền đơn giản, một quỹ an tâm và một giới hạn rõ cho các khoản phát sinh. Khi tiền bạc minh bạch, bản mệnh sẽ bớt phải dùng lo lắng làm hệ thống quản trị.`
+}
+
+function wellbeingLens(seed: SeoForecastSeed, age: number): string {
+  return seed.gender === 'nam'
+    ? `Về sức khỏe theo nghĩa nhịp sống, nam mạng tuổi ${seed.canChi} ở khoảng ${age} tuổi nên chú ý ${seed.health}. Nhóm áp lực dễ gặp là làm nhiều giờ, ít nói về mệt mỏi, ăn ngủ theo lịch công việc và chỉ nghỉ khi đã quá tải. Năm 2026 nên xem nghỉ ngơi như một phần của hiệu suất: đặt giờ ngủ ổn định, vận động vừa sức, giảm dùng cà phê hoặc màn hình để kéo dài sức chịu đựng, và kiểm tra định kỳ khi có dấu hiệu bất thường.`
+    : `Về sức khỏe theo nghĩa nhịp sống, nữ mạng tuổi ${seed.canChi} ở khoảng ${age} tuổi nên chú ý ${seed.health}. Nhóm áp lực dễ gặp là vừa làm việc vừa giữ hòa khí, nghĩ thay cho nhiều người và tự xem nhu cầu của mình là việc sau cùng. Năm 2026 nên tạo khoảng nghỉ không mặc cảm, chia sẻ việc nhà hoặc việc chăm sóc, giữ giấc ngủ đều hơn và kiểm tra định kỳ khi cơ thể có tín hiệu lạ.`
+}
+
 function buildInternalLinks(seed: SeoForecastSeed): InternalLink[] {
   const canonical = (item: SeoForecastSeed) => getForecastCanonicalPath(item)
   const currentIndex = SEO_FORECAST_SEEDS.findIndex((item) => item.slug === seed.slug)
@@ -113,7 +131,7 @@ function buildInternalLinks(seed: SeoForecastSeed): InternalLink[] {
       label: `Tử vi tuổi ${seed.animal}`,
       relation: 'Animal cluster',
     },
-    { href: '/lap-la-so/', label: 'Lập lá số Tử Vi miễn phí', relation: 'Cá nhân hóa theo ngày giờ sinh' },
+    { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
     { href: '/sao/tu-vi/', label: 'Ý nghĩa sao Tử Vi', relation: 'Nền tảng sao' },
     { href: '/sao/thai-duong/', label: 'Ý nghĩa sao Thái Dương', relation: 'Nền tảng sao' },
   ]
@@ -204,7 +222,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
         heading: 'Tổng quan năm 2026',
         content: [
           `Tuổi ${seed.canChi} mang khí chất ${seed.tone}. Khi gặp nhịp 2026, điểm mạnh của bản mệnh là khả năng quan sát tình thế và tự điều chỉnh để không bị cuốn theo biến động bên ngoài. Tuy nhiên, chính vì quen tự xử lý, ${seed.genderLabel} tuổi ${seed.animal} cũng dễ giữ mọi thứ trong lòng, đến lúc mệt mới nhận ra mình đã ôm quá nhiều việc. Năm này vì thế hợp với cách sống có kế hoạch: biết việc nào cần tiến, việc nào cần tạm dừng, việc nào nên nhờ người khác cùng gánh.`,
-          `Về tổng thể, đây không phải năm nên chạy theo các lời hứa quá lớn. Cát nằm ở chỗ bền bỉ, biết tích lũy, biết sửa thói quen nhỏ mỗi ngày. Hung thường đến từ sự nóng vội, cả nể hoặc giữ một vai trò không còn phù hợp chỉ vì sợ thay đổi. Nếu đang có nhiều mục tiêu cùng lúc, hãy chọn ra một đến hai trọng tâm: công việc chính, sức khỏe nền tảng, hoặc một kế hoạch tài chính cần hoàn thành trước cuối năm.`,
+          overviewPacing(seed),
         ],
       },
       {
@@ -218,7 +236,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
         heading: 'Tài lộc và kế hoạch tiền bạc',
         content: [
           `Tài lộc của tuổi ${seed.canChi} ${seed.year} trong năm 2026 nghiêng về xu hướng: ${seed.money}. Cách hiểu an toàn là tiền đến từ năng lực đã tích lũy, từ kỷ luật chi tiêu và từ việc chọn đúng người để hợp tác. Không nên xem đây là lời hứa về khoản tiền bất ngờ. Trong tử vi ứng dụng, tài lộc tốt trước hết là dòng tiền có trật tự: biết mình kiếm từ đâu, chi cho việc gì, giữ lại bao nhiêu và rủi ro lớn nhất nằm ở điểm nào.`,
-          `Nếu có ý định đầu tư, mua tài sản, đổi công việc vì thu nhập hoặc góp vốn cùng người quen, hãy đi qua ba câu hỏi: mình hiểu mô hình này đến đâu, thời gian thu hồi vốn có thực tế không, và nếu kế hoạch chậm lại thì gia đình có bị áp lực không. Tuổi ${seed.animal} có thể rất kiên trì, nhưng khi đã tin người thì đôi khi bỏ qua dấu hiệu nhỏ. Năm 2026 nên ưu tiên văn bản rõ ràng, dữ liệu rõ ràng và giới hạn rõ ràng.`,
+          moneyRiskLens(seed),
         ],
       },
       {
@@ -231,7 +249,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
       {
         heading: 'Sức khỏe, tinh thần và nhịp sống cần chú ý',
         content: [
-          `Về sức khỏe theo nghĩa nhịp sống, tuổi ${seed.canChi} năm 2026 nên chú ý ${seed.health}. Đây là nhóm vấn đề dễ bị xem nhẹ vì không phải lúc nào cũng hiện thành dấu hiệu lớn ngay lập tức. Người ở độ tuổi ${age} thường vừa phải giữ công việc, vừa lo gia đình, vừa nghĩ đến tương lai tài chính. Khi nhiều trách nhiệm chồng lên nhau, cơ thể có thể phản ứng bằng mệt mỏi, thiếu tập trung hoặc dễ cáu hơn bình thường.`,
+          wellbeingLens(seed, age),
           `Trong khung Tử Vi, mảng này thường liên hệ đến cung Tật Ách; nhưng trang theo năm sinh không có đủ dữ liệu để đọc cung này của riêng bạn. Vì vậy, phần này chỉ nên xem như lời nhắc giữ nền. Hãy ưu tiên ngủ đúng giờ hơn, giảm thức khuya kéo dài, đi bộ hoặc vận động nhẹ, ăn uống bớt thất thường và kiểm tra định kỳ khi có dấu hiệu bất thường. Nội dung này không thay thế tư vấn y tế.`,
         ],
       },

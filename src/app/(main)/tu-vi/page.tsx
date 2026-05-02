@@ -169,11 +169,11 @@ export default function TuViHubPage() {
       <section id="danh-sach-tuoi" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">Danh sách P0</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">Danh sách theo 12 con giáp</p>
             <h2 className="mt-2 text-3xl font-bold text-white">Tử vi 2026 theo năm sinh</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-white/65">
-            10 trang đầu tiên được viết bằng nội dung thật, có meta, schema và liên kết nội bộ. Các tuổi còn lại sẽ được mở rộng theo lộ trình.
+            24 trang theo năm sinh và giới tính đã có đủ cho 12 con giáp, mỗi trang có nội dung riêng, meta, schema và liên kết nội bộ để Google đọc được cấu trúc chủ đề.
           </p>
         </div>
 

@@ -22,6 +22,28 @@ function visiblePageText(page: NonNullable<ReturnType<typeof getSeoForecastPage>
   ].join(' ')
 }
 
+function extractNgrams(text: string, n = 4): Set<string> {
+  const words = text
+    .toLowerCase()
+    .replace(/[^\w\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+
+  const ngrams = new Set<string>()
+  for (let i = 0; i <= words.length - n; i += 1) {
+    ngrams.add(words.slice(i, i + n).join(' '))
+  }
+  return ngrams
+}
+
+function jaccardSimilarity(textA: string, textB: string, n = 4): number {
+  const a = extractNgrams(textA, n)
+  const b = extractNgrams(textB, n)
+  const intersection = [...a].filter((item) => b.has(item)).length
+  const union = new Set([...a, ...b]).size
+  return union === 0 ? 0 : intersection / union
+}
+
 describe('static SEO forecast content', () => {
   it('ships 24 real birth-year pages across all 12 animal signs', () => {
     expect(SEO_FORECAST_SLUGS).toHaveLength(24)
@@ -68,6 +90,27 @@ describe('static SEO forecast content', () => {
       const count = wordCount(visiblePageText(page!))
       expect(count, `${slug} word count`).toBeGreaterThanOrEqual(1500)
       expect(count, `${slug} word count`).toBeLessThanOrEqual(2000)
+    }
+  })
+
+  it('keeps male and female versions from becoming duplicate pages', () => {
+    const groupedByYear = new Map<number, { nam?: string; nu?: string }>()
+
+    for (const seed of SEO_FORECAST_SEEDS) {
+      const entry = groupedByYear.get(seed.year) ?? {}
+      if (seed.gender === 'nam') entry.nam = seed.slug
+      if (seed.gender === 'nu') entry.nu = seed.slug
+      groupedByYear.set(seed.year, entry)
+    }
+
+    for (const [year, pair] of groupedByYear.entries()) {
+      expect(pair.nam, `${year} nam page exists`).toBeDefined()
+      expect(pair.nu, `${year} nu page exists`).toBeDefined()
+
+      const male = visiblePageText(getSeoForecastPage(pair.nam!)!)
+      const female = visiblePageText(getSeoForecastPage(pair.nu!)!)
+      const similarity = jaccardSimilarity(male, female)
+      expect(similarity, `${year} male/female similarity`).toBeLessThan(0.72)
     }
   })
 

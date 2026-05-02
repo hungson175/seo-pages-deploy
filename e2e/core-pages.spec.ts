@@ -75,8 +75,11 @@ test.describe('Sprint 2 - Core Pages', () => {
     const h1 = page.locator('h1')
     await expect(h1).toBeVisible()
     await expect(h1).toContainText('Sao')
+    await expect(h1).toContainText('Tử Vi')
     await expect(page.locator('main')).toBeVisible()
-    await expect(page.locator('text=tham khảo')).toBeVisible()
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
   test('que page renders', async ({ page }) => {

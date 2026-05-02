@@ -8,6 +8,9 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://boitoan.vn/sitemap.xml',
+    sitemap: [
+      'https://boitoan.vn/sitemap.xml',
+      'https://boitoan.vn/sitemap-index.xml',
+    ],
   }
 }

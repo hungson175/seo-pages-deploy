@@ -15,6 +15,8 @@ This is a Next.js App Router project for Vietnamese Tử Vi/Kinh Dịch SEO page
 
 Primary goal: ship indexable SEO content pages; do not prioritize horoscope-app infrastructure unless explicitly requested.
 
+TuVi algorithms, terminology, and calculation behavior must be read from the approved reference repo in `sample_code/horoscope/` before implementation. Do not invent astrology logic. For the current roadmap, keep `/tu-vi/` and birth-year pages static/server-rendered; `/lap-la-so/` is a static SEO landing page unless Boss explicitly reopens app scope.
+
 ## Build, Test, and Development Commands
 
 - `npm run dev` — start local dev server on port `3347`.
@@ -44,4 +46,4 @@ History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STO
 
 ## Security & Agent Instructions
 
-Do not commit or print `.env*`, Supabase credentials, or Vercel tokens. Ignore archived tmux-team prompts. This is now a single-coder repo inside the larger OPC/company context; ask Gallagher/OPC via `tm-send -s opc-research opc-consultant "..."` only when product strategy is unclear.
+Do not commit or print `.env*`, Supabase credentials, or Vercel tokens. Local Kimi coding-plan credentials may live in ignored `./.env`; use them only if an LLM call is truly required. Any LLM-facing code must include unit tests plus VCR-style recorded/mocked integration tests. Ignore archived tmux-team prompts. This is now a single-coder repo inside the larger OPC/company context; ask Gallagher/OPC via `tm-send -s opc-research opc-consultant "..."` only when product strategy is unclear.

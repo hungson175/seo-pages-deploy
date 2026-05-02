@@ -21,7 +21,7 @@ export default function HomePage() {
           Lập Lá Số Tử Vi
         </a>
         <a
-          href="/tuvi/"
+          href="/tu-vi/"
           className="px-6 py-3 border border-gold text-gold font-semibold rounded hover:bg-gold/10 transition"
         >
           Xem Tử Vi

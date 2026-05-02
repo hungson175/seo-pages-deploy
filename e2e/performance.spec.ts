@@ -11,9 +11,19 @@ test.describe('Sprint 2 - Performance', () => {
     expect(loadTime).toBeLessThan(3000)
   })
 
+  test('hub page loads under 3 seconds', async ({ page }) => {
+    const start = Date.now()
+    await page.goto('/tu-vi/')
+    await page.waitForLoadState('networkidle')
+    const loadTime = Date.now() - start
+    
+    console.log(`Hub page load time: ${loadTime}ms`)
+    expect(loadTime).toBeLessThan(3000)
+  })
+
   test('forecast page loads under 3 seconds', async ({ page }) => {
     const start = Date.now()
-    await page.goto('/tuvi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
     await page.waitForLoadState('networkidle')
     const loadTime = Date.now() - start
     
@@ -30,9 +40,8 @@ test.describe('Sprint 2 - Performance', () => {
       }
     })
     
-    await page.goto('/tuvi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
     await page.waitForLoadState('networkidle')
-    
     expect(errors).toHaveLength(0)
   })
 
@@ -47,7 +56,6 @@ test.describe('Sprint 2 - Performance', () => {
     
     await page.goto('/')
     await page.waitForLoadState('networkidle')
-    
     expect(errors).toHaveLength(0)
   })
 })

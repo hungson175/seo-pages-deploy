@@ -1,15 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 const routes = require('../src/content/routes.json')
+const seoForecasts = require('../src/content/seo-forecasts.json')
 
 const base = 'https://boitoan.vn'
 const lastmod = '2026-05-02'
-
-const FORECAST_SLUGS = routes.animals.flatMap((animal) =>
-  routes.years.flatMap((year) =>
-    routes.genders.map((gender) => `tuoi-${animal}-${year}-${gender}`)
-  )
-)
+const SEO_FORECAST_SLUGS = seoForecasts.map((item) => item.slug)
 
 function buildSitemap(urls) {
   const urlEntries = urls
@@ -45,25 +41,33 @@ ${entries}
 </sitemapindex>`
 }
 
-const tuviUrls = FORECAST_SLUGS.map((slug) => ({
-  loc: `${base}/tuvi/${slug}`,
-  lastmod,
-  changefreq: 'yearly',
-  priority: '0.8',
-}))
+const tuviUrls = [
+  {
+    loc: `${base}/tu-vi/`,
+    lastmod,
+    changefreq: 'weekly',
+    priority: '0.95',
+  },
+  ...SEO_FORECAST_SLUGS.map((slug) => ({
+    loc: `${base}/tu-vi/${slug}/`,
+    lastmod,
+    changefreq: 'yearly',
+    priority: '0.82',
+  })),
+]
 
 const gieoqueUrls = routes.queSlugs.map((slug) => ({
-  loc: `${base}/que/${slug}`,
+  loc: `${base}/que/${slug}/`,
   lastmod,
   changefreq: 'monthly',
   priority: '0.7',
 }))
 
 const toolsUrls = routes.toolSlugs.map((slug) => ({
-  loc: `${base}/${slug}`,
+  loc: `${base}/${slug}/`,
   lastmod,
   changefreq: 'weekly',
-  priority: '0.9',
+  priority: '0.85',
 }))
 
 const publicDir = path.join(__dirname, '..', 'public')

@@ -14,7 +14,7 @@ export default function ToolLayout({
             <a href="/" className="hover:text-gold-300 transition-colors">
               Trang chủ
             </a>
-            <a href="/tuvi" className="hover:text-gold-300 transition-colors">
+            <a href="/tu-vi/" className="hover:text-gold-300 transition-colors">
               Tử vi
             </a>
             <a href="/que" className="hover:text-gold-300 transition-colors">

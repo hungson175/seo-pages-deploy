@@ -2,37 +2,40 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Sprint 2 - Content Quality', () => {
   test('forecast page has sufficient content length', async ({ page }) => {
-    await page.goto('/tuvi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
     
-    // Get all text content from main
     const main = page.locator('main')
     const text = await main.textContent()
     
-    // Should have substantial content (at least a few hundred characters)
-    expect(text?.length).toBeGreaterThan(200)
-    
-    // Should have multiple sections (h2 tags)
+    expect(text?.length).toBeGreaterThan(3000)
     const h2s = page.locator('h2')
-    await expect(h2s).toHaveCount(3)
+    expect(await h2s.count()).toBeGreaterThanOrEqual(6)
   })
 
-  test('forecast page has FAQ schema', async ({ page }) => {
-    await page.goto('/tuvi/tuoi-ty-1984-nam')
+  test('hub page has FAQ, HowTo, Breadcrumb, and CollectionPage schema', async ({ page }) => {
+    await page.goto('/tu-vi/')
     
-    // Check for FAQPage JSON-LD schema
-    const faqScript = page.locator('script[type="application/ld+json"]')
-    const scripts = await faqScript.allTextContents()
-    const hasFaqSchema = scripts.some(script => script.includes('FAQPage'))
-    expect(hasFaqSchema).toBe(true)
+    const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+    expect(scripts.some((script) => script.includes('FAQPage'))).toBe(true)
+    expect(scripts.some((script) => script.includes('HowTo'))).toBe(true)
+    expect(scripts.some((script) => script.includes('BreadcrumbList'))).toBe(true)
+    expect(scripts.some((script) => script.includes('CollectionPage'))).toBe(true)
+  })
+
+  test('forecast page has Article and FAQ schema', async ({ page }) => {
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
+    
+    const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+    expect(scripts.some((script) => script.includes('Article'))).toBe(true)
+    expect(scripts.some((script) => script.includes('FAQPage'))).toBe(true)
   })
 
   test('no Western astrology terms used', async ({ page }) => {
-    await page.goto('/tuvi/tuoi-ty-1984-nam')
+    await page.goto('/tu-vi/tuoi-ty-1984-nam')
     
     const main = page.locator('main')
     const text = await main.textContent()
     
-    // Should NOT contain Western zodiac terms (check only visible content)
     expect(text?.toLowerCase()).not.toContain('aries')
     expect(text?.toLowerCase()).not.toContain('taurus')
     expect(text?.toLowerCase()).not.toContain('gemini')

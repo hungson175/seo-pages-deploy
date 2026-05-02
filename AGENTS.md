@@ -54,6 +54,15 @@ Never publish unreviewed, thin, or template-only SEO pages. If a route was previ
 
 Only re-enable a gated page after rich content, domain review, compliance review, and passing tests.
 
+
+## Company Brain & Durable Knowledge
+
+For OPC/company work, use SBrain/gbrain, not MyPKM. Load the global skill at `~/.claude/skills/use-sbrain/SKILL.md` when writing durable company knowledge. Canonical company memory lives under `~/data/sbrain/wiki` entity pages.
+
+Workflow: search with `gbrain`, update the canonical entity compiled truth above the first body `---`, append source-cited evidence under `## Timeline`, run `~/data/sbrain/bin/sbrain-sync`, then commit the SBrain repo. If you cannot safely write/commit, send Gal an exact patch/update request. MyPKM is legacy/personal unless Boss explicitly asks for it.
+
+Key references: `~/data/sbrain/CLAUDE.md`, `~/data/sbrain/wiki/RESOLVER.md`, `~/data/sbrain/wiki/schema.md`, and `~/data/sbrain/wiki/concepts/brain/sbrain-agent-write-protocol.md`.
+
 ## Commit & Pull Request Guidelines
 
 History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STORY-012a: ...`. Commit often: git history is the primary past-progress tracker, so save each meaningful working checkpoint with a clear message after tests/builds pass. PRs should include summary, affected routes, test results, screenshots for visual changes, and relevant docs/story IDs.

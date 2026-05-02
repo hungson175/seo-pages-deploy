@@ -97,7 +97,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(h1).toBeVisible()
     await expect(h1).toContainText('Quẻ')
     await expect(page.locator('main')).toBeVisible()
-    await expect(page.locator('text=tham khảo')).toBeVisible()
+    await expect(page.locator('main')).toContainText('tham khảo')
     await expect(page.locator('main')).not.toContainText('lời đoán')
     await expect(page.locator('main')).not.toContainText('đầu tư mạo hiểm')
   })

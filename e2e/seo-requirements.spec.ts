@@ -33,6 +33,15 @@ test.describe('Sprint 2 - SEO Requirements', () => {
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.vn/tu-vi-2026/giap-ty-1984-nam-mang/')
   })
 
+  test('que metadata uses cultural-reference framing', async ({ page }) => {
+    await page.goto('/que/1-kien-vi-thien')
+
+    const description = page.locator('meta[name="description"]')
+    await expect(description).toHaveAttribute('content', /Tìm hiểu tinh thần/)
+    await expect(description).toHaveAttribute('content', /tham khảo/)
+    await expect(description).not.toHaveAttribute('content', /Luận giải/i)
+  })
+
   test('pages have single H1', async ({ page }) => {
     for (const url of ['/tu-vi/', '/tu-vi-2026/giap-ty-1984-nam-mang', '/lap-la-so/']) {
       await page.goto(url)

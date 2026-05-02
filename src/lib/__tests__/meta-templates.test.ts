@@ -24,6 +24,9 @@ describe('buildMetaTemplate', () => {
   it('builds que page meta', () => {
     const meta = buildMetaTemplate('que', 'Quẻ Càn Vi Thiên', 'Ý Nghĩa & Ứng Dụng')
     expect(meta.title).toContain('Khám Phá Quẻ Càn Vi Thiên')
+    expect(meta.description).toContain('Tìm hiểu tinh thần Quẻ Càn Vi Thiên')
+    expect(meta.description).toContain('tham khảo')
+    expect(meta.description).not.toContain('Luận giải')
   })
 
   it('builds tool page meta', () => {

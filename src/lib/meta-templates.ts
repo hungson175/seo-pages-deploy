@@ -35,7 +35,7 @@ export function buildMetaTemplate(
     que: () => ({
       title: truncate(`Khám Phá ${topic}${benefitStr} | Bói Toán`, 60),
       description: truncate(
-        `Luận giải ${topic} trong Kinh Dịch. Ý nghĩa, biến quẻ và ứng dụng trong cuộc sống.`,
+        `Tìm hiểu tinh thần ${topic} trong Kinh Dịch: ý nghĩa, hào biến và ứng dụng tham khảo trong đời sống.`,
         160
       ),
     }),

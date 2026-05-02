@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     })
   }
 
-  const meta = buildMetaTemplate('que', `Quẻ ${content.name}`, 'Luận Giải Kinh Dịch')
+  const meta = buildMetaTemplate('que', `Quẻ ${content.name}`, 'Tinh Thần Kinh Dịch')
   return buildMetadata({
     title: meta.title,
     description: meta.description,
@@ -65,13 +65,13 @@ export default async function QuePage({
     notFound()
   }
 
-  const h1 = buildH1('Khám Phá', `Quẻ ${content.name}`, 'Luận Giải Và Ứng Dụng')
+  const h1 = buildH1('Khám Phá', `Quẻ ${content.name}`, 'Tinh Thần Và Ứng Dụng')
 
   return (
     <main className="mv-page">
       <ArticleSchema
         headline={h1}
-        description={`Luận giải quẻ ${content.name} trong Kinh Dịch.`}
+        description={`Tìm hiểu tinh thần quẻ ${content.name} trong Kinh Dịch theo hướng tham khảo.`}
         url={`https://boitoan.vn/que/${slug}`}
         datePublished="2026-05-01"
         dateModified="2026-05-02"
@@ -102,10 +102,10 @@ export default async function QuePage({
       <article className="mv-article">
         <header className="mv-hero-card">
           <div className="mb-5 mv-seal">卦</div>
-          <p className="mv-kicker">Kinh Dịch • Luận quẻ ứng dụng</p>
+          <p className="mv-kicker">Kinh Dịch • Ứng dụng tham khảo</p>
           <h1 className="mv-h1">{h1}</h1>
           <p className="mt-5 text-lg leading-8 text-ink-soft">
-            Luận giải quẻ {content.name} theo tinh thần Kinh Dịch: xem tượng quẻ,
+            Tìm hiểu quẻ {content.name} theo tinh thần Kinh Dịch: xem tượng quẻ,
             tinh thần chính, ứng dụng trong công việc, quan hệ, quản trị nguồn lực, nhịp sống và cách hành động
             thận trọng.
           </p>

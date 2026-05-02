@@ -178,7 +178,7 @@
 
 | Step | Action | Expected |
 |------|--------|----------|
-| 1 | Check for user count | "Đã có X ngườii sử dụng" |
+| 1 | Check for user count | "Đã có X người sử dụng" |
 | 2 | Verify number | Real or estimated |
 | 3 | Verify visibility | Above fold or prominent |
 

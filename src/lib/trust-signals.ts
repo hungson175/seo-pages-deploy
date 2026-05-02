@@ -26,7 +26,7 @@ export function buildAuthorInfo(
 
 export function buildArt320Badge(): { text: string; className: string } {
   return {
-    text: 'Nội dung chỉ mang tính chất tham khảo, không phải lờii tiên đoán.',
+    text: 'Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán.',
     className:
       'inline-flex items-center px-3 py-1 rounded-full text-sm bg-navy-700 text-navy-300 border border-navy-600',
   }

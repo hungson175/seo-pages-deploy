@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { STARS } from '@/lib/data/allow-lists'
+import { STARS } from '@/content/routes'
 
 export const dynamic = 'force-static'
 

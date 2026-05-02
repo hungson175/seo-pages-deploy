@@ -286,13 +286,13 @@
 
 | Check | Expected |
 |-------|----------|
-| Headline | "Luận Giải Trọn Đờii — 99.000đ" |
+| Headline | "Luận Giải Trọn Đời — 99.000đ" |
 | Feature: 12-cung | "Phân tích chi tiết 12 cung" |
-| Feature: decadal | "Đại Vận trọn đờii" |
+| Feature: decadal | "Đại Vận trọn đời" |
 | Feature: monthly | "Lưu Niên năm hiện tại" |
 | Feature: PDF | "Tải PDF đọc offline" |
 | Button | "Mua Ngay — 99.000đ" |
-| Social proof | "Đã có 1.200+ ngườii mua" (placeholder) |
+| Social proof | "Đã có 1.200+ người mua" (placeholder) |
 | Disclaimer | Art 320 compliance |
 | Position | After 3 insight cards |
 

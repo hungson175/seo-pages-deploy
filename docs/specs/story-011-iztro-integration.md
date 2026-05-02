@@ -75,15 +75,15 @@ Each insight:
 - Uses Vietnamese Tử Vi terminology (NO Western astrology terms)
 
 **Paid Upsell CTA** appears after 3 insights:
-- Headline: "Luận Giải Trọn Đờii — 99.000đ"
+- Headline: "Luận Giải Trọn Đời — 99.000đ"
 - Features list:
   - Full 12-cung detailed analysis
   - Decadal fortune (Đại Vận) breakdown
   - Monthly forecast (Lưu Niên) for current year
   - PDF download for offline reading
 - Button: "Mua Ngay — 99.000đ"
-- Trust signals: "Đã có 1.200+ ngườii mua" (social proof placeholder)
-- Disclaimer: "* Kết quả chỉ mang tính chất tham khảo, không phải lờii tiên đoán"
+- Trust signals: "Đã có 1.200+ người mua" (social proof placeholder)
+- Disclaimer: "* Kết quả chỉ mang tính chất tham khảo, không phải lời tiên đoán"
 
 ### Error Handling
 

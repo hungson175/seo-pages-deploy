@@ -4,18 +4,40 @@ import { ChatOpenAI } from "@langchain/openai";
 const KIMI_API_KEY = process.env.KIMI_CODING_PLAN_API_CONSULTANTS || process.env.MOONSHOT_API_KEY;
 const KIMI_BASE_URL = "https://api.kimi.com/coding";
 
-if (!KIMI_API_KEY) {
-  throw new Error("KIMI_CODING_PLAN_API_CONSULTANTS or MOONSHOT_API_KEY must be set");
+export function getLLM() {
+  if (!KIMI_API_KEY) {
+    // Allow test mode with missing key
+    if (process.env.NODE_ENV === 'test' || process.env.VITEST) {
+      return new ChatOpenAI({
+        modelName: "kimi-k2.5",
+        temperature: 0.6,
+        openAIApiKey: 'sk-test-missing-key',
+        configuration: {
+          baseURL: KIMI_BASE_URL,
+        },
+      });
+    }
+    throw new Error("KIMI_CODING_PLAN_API_CONSULTANTS or MOONSHOT_API_KEY must be set");
+  }
+  
+  return new ChatOpenAI({
+    modelName: "kimi-k2.5",
+    temperature: 0.6,
+    openAIApiKey: KIMI_API_KEY,
+    configuration: {
+      baseURL: KIMI_BASE_URL,
+    },
+  });
 }
 
-export const llm = new ChatOpenAI({
-  modelName: "kimi-k2.5",
-  temperature: 0.6,
-  openAIApiKey: KIMI_API_KEY,
-  configuration: {
-    baseURL: KIMI_BASE_URL,
-  },
-});
+// Lazy initialization - only create when needed
+let llmInstance: ChatOpenAI | null = null;
+export function getLLMInstance() {
+  if (!llmInstance) {
+    llmInstance = getLLM();
+  }
+  return llmInstance;
+}
 
 export async function generateBirthYearForecast(
   animal: string,
@@ -39,6 +61,7 @@ Yêu cầu:
 6. Không dùng thuật ngữ chiêm tinh phương Tây
 7. Nhấn mạnh Tứ Hóa và Ngũ Hành từ dữ liệu iztro`;
 
+  const llm = getLLMInstance();
   const response = await llm.invoke(prompt);
   return response.content as string;
 }

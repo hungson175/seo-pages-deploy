@@ -11,12 +11,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
   description:
-    'Xem tử vi trọn đờii, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí. Tham khảo vận mệnh, sự nghiệp, tình duyên theo phương pháp cổ truyền Việt Nam.',
+    'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí. Tham khảo vận mệnh, sự nghiệp, tình duyên theo phương pháp cổ truyền Việt Nam.',
   metadataBase: new URL('https://boitoan.vn'),
   openGraph: {
     title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
     description:
-      'Xem tử vi trọn đờii, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
+      'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
     url: 'https://boitoan.vn',
     siteName: 'Bói Toán',
     locale: 'vi_VN',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Bói Toán - Xem Tử Vi, Gieo Quẻ Kinh Dịch Online',
     description:
-      'Xem tử vi trọn đờii, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
+      'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí.',
   },
   robots: {
     index: true,

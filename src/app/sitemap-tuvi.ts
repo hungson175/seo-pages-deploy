@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { FORECAST_SLUGS } from '@/lib/data/allow-lists'
+import { FORECAST_SLUGS } from '@/content/routes'
 
 export const dynamic = 'force-static'
 

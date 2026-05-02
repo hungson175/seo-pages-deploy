@@ -127,7 +127,7 @@ export function validateContentUniqueness(pages: ForecastContent[]): ValidationR
 // Flag template phrases reused across pages
 const TEMPLATE_PATTERNS = [
   /Nội dung chỉ mang tính chất tham khảo/g,
-  /không phải lờii tiên đoán/g,
+  /không phải lời tiên đoán/g,
   /Hãy luôn nhớ rằng/g
 ];
 

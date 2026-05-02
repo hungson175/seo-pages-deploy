@@ -1,31 +1,15 @@
 const fs = require('fs')
 const path = require('path')
+const routes = require('../src/content/routes.json')
 
 const base = 'https://boitoan.vn'
-const lastmod = '2026-05-01'
+const lastmod = '2026-05-02'
 
-const ANIMALS = [
-  'ty', 'suu', 'dan', 'mao', 'thin', 'ty-j',
-  'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi',
-]
-
-const GENDERS = ['nam', 'nu']
-
-const YEARS = [1984, 1996, 2008, 2020]
-
-const FORECAST_SLUGS = []
-for (const animal of ANIMALS) {
-  for (const year of YEARS) {
-    for (const gender of GENDERS) {
-      FORECAST_SLUGS.push(`tuoi-${animal}-${year}-${gender}`)
-    }
-  }
-}
-
-const QUE_SLUGS = [
-  '1-kien-vi-thien', '2-khon-vi-dia', '3-ton-vi-loi',
-  '4-mong-vi-thuy', '5-tung-vi-thuy', '6-tung-vi-thien',
-]
+const FORECAST_SLUGS = routes.animals.flatMap((animal) =>
+  routes.years.flatMap((year) =>
+    routes.genders.map((gender) => `tuoi-${animal}-${year}-${gender}`)
+  )
+)
 
 function buildSitemap(urls) {
   const urlEntries = urls
@@ -68,31 +52,26 @@ const tuviUrls = FORECAST_SLUGS.map((slug) => ({
   priority: '0.8',
 }))
 
-const gieoqueUrls = QUE_SLUGS.map((slug) => ({
+const gieoqueUrls = routes.queSlugs.map((slug) => ({
   loc: `${base}/que/${slug}`,
   lastmod,
   changefreq: 'monthly',
   priority: '0.7',
 }))
 
-const toolsUrls = [
-  {
-    loc: `${base}/lap-la-so`,
-    lastmod,
-    changefreq: 'weekly',
-    priority: '0.9',
-  },
-]
+const toolsUrls = routes.toolSlugs.map((slug) => ({
+  loc: `${base}/${slug}`,
+  lastmod,
+  changefreq: 'weekly',
+  priority: '0.9',
+}))
 
 const publicDir = path.join(__dirname, '..', 'public')
-if (!fs.existsSync(publicDir)) {
-  fs.mkdirSync(publicDir, { recursive: true })
-}
+fs.mkdirSync(publicDir, { recursive: true })
 
 fs.writeFileSync(path.join(publicDir, 'tuvi.xml'), buildSitemap(tuviUrls))
 fs.writeFileSync(path.join(publicDir, 'gieoque.xml'), buildSitemap(gieoqueUrls))
 fs.writeFileSync(path.join(publicDir, 'tools.xml'), buildSitemap(toolsUrls))
-
 fs.writeFileSync(
   path.join(publicDir, 'sitemap-index.xml'),
   buildSitemapIndex([

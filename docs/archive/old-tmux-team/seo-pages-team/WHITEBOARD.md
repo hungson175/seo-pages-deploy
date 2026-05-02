@@ -19,7 +19,7 @@
 - **CMO consultant: RECEIVED (22:11)** — AItuvi + Tuvi.vn competitor research. Key insight: /lap-la-so/ conversion spine priority, 144 birth-year pages viable, add 50-100 star/palace pages before massive matrix
 - **LLM Provider: DECIDED (22:12)** — Claude (Anthropic), budget ~$5-20 APPROVED. Awaiting Boss API key.
 - **Supabase: DECIDED (22:12)** — New free project. TL/BE to create.
-- **Next:** Boss provides ANTHROPIC_API_KEY → Sprint 3 Planning completion → Dev commitment → Sprint 3 execution
+- **Next:** Sprint 3 Planning completion → Dev commitment → Sprint 3 execution
 **Last Updated:** 2026-05-01
 
 ---
@@ -74,12 +74,13 @@ Full analysis: `~/Vaults/my-pkm/wiki/projects/seo_consultant/competitor-analysis
 ## Key Decisions
 
 1. **Priority Order:** Tử Vi → Gieo Quẻ → Tứ Trụ
-2. **Tech Stack:** Next.js 15 SSG/ISR + iztro + Supabase + Vercel
+2. **Tech Stack:** Next.js 15 SSG/ISR + iztro + PostgreSQL + Cloudflare
 3. **Content Strategy:** iztro JSON → LLM → 80%+ unique pages
 4. **SEO Focus:** Vietnamese slugs, schema markup, Core Web Vitals
 5. **Sprint 1 Scope:** Foundation only (correct call)
 6. **Sprint 2 Scope:** Lighthouse + iztro infra + birth-year MVP + Gieo Quẻ scaffold
-7. **Sprint 3 Preview:** iztro UI + Vercel prod + remaining forecasts + competitor quick wins
+7. **Sprint 3 Preview:** iztro UI + PostgreSQL schema + remaining forecasts + competitor quick wins
+8. **Sprint 4 Goal:** Cloudflare deploy production
 
 ---
 

@@ -11,7 +11,7 @@ export default function HomePage() {
         Bói Toán
       </h1>
       <p className="text-lg text-gray-300 max-w-xl text-center mb-8">
-        Xem tử vi trọn đờii, lập lá số tử vi, gieo quẻ Kinh Dịch online.
+        Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online.
       </p>
       <div className="flex gap-4">
         <a

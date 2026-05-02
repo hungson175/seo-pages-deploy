@@ -33,7 +33,7 @@
 | /que/1-kien-vi-thien/ | "Quẻ 1 Kien Vi Thien" | Missing action + benefit | FAIL |
 
 **Recommended H1s:**
-- Homepage: "Xem Tử Vi Trọn Đờii — Hiểu Vận Mệnh, Nắm Tương Lai"
+- Homepage: "Xem Tử Vi Trọn Đời — Hiểu Vận Mệnh, Nắm Tương Lai"
 - /lap-la-so/: "Lập Lá Số Tử Vi Miễn Phí — Khám Phá Vận Mệnh Củaa Bạn"
 - /tuvi/*: "Xem Tử Vi [Animal] [Year] — Dự Đoán Chính Xác, Tư Vấn Tận Tâm"
 - /que/*: "Gieo Quẻ [Name] — Giải Đáp Thắc Mắc, Định Hướng Cuộc Sống"
@@ -129,7 +129,7 @@
 
 | Page Type | Required Pattern | Example |
 |-----------|-----------------|---------|
-| Homepage | [Action] + [Brand/Keyword] + [Benefit] | "Xem Tử Vi Trọn Đờii — Hiểu Vận Mệnh, Nắm Tương Lai" |
+| Homepage | [Action] + [Brand/Keyword] + [Benefit] | "Xem Tử Vi Trọn Đời — Hiểu Vận Mệnh, Nắm Tương Lai" |
 | Tool (/lap-la-so/) | [Action] + [Tool Name] + [Benefit] | "Lập Lá Số Tử Vi Miễn Phí — Khám Phá Vận Mệnh" |
 | Forecast (/tuvi/*) | [Action] + [Specific Query] + [Benefit] | "Xem Tử Vi Tuổi Tý 2026 — Dự Đoán Chính Xác" |
 | Que (/que/*) | [Action] + [Que Name] + [Benefit] | "Gieo Quẻ Kiển Vì Thiên — Giải Đáp Thắc Mắc" |
@@ -271,7 +271,7 @@
 
 | Step | Action | Expected |
 |------|--------|----------|
-| 1 | Check for user count | "Đã có X ngườii sử dụng" |
+| 1 | Check for user count | "Đã có X người sử dụng" |
 | 2 | Check for testimonials | User quotes (if present) |
 | 3 | Check for ratings | Star ratings (if present) |
 

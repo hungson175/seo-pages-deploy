@@ -30,7 +30,7 @@ describe('generateForecastContent', () => {
     expect(headings).toContain('Sự nghiệp & Tài lộc')
     expect(headings).toContain('Tình duyên & Gia đạo')
     expect(headings).toContain('Sức khỏe')
-    expect(headings).toContain('Lờii khuyên')
+    expect(headings).toContain('Lời khuyên')
   })
 
   it('generates 1,200-1,500 words total', () => {

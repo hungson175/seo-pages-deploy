@@ -23,7 +23,7 @@ describe('toSlug', () => {
   })
 
   it('handles common Tử Vi terms', () => {
-    expect(toSlug('Tử Vi Trọn Đờii')).toBe('tu-vi-tron-doii')
+    expect(toSlug('Tử Vi Trọn Đời')).toBe('tu-vi-tron-doi')
     expect(toSlug('Lá Số Tử Vi')).toBe('la-so-tu-vi')
     expect(toSlug('Xem Tử Vi 2026')).toBe('xem-tu-vi-2026')
     expect(toSlug('Tuổi Tý 1984 Nam')).toBe('tuoi-ty-1984-nam')

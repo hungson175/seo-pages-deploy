@@ -7,6 +7,9 @@ import {
   ServiceSchema,
   BreadcrumbListSchema,
 } from '@/components/json-ld/json-ld'
+import { ReadingProcess } from '@/components/trust/reading-process'
+import { PalaceGrid } from '@/components/chart/palace-grid'
+import { generateChart, ChartData } from '@/lib/iztro'
 
 const TIME_PERIODS = [
   'Tý (23h-01h)', 'Sửu (01h-03h)', 'Dần (03h-05h)', 'Mão (05h-07h)',
@@ -28,12 +31,12 @@ const FAQS = [
   {
     question: 'Lá số tử vi có chính xác không?',
     answer:
-      'Lá số được tạo dựa trên thuật toán tử vi truyền thống. Tuy nhiên, kết quả chỉ mang tính chất tham khảo và không phải là lờii tiên đoán tuyệt đối.',
+      'Lá số được tạo dựa trên thuật toán tử vi truyền thống. Tuy nhiên, kết quả chỉ mang tính chất tham khảo và không phải là lời tiên đoán tuyệt đối.',
   },
   {
-    question: 'Tôi có thể xem lá số của ngườii thân không?',
+    question: 'Tôi có thể xem lá số của người thân không?',
     answer:
-      'Có, bạn có thể nhập thông tin của ngườii thân để xem lá số. Tuy nhiên, hãy tôn trọng quyền riêng tư của họ.',
+      'Có, bạn có thể nhập thông tin của người thân để xem lá số. Tuy nhiên, hãy tôn trọng quyền riêng tư của họ.',
   },
   {
     question: 'Làm sao để hiểu lá số tử vi?',
@@ -45,6 +48,8 @@ const FAQS = [
 export default function LapLaSoClient() {
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [chartData, setChartData] = useState<ChartData | null>(null)
+  const [loading, setLoading] = useState(false)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -69,7 +74,13 @@ export default function LapLaSoClient() {
 
     setErrors(newErrors)
     if (Object.keys(newErrors).length === 0) {
+      setLoading(true)
       setSubmitted(true)
+      
+      // Generate chart using iztro
+      const chart = generateChart(birthDate, parseInt(birthTime), gender as 'nam' | 'nu')
+      setChartData(chart)
+      setLoading(false)
     }
   }
 
@@ -236,6 +247,11 @@ export default function LapLaSoClient() {
         </form>
       </section>
 
+      {/* How we read the chart — trust component */}
+      <section className="mb-6">
+        <ReadingProcess />
+      </section>
+
       {/* Chart Placeholder */}
       {submitted && (
         <section id="chart" className="mb-12">
@@ -277,7 +293,7 @@ export default function LapLaSoClient() {
             Mua Ngay
           </button>
           <p className="mt-3 text-xs text-navy-400">
-            * Kết quả chỉ mang tính chất tham khảo, không phải lờii tiên đoán.
+            * Kết quả chỉ mang tính chất tham khảo, không phải lời tiên đoán.
           </p>
         </div>
       </section>
@@ -310,7 +326,7 @@ export default function LapLaSoClient() {
       <FAQPageSchema faqs={FAQS} />
 
       <p className="text-sm text-navy-400 text-center">
-        * Nội dung chỉ mang tính chất tham khảo, không phải lờii tiên đoán.
+        * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán.
       </p>
     </main>
   )

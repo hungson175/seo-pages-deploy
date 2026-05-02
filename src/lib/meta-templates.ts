@@ -49,7 +49,7 @@ export function buildMetaTemplate(
     homepage: () => ({
       title: truncate(`${topic} — Xem Tử Vi, Gieo Quẻ Kinh Dịch Online`, 60),
       description: truncate(
-        'Xem tử vi trọn đờii, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí. Tham khảo vận mệnh theo phương pháp cổ truyền Việt Nam.',
+        'Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online miễn phí. Tham khảo vận mệnh theo phương pháp cổ truyền Việt Nam.',
         160
       ),
     }),

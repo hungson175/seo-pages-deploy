@@ -38,7 +38,7 @@ For each `{animal, year, gender}` combination:
   - Tình duyên & Gia đạo
   - Sức khỏe
   - Biến động quan trọng
-  - Lờii khuyên (advice)
+  - Lời khuyên (advice)
   - FAQ section
 - **Tone**: "Thầy bói nói chuyện" — warm, advisory, not absolute
 - **Length**: 1,200–1,500 words per page
@@ -49,7 +49,7 @@ For each `{animal, year, gender}` combination:
 - **Article 320 (MANDATORY)**: 
   - Every section uses "tham khảo" (reference) framing
   - NEVER use "tiên đoán" (prediction), "định mệnh" (fate), or absolute guarantees
-  - Disclaimer visible on every page: "* Nội dung chỉ mang tính chất tham khảo, không phải lờii tiên đoán."
+  - Disclaimer visible on every page: "* Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán."
 - **No Western astrology**: Automated check for zodiac, horoscope, sun sign, ascendant — flag and rewrite
 - **No deity/sacred images**: Text only, no religious references
 - **Star brightness accuracy**: Verify độ sáng terminology (minh/hãm/bình) is used correctly

@@ -110,7 +110,7 @@ Each palace cell displays:
 
 ### Pricing
 - 99.000đ
-- Social proof: "Đã có 1.200+ ngườii mua" (placeholder)
+- Social proof: "Đã có 1.200+ người mua" (placeholder)
 
 ## Performance Requirements
 

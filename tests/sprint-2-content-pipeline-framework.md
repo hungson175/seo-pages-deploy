@@ -98,7 +98,7 @@ SSG render (Next.js generateStaticParams)
 
 | Criterion | Check | Example PASS | Example FAIL |
 |-----------|-------|--------------|--------------|
-| Conversational | "Bạn" usage | "Bạn sẽ gặp..." | "Ngườii này sẽ..." |
+| Conversational | "Bạn" usage | "Bạn sẽ gặp..." | "Người này sẽ..." |
 | Advisory | Suggestions, not commands | "Nên cân nhắc..." | "Phải làm..." |
 | Non-deterministic | Uncertainty markers | "có thể", "nên" | "sẽ chắc chắn", "nhất định" |
 | Specific | Star names cited | "Sao Tử Vi ở cung Mệnh" | "Các sao tốt" |

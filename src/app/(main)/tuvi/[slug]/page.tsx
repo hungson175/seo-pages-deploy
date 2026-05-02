@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
 import { toTitleCase } from '@/lib/casing'
-import { FORECAST_SLUGS } from '@/lib/data/allow-lists'
+import { FORECAST_SLUGS } from '@/content/routes'
 import {
   ArticleSchema,
   FAQPageSchema,
   BreadcrumbListSchema,
 } from '@/components/json-ld/json-ld'
+import { ReadingProcess } from '@/components/trust/reading-process'
 
 export function generateStaticParams() {
   return FORECAST_SLUGS.map((slug) => ({ slug }))
@@ -105,8 +106,12 @@ export default async function ForecastPage({
         ]}
       />
 
+      <section className="mt-8 mb-6">
+        <ReadingProcess />
+      </section>
+
       <p className="mt-12 text-sm text-navy-400">
-        * Nội dung chỉ mang tính chất tham khảo, không phải lờii tiên đoán.
+        * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán.
       </p>
     </main>
   )

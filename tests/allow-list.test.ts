@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { validateSlug, isAllowedSlug, SLUG_ALLOW_LIST } from '../src/lib/allow-list'
+import { validateSlug, isAllowedSlug, SLUG_ALLOW_LIST } from '../src/content/routes'
 
 describe('validateSlug', () => {
   it('returns true for allowed forecast slugs', () => {
-    expect(validateSlug('tuoi-ty-2026-nam')).toBe(true)
-    expect(validateSlug('tuoi-ty-2026-nu')).toBe(true)
-    expect(validateSlug('tuoi-su-2026-nam')).toBe(true)
-    expect(validateSlug('tuoi-dan-2026-nu')).toBe(true)
+    expect(validateSlug('tuoi-ty-1984-nam')).toBe(true)
+    expect(validateSlug('tuoi-ty-1984-nu')).toBe(true)
+    expect(validateSlug('tuoi-suu-1984-nam')).toBe(true)
+    expect(validateSlug('tuoi-dan-1984-nu')).toBe(true)
   })
 
   it('returns true for allowed star slugs', () => {
@@ -33,7 +33,7 @@ describe('validateSlug', () => {
   })
 
   it('returns false for slugs with uppercase letters', () => {
-    expect(validateSlug('Tuoi-Ty-2026')).toBe(false)
+    expect(validateSlug('Tuoi-Ty-1984')).toBe(false)
     expect(validateSlug('TUVI')).toBe(false)
   })
 
@@ -45,14 +45,14 @@ describe('validateSlug', () => {
 
 describe('isAllowedSlug', () => {
   it('is a convenience alias for validateSlug', () => {
-    expect(isAllowedSlug('tuoi-ty-2026-nam')).toBe(true)
+    expect(isAllowedSlug('tuoi-ty-1984-nam')).toBe(true)
     expect(isAllowedSlug('invalid')).toBe(false)
   })
 })
 
 describe('SLUG_ALLOW_LIST', () => {
   it('contains at least 12 animal zodiac entries', () => {
-    const animals = ['ty', 'suu', 'dan', 'mao', 'thin', 'tyj', 'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi']
+    const animals = ['ty', 'suu', 'dan', 'mao', 'thin', 'ty-j', 'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi']
     animals.forEach((animal) => {
       expect(SLUG_ALLOW_LIST.some((s) => s.includes(animal))).toBe(true)
     })

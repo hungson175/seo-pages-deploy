@@ -91,7 +91,7 @@
 | Tài lộc | Yes | After Sự nghiệp |
 | Tình duyên | Yes | After Tài lộc |
 | Sức khỏe | Yes | After Tình duyên |
-| Lờii khuyên | Yes | Last H2 |
+| Lời khuyên | Yes | Last H2 |
 | FAQ | Yes | After content |
 | Disclaimer | Yes | End of page |
 

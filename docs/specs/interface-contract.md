@@ -91,8 +91,8 @@ Per SM Action Item #2, **before TDD begins**, devs MUST:
 
 | File | Owner | Rationale |
 |------|-------|-----------|
-| `src/lib/data/allow-lists.ts` | BE | Single source of truth for all valid slugs |
-| `src/lib/allow-list.ts` | **DEPRECATED** — consolidate into `data/allow-lists.ts` | |
+| `src/content/routes.json` + `src/content/routes.ts` | BE | Single source of truth for all valid slugs and generated route lists |
+| `src/lib/data/allow-lists.ts` | Compatibility re-export only | Prefer importing from `@/content/routes` in new code |
 | `src/lib/supabase/server.ts` | BE | Server client creation |
 | `src/lib/supabase/client.ts` | BE | Browser client creation |
 | `src/lib/metadata.ts` | FE | Page metadata assembly |
@@ -104,7 +104,7 @@ Per SM Action Item #2, **before TDD begins**, devs MUST:
 
 1. Sprint 2: Create `src/lib/data-fetch.ts` with typed helpers for each route type
 2. Sprint 2: Migrate existing pages to use `data-fetch.ts` instead of inline hardcoded content
-3. Sprint 2: Delete `src/lib/allow-list.ts`, update imports to `src/lib/data/allow-lists.ts`
+3. Done: `src/lib/allow-list.ts` deleted; new code imports from `src/content/routes.ts`
 4. Sprint 3: Add real Supabase queries to `data-fetch.ts` (currently returns mock data)
 
 ## Acceptance Criteria

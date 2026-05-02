@@ -38,7 +38,7 @@ Examples:
 
 | Page Type | Formula | Example |
 |-----------|---------|---------|
-| Homepage | [Action] + [Brand/Keyword] + [Benefit] | "Xem Tử Vi Trọn Đờii — Hiểu Vận Mệnh, Nắm Tương Lai" |
+| Homepage | [Action] + [Brand/Keyword] + [Benefit] | "Xem Tử Vi Trọn Đời — Hiểu Vận Mệnh, Nắm Tương Lai" |
 | Tool (/lap-la-so/) | [Action] + [Tool Name] + [Benefit] | "Lập Lá Số Tử Vi Miễn Phí — Khám Phá Vận Mệnh" |
 | Forecast (/tuvi/*) | [Action] + [Tử Vi] + [Animal] + [Year] + [Benefit] | "Xem Tử Vi Tuổi Tý 2026 — Dự Đoán Chính Xác" |
 | Que (/que/*) | [Action] + [Que Name] + [Benefit] | "Gieo Quẻ Kiển Vì Thiên — Giải Đáp Thắc Mắc" |
@@ -100,7 +100,7 @@ Examples:
 |-----------|----------|---------|
 | Action | Yes | "Xem", "Khám Phá", "Tìm Hiểu" |
 | Keyword | Yes | "Tử Vi", "Bói Toán" |
-| Benefit | Yes | "Trọn Đờii", "Hiểu Vận Mệnh" |
+| Benefit | Yes | "Trọn Đời", "Hiểu Vận Mệnh" |
 
 | Step | Action | Expected |
 |------|--------|----------|

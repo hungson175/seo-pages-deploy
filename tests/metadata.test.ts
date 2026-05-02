@@ -103,6 +103,19 @@ describe('buildMetadata — title templates', () => {
     expect(meta.title).toBe('Quẻ Kiển Vì Thiên | Bói Toán')
   })
 
+  it('does not duplicate site suffix when title already includes it', () => {
+    const meta = buildMetadata({
+      title: 'Khám Phá Quẻ Càn Vi Thiên | Bói Toán',
+      description: 'Test',
+      path: '/que/1-kien-vi-thien',
+      pageType: 'que',
+    })
+
+    expect(meta.title).toBe('Khám Phá Quẻ Càn Vi Thiên | Bói Toán')
+    expect(meta.openGraph?.title).toBe('Khám Phá Quẻ Càn Vi Thiên | Bói Toán')
+    expect(meta.twitter?.title).toBe('Khám Phá Quẻ Càn Vi Thiên | Bói Toán')
+  })
+
   it('uses tool title template', () => {
     const meta = buildMetadata({
       title: 'Lập lá số tử vi online',

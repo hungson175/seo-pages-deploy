@@ -34,6 +34,9 @@ function getRobots(pageType?: PageType): Metadata['robots'] {
 }
 
 function buildTitle(title: string): string {
+  if (new RegExp(`\\s*\\|\\s*${SITE_NAME}$`).test(title)) {
+    return title
+  }
   return `${title} | ${SITE_NAME}`
 }
 

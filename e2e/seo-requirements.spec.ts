@@ -36,6 +36,8 @@ test.describe('Sprint 2 - SEO Requirements', () => {
   test('que metadata uses cultural-reference framing', async ({ page }) => {
     await page.goto('/que/1-kien-vi-thien')
 
+    await expect(page).toHaveTitle(/Bói Toán$/)
+    await expect(page).not.toHaveTitle(/\| Bói Toán \| Bói Toán/)
     const description = page.locator('meta[name="description"]')
     await expect(description).toHaveAttribute('content', /Tìm hiểu tinh thần/)
     await expect(description).toHaveAttribute('content', /tham khảo/)

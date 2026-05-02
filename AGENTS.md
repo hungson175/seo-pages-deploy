@@ -17,6 +17,8 @@ Primary goal: ship indexable SEO content pages; do not prioritize horoscope-app 
 
 TuVi algorithms, terminology, and calculation behavior must be read from the approved reference repo in `sample_code/horoscope/` before implementation. Do not invent astrology logic. For the current roadmap, keep `/tu-vi/` and birth-year pages static/server-rendered; `/lap-la-so/` is a static SEO landing page unless Boss explicitly reopens app scope.
 
+**Source of Truth for Algorithms:** iztro v2.5.8 is the approved source of truth for Tử Vi algorithms. The Tam Hợp Phái book Ch4 has known algorithm errors flagged by Bói-Toán domain QA (2026-05-02). Do NOT implement manual algorithms from Ch4 until Bói-Toán rewrite is complete and verified. Current site using iztro/templates is not blocked.
+
 For visual direction, study `docs/reference/horoscope-ui-theme.md`; it distills the approved `sample_code/horoscope/web` ivory/indigo/gold/vermillion manuscript theme. For generated images, follow `docs/reference/generated-images-policy.md`: use selective hero/OG images, not unique AI art on every pSEO page.
 
 ## Build, Test, and Development Commands

@@ -9,9 +9,9 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
     },
     sitemap: [
-      'https://boitoan.vn/sitemap.xml',
-      'https://boitoan.vn/sitemap-index.xml',
-      'https://boitoan.vn/stars.xml',
+      'https://boitoan.com.vn/sitemap.xml',
+      'https://boitoan.com.vn/sitemap-index.xml',
+      'https://boitoan.com.vn/stars.xml',
     ],
   }
 }

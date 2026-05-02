@@ -77,13 +77,13 @@ describe('PageMetadataCache type', () => {
         openGraph: {
           title: 'Tử Vi Tuổi Tý 2026',
           description: '...',
-          url: 'https://boitoan.vn/tuvi/tuoi-ty-2026-nam',
+          url: 'https://boitoan.com.vn/tuvi/tuoi-ty-2026-nam',
         },
         twitter: {
           card: 'summary_large_image',
           title: 'Tử Vi Tuổi Tý 2026',
         },
-        canonical: 'https://boitoan.vn/tuvi/tuoi-ty-2026-nam',
+        canonical: 'https://boitoan.com.vn/tuvi/tuoi-ty-2026-nam',
       },
       last_generated_at: '2026-05-01T00:00:00Z',
     }

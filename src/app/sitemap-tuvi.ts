@@ -5,7 +5,7 @@ import { ANIMAL_HUB_SLUGS } from '@/content/animal-hubs'
 export const dynamic = 'force-static'
 
 export default function sitemapTuvi(): MetadataRoute.Sitemap {
-  const base = 'https://boitoan.vn'
+  const base = 'https://boitoan.com.vn'
   const lastmod = '2026-05-02'
 
   return [

@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next'
 export const dynamic = 'force-static'
 
 export default function sitemapTools(): MetadataRoute.Sitemap {
-  const base = 'https://boitoan.vn'
+  const base = 'https://boitoan.com.vn'
   const lastmod = '2026-05-01'
 
   return [

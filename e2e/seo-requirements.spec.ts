@@ -15,7 +15,7 @@ test.describe('Sprint 2 - SEO Requirements', () => {
     
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /tử vi 2026/i)
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /Tử Vi 2026 - Xem Lá Số Tử Vi Online/)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.vn/tu-vi/')
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.com.vn/tu-vi/')
   })
 
   test('home metadata avoids unsupported product promises', async ({ page }) => {
@@ -30,7 +30,7 @@ test.describe('Sprint 2 - SEO Requirements', () => {
     await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /công việc/i)
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.vn/tu-vi-2026/giap-ty-1984-nam-mang/')
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://boitoan.com.vn/tu-vi-2026/giap-ty-1984-nam-mang/')
   })
 
   test('que metadata uses cultural-reference framing', async ({ page }) => {

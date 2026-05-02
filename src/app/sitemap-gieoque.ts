@@ -4,7 +4,7 @@ import { QUE_SLUGS } from '@/content/routes'
 export const dynamic = 'force-static'
 
 export default function sitemapGieoque(): MetadataRoute.Sitemap {
-  const base = 'https://boitoan.vn'
+  const base = 'https://boitoan.com.vn'
   const lastmod = '2026-05-01'
 
   return QUE_SLUGS.map((slug) => ({

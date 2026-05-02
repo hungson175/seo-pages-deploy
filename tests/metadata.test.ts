@@ -158,7 +158,7 @@ describe('buildMetadata — canonical URLs', () => {
       path: '/tuvi/tuoi-ty-2026-nam',
       pageType: 'forecast',
     })
-    expect(meta.alternates?.canonical).toBe('https://boitoan.vn/tuvi/tuoi-ty-2026-nam')
+    expect(meta.alternates?.canonical).toBe('https://boitoan.com.vn/tuvi/tuoi-ty-2026-nam')
   })
 })
 
@@ -190,6 +190,6 @@ describe('buildMetadata — Open Graph', () => {
       path: '/tuvi/tuoi-ty',
       pageType: 'forecast',
     })
-    expect(meta.openGraph?.url).toBe('https://boitoan.vn/tuvi/tuoi-ty')
+    expect(meta.openGraph?.url).toBe('https://boitoan.com.vn/tuvi/tuoi-ty')
   })
 })

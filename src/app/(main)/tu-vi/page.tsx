@@ -8,7 +8,7 @@ import {
   JsonLd,
 } from '@/components/json-ld/json-ld'
 
-const BASE_URL = 'https://boitoan.vn'
+const BASE_URL = 'https://boitoan.com.vn'
 
 const META_DESCRIPTION =
   'Tử vi 2026, xem lá số tử vi online theo tuổi: công danh, tài lộc, tình duyên, sức khỏe. Nội dung tham khảo, dễ đọc và có cấu trúc.'

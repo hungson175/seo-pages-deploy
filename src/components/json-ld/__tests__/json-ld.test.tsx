@@ -27,13 +27,13 @@ describe('JsonLd', () => {
 
 describe('WebSiteSchema', () => {
   it('produces WebSite schema with inLanguage: vi', () => {
-    const { container } = render(<WebSiteSchema name="Bói Toán" url="https://boitoan.vn" />)
+    const { container } = render(<WebSiteSchema name="Bói Toán" url="https://boitoan.com.vn" />)
     const script = container.querySelector('script[type="application/ld+json"]')
     const json = JSON.parse(script!.textContent!)
     expect(json['@type']).toBe('WebSite')
     expect(json.inLanguage).toBe('vi')
     expect(json.name).toBe('Bói Toán')
-    expect(json.url).toBe('https://boitoan.vn')
+    expect(json.url).toBe('https://boitoan.com.vn')
   })
 })
 
@@ -42,7 +42,7 @@ describe('ArticleSchema', () => {
     const props = {
       headline: 'Tử Vi Tuổi Tý 2026',
       description: 'Xem tử vi tuổi Tý năm 2026 chi tiết',
-      url: 'https://boitoan.vn/tuvi/tuoi-ty-2026-nam',
+      url: 'https://boitoan.com.vn/tuvi/tuoi-ty-2026-nam',
       datePublished: '2026-05-01',
       dateModified: '2026-05-01',
       authorName: 'Bói Toán',
@@ -79,8 +79,8 @@ describe('FAQPageSchema', () => {
 describe('HowToSchema', () => {
   it('produces HowTo schema with inLanguage: vi and steps', () => {
     const steps = [
-      { name: 'Bước 1', text: 'Nhập ngày sinh', url: 'https://boitoan.vn/lap-la-so#step1' },
-      { name: 'Bước 2', text: 'Xem lá số', url: 'https://boitoan.vn/lap-la-so#step2' },
+      { name: 'Bước 1', text: 'Nhập ngày sinh', url: 'https://boitoan.com.vn/lap-la-so#step1' },
+      { name: 'Bước 2', text: 'Xem lá số', url: 'https://boitoan.com.vn/lap-la-so#step2' },
     ]
     const { container } = render(
       <HowToSchema
@@ -104,7 +104,7 @@ describe('ServiceSchema', () => {
       <ServiceSchema
         name="Lập Lá Số Tử Vi"
         description="Công cụ lập lá số tử vi online miễn phí"
-        url="https://boitoan.vn/lap-la-so"
+        url="https://boitoan.com.vn/lap-la-so"
         provider="Bói Toán"
       />
     )
@@ -122,9 +122,9 @@ describe('ServiceSchema', () => {
 describe('BreadcrumbListSchema', () => {
   it('produces BreadcrumbList schema with inLanguage: vi', () => {
     const items = [
-      { name: 'Trang chủ', url: 'https://boitoan.vn/' },
-      { name: 'Tử vi', url: 'https://boitoan.vn/tuvi' },
-      { name: 'Tuổi Tý 2026', url: 'https://boitoan.vn/tuvi/tuoi-ty-2026-nam' },
+      { name: 'Trang chủ', url: 'https://boitoan.com.vn/' },
+      { name: 'Tử vi', url: 'https://boitoan.com.vn/tuvi' },
+      { name: 'Tuổi Tý 2026', url: 'https://boitoan.com.vn/tuvi/tuoi-ty-2026-nam' },
     ]
     const { container } = render(<BreadcrumbListSchema items={items} />)
     const script = container.querySelector('script[type="application/ld+json"]')

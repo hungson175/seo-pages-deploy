@@ -72,16 +72,16 @@ export default async function QuePage({
       <ArticleSchema
         headline={h1}
         description={`Tìm hiểu tinh thần quẻ ${content.name} trong Kinh Dịch theo hướng tham khảo.`}
-        url={`https://boitoan.vn/que/${slug}`}
+        url={`https://boitoan.com.vn/que/${slug}`}
         datePublished="2026-05-01"
         dateModified="2026-05-02"
         authorName="Bói Toán"
       />
       <BreadcrumbListSchema
         items={[
-          { name: 'Trang chủ', url: 'https://boitoan.vn/' },
-          { name: 'Quẻ', url: 'https://boitoan.vn/que' },
-          { name: content.name, url: `https://boitoan.vn/que/${slug}` },
+          { name: 'Trang chủ', url: 'https://boitoan.com.vn/' },
+          { name: 'Quẻ', url: 'https://boitoan.com.vn/que' },
+          { name: content.name, url: `https://boitoan.com.vn/que/${slug}` },
         ]}
       />
       <FAQPageSchema

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://boitoan.vn/sitemap.xml</loc>
+    <loc>https://boitoan.com.vn/sitemap.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://boitoan.vn/tuvi.xml</loc>
+    <loc>https://boitoan.com.vn/tuvi.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://boitoan.vn/stars.xml</loc>
+    <loc>https://boitoan.com.vn/stars.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://boitoan.vn/gieoque.xml</loc>
+    <loc>https://boitoan.com.vn/gieoque.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://boitoan.vn/tools.xml</loc>
+    <loc>https://boitoan.com.vn/tools.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
 </sitemapindex>

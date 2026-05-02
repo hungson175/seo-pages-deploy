@@ -20,12 +20,12 @@ export const metadata: Metadata = {
   title: 'Bói Toán - Đọc Tử Vi 2026, Lá Số Và Kinh Dịch',
   description:
     'Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.',
-  metadataBase: new URL('https://boitoan.vn'),
+  metadataBase: new URL('https://boitoan.com.vn'),
   openGraph: {
     title: 'Bói Toán - Đọc Tử Vi 2026, Lá Số Và Kinh Dịch',
     description:
       'Đọc Tử Vi 2026, tìm hiểu lá số Tử Vi và tra cứu Kinh Dịch theo tinh thần tham khảo, rõ nguồn, không hù dọa.',
-    url: 'https://boitoan.vn',
+    url: 'https://boitoan.com.vn',
     siteName: 'Bói Toán',
     locale: 'vi_VN',
     type: 'website',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: 'https://boitoan.vn',
+    canonical: 'https://boitoan.com.vn',
   },
 }
 

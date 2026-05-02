@@ -12,7 +12,7 @@ const priorityStarSlugs = [
   'thien-luong',
 ]
 
-const base = 'https://boitoan.vn'
+const base = 'https://boitoan.com.vn'
 const lastmod = '2026-05-02'
 
 function toSlug(input) {

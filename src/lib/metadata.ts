@@ -14,7 +14,7 @@ interface PageMetaInput {
   pageType?: PageType
 }
 
-const BASE_URL = 'https://boitoan.vn'
+const BASE_URL = 'https://boitoan.com.vn'
 const SITE_NAME = 'Bói Toán'
 
 function getRobots(pageType?: PageType): Metadata['robots'] {

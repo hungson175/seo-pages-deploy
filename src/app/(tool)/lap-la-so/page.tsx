@@ -6,7 +6,7 @@ import {
   ServiceSchema,
 } from '@/components/json-ld/json-ld'
 
-const BASE_URL = 'https://boitoan.vn'
+const BASE_URL = 'https://boitoan.com.vn'
 
 const FAQS = [
   {

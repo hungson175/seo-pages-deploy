@@ -63,6 +63,9 @@ Workflow: search with `gbrain`, update the canonical entity compiled truth above
 
 Key references: `~/data/sbrain/CLAUDE.md`, `~/data/sbrain/wiki/RESOLVER.md`, `~/data/sbrain/wiki/schema.md`, and `~/data/sbrain/wiki/concepts/brain/sbrain-agent-write-protocol.md`.
 
+Future SEO Pages release gates, launch status, and blockers should update the canonical SBrain team/product/blocker pages (`teams/seo-pages-team`, `products/boi-toan`, `blockers/seo-pages-release-gate`) before handoff.
+
+
 ## Commit & Pull Request Guidelines
 
 History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STORY-012a: ...`. Commit often: git history is the primary past-progress tracker, so save each meaningful working checkpoint with a clear message after tests/builds pass. PRs should include summary, affected routes, test results, screenshots for visual changes, and relevant docs/story IDs.

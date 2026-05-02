@@ -1,3 +1,4 @@
+import approvedStarPalaceCombinations from './star-palace-approved.json'
 import {
   PRIORITY_STAR_SLUGS,
   type PriorityStarSlug,
@@ -108,9 +109,9 @@ export const CMO_FIRST_BATCH_STAR_PALACE_COMBINATIONS = [
   { star: 'thien-luong', palace: 'tat-ach' },
 ] as const satisfies readonly StarPalaceCombinationKey[]
 
-// Keep this empty until each specific star×cung article has 1,500+ words plus
-// Bói-Toán, CMO, and SEO review. This prevents accidental pSEO thin pages.
-export const APPROVED_STAR_PALACE_COMBINATIONS: readonly StarPalaceCombinationKey[] = []
+// Staged release allow-list. Add combinations only after Bói-Toán, CMO, SEO,
+// and CEO approval; sitemap/build scripts consume the same JSON source.
+export const APPROVED_STAR_PALACE_COMBINATIONS = approvedStarPalaceCombinations as readonly StarPalaceCombinationKey[]
 
 export function getApprovedStarPalaceCombinations(): readonly StarPalaceCombinationKey[] {
   return APPROVED_STAR_PALACE_COMBINATIONS

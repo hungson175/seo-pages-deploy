@@ -105,11 +105,18 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })
 
-  test('unapproved star×cung page remains gated', async ({ page }) => {
-    const response = await page.goto('/sao/tu-vi/cung/menh/')
+  test('approved star×cung page renders and unapproved combo stays gated', async ({ page }) => {
+    const approvedResponse = await page.goto('/sao/tu-vi/cung/menh/')
 
-    expect(response?.status()).toBe(404)
-    await expect(page.locator('body')).not.toContainText('Sao Tử Vi Ở Cung Mệnh')
+    expect(approvedResponse?.status()).toBe(200)
+    await expect(page.locator('h1')).toHaveText('Sao Tử Vi Ở Cung Mệnh — Ý Nghĩa, Cách Đọc Và Lưu Ý')
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
+    await expect(page.locator('main')).toContainText('紫微斗数全书')
+
+    const unapprovedResponse = await page.goto('/sao/vu-khuc/cung/tai-bach/')
+
+    expect(unapprovedResponse?.status()).toBe(404)
+    await expect(page.locator('body')).not.toContainText('Sao Vũ Khúc Ở Cung Tài Bạch')
   })
 
   test('que page renders', async ({ page }) => {

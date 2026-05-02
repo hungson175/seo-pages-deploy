@@ -17,6 +17,7 @@ import {
   getStarPalaceWordCount,
   isStarPalaceReadyForIndex,
 } from '../src/content/star-palace'
+import robots from '../src/app/robots'
 import rootSitemap from '../src/app/sitemap'
 import starPalaceSitemap from '../src/app/sitemap-star-palace'
 import { generateStaticParams } from '../src/app/(main)/sao/[star]/cung/[palace]/page'
@@ -54,12 +55,15 @@ describe('star×cung expansion template', () => {
     expect(matrix.every((page) => page.indexable === false)).toBe(true)
   })
 
-  it('does not publish or index star×cung pages until approved', () => {
-    expect(APPROVED_STAR_PALACE_COMBINATIONS).toHaveLength(0)
-    expect(getApprovedStarPalacePages()).toHaveLength(0)
-    expect(generateStaticParams()).toHaveLength(0)
-    expect(getStarPalacePage('tu-vi', 'menh')).toBeNull()
+  it('stages only Tử Vi×Mệnh for first release', () => {
+    expect(APPROVED_STAR_PALACE_COMBINATIONS).toEqual([{ star: 'tu-vi', palace: 'menh' }])
+    expect(getApprovedStarPalacePages().map((page) => page.urlPath)).toEqual([
+      '/sao/tu-vi/cung/menh/',
+    ])
+    expect(generateStaticParams()).toEqual([{ star: 'tu-vi', palace: 'menh' }])
+    expect(getStarPalacePage('tu-vi', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('thai-duong', 'quan-loc')).toBeNull()
+    expect(getStarPalacePage('vu-khuc', 'tai-bach')).toBeNull()
   })
 
   it('builds a safe draft for a valid star×cung pair', () => {
@@ -158,18 +162,27 @@ describe('star×cung expansion template', () => {
     }
   })
 
-  it('keeps star×cung sitemap entries closed while approvals are empty', () => {
+  it('publishes only approved star×cung sitemap entries', () => {
     const rootUrls = rootSitemap().map((entry) => entry.url)
-    const comboPattern = /\/sao\/[^/]+\/cung\/[^/]+\//
+    const starPalaceUrls = starPalaceSitemap().map((entry) => entry.url)
 
-    expect(starPalaceSitemap()).toHaveLength(0)
-    expect(rootUrls.some((url) => comboPattern.test(url))).toBe(false)
+    expect(starPalaceUrls).toEqual(['https://boitoan.com.vn/sao/tu-vi/cung/menh/'])
+    expect(rootUrls.filter((url) => url.includes('/sao/') && url.includes('/cung/'))).toEqual([
+      'https://boitoan.com.vn/sao/tu-vi/cung/menh/',
+    ])
   })
 
-  it('does not add combo links to star or palace pages before approval', () => {
-    expect(getApprovedStarPalaceLinksForStar('tu-vi')).toEqual([])
+  it('exposes star-palace.xml in robots and approved hub backlinks only', () => {
+    const robotSitemaps = robots().sitemap
+
+    expect(robotSitemaps).toContain('https://boitoan.com.vn/star-palace.xml')
+    expect(getApprovedStarPalaceLinksForStar('tu-vi').map((link) => link.href)).toEqual([
+      '/sao/tu-vi/cung/menh/',
+    ])
     expect(getApprovedStarPalaceLinksForStar('thai-duong')).toEqual([])
-    expect(getApprovedStarPalaceLinksForPalace('menh')).toEqual([])
+    expect(getApprovedStarPalaceLinksForPalace('menh').map((link) => link.href)).toEqual([
+      '/sao/tu-vi/cung/menh/',
+    ])
     expect(getApprovedStarPalaceLinksForPalace('quan-loc')).toEqual([])
   })
 

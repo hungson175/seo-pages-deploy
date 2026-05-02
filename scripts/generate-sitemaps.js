@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const routes = require('../src/content/routes.json')
 const seoForecasts = require('../src/content/seo-forecasts.json')
+const approvedStarPalaceCombinations = require('../src/content/star-palace-approved.json')
 
 const priorityStarSlugs = [
   'tu-vi',
@@ -136,9 +137,12 @@ const palaceUrls = palaceSlugs.map((slug) => ({
   priority: '0.74',
 }))
 
-// Phase 0 mechanism for future approved star×cung pages. Keep empty until
-// Bói-Toán + CMO + SEO explicitly approve specific combinations.
-const starPalaceUrls = []
+const starPalaceUrls = approvedStarPalaceCombinations.map((combo) => ({
+  loc: `${base}/sao/${combo.star}/cung/${combo.palace}/`,
+  lastmod,
+  changefreq: 'monthly',
+  priority: '0.68',
+}))
 
 const publicDir = path.join(__dirname, '..', 'public')
 fs.mkdirSync(publicDir, { recursive: true })

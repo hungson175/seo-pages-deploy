@@ -3,6 +3,7 @@ import {
   PALACE_FOUNDATION_PAGES,
   PALACE_SLUGS,
   getPalaceFoundationPage,
+  getPalaceTamHop,
   isPalaceSlug,
 } from '../src/content/palaces'
 
@@ -80,6 +81,37 @@ describe('12 cung foundation pages', () => {
       expect(text).not.toContain('Tử Tức')
       expect(text).not.toContain('tu-tuc')
     }
+  })
+
+  it('uses the audited 4-apart tam hợp geometry for all 12 palaces', () => {
+    const expectedTamHop: Record<string, string> = {
+      menh: 'Mệnh - Quan Lộc - Tài Bạch',
+      'phu-mau': 'Phụ Mẫu - Nô Bộc - Tử Nữ',
+      'phuc-duc': 'Phúc Đức - Thiên Di - Phu Thê',
+      'dien-trach': 'Điền Trạch - Tật Ách - Huynh Đệ',
+      'quan-loc': 'Quan Lộc - Tài Bạch - Mệnh',
+      'no-boc': 'Nô Bộc - Tử Nữ - Phụ Mẫu',
+      'thien-di': 'Thiên Di - Phu Thê - Phúc Đức',
+      'tat-ach': 'Tật Ách - Huynh Đệ - Điền Trạch',
+      'tai-bach': 'Tài Bạch - Mệnh - Quan Lộc',
+      'tu-nu': 'Tử Nữ - Phụ Mẫu - Nô Bộc',
+      'phu-the': 'Phu Thê - Phúc Đức - Thiên Di',
+      'huynh-de': 'Huynh Đệ - Điền Trạch - Tật Ách',
+    }
+
+    for (const slug of PALACE_SLUGS) {
+      const page = getPalaceFoundationPage(slug)!
+      const tamHopRow = page.summaryRows.find((row) => row.aspect === 'Tam hợp cần xem')
+      expect(getPalaceTamHop(slug), `${slug} generated tam hợp`).toBe(expectedTamHop[slug])
+      expect(tamHopRow?.meaning, `${slug} tam hợp`).toBe(expectedTamHop[slug])
+    }
+  })
+
+  it('does not repeat Mệnh as both the active palace and the linked root palace', () => {
+    const text = pageText(getPalaceFoundationPage('menh')!)
+    expect(text).not.toContain('cung Mệnh có vai trò riêng nhưng luôn liên hệ với Mệnh Cung')
+    expect(text).not.toContain('cung Mệnh liên hệ với Mệnh Cung')
+    expect(text).toContain('cung Mệnh là trục gốc của toàn lá số')
   })
 
 

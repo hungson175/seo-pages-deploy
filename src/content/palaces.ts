@@ -44,7 +44,6 @@ interface PalaceProfile {
   lifeArea: string
   keyQuestion: string
   xungChieu: string
-  tamHop: string
   adjacent: string
   strengths: string
   cautions: string
@@ -100,7 +99,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'bản thân, tính cách, xu hướng hành động và bài học tự chủ',
     keyQuestion: 'Tôi đang dùng điểm mạnh gốc của mình để tạo trật tự hay để né tránh thay đổi?',
     xungChieu: 'Thiên Di',
-    tamHop: 'Mệnh - Tài Bạch - Quan Lộc',
     adjacent: 'Phụ Mẫu và Huynh Đệ',
     strengths: 'giúp người học nhìn được nền tính cách, nhịp tự quyết và cách phối hợp giữa mục tiêu cá nhân với công việc, tiền bạc, môi trường bên ngoài',
     cautions: 'dễ bị đọc quá mức như một nhãn định danh cố định nếu bỏ qua Thân Cung, Thiên Di, Tài Bạch, Quan Lộc và dữ kiện đời sống thật',
@@ -129,7 +127,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'cha mẹ, người bảo trợ, môi trường giáo dục sớm và cách tiếp nhận lời khuyên',
     keyQuestion: 'Nền nếp gia đình đang nâng mình lên hay khiến mình lặp lại một khuôn mẫu chưa được kiểm chứng?',
     xungChieu: 'Tật Ách',
-    tamHop: 'Phụ Mẫu - Nô Bộc - Tài Bạch',
     adjacent: 'Mệnh và Phúc Đức',
     strengths: 'giúp hiểu cách một người học từ gia đình, nhận hỗ trợ, phản ứng với quyền uy và xây quan hệ biết ơn nhưng có ranh giới',
     cautions: 'dễ bị biến thành phán xét cha mẹ nếu bỏ qua bối cảnh thế hệ, hoàn cảnh sống và lựa chọn trưởng thành của người xem',
@@ -158,7 +155,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'tâm tính, gia tộc, nền đạo đức, thói quen nghỉ ngơi và chất lượng an trú nội tâm',
     keyQuestion: 'Mình đang sống theo một nền giá trị làm mình vững hơn hay chỉ đang chạy theo áp lực trước mắt?',
     xungChieu: 'Tài Bạch',
-    tamHop: 'Phúc Đức - Phu Thê - Thiên Di',
     adjacent: 'Phụ Mẫu và Điền Trạch',
     strengths: 'giúp hiểu vì sao cùng hoàn cảnh nhưng mỗi người có sức bền tinh thần, lòng tin và cách hồi phục khác nhau',
     cautions: 'dễ bị đọc thành may rủi mơ hồ nếu không liên hệ với hành vi thực tế, gia phong, nhịp sống và những quan hệ thân cận',
@@ -187,7 +183,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'nhà ở, đất đai theo nghĩa văn hóa, không gian sống, tài sản dài hạn và nếp sinh hoạt trong gia đình',
     keyQuestion: 'Không gian sống hiện tại đang giúp mình vững lại hay làm mình tiêu hao năng lượng mỗi ngày?',
     xungChieu: 'Tử Nữ',
-    tamHop: 'Điền Trạch - Tật Ách - Huynh Đệ',
     adjacent: 'Phúc Đức và Quan Lộc',
     strengths: 'giúp nhận diện nhu cầu ổn định, khả năng giữ tài sản bền và cách không gian sống ảnh hưởng đến tinh thần làm việc',
     cautions: 'dễ bị biến thành lời hứa về nhà đất nếu đọc thiếu dữ liệu tài chính, pháp lý, gia đình và hoàn cảnh thị trường',
@@ -216,7 +211,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'nghề nghiệp, chức năng, danh dự nghề, tiêu chuẩn chuyên môn và nhịp thăng tiến theo công sức',
     keyQuestion: 'Mình đang xây nghề dựa trên năng lực thật hay chỉ dựa vào kỳ vọng về vị trí?',
     xungChieu: 'Phu Thê',
-    tamHop: 'Quan Lộc - Mệnh - Tài Bạch',
     adjacent: 'Điền Trạch và Nô Bộc',
     strengths: 'giúp người học nhìn rõ xu hướng nghề, cách làm việc, uy tín chuyên môn và mối liên hệ giữa bản thân với nguồn lực',
     cautions: 'dễ bị đọc thành lời chỉ định nghề nghiệp nếu bỏ qua kỹ năng, thị trường, lựa chọn học tập và hoàn cảnh thực tế',
@@ -245,7 +239,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'bạn bè, đồng nghiệp, cộng đồng, khách hàng, người giúp việc và những quan hệ không phải huyết thống gần',
     keyQuestion: 'Mạng lưới quanh mình đang tạo lực nâng hay làm phân tán trách nhiệm?',
     xungChieu: 'Huynh Đệ',
-    tamHop: 'Nô Bộc - Phụ Mẫu - Tài Bạch',
     adjacent: 'Quan Lộc và Thiên Di',
     strengths: 'giúp hiểu khả năng chọn người, xây đội nhóm, nhận hỗ trợ và đặt ranh giới trong quan hệ xã hội',
     cautions: 'dễ bị đọc thành kết luận về bạn bè tốt xấu nếu không xét cách người xem giao tiếp, chọn môi trường và giữ cam kết',
@@ -274,7 +267,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'ra ngoài, di chuyển, cộng đồng lớn, cơ hội từ môi trường mới và hình ảnh xã hội',
     keyQuestion: 'Khi bước ra khỏi vùng quen, mình được mở rộng hay bị môi trường kéo lệch khỏi trục chính?',
     xungChieu: 'Mệnh',
-    tamHop: 'Thiên Di - Phúc Đức - Phu Thê',
     adjacent: 'Nô Bộc và Tật Ách',
     strengths: 'giúp hiểu cách môi trường, đối tác, nơi chốn và giao tiếp rộng ảnh hưởng trực tiếp đến Mệnh',
     cautions: 'dễ bị nói quá thành phải đi xa mới tốt nếu bỏ qua Mệnh, Phúc Đức, Phu Thê và dữ kiện nghề nghiệp thật',
@@ -303,7 +295,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'giấc ngủ, áp lực tinh thần, nhịp sinh hoạt, phục hồi năng lượng và kỷ luật chăm sóc bản thân',
     keyQuestion: 'Cơ thể và tinh thần đang nhắc mình điều gì về nhịp sống hiện tại?',
     xungChieu: 'Phụ Mẫu',
-    tamHop: 'Tật Ách - Điền Trạch - Huynh Đệ',
     adjacent: 'Thiên Di và Tài Bạch',
     strengths: 'giúp người học quan sát nhịp sống, cách chịu áp lực và những thói quen cần điều chỉnh để sống bền hơn',
     cautions: 'không dùng cung này để chẩn đoán, gọi tên bệnh lý hay thay thế chuyên gia; chỉ nên đọc như lời nhắc wellbeing và quản trị áp lực',
@@ -332,7 +323,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'dòng tiền, tài sản, năng lực tạo giá trị, tiêu chuẩn chi tiêu và cách dự phòng',
     keyQuestion: 'Nguồn lực của mình đang được ghi chép và dùng theo mục tiêu hay theo cảm xúc nhất thời?',
     xungChieu: 'Phúc Đức',
-    tamHop: 'Tài Bạch - Mệnh - Quan Lộc',
     adjacent: 'Tật Ách và Tử Nữ',
     strengths: 'giúp nhìn thói quen tạo, giữ và dùng nguồn lực; đồng thời nối tiền bạc với Mệnh và nghề thay vì tách rời đạo đức sống',
     cautions: 'không dùng cung này để hứa hẹn kết quả tiền bạc, chỉ nên đọc như bản đồ thói quen nguồn lực và rủi ro cần quản trị',
@@ -361,7 +351,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'con cái theo nghĩa gia đình, học trò, dự án dài hạn, sản phẩm sáng tạo và khả năng chăm phần hậu quả',
     keyQuestion: 'Điều mình đang tạo ra có được chăm sóc đủ lâu để lớn lên lành mạnh không?',
     xungChieu: 'Điền Trạch',
-    tamHop: 'Tử Nữ - Huynh Đệ - Nô Bộc',
     adjacent: 'Tài Bạch và Phu Thê',
     strengths: 'giúp mở rộng cách đọc từ con cái sang mọi dự án cần nuôi dưỡng, kiên nhẫn và trách nhiệm thế hệ',
     cautions: 'không dùng cung này để bảo đảm chuyện con cái, hôn nhân hay kết quả gia đình; mọi lời đọc cần giữ tính tham khảo và tôn trọng lựa chọn cá nhân',
@@ -390,7 +379,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'vợ chồng, người yêu lâu dài, đối tác rất gần, kỳ vọng thân mật và cách chia trách nhiệm trong quan hệ',
     keyQuestion: 'Mình đang tìm sự đồng hành thật hay tìm một người gánh thay phần mình chưa muốn đối diện?',
     xungChieu: 'Quan Lộc',
-    tamHop: 'Phu Thê - Phúc Đức - Thiên Di',
     adjacent: 'Tử Nữ và Huynh Đệ',
     strengths: 'giúp hiểu cách quan hệ thân cận phản chiếu nghề nghiệp, tinh thần, môi trường xã hội và khả năng thương lượng',
     cautions: 'không dùng cung này để bảo đảm kết hôn, chia tay hay phẩm chất của một người cụ thể khi chưa có đủ dữ liệu lá số và đời sống',
@@ -419,7 +407,6 @@ const PALACE_PROFILES: Record<PalaceSlug, PalaceProfile> = {
     lifeArea: 'anh chị em, họ hàng ngang hàng, bạn thân như người nhà và cách xử lý cạnh tranh hoặc hỗ trợ',
     keyQuestion: 'Quan hệ ngang hàng đang giúp mình lớn lên hay khiến mình mắc kẹt trong so sánh cũ?',
     xungChieu: 'Nô Bộc',
-    tamHop: 'Huynh Đệ - Điền Trạch - Tật Ách',
     adjacent: 'Phu Thê và Mệnh',
     strengths: 'giúp hiểu ảnh hưởng của anh chị em, bạn thân và nhóm đồng lứa lên tự tin, không gian sống và nhịp áp lực',
     cautions: 'dễ bị đọc thành đánh giá người thân nếu không tách trải nghiệm cá nhân khỏi bối cảnh gia đình và vai trò của chính người xem',
@@ -447,6 +434,20 @@ export function isPalaceSlug(slug: string): slug is PalaceSlug {
 export function getPalaceProfile(slug: string): PalaceProfile | null {
   if (!isPalaceSlug(slug)) return null
   return PALACE_PROFILES[slug]
+}
+
+// Tam hợp must be generated, not hand-entered: current palace +4 and +8
+// positions in the traditional 12-cung order. This prevents manual family-cung
+// swaps such as Tử Nữ ↔ Huynh Đệ or Phụ Mẫu ↔ Tài Bạch.
+export function getPalaceTamHop(slug: PalaceSlug): string {
+  const index = PALACE_SLUGS.indexOf(slug)
+  const tamHopSlugs = [
+    slug,
+    PALACE_SLUGS[(index + 4) % PALACE_SLUGS.length],
+    PALACE_SLUGS[(index + 8) % PALACE_SLUGS.length],
+  ]
+
+  return tamHopSlugs.map((tamHopSlug) => PALACE_PROFILES[tamHopSlug].name).join(' - ')
 }
 
 function palaceLink(slug: PalaceSlug): PalaceInternalLink {
@@ -487,6 +488,11 @@ function palaceLinks(profile: PalaceProfile): PalaceInternalLink[] {
 function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
   const name = profile.name
   const starNames = profile.starFocus.map((star) => star.name).join(', ')
+  const tamHop = getPalaceTamHop(profile.slug)
+  const menhConnectionCopy =
+    name === 'Mệnh'
+      ? 'Trong bộ 12 cung, cung Mệnh là trục gốc của toàn lá số. Nó cho biết nền khí chất, cách người xem tự đặt mình vào đời sống và điểm xuất phát để nối sang Thân Cung, Thiên Di, Tài Bạch, Quan Lộc cùng các mảng còn lại. Nếu bỏ Thân và bối cảnh thật, bài đọc dễ thành khái quát thiếu trách nhiệm.'
+      : `Trong bộ 12 cung, cung ${name} có vai trò riêng nhưng luôn liên hệ với Mệnh Cung. Mệnh là trục gốc; cung ${name} cho biết một mảng đời sống cụ thể đang phản chiếu hoặc hỗ trợ trục gốc ấy thế nào. Nếu bỏ Mệnh, Thân và bối cảnh thật, bài đọc dễ thành khái quát thiếu trách nhiệm.`
 
   const intro = [
     `Cung ${name} (${profile.hanTu}) là cung thứ ${profile.order} trong vòng 12 cung Tử Vi theo thứ tự Mệnh, Phụ Mẫu, Phúc Đức, Điền Trạch, Quan Lộc, Nô Bộc, Thiên Di, Tật Ách, Tài Bạch, Tử Nữ, Phu Thê, Huynh Đệ. Trang này giải thích cung ${name} theo hướng thực tế: ${profile.represents}.`,
@@ -507,7 +513,7 @@ function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
     },
     {
       aspect: 'Tam hợp cần xem',
-      meaning: profile.tamHop,
+      meaning: tamHop,
       readingCue: 'Ba cung trong tam hợp cho biết chủ đề này được nguồn lực nào nâng hoặc kéo.',
     },
     {
@@ -528,7 +534,7 @@ function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
       content: [
         `Cung ${name} là một cửa nhìn vào ${profile.lifeArea}. Trong thực hành Tử Vi, cung này không được đọc như một ô riêng lẻ trên bản đồ, mà là một điểm nằm trong mạng lưới 12 cung. Nó nhận ảnh hưởng từ sao tọa thủ, sao hội chiếu, cung xung chiếu, tam hợp và cả câu hỏi thực tế của người xem.`,
         `Ý nghĩa cốt lõi của cung ${name} là ${profile.coreTheme}. Khi cung này nổi bật, người học nên hỏi: chủ đề nào đang được nhấn mạnh, người xem đang dùng điểm mạnh ra sao, và phần nào cần điều chỉnh để đời sống bền hơn. Cách đọc này hữu ích hơn việc vội gọi một cung là tốt hay xấu.`,
-        `Trong bộ 12 cung, cung ${name} có vai trò riêng nhưng luôn liên hệ với Mệnh Cung. Mệnh là trục gốc; cung ${name} cho biết một mảng đời sống cụ thể đang phản chiếu hoặc hỗ trợ trục gốc ấy thế nào. Nếu bỏ Mệnh, Thân và bối cảnh thật, bài đọc dễ thành khái quát thiếu trách nhiệm.`,
+        menhConnectionCopy,
         `Bói Toán dùng cung ${name} như một khung tham khảo văn hóa. Trang này giúp người đọc gọi tên vấn đề, đặt câu hỏi và học ngôn ngữ Tử Vi. Nó không nhằm đưa ra kết luận cố định về một người, một gia đình hay một kết quả trong tương lai.`,
       ],
     },
@@ -556,7 +562,7 @@ function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
       heading: `Cách đọc tam phương tứ chính của cung ${name}`,
       content: [
         `Với cung ${name}, trục xung chiếu cần xem là cung ${profile.xungChieu}. Cung đối diện thường phản chiếu phần người xem dễ bỏ qua. Nếu chỉ nhìn cung ${name}, bài đọc có thể đúng một nửa nhưng thiếu nguyên nhân hoặc thiếu điểm cân bằng.`,
-        `Tam hợp quan trọng của cung này là ${profile.tamHop}. Khi ba cung trong tam hợp cùng sáng về ý nghĩa tham khảo, chủ đề ${profile.lifeArea} có thêm bối cảnh để triển khai. Khi một cung trong tam hợp căng, lời khuyên nên chuyển sang kiểm chứng, chia nhỏ quyết định và giảm kỳ vọng tuyệt đối.`,
+        `Tam hợp quan trọng của cung này là ${tamHop}. Khi ba cung trong tam hợp cùng sáng về ý nghĩa tham khảo, chủ đề ${profile.lifeArea} có thêm bối cảnh để triển khai. Khi một cung trong tam hợp căng, lời khuyên nên chuyển sang kiểm chứng, chia nhỏ quyết định và giảm kỳ vọng tuyệt đối.`,
         `Tứ chính cũng bao gồm các điểm hội chiếu làm cung ${name} không đứng yên. Một cung có vẻ thuận nhưng bị môi trường, quan hệ hoặc nguồn lực kéo lệch thì vẫn cần cách đọc mềm. Ngược lại, một cung có nhiều tín hiệu căng vẫn có thể thành bài học tốt nếu người xem biết điều chỉnh hành vi.`,
         `Cách đọc an toàn là đi theo ba bước: xác định chủ đề cung, xem cung đối diện, rồi nối tam hợp với Mệnh và Thân. Nếu thiếu ngày giờ sinh, không nên nói về sao tại cung cụ thể của một người; chỉ nên dùng kiến thức này như nền tảng học thuật và tự quan sát.`,
       ],

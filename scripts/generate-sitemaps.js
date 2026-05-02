@@ -12,6 +12,21 @@ const priorityStarSlugs = [
   'thien-luong',
 ]
 
+const palaceSlugs = [
+  'menh',
+  'phu-mau',
+  'phuc-duc',
+  'dien-trach',
+  'quan-loc',
+  'no-boc',
+  'thien-di',
+  'tat-ach',
+  'tai-bach',
+  'tu-nu',
+  'phu-the',
+  'huynh-de',
+]
+
 const base = 'https://boitoan.com.vn'
 const lastmod = '2026-05-02'
 
@@ -114,6 +129,13 @@ const toolsUrls = routes.toolSlugs.map((slug) => ({
   priority: '0.85',
 }))
 
+const palaceUrls = palaceSlugs.map((slug) => ({
+  loc: `${base}/cung/${slug}/`,
+  lastmod,
+  changefreq: 'monthly',
+  priority: '0.74',
+}))
+
 const publicDir = path.join(__dirname, '..', 'public')
 fs.mkdirSync(publicDir, { recursive: true })
 
@@ -121,12 +143,14 @@ fs.writeFileSync(path.join(publicDir, 'tuvi.xml'), buildSitemap(tuviUrls))
 fs.writeFileSync(path.join(publicDir, 'stars.xml'), buildSitemap(starUrls))
 fs.writeFileSync(path.join(publicDir, 'gieoque.xml'), buildSitemap(gieoqueUrls))
 fs.writeFileSync(path.join(publicDir, 'tools.xml'), buildSitemap(toolsUrls))
+fs.writeFileSync(path.join(publicDir, 'palaces.xml'), buildSitemap(palaceUrls))
 fs.writeFileSync(
   path.join(publicDir, 'sitemap-index.xml'),
   buildSitemapIndex([
     { loc: `${base}/sitemap.xml`, lastmod },
     { loc: `${base}/tuvi.xml`, lastmod },
     { loc: `${base}/stars.xml`, lastmod },
+    { loc: `${base}/palaces.xml`, lastmod },
     { loc: `${base}/gieoque.xml`, lastmod },
     { loc: `${base}/tools.xml`, lastmod },
   ])

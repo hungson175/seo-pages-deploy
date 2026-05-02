@@ -19,7 +19,7 @@ const MOCK_PALACES: Palace[] = [
   { name: 'Thiên Di', index: 6, majorStars: [{ name: 'Thiên Đồng', brightness: 'bình' }], minorStars: [] },
   { name: 'Tật Ách', index: 7, majorStars: [], minorStars: ['Thiên Hình'] },
   { name: 'Tài Bạch', index: 8, majorStars: [{ name: 'Liêm Trinh', brightness: 'minh' }], minorStars: [] },
-  { name: 'Tử Tức', index: 9, majorStars: [], minorStars: [] },
+  { name: 'Tử Nữ', index: 9, majorStars: [], minorStars: [] },
   { name: 'Phu Thê', index: 10, majorStars: [{ name: 'Thái Âm', brightness: 'hãm' }], minorStars: [] },
   { name: 'Huynh Đệ', index: 11, majorStars: [], minorStars: [] },
 ]

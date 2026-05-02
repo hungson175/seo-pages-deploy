@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { PRIORITY_STAR_SLUGS } from '@/content/stars'
+import { PALACE_SLUGS } from '@/content/palaces'
 import { SEO_FORECAST_SEEDS, getForecastCanonicalPath } from '@/content/seo-forecasts'
 import { ANIMAL_HUB_SLUGS } from '@/content/animal-hubs'
 
@@ -36,5 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...animalHubPages, ...forecastPages, ...saoPages]
+  const palacePages: MetadataRoute.Sitemap = PALACE_SLUGS.map((palace) => ({
+    url: `${base}/cung/${palace}/`,
+    lastModified: lastmod,
+    changeFrequency: 'monthly' as const,
+    priority: 0.74,
+  }))
+
+  return [...staticPages, ...animalHubPages, ...forecastPages, ...saoPages, ...palacePages]
 }

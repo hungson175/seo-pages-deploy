@@ -49,6 +49,22 @@ test.describe('Sprint 2 - Content Quality', () => {
     expect(scripts.some((script) => script.includes('WebPage'))).toBe(true)
   })
 
+
+  test('palace foundation page has long-form content and schema', async ({ page }) => {
+    await page.goto('/cung/menh')
+
+    const text = await page.locator('main').textContent()
+    expect(text).not.toBeNull()
+    const wordCount = text!.trim().split(/\s+/).filter(Boolean).length
+    expect(wordCount).toBeGreaterThanOrEqual(1500)
+
+    const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+    expect(scripts.some((script) => script.includes('Article'))).toBe(true)
+    expect(scripts.some((script) => script.includes('FAQPage'))).toBe(true)
+    expect(scripts.some((script) => script.includes('BreadcrumbList'))).toBe(true)
+    expect(scripts.some((script) => script.includes('WebPage'))).toBe(true)
+  })
+
   test('no Western astrology terms used', async ({ page }) => {
     await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     

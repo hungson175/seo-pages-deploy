@@ -22,7 +22,7 @@ describe('extractIztroData', () => {
     const palaceNames = data.palaces.map((p: { name: string }) => p.name)
     const required = [
       'Mệnh', 'Phụ Mẫu', 'Phúc Đức', 'Điền Trạch', 'Quan Lộc', 'Nô Bộc',
-      'Thiên Di', 'Tật Ách', 'Tài Bạch', 'Tử Tức', 'Phu Thê', 'Huynh Đệ',
+      'Thiên Di', 'Tật Ách', 'Tài Bạch', 'Tử Nữ', 'Phu Thê', 'Huynh Đệ',
     ]
     required.forEach((name) => {
       expect(palaceNames).toContain(name)

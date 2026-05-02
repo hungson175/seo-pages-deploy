@@ -84,6 +84,21 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
+
+  test('palace foundation page renders', async ({ page }) => {
+    await page.goto('/cung/menh')
+
+    const h1 = page.locator('h1')
+    await expect(h1).toBeVisible()
+    await expect(h1).toHaveText('Cung Mệnh Trong Tử Vi — Ý Nghĩa, Sao Chiếu Và Cách Đọc')
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).toContainText('Tử Nữ')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+    await expect(page.locator('a[href="/sao/tu-vi/"]')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
+  })
+
   test('legacy non-priority star page redirects to preserve equity', async ({ page }) => {
     await page.goto('/sao/thien-phu/')
     await expect(page).toHaveURL(/\/tu-vi\/?$/)

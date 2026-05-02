@@ -22,6 +22,16 @@ describe('buildMetadata — robots directive', () => {
     expect(meta.robots).toEqual({ index: true, follow: true })
   })
 
+  it('indexes palace pages', () => {
+    const meta = buildMetadata({
+      title: 'Test',
+      description: 'Test desc',
+      path: '/cung/menh',
+      pageType: 'palace',
+    })
+    expect(meta.robots).toEqual({ index: true, follow: true })
+  })
+
   it('indexes que pages', () => {
     const meta = buildMetadata({
       title: 'Test',
@@ -91,6 +101,16 @@ describe('buildMetadata — title templates', () => {
       pageType: 'star',
     })
     expect(meta.title).toBe('Sao Tử Vi | Bói Toán')
+  })
+
+  it('uses palace title template', () => {
+    const meta = buildMetadata({
+      title: 'Cung Mệnh trong Tử Vi',
+      description: 'Test',
+      path: '/cung/menh',
+      pageType: 'palace',
+    })
+    expect(meta.title).toBe('Cung Mệnh trong Tử Vi | Bói Toán')
   })
 
   it('uses que title template', () => {

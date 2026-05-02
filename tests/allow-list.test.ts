@@ -25,6 +25,12 @@ describe('validateSlug', () => {
     expect(validateSlug('liem-trinh')).toBe(true)
   })
 
+  it('returns true for allowed palace slugs', () => {
+    expect(validateSlug('menh')).toBe(true)
+    expect(validateSlug('quan-loc')).toBe(true)
+    expect(validateSlug('tu-nu')).toBe(true)
+  })
+
   it('returns true for allowed tool slugs', () => {
     expect(validateSlug('lap-la-so')).toBe(true)
   })
@@ -71,6 +77,13 @@ describe('SLUG_ALLOW_LIST', () => {
     expect(SLUG_ALLOW_LIST).toContain('tu-vi')
     expect(SLUG_ALLOW_LIST).toContain('thai-duong')
     expect(SLUG_ALLOW_LIST).toContain('thai-am')
+  })
+
+  it('contains palace foundation slugs', () => {
+    expect(SLUG_ALLOW_LIST).toContain('menh')
+    expect(SLUG_ALLOW_LIST).toContain('quan-loc')
+    expect(SLUG_ALLOW_LIST).toContain('tu-nu')
+    expect(SLUG_ALLOW_LIST).not.toContain('tu-tuc')
   })
 
   it('contains the free tool slug', () => {

@@ -17,6 +17,8 @@ Primary goal: ship indexable SEO content pages; do not prioritize horoscope-app 
 
 TuVi algorithms, terminology, and calculation behavior must be read from the approved reference repo in `sample_code/horoscope/` before implementation. Do not invent astrology logic. For the current roadmap, keep `/tu-vi/` and birth-year pages static/server-rendered; `/lap-la-so/` is a static SEO landing page unless Boss explicitly reopens app scope.
 
+For visual direction, study `docs/reference/horoscope-ui-theme.md`; it distills the approved `sample_code/horoscope/web` ivory/indigo/gold/vermillion manuscript theme.
+
 ## Build, Test, and Development Commands
 
 - `npm run dev` — start local dev server on port `3347`.

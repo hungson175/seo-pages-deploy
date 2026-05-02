@@ -56,7 +56,7 @@ Only re-enable a gated page after rich content, domain review, compliance review
 
 ## Commit & Pull Request Guidelines
 
-History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STORY-012a: ...`. PRs should include summary, affected routes, test results, screenshots for visual changes, and relevant docs/story IDs.
+History uses `feat:`, `fix:`, `security:`, `chore:`, and story commits like `STORY-012a: ...`. Commit often: git history is the primary past-progress tracker, so save each meaningful working checkpoint with a clear message after tests/builds pass. PRs should include summary, affected routes, test results, screenshots for visual changes, and relevant docs/story IDs.
 
 ## Security & Agent Instructions
 

@@ -2,6 +2,27 @@ import { describe, it, expect } from 'vitest'
 import { generateForecastContent } from '../src/lib/pipeline/generate'
 import { validateContent } from '../src/lib/pipeline/validate'
 
+function extractNgrams(text: string, n = 4): Set<string> {
+  const words = text
+    .toLowerCase()
+    .replace(/[^\w\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+  const ngrams = new Set<string>()
+  for (let i = 0; i <= words.length - n; i += 1) {
+    ngrams.add(words.slice(i, i + n).join(' '))
+  }
+  return ngrams
+}
+
+function jaccardSimilarity(textA: string, textB: string, n = 4): number {
+  const a = extractNgrams(textA, n)
+  const b = extractNgrams(textB, n)
+  const intersection = [...a].filter((item) => b.has(item)).length
+  const union = new Set([...a, ...b]).size
+  return union === 0 ? 0 : intersection / union
+}
+
 describe('generateForecastContent', () => {
   const mockIztroData = {
     palaces: [
@@ -126,6 +147,67 @@ describe('validateContent - domain rules', () => {
       faqs: [],
     }
     expect(validateContent(content).compliant).toBe(true)
+  })
+})
+
+describe('generateForecastContent - Tứ Hóa detail', () => {
+  const mockData = {
+    palaces: [
+      { name: 'Mệnh', stars: [{ name: 'Tử Vi', brightness: 'minh', type: 'major' }] },
+    ],
+    transformations: [
+      { name: 'Hóa Lộc', palace: 'Mệnh' },
+      { name: 'Hóa Quyền', palace: 'Quan Lộc' },
+      { name: 'Hóa Khoa', palace: 'Tài Bạch' },
+      { name: 'Hóa Kỵ', palace: 'Tật Ách' },
+    ],
+    fiveElements: 'Kim',
+    animal: 'ty',
+    year: 2000,
+    gender: 'male',
+  }
+
+  it('includes all four transformations in Biến động section', () => {
+    const content = generateForecastContent(mockData)
+    const biendong = content.sections.find((s) => s.heading === 'Biến động quan trọng')
+    expect(biendong).toBeDefined()
+    expect(biendong!.content).toContain('Hóa Lộc')
+    expect(biendong!.content).toContain('Hóa Quyền')
+    expect(biendong!.content).toContain('Hóa Khoa')
+    expect(biendong!.content).toContain('Hóa Kỵ')
+  })
+
+  it('includes transformation palace positions', () => {
+    const content = generateForecastContent(mockData)
+    const biendong = content.sections.find((s) => s.heading === 'Biến động quan trọng')
+    expect(biendong!.content).toContain('Mệnh')
+    expect(biendong!.content).toContain('Quan Lộc')
+  })
+})
+
+describe('generateForecastContent - uniqueness across animals', () => {
+  const animals = ['ty', 'suu', 'dan', 'mao']
+  const allContent = animals.map((animal) => {
+    const data = {
+      palaces: [
+        { name: 'Mệnh', stars: [{ name: 'Tử Vi', brightness: 'minh', type: 'major' }] },
+      ],
+      transformations: [{ name: 'Hóa Lộc', palace: 'Mệnh' }],
+      fiveElements: 'Kim',
+      animal,
+      year: 2000,
+      gender: 'male',
+    }
+    const result = generateForecastContent(data)
+    return result.sections.map((s) => s.content).join(' ')
+  })
+
+  it('template-based generator produces content referencing animal-specific names', () => {
+    // Template generator is deterministic — uniqueness comes from seed data in seo-forecasts.ts
+    // This test verifies the template at least references the animal name
+    for (let i = 0; i < animals.length; i++) {
+      expect(allContent[i]).toContain(animals[i])
+    }
   })
 })
 

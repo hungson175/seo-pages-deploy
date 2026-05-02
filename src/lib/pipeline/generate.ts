@@ -108,22 +108,20 @@ export function generateForecastContent(iztroData: {
     },
     {
       heading: 'Biến động quan trọng',
-      content: `Các biến động ${transformations.map((t) => t.name).join(', ')} `
-        + `cho thấy những thay đổi quan trọng trong năm. `
+      content: `Năm ${year} đánh dấu sự xuất hiện của Tứ Hóa — bốn biến động chính trong lá số: `
+        + `${transformations.map((t) => `${t.name} tại cung ${t.palace}`).join(', ')}. `
+        + `Hóa Lộc tại cung ${transformations.find((t) => t.name === 'Hóa Lộc')?.palace ?? 'Mệnh'} `
+        + `cho thấy nguồn năng lượng mới và cơ hội tài lộc. `
+        + `Hóa Quyền tại cung ${transformations.find((t) => t.name === 'Hóa Quyền')?.palace ?? 'Quan Lộc'} `
+        + `mang đến khả năng lãnh đạo và ra quyết định. `
+        + `Hóa Khoa tại cung ${transformations.find((t) => t.name === 'Hóa Khoa')?.palace ?? 'Tài Bạch'} `
+        + `hỗ trợ học hỏi và phát triển chuyên môn. `
+        + `Hóa Kỵ tại cung ${transformations.find((t) => t.name === 'Hóa Kỵ')?.palace ?? 'Tật Ách'} `
+        + `cần chú ý sức khỏe và các mối quan hệ. `
         + `Ngũ Hành ${fiveElements} tương sinh với môi trường xung quanh. `
-        + `Tham khảo để chủ động ứng phó. `
-        + `Năm ${year} sẽ có nhiều biến động bất ngờ nhưng cũng là cơ hội để thay đổi. `
-        + `Hãy chuẩn bị tinh thần sẵn sàng cho mọi tình huống có thể xảy ra. `
-        + `Sự linh hoạt trong cách ứng xử sẽ giúp bạn vượt qua mọi thử thách. `
+        + `Tham khảo để chủ động ứng phó với các thay đổi này. `
         + `Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán tuyệt đối. `
-        + `Hãy luôn giữ tinh thần lạc quan và chủ động trong mọi hoàn cảnh. `
-        + `Các biến động này có thể xuất hiện trong nhiều lĩnh vực khác nhau của cuộc sống. `
-        + `Hãy quan sát và phân tích kỹ lưỡng trước khi đưa ra quyết định quan trọng. `
-        + `Sao ${primaryStar} độ sáng ${brightness} cho thấy cần thận trọng trong các thay đổi lớn. `
-        + `Ngũ Hành ${fiveElements} mang đến năng lượng tích cực cho sự phát triển và thay đổi. `
-        + `Hãy tận dụng cơ hội để học hỏi và phát triển bản thân trong năm nay. `
-        + `Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán. `
-        + `Mọi biến động đều là cơ hội để trưởng thành và trở nên mạnh mẽ hơn.`,
+        + `Hãy quan sát và phân tích kỹ lưỡng trước khi đưa ra quyết định quan trọng.`,
     },
     {
       heading: 'Lời khuyên',

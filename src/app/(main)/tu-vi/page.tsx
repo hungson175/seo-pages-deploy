@@ -79,7 +79,7 @@ export default function TuViHubPage() {
     .filter((page): page is SeoForecastPage => Boolean(page))
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#1f2f4a_0,#0a1628_46%,#050914_100%)] text-white">
+    <main className="mv-page">
       <BreadcrumbListSchema
         items={[
           { name: 'Trang chủ', url: `${BASE_URL}/` },
@@ -117,16 +117,17 @@ export default function TuViHubPage() {
         }}
       />
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+      <section className="mv-container py-14 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="mb-4 inline-flex rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-semibold text-gold-light">
+          <div className="mv-hero-card">
+            <div className="mb-5 mv-seal">命</div>
+            <p className="mv-kicker">
               Tử vi 2026 theo tuổi • Nội dung tĩnh cho Google indexing
             </p>
-            <h1 className="text-4xl font-bold tracking-tight text-gold-light sm:text-5xl lg:text-6xl">
+            <h1 className="mv-h1-large">
               Tử Vi 2026 - Xem Lá Số Tử Vi Online
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-ink-soft">
               Tra cứu tử vi 2026 theo năm sinh, con giáp và giới tính. Mỗi bài tập trung vào công danh,
               tài lộc, tình duyên, sức khỏe và lời khuyên thực tế để bạn đọc nhanh, hiểu đúng, không bị
               cuốn vào mê tín hoặc hù dọa.
@@ -134,21 +135,22 @@ export default function TuViHubPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#danh-sach-tuoi"
-                className="rounded-lg bg-gold px-6 py-3 text-center font-bold text-navy transition hover:bg-gold-light focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-navy"
+                className="mv-button-primary"
               >
                 Xem tử vi theo tuổi
               </a>
               <a
                 href="#cach-doc"
-                className="rounded-lg border border-white/20 px-6 py-3 text-center font-semibold text-white transition hover:border-gold hover:text-gold-light focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-navy"
+                className="mv-button-secondary"
               >
                 Cách đọc lá số
               </a>
             </div>
           </div>
 
-          <aside className="rounded-3xl border border-gold/30 bg-white/5 p-6 shadow-2xl shadow-black/20 backdrop-blur">
-            <h2 className="text-xl font-bold text-gold-light">Trọng tâm nội dung</h2>
+          <aside className="mv-cta">
+            <p className="mv-kicker text-gold-300">Tử Vi Đẩu Số</p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold text-ivory">Trọng tâm nội dung</h2>
             <dl className="mt-6 grid gap-4">
               {[
                 ['Công danh', 'Hướng nghề nghiệp, cách xử lý áp lực và cơ hội mới.'],
@@ -156,9 +158,9 @@ export default function TuViHubPage() {
                 ['Tình duyên', 'Giao tiếp, gia đạo, ranh giới và cách giữ hòa khí.'],
                 ['Sức khỏe', 'Nhịp sống, tinh thần và dấu hiệu nên chăm sóc sớm.'],
               ].map(([term, desc]) => (
-                <div key={term} className="rounded-2xl border border-white/10 bg-navy/60 p-4">
-                  <dt className="font-semibold text-gold-light">{term}</dt>
-                  <dd className="mt-1 text-sm leading-6 text-white/70">{desc}</dd>
+                <div key={term} className="rounded-2xl border border-gold/30 bg-ivory/10 p-4">
+                  <dt className="font-semibold text-gold-300">{term}</dt>
+                  <dd className="mt-1 text-sm leading-6 text-ivory/75">{desc}</dd>
                 </div>
               ))}
             </dl>
@@ -166,13 +168,13 @@ export default function TuViHubPage() {
         </div>
       </section>
 
-      <section id="danh-sach-tuoi" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
+      <section id="danh-sach-tuoi" className="mv-container pb-14">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">Danh sách theo 12 con giáp</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Tử vi 2026 theo năm sinh</h2>
+            <p className="mv-kicker">Danh sách theo 12 con giáp</p>
+            <h2 className="mt-2 font-serif text-3xl font-semibold text-navy">Tử vi 2026 theo năm sinh</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-white/65">
+          <p className="max-w-xl text-sm leading-6 text-ink-soft">
             24 trang theo năm sinh và giới tính đã có đủ cho 12 con giáp, mỗi trang có nội dung riêng, meta, schema và liên kết nội bộ để Google đọc được cấu trúc chủ đề.
           </p>
         </div>
@@ -182,13 +184,13 @@ export default function TuViHubPage() {
             <Link
               key={page.slug}
               href={page.urlPath}
-              className="group rounded-2xl border border-white/10 bg-white/[0.04] p-5 transition hover:-translate-y-0.5 hover:border-gold/70 hover:bg-gold/10 focus:outline-none focus:ring-2 focus:ring-gold-light"
+              className="mv-link-card group p-5"
             >
-              <p className="text-sm font-semibold text-gold-light">{page.canChi} • {page.element}</p>
-              <h3 className="mt-2 text-xl font-bold text-white group-hover:text-gold-light">
+              <p className="mv-meta">{page.canChi} • {page.element}</p>
+              <h3 className="mt-2 font-serif text-xl font-semibold text-navy group-hover:text-vermillion">
                 Tử vi tuổi {page.animal} {page.year} {page.genderLabel}
               </h3>
-              <p className="mt-3 text-sm leading-6 text-white/65">
+              <p className="mt-3 text-sm leading-6 text-ink-soft">
                 Luận giải {page.career.split(',')[0].toLowerCase()}, tài lộc, tình duyên và sức khỏe năm 2026.
               </p>
             </Link>
@@ -196,15 +198,15 @@ export default function TuViHubPage() {
         </div>
       </section>
 
-      <section id="cach-doc" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 md:p-8">
-          <h2 className="text-3xl font-bold text-gold-light">Cách đọc lá số tử vi online đúng tinh thần tham khảo</h2>
+      <section id="cach-doc" className="mv-container pb-14">
+        <div className="mv-card">
+          <h2 className="font-serif text-3xl font-semibold text-navy">Cách đọc lá số tử vi online đúng tinh thần tham khảo</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-4">
             {HOW_TO_STEPS.map((step, index) => (
-              <article key={step.name} className="rounded-2xl bg-navy/70 p-5">
-                <p className="text-sm font-bold text-gold">Bước {index + 1}</p>
-                <h3 className="mt-2 font-semibold text-white">{step.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/65">{step.text}</p>
+              <article key={step.name} className="mv-step-card">
+                <p className="mv-kicker text-xs">Bước {index + 1}</p>
+                <h3 className="mt-2 font-semibold text-ink">{step.name}</h3>
+                <p className="mt-3 text-sm leading-6 text-ink-soft">{step.text}</p>
               </article>
             ))}
           </div>
@@ -212,21 +214,21 @@ export default function TuViHubPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 pb-14 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-white">Câu hỏi thường gặp</h2>
+        <h2 className="font-serif text-3xl font-semibold text-navy">Câu hỏi thường gặp</h2>
         <div className="mt-6 space-y-3">
           {FAQS.map((faq) => (
-            <details key={faq.question} className="group rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-              <summary className="cursor-pointer list-none font-semibold text-gold-light marker:hidden">
+            <details key={faq.question} className="mv-faq group p-5">
+              <summary className="cursor-pointer list-none font-semibold text-navy marker:hidden">
                 {faq.question}
               </summary>
-              <p className="mt-3 leading-7 text-white/70">{faq.answer}</p>
+              <p className="mt-3 leading-7 text-ink-soft">{faq.answer}</p>
             </details>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-gold/30 bg-gold/10 p-5 text-sm leading-7 text-gold-light">
+        <div className="mv-disclaimer">
           <strong>Lưu ý pháp lý:</strong> Kết quả và nội dung trên Bói Toán chỉ mang tính chất tham khảo, không phải lời tiên đoán. Không dùng nội dung này thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng của cá nhân.
         </div>
       </section>

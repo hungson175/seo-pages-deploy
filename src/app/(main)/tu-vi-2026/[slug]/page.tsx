@@ -55,7 +55,7 @@ export default async function TuViForecastPage({
   ]
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#17243b_0,#0a1628_46%,#050914_100%)] text-white">
+    <main className="mv-page">
       <ArticleSchema
         headline={page.h1}
         description={page.description}
@@ -88,64 +88,65 @@ export default async function TuViForecastPage({
         }}
       />
 
-      <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <nav aria-label="Breadcrumb" className="text-sm text-white/60">
+      <article className="mv-article">
+        <nav aria-label="Breadcrumb" className="mv-breadcrumb">
           <ol className="flex flex-wrap gap-2">
             <li>
-              <Link href="/" className="hover:text-gold-light">Trang chủ</Link>
+              <Link href="/">Trang chủ</Link>
             </li>
             <li aria-hidden="true">/</li>
             <li>
-              <Link href="/tu-vi/" className="hover:text-gold-light">Tử vi 2026</Link>
+              <Link href="/tu-vi/">Tử vi 2026</Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="text-gold-light">{page.canChi} {page.year} {page.genderLabel}</li>
+            <li aria-current="page">{page.canChi} {page.year} {page.genderLabel}</li>
           </ol>
         </nav>
 
-        <header className="mt-6 rounded-3xl border border-gold/30 bg-white/[0.04] p-6 md:p-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">
+        <header className="mv-hero-card">
+          <div className="mb-5 mv-seal">命</div>
+          <p className="mv-kicker">
             {page.canChi} • Nạp âm {page.element}
           </p>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gold-light sm:text-4xl lg:text-5xl">
+          <h1 className="mv-h1">
             {page.h1}
           </h1>
-          <div className="mt-5 space-y-4 text-lg leading-8 text-white/75">
+          <div className="mv-lede">
             {page.intro.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-navy/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-white/45">Con giáp</p>
-              <p className="mt-1 font-bold text-white">Tuổi {page.animal}</p>
+            <div className="mv-card-indigo">
+              <p className="text-xs uppercase tracking-wide text-ivory/45">Con giáp</p>
+              <p className="mt-1 font-bold text-ivory">Tuổi {page.animal}</p>
             </div>
-            <div className="rounded-2xl bg-navy/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-white/45">Can chi</p>
-              <p className="mt-1 font-bold text-white">{page.canChi}</p>
+            <div className="mv-card-indigo">
+              <p className="text-xs uppercase tracking-wide text-ivory/45">Can chi</p>
+              <p className="mt-1 font-bold text-ivory">{page.canChi}</p>
             </div>
-            <div className="rounded-2xl bg-navy/70 p-4">
-              <p className="text-xs uppercase tracking-wide text-white/45">Giới tính</p>
-              <p className="mt-1 font-bold text-white">{page.genderLabel}</p>
+            <div className="mv-card-indigo">
+              <p className="text-xs uppercase tracking-wide text-ivory/45">Giới tính</p>
+              <p className="mt-1 font-bold text-ivory">{page.genderLabel}</p>
             </div>
           </div>
         </header>
 
-        <section id="tom-tat-nhanh" className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gold-light">Bảng nhanh các phương diện chính trong năm 2026</h2>
+        <section id="tom-tat-nhanh" className="mv-card mt-8">
+          <h2 className="mv-section-title">Bảng nhanh các phương diện chính trong năm 2026</h2>
           <div className="mt-5 overflow-x-auto">
-            <table className="w-full min-w-[680px] border-collapse text-left text-sm leading-6">
+            <table className="mv-table min-w-[680px]">
               <thead>
-                <tr className="border-b border-white/15 text-gold-light">
+                <tr>
                   <th className="py-3 pr-4 font-semibold">Phương diện</th>
                   <th className="px-4 py-3 font-semibold">Xu hướng tham khảo</th>
                   <th className="py-3 pl-4 font-semibold">Gợi ý hành động</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/10 text-white/75">
+              <tbody>
                 {page.summaryRows.map((row) => (
                   <tr key={row.aspect}>
-                    <th className="py-4 pr-4 align-top font-semibold text-white">{row.aspect}</th>
+                    <th className="py-4 pr-4 align-top font-semibold">{row.aspect}</th>
                     <td className="px-4 py-4 align-top">{row.trend}</td>
                     <td className="py-4 pl-4 align-top">{row.action}</td>
                   </tr>
@@ -153,30 +154,30 @@ export default async function TuViForecastPage({
               </tbody>
             </table>
           </div>
-          <div className="mt-6 rounded-2xl border border-gold/25 bg-gold/10 p-4 text-sm leading-7 text-gold-light">
+          <div className="mv-note mt-6">
             Bài này mới xem theo tuổi và giới tính. Muốn đọc theo ngày giờ sinh của riêng bạn, hãy xem trang{' '}
-            <Link href="/lap-la-so/" className="font-bold underline underline-offset-4 hover:text-white">
+            <Link href="/lap-la-so/" className="font-bold text-vermillion underline underline-offset-4">
               lập lá số Tử Vi online
             </Link>{' '}
             để hiểu thông tin cần chuẩn bị trước khi đọc lá số cá nhân.
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gold-light">Vì sao bài theo tuổi chỉ là tổng quan?</h2>
-          <p className="mt-4 leading-8 text-white/75">
+        <section className="mv-card mt-8">
+          <h2 className="mv-section-title">Vì sao bài theo tuổi chỉ là tổng quan?</h2>
+          <p className="mt-4 leading-8 text-ink-soft">
             Bài theo tuổi chỉ có năm sinh và giới tính, nên không thể xác định chính xác Mệnh Cung, Thân Cung, Cục và vị trí sao trong 12 cung. Lá số cá nhân cần ngày sinh và giờ sinh để an cung đúng hơn. Vì vậy trang này dùng để đọc tổng quan, còn phần cá nhân hóa phải đi qua dữ liệu ngày giờ sinh riêng.
           </p>
-          <p className="mt-4 rounded-2xl border border-gold/20 bg-gold/10 p-4 text-sm leading-7 text-gold-light">
+          <p className="mv-note mt-4">
             {page.methodNote}
           </p>
         </section>
 
         <div className="mt-8 space-y-8">
           {page.sections.map((section) => (
-            <section key={section.heading} className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-              <h2 className="text-2xl font-bold text-gold-light">{section.heading}</h2>
-              <div className="mt-4 space-y-4 text-base leading-8 text-white/75">
+            <section key={section.heading} className="mv-card">
+              <h2 className="mv-section-title">{section.heading}</h2>
+              <div className="mv-body">
                 {section.content.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -185,50 +186,50 @@ export default async function TuViForecastPage({
           ))}
         </div>
 
-        <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-white">Liên kết nội bộ nên đọc tiếp</h2>
+        <section className="mv-card mt-10">
+          <h2 className="mv-section-title">Liên kết nội bộ nên đọc tiếp</h2>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {page.internalLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-2xl border border-white/10 bg-navy/70 p-4 transition hover:border-gold/60 hover:bg-gold/10"
+                className="mv-link-card"
               >
-                <p className="text-sm font-semibold text-gold-light">{link.relation}</p>
-                <p className="mt-1 font-bold text-white">{link.label}</p>
+                <p className="mv-meta">{link.relation}</p>
+                <p className="mt-1 font-bold text-ink">{link.label}</p>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-white">Câu hỏi thường gặp</h2>
+        <section className="mv-card mt-10">
+          <h2 className="mv-section-title">Câu hỏi thường gặp</h2>
           <div className="mt-5 space-y-3">
             {page.faqs.map((faq) => (
-              <details key={faq.question} className="rounded-2xl bg-navy/70 p-4">
-                <summary className="cursor-pointer list-none font-semibold text-gold-light marker:hidden">
+              <details key={faq.question} className="mv-faq">
+                <summary className="cursor-pointer list-none font-semibold text-navy marker:hidden">
                   {faq.question}
                 </summary>
-                <p className="mt-3 leading-7 text-white/70">{faq.answer}</p>
+                <p className="mt-3 leading-7 text-ink-soft">{faq.answer}</p>
               </details>
             ))}
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-gold/30 bg-gold/10 p-6 text-center">
-          <h2 className="text-2xl font-bold text-gold-light">Tìm hiểu cách lập lá số theo ngày giờ sinh</h2>
-          <p className="mx-auto mt-3 max-w-2xl leading-7 text-white/75">
+        <section className="mv-cta mt-10">
+          <h2 className="mv-section-title-light">Tìm hiểu cách lập lá số theo ngày giờ sinh</h2>
+          <p className="mx-auto mt-3 max-w-2xl leading-7">
             Bài viết này là bản tổng quan theo tuổi. Trang lập lá số giải thích vì sao cần ngày sinh, giờ sinh, Mệnh Cung, Thân Cung và Cục trước khi đọc cá nhân hóa.
           </p>
           <Link
             href="/lap-la-so/"
-            className="mt-5 inline-flex rounded-lg bg-gold px-6 py-3 font-bold text-navy transition hover:bg-gold-light focus:outline-none focus:ring-2 focus:ring-gold-light focus:ring-offset-2 focus:ring-offset-navy"
+            className="mv-button-primary mt-5"
           >
             Tìm hiểu cách lập lá số Tử Vi
           </Link>
         </section>
 
-        <p className="mt-10 rounded-2xl border border-gold/30 bg-gold/10 p-5 text-sm leading-7 text-gold-light">
+        <p className="mv-disclaimer mt-10">
           * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Bói Toán là nội dung giải trí và thuật toán tham khảo theo văn hóa Tử Vi; không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.
         </p>
       </article>

@@ -60,7 +60,7 @@ export const metadata = buildMetadata({
 
 export default function LapLaSoPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#17243b_0,#0a1628_46%,#050914_100%)] text-white">
+    <main className="mv-page">
       <BreadcrumbListSchema
         items={[
           { name: 'Trang chủ', url: `${BASE_URL}/` },
@@ -80,20 +80,21 @@ export default function LapLaSoPage() {
       />
       <FAQPageSchema faqs={FAQS} />
 
-      <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <header className="rounded-3xl border border-gold/30 bg-white/[0.04] p-6 md:p-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-gold">Landing page tĩnh</p>
-          <h1 className="mt-4 text-4xl font-bold tracking-tight text-gold-light sm:text-5xl">
+      <article className="mv-article">
+        <header className="mv-hero-card">
+          <div className="mb-5 mv-seal">紫</div>
+          <p className="mv-kicker">Landing page tĩnh • Tử Vi Đẩu Số</p>
+          <h1 className="mv-h1-large">
             Lập Lá Số Tử Vi Online
           </h1>
-          <p className="mt-5 text-lg leading-8 text-white/75">
+          <p className="mt-5 text-lg leading-8 text-ink-soft">
             Trang này giải thích cách lập lá số tử vi, những thông tin cần chuẩn bị và cách đọc 12 cung theo hướng dễ hiểu. Bói Toán hiện ưu tiên nội dung tĩnh, tải nhanh, có cấu trúc rõ ràng cho người đọc và công cụ tìm kiếm.
           </p>
         </header>
 
-        <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gold-light">Lá số tử vi gồm những gì?</h2>
-          <div className="mt-4 space-y-4 leading-8 text-white/75">
+        <section className="mv-card mt-8">
+          <h2 className="mv-section-title">Lá số tử vi gồm những gì?</h2>
+          <div className="mv-body">
             <p>
               Lá số tử vi là một bản đồ biểu tượng gồm 12 cung, trong đó thường được quan tâm nhiều nhất là Mệnh, Thân, Quan Lộc, Tài Bạch, Phu Thê, Phúc Đức và Tật Ách. Mỗi cung có nhóm sao và mối liên hệ riêng, nên không nên kết luận chỉ dựa trên một sao tốt hoặc xấu.
             </p>
@@ -103,32 +104,32 @@ export default function LapLaSoPage() {
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gold-light">Cách đọc lá số tử vi online</h2>
+        <section className="mv-card mt-8">
+          <h2 className="mv-section-title">Cách đọc lá số tử vi online</h2>
           <ol className="mt-5 grid gap-4 md:grid-cols-2">
             {HOW_TO_STEPS.map((step, index) => (
-              <li key={step.name} className="rounded-2xl bg-navy/70 p-5">
-                <p className="text-sm font-bold text-gold">Bước {index + 1}</p>
-                <h3 className="mt-2 font-semibold text-white">{step.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/65">{step.text}</p>
+              <li key={step.name} className="mv-step-card">
+                <p className="mv-kicker text-xs">Bước {index + 1}</p>
+                <h3 className="mt-2 font-semibold text-ink">{step.name}</h3>
+                <p className="mt-3 text-sm leading-6 text-ink-soft">{step.text}</p>
               </li>
             ))}
           </ol>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 bg-white/[0.035] p-6 md:p-8">
-          <h2 className="text-2xl font-bold text-gold-light">Câu hỏi thường gặp</h2>
+        <section className="mv-card mt-8">
+          <h2 className="mv-section-title">Câu hỏi thường gặp</h2>
           <div className="mt-5 space-y-4">
             {FAQS.map((faq) => (
-              <div key={faq.question} className="rounded-2xl bg-navy/70 p-5">
-                <h3 className="font-semibold text-white">{faq.question}</h3>
-                <p className="mt-2 leading-7 text-white/70">{faq.answer}</p>
+              <div key={faq.question} className="mv-faq">
+                <h3 className="font-semibold text-ink">{faq.question}</h3>
+                <p className="mt-2 leading-7 text-ink-soft">{faq.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <p className="mt-10 rounded-2xl border border-gold/30 bg-gold/10 p-5 text-sm leading-7 text-gold-light">
+        <p className="mv-disclaimer mt-10">
           * Kết quả và nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Không dùng nội dung này thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng của cá nhân.
         </p>
       </article>

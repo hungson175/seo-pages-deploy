@@ -6,27 +6,23 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-8">
-      <h1 className="text-4xl md:text-6xl font-bold text-gold mb-4">
-        Bói Toán
-      </h1>
-      <p className="text-lg text-gray-300 max-w-xl text-center mb-8">
-        Xem tử vi trọn đời, lập lá số tử vi, gieo quẻ Kinh Dịch online.
-      </p>
-      <div className="flex gap-4">
-        <a
-          href="/lap-la-so/"
-          className="px-6 py-3 bg-gold text-navy font-semibold rounded hover:bg-gold-light transition"
-        >
-          Lập Lá Số Tử Vi
-        </a>
-        <a
-          href="/tu-vi/"
-          className="px-6 py-3 border border-gold text-gold font-semibold rounded hover:bg-gold/10 transition"
-        >
-          Xem Tử Vi
-        </a>
-      </div>
+    <main className="mv-page flex min-h-screen items-center justify-center p-8">
+      <section className="mv-hero-card max-w-3xl text-center">
+        <div className="mx-auto mb-6 mv-seal">命</div>
+        <p className="mv-kicker">Bói Toán • Tử Vi Đẩu Số</p>
+        <h1 className="mv-h1-large mt-4">Bói Toán</h1>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-ink-soft">
+          Xem tử vi trọn đời, lập lá số tử vi và đọc quẻ Kinh Dịch theo tinh thần tham khảo, rõ nguồn và không hù dọa.
+        </p>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <a href="/tu-vi/" className="mv-button-primary">
+            Xem Tử Vi 2026
+          </a>
+          <a href="/lap-la-so/" className="mv-button-secondary">
+            Tìm hiểu lá số
+          </a>
+        </div>
+      </section>
     </main>
   )
 }

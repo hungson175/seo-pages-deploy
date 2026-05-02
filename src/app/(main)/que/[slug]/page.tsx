@@ -16,15 +16,15 @@ function paragraphs(text: string) {
 
 function Section({ heading, children }: { heading: string; children: string }) {
   return (
-    <section>
-      <h2 className="text-2xl font-semibold text-gold-300 mt-8 mb-4">
+    <section className="mv-card mt-8">
+      <h2 className="mv-section-title">
         {heading}
       </h2>
-      {paragraphs(children).map((paragraph) => (
-        <p key={paragraph} className="text-navy-300 mb-4 leading-7">
-          {paragraph}
-        </p>
-      ))}
+      <div className="mv-body">
+        {paragraphs(children).map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
     </section>
   )
 }
@@ -68,7 +68,7 @@ export default async function QuePage({
   const h1 = buildH1('Khám Phá', `Quẻ ${content.name}`, 'Luận Giải Và Ứng Dụng')
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12">
+    <main className="mv-page">
       <ArticleSchema
         headline={h1}
         description={`Luận giải quẻ ${content.name} trong Kinh Dịch.`}
@@ -99,43 +99,47 @@ export default async function QuePage({
         ]}
       />
 
-      <h1 className="text-3xl md:text-4xl font-bold text-gold-400 mb-4">
-        {h1}
-      </h1>
-      <p className="text-navy-200 mb-8 leading-7">
-        Luận giải quẻ {content.name} theo tinh thần Kinh Dịch: xem tượng quẻ,
-        lời đoán, ứng dụng trong công việc, tình cảm, tài chính, sức khỏe và cách hành động
-        khôn ngoan.
-      </p>
+      <article className="mv-article">
+        <header className="mv-hero-card">
+          <div className="mb-5 mv-seal">卦</div>
+          <p className="mv-kicker">Kinh Dịch • Luận quẻ ứng dụng</p>
+          <h1 className="mv-h1">{h1}</h1>
+          <p className="mt-5 text-lg leading-8 text-ink-soft">
+            Luận giải quẻ {content.name} theo tinh thần Kinh Dịch: xem tượng quẻ,
+            lời đoán, ứng dụng trong công việc, tình cảm, tài chính, sức khỏe và cách hành động
+            khôn ngoan.
+          </p>
+        </header>
 
-      <article className="prose prose-invert max-w-none">
         <Section heading="Ý Nghĩa Quẻ">{content.meaning}</Section>
         <Section heading="Lời Đoán Và Tinh Thần Chính">{content.judgment}</Section>
         <Section heading="Ứng Dụng Trong Đời Sống">{content.application}</Section>
         <Section heading="Lời Khuyên Cho Người Hỏi">{content.advice}</Section>
         <Section heading="Các Hào Biến Cần Chú Ý">{content.changingLines}</Section>
 
-        <section>
-          <h2 className="text-2xl font-semibold text-gold-300 mt-8 mb-4">
+        <section className="mv-card mt-8">
+          <h2 className="mv-section-title">
             Cách Hiểu Quẻ {content.name} Cho Đúng
           </h2>
-          <p className="text-navy-300 mb-4 leading-7">
-            Khi đọc quẻ, điều quan trọng không phải là tìm một câu trả lời cứng nhắc, mà là
-            nhận ra xu hướng của hoàn cảnh. Quẻ cho thấy thế đang mạnh hay yếu, nên tiến hay
-            nên chờ, cần mềm mỏng hay cần dứt khoát. Vì vậy, hãy đối chiếu lời quẻ với tình
-            huống thực tế của mình rồi chọn cách hành động thận trọng.
-          </p>
-          <p className="text-navy-300 mb-4 leading-7">
-            Nội dung này được viết theo hướng dễ hiểu cho người mới tìm hiểu Kinh Dịch. Bạn
-            có thể dùng như một lớp gợi ý ban đầu, sau đó xem thêm biến quẻ, hào động và
-            bối cảnh câu hỏi để có góc nhìn đầy đủ hơn.
-          </p>
+          <div className="mv-body">
+            <p>
+              Khi đọc quẻ, điều quan trọng không phải là tìm một câu trả lời cứng nhắc, mà là
+              nhận ra xu hướng của hoàn cảnh. Quẻ cho thấy thế đang mạnh hay yếu, nên tiến hay
+              nên chờ, cần mềm mỏng hay cần dứt khoát. Vì vậy, hãy đối chiếu lời quẻ với tình
+              huống thực tế của mình rồi chọn cách hành động thận trọng.
+            </p>
+            <p>
+              Nội dung này được viết theo hướng dễ hiểu cho người mới tìm hiểu Kinh Dịch. Bạn
+              có thể dùng như một lớp gợi ý ban đầu, sau đó xem thêm biến quẻ, hào động và
+              bối cảnh câu hỏi để có góc nhìn đầy đủ hơn.
+            </p>
+          </div>
         </section>
-      </article>
 
-      <p className="mt-12 text-sm text-navy-400">
-        * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán hay căn cứ để thay thế quyết định chuyên môn.
-      </p>
+        <p className="mv-disclaimer mt-10">
+          * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán hay căn cứ để thay thế quyết định chuyên môn.
+        </p>
+      </article>
     </main>
   )
 }

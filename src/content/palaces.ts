@@ -472,7 +472,7 @@ function palaceLinks(profile: PalaceProfile): PalaceInternalLink[] {
     .map(starLink)
 
   return [
-    { href: '/tu-vi/', label: 'Tử Vi 2026 - Xem Lá Số Tử Vi Online', relation: 'Hub Tử Vi' },
+    { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Hub Tử Vi' },
     { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
     ...starLinks,
     ...profile.relatedPalaces.map(palaceLink),

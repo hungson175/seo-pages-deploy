@@ -429,7 +429,7 @@ const STAR_PROFILES: Record<PriorityStarSlug, StarProfile> = {
 function starLinks(currentSlug: PriorityStarSlug): StarInternalLink[] {
   const starOrder = PRIORITY_STAR_SLUGS.filter((slug) => slug !== currentSlug)
   return [
-    { href: '/tu-vi/', label: 'Tử Vi 2026 - Xem Lá Số Tử Vi Online', relation: 'Hub Tử Vi' },
+    { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Hub Tử Vi' },
     { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
     ...starOrder.map((slug) => ({
       href: `/sao/${slug}/`,
@@ -622,7 +622,7 @@ function buildLegacyStarPage(content: StarContent): StarFoundationPage {
       },
     ],
     internalLinks: [
-      { href: '/tu-vi/', label: 'Tử Vi 2026 - Xem Lá Số Tử Vi Online', relation: 'Hub Tử Vi' },
+      { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Hub Tử Vi' },
       { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
     ],
     disclaimer: STAR_DISCLAIMER,

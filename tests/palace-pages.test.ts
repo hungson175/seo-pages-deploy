@@ -82,6 +82,16 @@ describe('12 cung foundation pages', () => {
     }
   })
 
+
+  it('uses accurate hub labels for /tu-vi/ links', () => {
+    for (const slug of PALACE_SLUGS) {
+      const page = getPalaceFoundationPage(slug)!
+      const hubLink = page.internalLinks.find((link) => link.href === '/tu-vi/')
+      expect(hubLink?.label).toBe('Hub Tử Vi 2026')
+      expect(hubLink?.label).not.toContain('Xem Lá Số Online')
+    }
+  })
+
   it('avoids deterministic, medical, and finance-promise wording', () => {
     const forbiddenPatterns = [
       /chắc chắn/i,

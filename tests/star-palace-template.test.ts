@@ -130,8 +130,10 @@ describe('star×cung expansion template', () => {
 
       expect(text).toContain('không phải lá số cá nhân')
       expect(text).toContain('Tam Hợp Phái')
+      expect(text).toContain('紫微斗数全书')
       expect(text).toContain('không phải lời tiên đoán')
       expect(text).toContain('không suy diễn từ một sao hoặc một cung riêng lẻ')
+      expect(text).not.toContain('Tử Tức')
     }
   })
 

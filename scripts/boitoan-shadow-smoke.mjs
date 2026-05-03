@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { writeFile } from 'node:fs/promises'
 import { chromium } from '@playwright/test'
 
 const BASE_URL = (process.env.BASE_URL || process.env.SHADOW_BASE_URL || 'http://127.0.0.1:17120').replace(/\/$/, '')
@@ -6,6 +7,7 @@ const RUN_BROWSER = process.env.SHADOW_SMOKE_BROWSER !== '0'
 const RUN_FORM = process.env.SHADOW_SMOKE_FORM !== '0'
 const TIMEOUT_MS = Number(process.env.SHADOW_SMOKE_TIMEOUT_MS || 90_000)
 const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 10_000)
+const OUTPUT_PATH = process.env.SHADOW_SMOKE_OUTPUT || ''
 const SAMPLE_CHART = {
   name: 'Bạn',
   gender: 'Nam',
@@ -20,6 +22,8 @@ const result = {
   artifacts: {},
   errors: [],
 }
+const browserConsoleErrors = []
+const browserNetworkIssues = []
 
 function count(text, needle) {
   return (String(text || '').match(new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
@@ -40,6 +44,38 @@ function paywallMarkers(text) {
 function record(name, ok, details = {}) {
   result.checks[name] = { ok: Boolean(ok), ...details }
   if (!ok) result.errors.push(`${name} failed`)
+}
+
+function attachBrowserDiagnostics(page, label) {
+  page.on('console', (msg) => {
+    if (msg.type() !== 'error') return
+    const location = msg.location()
+    browserConsoleErrors.push({
+      label,
+      text: msg.text().slice(0, 300),
+      url: location?.url || null,
+      lineNumber: location?.lineNumber ?? null,
+    })
+  })
+  page.on('response', (response) => {
+    const status = response.status()
+    if (status < 400) return
+    browserNetworkIssues.push({
+      label,
+      status,
+      url: response.url(),
+      resourceType: response.request().resourceType(),
+    })
+  })
+  page.on('requestfailed', (request) => {
+    browserNetworkIssues.push({
+      label,
+      status: 'failed',
+      url: request.url(),
+      resourceType: request.resourceType(),
+      failure: request.failure()?.errorText || null,
+    })
+  })
 }
 
 async function fetchText(path, options = {}) {
@@ -114,10 +150,7 @@ async function browserChecksFromChart(chartId) {
   if (!RUN_BROWSER || !chartId) return
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
-  const consoleErrors = []
-  page.on('console', (msg) => {
-    if (msg.type() === 'error') consoleErrors.push(msg.text().slice(0, 300))
-  })
+  attachBrowserDiagnostics(page, 'reading')
   try {
     const response = await page.goto(`${BASE_URL}/reading/${chartId}`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS })
     await page.waitForTimeout(2000)
@@ -156,7 +189,6 @@ async function browserChecksFromChart(chartId) {
     } else {
       record('reading_tab_ii_button_present', false, { buttons })
     }
-    result.artifacts.browserConsoleErrors = consoleErrors.slice(0, 20)
   } finally {
     await browser.close()
   }
@@ -166,6 +198,7 @@ async function browserFormFlow() {
   if (!RUN_BROWSER || !RUN_FORM) return null
   const browser = await chromium.launch({ headless: true })
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
+  attachBrowserDiagnostics(page, 'form-flow')
   try {
     await page.goto(`${BASE_URL}/lap-la-so`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS })
     await page.getByRole('button', { name: /Tiếp tục/i }).first().click({ timeout: 30_000 })
@@ -210,6 +243,21 @@ try {
   result.errors.push(error?.stack || String(error))
 } finally {
   result.finishedAt = new Date().toISOString()
-  console.log(JSON.stringify(result, null, 2))
+  if (browserConsoleErrors.length) {
+    result.artifacts.browserConsoleErrors = browserConsoleErrors.slice(0, 50)
+  }
+  if (browserNetworkIssues.length) {
+    result.artifacts.browserNetworkIssues = browserNetworkIssues.slice(0, 50)
+  }
+  let output = JSON.stringify(result, null, 2)
+  if (OUTPUT_PATH) {
+    try {
+      await writeFile(OUTPUT_PATH, `${output}\n`)
+    } catch (error) {
+      result.errors.push(`failed to write SHADOW_SMOKE_OUTPUT: ${error?.message || String(error)}`)
+      output = JSON.stringify(result, null, 2)
+    }
+  }
+  console.log(output)
   if (result.errors.length) process.exit(1)
 }

@@ -162,19 +162,29 @@ Before DNS switch, run against OCI shadow host/port or hosts-file override:
 Reusable smoke command from the top-level repo:
 
 ```bash
-BASE_URL=http://127.0.0.1:17120 npm run smoke:boitoan-shadow
+BASE_URL=http://127.0.0.1:17120 npm --silent run smoke:boitoan-shadow
 ```
 
 If the web service is only reachable on OCI-SG loopback, run through an SSH tunnel:
 
 ```bash
 ssh -N -L 127.0.0.1:18120:127.0.0.1:17120 oci-sg
-BASE_URL=http://127.0.0.1:18120 npm run smoke:boitoan-shadow
+BASE_URL=http://127.0.0.1:18120 npm --silent run smoke:boitoan-shadow
+```
+
+For strict machine-readable JSON artifacts, set `SHADOW_SMOKE_OUTPUT`; this
+avoids npm banner text even if the command is launched through `npm run`:
+
+```bash
+BASE_URL=http://127.0.0.1:18120 \
+  SHADOW_SMOKE_OUTPUT=/tmp/boitoan_oci_shadow_smoke_$(date +%Y%m%d%H%M%S).json \
+  npm --silent run smoke:boitoan-shadow
 ```
 
 The smoke script covers route status, robots private-route disallows, API `/chart`,
 `Tử Nữ`/legacy `Tử Tức` leakage, `/reading/{chartId}` noindex/nofollow, locked
-tab API fallback header/body, no paywall marker leaks, and the browser form flow.
+tab API fallback header/body, no paywall marker leaks, browser console/network
+diagnostics, and the browser form flow.
 
 ## Handoff to John
 
@@ -200,6 +210,7 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - Nested real-web/api Docker template commit `a54de42` pushed to Boss private `boi-toan-horoscope` branch `feat/oci-sg-docker-templates`.
 - Nested verification: `git diff --check`; `docker build -t boitoan-real-web:704a95a-oci-template ./web` PASS; `docker build -t boitoan-api:704a95a-oci-template ./be` PASS; local Docker network smoke with ephemeral Postgres showed API `/health` PASS and real-web `/lap-la-so` PASS.
 - DB migration follow-up: API Dockerfile now copies `alembic.ini` + `alembic/`; local Docker network smoke ran `alembic upgrade head` from the API image against an empty ephemeral Postgres before API boot, then API `/health` PASS and `/chart` POST PASS with 0 `Tử Tức` and `Tử Nữ` present.
-- Shadow smoke script follow-up: `scripts/boitoan-shadow-smoke.mjs` added and first run through an SSH tunnel to OCI-SG `127.0.0.1:17120` showed the baseline shadow routes/form/API pass, but locked generated tabs returned upstream 503 (`all 3 attempts failed`) instead of the safe fallback. The top-level proxy now maps these paid/generated-tab 5xx failures to the existing safe fallback with `x-boitoan-proxy-fallback: locked-reading`. After John rebuilt shadow web from `d6ac432b`, the smoke script still needed a realistic UI wait because the fallback appears after client hydration/network work. The script now waits up to `SHADOW_SMOKE_UI_WAIT_MS` (default 10s) for fallback/error text after tab click and waits for form fields/buttons before filling/clicking. SSH-tunneled run against OCI-SG loopback PASSed all checks, artifact `/tmp/boitoan_oci_shadow_smoke_uiwait_20260504003146.json`.
+- Shadow smoke script follow-up: `scripts/boitoan-shadow-smoke.mjs` added and first run through an SSH tunnel to OCI-SG `127.0.0.1:17120` showed the baseline shadow routes/form/API pass, but locked generated tabs returned upstream 503 (`all 3 attempts failed`) instead of the safe fallback. The top-level proxy now maps these paid/generated-tab 5xx failures to the existing safe fallback with `x-boitoan-proxy-fallback: locked-reading`. After John rebuilt shadow web from `d6ac432b`, the smoke script still needed a realistic UI wait because the fallback appears after client hydration/network work. The script now waits up to `SHADOW_SMOKE_UI_WAIT_MS` (default 10s) for fallback/error text after tab click and waits for form fields/buttons before filling/clicking. SSH-tunneled run against OCI-SG loopback PASSed all checks, artifact `/tmp/boitoan_oci_shadow_smoke_uiwait10_20260504003435.json`.
+- Pre-cutover hygiene follow-up: `SHADOW_SMOKE_OUTPUT` now writes strict JSON artifacts and the documented command uses `npm --silent` to avoid npm banner text. SSH-tunneled run against OCI-SG loopback still PASSed 16/16, strict artifact `/tmp/boitoan_oci_shadow_smoke_hygiene_20260504004211.json`. Browser diagnostics identified the prior five console 404s as nested real-web Next font preload requests for `/_next/static/media/*.woff2` before the same fonts load successfully through `/real-tuvi-assets/_next/static/media/*.woff2`; this is accepted for prep-only shadow validation but should be explicitly accepted or fixed before public cutover. The same diagnostic also observed a shadow-only generated `tinh-cach` prefetch 503 from the local real-web/API stack; no visible locked-tab regression, but final cutover review should decide whether to short-circuit generated-tab prefetches faster or provide approved generation env.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.

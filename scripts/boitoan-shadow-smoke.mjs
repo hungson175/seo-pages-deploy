@@ -5,7 +5,7 @@ const BASE_URL = (process.env.BASE_URL || process.env.SHADOW_BASE_URL || 'http:/
 const RUN_BROWSER = process.env.SHADOW_SMOKE_BROWSER !== '0'
 const RUN_FORM = process.env.SHADOW_SMOKE_FORM !== '0'
 const TIMEOUT_MS = Number(process.env.SHADOW_SMOKE_TIMEOUT_MS || 90_000)
-const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 15_000)
+const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 10_000)
 const SAMPLE_CHART = {
   name: 'Bạn',
   gender: 'Nam',

@@ -4,10 +4,18 @@ export const dynamic = 'force-static'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: [
+          '/reading/',
+          '/api/',
+          '/admin/',
+          '/context/',
+        ],
+      },
+    ],
     sitemap: [
       'https://boitoan.com.vn/sitemap.xml',
       'https://boitoan.com.vn/sitemap-index.xml',

@@ -86,6 +86,14 @@ Prepared in Boss private `sample_code/horoscope` branch `feat/oci-sg-docker-temp
 - `sample_code/horoscope/be/Dockerfile`: Python 3.13 slim multi-stage build, builder-stage `build-essential gcc` for ARM64/Python 3.13 wheel risk, venv copied into non-root runtime, `/health` healthcheck, `uvicorn app.main:app`.
 - `sample_code/horoscope/be/.dockerignore`: excludes env, venv, Python caches, local browser artifacts, and tests.
 - Runtime requires `DATABASE_URL` from `/opt/boitoan/.env`; secrets must never be committed or printed.
+- The API image includes `alembic.ini` and `alembic/` so John can run schema migration from the same image before full shadow smoke:
+
+```bash
+docker compose run --rm api alembic upgrade head
+docker compose up -d api real-web web
+```
+
+Run `alembic upgrade head` against the OCI-SG shadow/staging DB before `/api/chart` smoke. Do not rely on empty-DB startup; the FastAPI lifespan seed expects the migrated `packages` table.
 - PDF Chromium remains P2 unless `CHROME_EXECUTABLE_PATH`/system browser dependencies are installed and tested.
 
 ## Compose shadow skeleton
@@ -174,5 +182,6 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - Reviewer PASS/no blocker for prep commit `30ec1651`: `/tmp/seo_pages_oci_sg_migration_prep_30ec1651_review_202605032205.txt`.
 - Nested real-web/api Docker template commit `a54de42` pushed to Boss private `boi-toan-horoscope` branch `feat/oci-sg-docker-templates`.
 - Nested verification: `git diff --check`; `docker build -t boitoan-real-web:704a95a-oci-template ./web` PASS; `docker build -t boitoan-api:704a95a-oci-template ./be` PASS; local Docker network smoke with ephemeral Postgres showed API `/health` PASS and real-web `/lap-la-so` PASS.
+- DB migration follow-up: API Dockerfile now copies `alembic.ini` + `alembic/`; local Docker network smoke ran `alembic upgrade head` from the API image against an empty ephemeral Postgres before API boot, then API `/health` PASS and `/chart` POST PASS with 0 `Tử Tức` and `Tử Nữ` present.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.

@@ -80,10 +80,60 @@ const API_SEGMENT_REWRITES: Record<string, string> = {
   'tieu-han-all': 'tieu_han_all',
 }
 
+const LOCKED_READING_COPY =
+  'Phần này đang được hoàn thiện cho bản public. Bạn có thể đọc mục Tìm hiểu bản thân và lá số 12 cung trước; Bói Toán sẽ mở thêm luận giải sau khi kiểm định nội dung.'
+
 export function mapRealTuViApiPath(path: string[]): string {
   return `/${path
     .map((segment) => encodeURIComponent(API_SEGMENT_REWRITES[segment] ?? segment))
     .join('/')}`
+}
+
+function isLockedReadingResponse(status: number, path: string[], text: string): boolean {
+  if (status !== 402) return false
+  if (!path.includes('luan-giai')) return false
+  try {
+    const parsed = JSON.parse(text) as { detail?: { error?: string } }
+    return parsed.detail?.error === 'locked'
+  } catch {
+    return text.includes('"error":"locked"')
+  }
+}
+
+export function lockedReadingFallback(path: string[]): Record<string, unknown> {
+  const tab = path[path.indexOf('luan-giai') + 1] ?? ''
+  const title =
+    tab === 'su-nghiep' ? 'Sự nghiệp & nguồn lực'
+      : tab === 'tinh-duyen' ? 'Tình duyên & hôn nhân'
+        : tab === 'dai-van' ? 'Đại vận'
+          : tab === 'tieu-han' ? 'Tiểu vận'
+            : tab === 'cung' ? '12 cung'
+              : 'Luận giải'
+
+  return {
+    locked: true,
+    hero: {
+      headline: `${title} đang được mở sau`,
+      sub: LOCKED_READING_COPY,
+    },
+    tong_quan: {
+      headline: title,
+      sub: LOCKED_READING_COPY,
+      keynotes: [LOCKED_READING_COPY],
+    },
+    loi_khuyen: {
+      headline: 'Gợi ý đọc tiếp',
+      sub: LOCKED_READING_COPY,
+      keynotes: [
+        'Đọc phần Tìm hiểu bản thân trước để nắm Mệnh, Thân, Cục và các điểm nền.',
+        'Dùng lá số 12 cung như bản tham khảo văn hóa, không thay thế tư vấn chuyên môn.',
+      ],
+    },
+    ask_chips: [
+      'Bói Toán giải thích cung Mệnh giúp tôi',
+      'Năm nay tôi nên tự quan sát điều gì?',
+    ],
+  }
 }
 
 function rewriteHtml(html: string): string {
@@ -191,7 +241,17 @@ export async function proxyRealTuViApi(path: string[], request: NextRequest): Pr
   })
   const contentType = upstream.headers.get('content-type') ?? ''
   if (contentType.includes('application/json') || contentType.includes('text/')) {
-    return new Response(sanitizeRealTuViApiText(await upstream.text()), {
+    const text = sanitizeRealTuViApiText(await upstream.text())
+    if (isLockedReadingResponse(upstream.status, path, text)) {
+      return new Response(JSON.stringify(lockedReadingFallback(path)), {
+        status: 200,
+        headers: {
+          ...Object.fromEntries(responseHeaders(upstream, 'application/json; charset=utf-8')),
+          'x-boitoan-proxy-fallback': 'locked-reading',
+        },
+      })
+    }
+    return new Response(text, {
       status: upstream.status,
       headers: responseHeaders(upstream, contentType || undefined),
     })

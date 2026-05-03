@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  lockedReadingFallback,
   mapRealTuViApiPath,
   sanitizeRealTuViApiText,
   sanitizeRealTuViAssetText,
@@ -90,6 +91,22 @@ describe('real tu vi API proxy mapping', () => {
     expect(sanitized).toContain('giai đoạn đầu sau khi ra mắt')
     expect(sanitized).not.toContain('2 ngày làm việc')
     expect(sanitized).not.toContain('7 ngày làm việc')
+  })
+
+  it('builds a safe public placeholder for locked reading tabs', () => {
+    const fallback = lockedReadingFallback(['chart', 'abc123', 'luan-giai', 'su-nghiep'])
+
+    expect(fallback).toMatchObject({
+      locked: true,
+      hero: {
+        headline: 'Sự nghiệp & nguồn lực đang được mở sau',
+      },
+    })
+    expect(JSON.stringify(fallback)).toContain('đang được hoàn thiện cho bản public')
+    expect(JSON.stringify(fallback)).not.toContain('Đọc bản thân')
+    expect(JSON.stringify(fallback)).not.toContain('49000')
+    expect(JSON.stringify(fallback)).not.toContain('2 ngày làm việc')
+    expect(JSON.stringify(fallback)).not.toContain('7 ngày làm việc')
   })
 
   it('sanitizes legacy backend palace naming leaks while Railway catches up', () => {

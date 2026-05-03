@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 
-const REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
-const REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
+const DEFAULT_REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
+const DEFAULT_REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
 const REAL_TUVI_ASSET_PREFIX = '/real-tuvi-assets'
 const DEFAULT_PRIVACY_CONTACT_EMAIL = 'privacy@boitoan.com.vn'
 const PRIVACY_CONTACT_COPY =
@@ -28,6 +28,14 @@ const LEGACY_TU_TUC_REWRITES: Array<[RegExp, string]> = [
   [/tu-tuc/g, 'tu-nu'],
   [/子息/g, '子女'],
 ]
+
+export function getRealTuViOrigin(): string {
+  return process.env.REAL_TUVI_ORIGIN?.trim() || DEFAULT_REAL_TUVI_ORIGIN
+}
+
+export function getRealTuViApiOrigin(): string {
+  return process.env.REAL_TUVI_API_ORIGIN?.trim() || DEFAULT_REAL_TUVI_API_ORIGIN
+}
 
 export function sanitizeRealTuViApiText(text: string): string {
   return LEGACY_TU_TUC_REWRITES.reduce(
@@ -154,7 +162,7 @@ function responseHeaders(upstream: Response, contentType?: string): Headers {
 }
 
 export async function proxyRealTuViGet(pathname: string, request: NextRequest): Promise<Response> {
-  const url = new URL(pathname, REAL_TUVI_ORIGIN)
+  const url = new URL(pathname, getRealTuViOrigin())
   url.search = request.nextUrl.search
   const upstream = await fetch(url, {
     method: 'GET',
@@ -192,7 +200,7 @@ export function sanitizeRealTuViAssetText(text: string): string {
 export async function proxyRealTuViAsset(path: string[], request: NextRequest): Promise<Response> {
   const url = new URL(
     `/${path.map((segment) => encodeURIComponent(segment)).join('/')}`,
-    REAL_TUVI_ORIGIN,
+    getRealTuViOrigin(),
   )
   url.search = request.nextUrl.search
   const upstream = await fetch(url, {
@@ -224,7 +232,7 @@ export async function proxyRealTuViAsset(path: string[], request: NextRequest): 
 }
 
 export async function proxyRealTuViApi(path: string[], request: NextRequest): Promise<Response> {
-  const url = new URL(mapRealTuViApiPath(path), REAL_TUVI_API_ORIGIN)
+  const url = new URL(mapRealTuViApiPath(path), getRealTuViApiOrigin())
   url.search = request.nextUrl.search
   const headers = new Headers(request.headers)
   headers.delete('host')

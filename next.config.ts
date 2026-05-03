@@ -18,6 +18,7 @@ const LEGACY_STAR_REDIRECT_SLUGS = [
 ]
 
 const nextConfig: NextConfig = {
+  output: process.env.NEXT_OUTPUT_STANDALONE === 'true' ? 'standalone' : undefined,
   images: {
     unoptimized: true,
   },

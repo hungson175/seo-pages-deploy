@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  getRealTuViApiOrigin,
+  getRealTuViOrigin,
   lockedReadingFallback,
   mapRealTuViApiPath,
   sanitizeRealTuViApiText,
@@ -10,12 +12,24 @@ import {
 
 describe('real tu vi API proxy mapping', () => {
   const originalPrivacyContactEmail = process.env.PRIVACY_CONTACT_EMAIL
+  const originalRealTuViOrigin = process.env.REAL_TUVI_ORIGIN
+  const originalRealTuViApiOrigin = process.env.REAL_TUVI_API_ORIGIN
 
   afterEach(() => {
     if (originalPrivacyContactEmail === undefined) {
       delete process.env.PRIVACY_CONTACT_EMAIL
     } else {
       process.env.PRIVACY_CONTACT_EMAIL = originalPrivacyContactEmail
+    }
+    if (originalRealTuViOrigin === undefined) {
+      delete process.env.REAL_TUVI_ORIGIN
+    } else {
+      process.env.REAL_TUVI_ORIGIN = originalRealTuViOrigin
+    }
+    if (originalRealTuViApiOrigin === undefined) {
+      delete process.env.REAL_TUVI_API_ORIGIN
+    } else {
+      process.env.REAL_TUVI_API_ORIGIN = originalRealTuViApiOrigin
     }
   })
 
@@ -25,6 +39,19 @@ describe('real tu vi API proxy mapping', () => {
     expect(mapRealTuViApiPath(['can-chi'])).toBe('/can-chi')
     expect(mapRealTuViApiPath(['chat'])).toBe('/chat')
     expect(mapRealTuViApiPath(['feedback'])).toBe('/feedback')
+  })
+
+  it('allows OCI-SG containers to override real app upstream origins via env', () => {
+    delete process.env.REAL_TUVI_ORIGIN
+    delete process.env.REAL_TUVI_API_ORIGIN
+    expect(getRealTuViOrigin()).toBe('https://web-neon-tau-79.vercel.app')
+    expect(getRealTuViApiOrigin()).toBe('https://horoscope-production-987b.up.railway.app')
+
+    process.env.REAL_TUVI_ORIGIN = 'http://real-web:3000'
+    process.env.REAL_TUVI_API_ORIGIN = 'http://api:8000'
+
+    expect(getRealTuViOrigin()).toBe('http://real-web:3000')
+    expect(getRealTuViApiOrigin()).toBe('http://api:8000')
   })
 
   it('rewrites frontend hyphen route names to backend underscore endpoints', () => {

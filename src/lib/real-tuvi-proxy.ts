@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 
 const REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
 const REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
+const REAL_TUVI_ASSET_PREFIX = '/real-tuvi-assets'
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',
   'content-encoding',
@@ -30,6 +31,20 @@ export function sanitizeRealTuViApiText(text: string): string {
   )
 }
 
+const APPROVED_DISCLAIMER_REWRITES: Array<[RegExp, string]> = [
+  [
+    /không\s+phải\s+lời\s+khẳng\s+định\s+tương\s+lai/giu,
+    'không phải lời tiên đoán hay lời khẳng định tương lai',
+  ],
+]
+
+export function sanitizeRealTuViHtmlText(text: string): string {
+  return APPROVED_DISCLAIMER_REWRITES.reduce(
+    (current, [pattern, replacement]) => current.replace(pattern, replacement),
+    sanitizeRealTuViApiText(text),
+  )
+}
+
 const API_SEGMENT_REWRITES: Record<string, string> = {
   'luan-giai': 'luan_giai',
   'tinh-cach': 'tinh_cach',
@@ -47,16 +62,11 @@ export function mapRealTuViApiPath(path: string[]): string {
 }
 
 function rewriteHtml(html: string): string {
-  return html
-    .replaceAll('href="/_next/', `href="${REAL_TUVI_ORIGIN}/_next/`)
-    .replaceAll('src="/_next/', `src="${REAL_TUVI_ORIGIN}/_next/`)
-    .replaceAll("href='/_next/", `href='${REAL_TUVI_ORIGIN}/_next/`)
-    .replaceAll("src='/_next/", `src='${REAL_TUVI_ORIGIN}/_next/`)
-    .replaceAll('url(/_next/', `url(${REAL_TUVI_ORIGIN}/_next/`)
-    .replaceAll('href="/assets/', `href="${REAL_TUVI_ORIGIN}/assets/`)
-    .replaceAll('src="/assets/', `src="${REAL_TUVI_ORIGIN}/assets/`)
-    .replaceAll('href="/icon.png"', `href="${REAL_TUVI_ORIGIN}/icon.png"`)
-    .replaceAll('href="/apple-icon.png"', `href="${REAL_TUVI_ORIGIN}/apple-icon.png"`)
+  return sanitizeRealTuViHtmlText(html)
+    .replaceAll('/_next/', `${REAL_TUVI_ASSET_PREFIX}/_next/`)
+    .replaceAll('/assets/', `${REAL_TUVI_ASSET_PREFIX}/assets/`)
+    .replaceAll('/icon.png', `${REAL_TUVI_ASSET_PREFIX}/icon.png`)
+    .replaceAll('/apple-icon.png', `${REAL_TUVI_ASSET_PREFIX}/apple-icon.png`)
 }
 
 function responseHeaders(upstream: Response, contentType?: string): Headers {
@@ -88,6 +98,50 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
       headers: responseHeaders(upstream, 'text/html; charset=utf-8'),
     })
   }
+  return new Response(upstream.body, {
+    status: upstream.status,
+    headers: responseHeaders(upstream),
+  })
+}
+
+export function sanitizeRealTuViAssetText(text: string): string {
+  return sanitizeRealTuViHtmlText(text)
+    .replaceAll(
+      'kh\\xf4ng phải lời khẳng định tương lai',
+      'không phải lời tiên đoán hay lời khẳng định tương lai',
+    )
+    .replaceAll('/_next/', `${REAL_TUVI_ASSET_PREFIX}/_next/`)
+    .replaceAll('/assets/', `${REAL_TUVI_ASSET_PREFIX}/assets/`)
+}
+
+export async function proxyRealTuViAsset(path: string[], request: NextRequest): Promise<Response> {
+  const url = new URL(
+    `/${path.map((segment) => encodeURIComponent(segment)).join('/')}`,
+    REAL_TUVI_ORIGIN,
+  )
+  url.search = request.nextUrl.search
+  const upstream = await fetch(url, {
+    method: 'GET',
+    redirect: 'follow',
+    headers: {
+      accept: request.headers.get('accept') ?? '*/*',
+      'user-agent': request.headers.get('user-agent') ?? 'boitoan-asset-proxy',
+    },
+    cache: 'no-store',
+  })
+  const contentType = upstream.headers.get('content-type') ?? ''
+  if (
+    contentType.includes('javascript') ||
+    contentType.includes('json') ||
+    contentType.includes('text/') ||
+    contentType.includes('css')
+  ) {
+    return new Response(sanitizeRealTuViAssetText(await upstream.text()), {
+      status: upstream.status,
+      headers: responseHeaders(upstream, contentType || undefined),
+    })
+  }
+
   return new Response(upstream.body, {
     status: upstream.status,
     headers: responseHeaders(upstream),

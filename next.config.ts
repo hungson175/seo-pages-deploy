@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   trailingSlash: false,
+  skipTrailingSlashRedirect: true,
   // ISR is handled via generateStaticParams + revalidate in page components
   async redirects() {
     return LEGACY_STAR_REDIRECT_SLUGS.map((slug) => ({

@@ -131,13 +131,15 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('main')).not.toContainText('đầu tư mạo hiểm')
   })
 
-  test('lap-la-so page renders as static landing content', async ({ page }) => {
+  test('lap-la-so page renders approved real Tu Vi landing content', async ({ page }) => {
     await page.goto('/lap-la-so/')
     
     await expect(page.locator('main')).toBeVisible()
-    await expect(page.locator('h1')).toContainText('Lập Lá Số Tử Vi Online')
-    await expect(page.locator('text=Trang này giải thích cách lập lá số tử vi')).toBeVisible()
-    await expect(page.locator('form')).toHaveCount(0)
+    await expect(page.locator('h1')).toContainText('Lập lá số Tử Vi')
+    await expect(page.locator('h1')).toContainText('theo ngày giờ sinh')
+    await expect(page.locator('main')).toContainText('Tử Vi Đẩu Số')
+    await expect(page.locator('main')).toContainText('Thông tin cơ bản')
+    await expect(page.locator('main')).toContainText('Bạn sẽ nhận được gì?')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
   })
 })

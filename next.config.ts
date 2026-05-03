@@ -23,47 +23,6 @@ const nextConfig: NextConfig = {
   },
   trailingSlash: false,
   // ISR is handled via generateStaticParams + revalidate in page components
-  async rewrites() {
-    const realTuViAppOrigin = 'https://web-neon-tau-79.vercel.app'
-    return {
-      beforeFiles: [
-        {
-          source: '/lap-la-so/:path*',
-          destination: `${realTuViAppOrigin}/lap-la-so/:path*`,
-        },
-        {
-          source: '/quyen-rieng-tu/:path*',
-          destination: `${realTuViAppOrigin}/quyen-rieng-tu/:path*`,
-        },
-        {
-          source: '/reading/:path*',
-          destination: `${realTuViAppOrigin}/reading/:path*`,
-        },
-        {
-          source: '/api/:path*',
-          destination: `${realTuViAppOrigin}/api/:path*`,
-        },
-      ],
-      fallback: [
-        {
-          source: '/_next/static/:path*',
-          destination: `${realTuViAppOrigin}/_next/static/:path*`,
-        },
-        {
-          source: '/assets/:path*',
-          destination: `${realTuViAppOrigin}/assets/:path*`,
-        },
-        {
-          source: '/icon.png',
-          destination: `${realTuViAppOrigin}/icon.png`,
-        },
-        {
-          source: '/apple-icon.png',
-          destination: `${realTuViAppOrigin}/apple-icon.png`,
-        },
-      ],
-    }
-  },
   async redirects() {
     return LEGACY_STAR_REDIRECT_SLUGS.map((slug) => ({
       source: `/sao/${slug}`,

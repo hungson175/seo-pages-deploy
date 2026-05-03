@@ -16,6 +16,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByLabel('Ngày sinh dương lịch')).toBeVisible()
     await expect(page.getByLabel('Giờ sinh')).toBeVisible()
     await expect(page.getByRole('button', { name: 'Lập lá số ngay' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Lập lá số ngay' })).toBeEnabled()
     await expect(seoContent).toBeVisible()
 
     const formBox = await form.boundingBox()

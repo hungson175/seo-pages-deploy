@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const BIRTH_HOURS = [
@@ -20,18 +20,29 @@ const BIRTH_HOURS = [
 
 export function HomeChartForm() {
   const router = useRouter()
+  const formRef = useRef<HTMLFormElement>(null)
   const [name, setName] = useState('')
   const [gender, setGender] = useState('Nam')
   const [birthDate, setBirthDate] = useState('')
   const [birthHour, setBirthHour] = useState('Ngo')
   const [error, setError] = useState('')
+  const [isReady, setIsReady] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  useEffect(() => {
+    setIsReady(true)
+  }, [])
+
+  async function submitChart(form: HTMLFormElement) {
     setError('')
 
-    if (!birthDate || !birthHour) {
+    const formData = new FormData(form)
+    const submittedName = String(formData.get('name') || '').trim() || 'Bạn'
+    const submittedGender = String(formData.get('gender') || 'Nam')
+    const submittedBirthDate = String(formData.get('birthDate') || '')
+    const submittedBirthHour = String(formData.get('birthHour') || '')
+
+    if (!submittedBirthDate || !submittedBirthHour) {
       setError('Vui lòng nhập ngày sinh và giờ sinh để lập lá số.')
       return
     }
@@ -43,10 +54,10 @@ export function HomeChartForm() {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name.trim() || 'Bạn',
-          gender,
-          birthDate,
-          birthHour,
+          name: submittedName,
+          gender: submittedGender,
+          birthDate: submittedBirthDate,
+          birthHour: submittedBirthHour,
         }),
       })
 
@@ -64,11 +75,19 @@ export function HomeChartForm() {
     }
   }
 
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    void submitChart(event.currentTarget)
+  }
+
   return (
     <form
+      ref={formRef}
       aria-label="Lập lá số Tử Vi nhanh"
+      action="/lap-la-so/"
       className="mt-6 rounded-3xl border border-gold/40 bg-ivory/95 p-4 text-left shadow-[0_18px_50px_rgba(42,36,24,0.12)] sm:p-5"
       data-testid="home-chart-form"
+      method="get"
       onSubmit={handleSubmit}
     >
       <div className="grid gap-3 md:grid-cols-[1.1fr_0.85fr_0.95fr_1fr]">
@@ -136,8 +155,12 @@ export function HomeChartForm() {
         </p>
         <button
           className="mv-button-primary min-h-12 cursor-pointer whitespace-nowrap disabled:cursor-wait disabled:opacity-70"
-          disabled={isSubmitting}
-          type="submit"
+          disabled={isSubmitting || !isReady}
+          onClick={() => {
+            if (!formRef.current) return
+            void submitChart(formRef.current)
+          }}
+          type="button"
         >
           {isSubmitting ? 'Đang lập lá số…' : 'Lập lá số ngay'}
         </button>

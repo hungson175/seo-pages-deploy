@@ -4,6 +4,7 @@ import {
   getRealTuViOrigin,
   lockedReadingFallback,
   mapRealTuViApiPath,
+  proxyRealTuViApi,
   sanitizeRealTuViApiText,
   sanitizeRealTuViAssetText,
   sanitizeRealTuViHtmlText,
@@ -134,6 +135,37 @@ describe('real tu vi API proxy mapping', () => {
     expect(JSON.stringify(fallback)).not.toContain('49000')
     expect(JSON.stringify(fallback)).not.toContain('2 ngày làm việc')
     expect(JSON.stringify(fallback)).not.toContain('7 ngày làm việc')
+  })
+
+  it('uses the safe reading fallback when paid generated tabs fail upstream during shadow smoke', async () => {
+    const originalFetch = global.fetch
+    global.fetch = async () =>
+      new Response(JSON.stringify({ detail: '[su_nghiep/tong_quan] all 3 attempts failed' }), {
+        status: 503,
+        headers: { 'content-type': 'application/json' },
+      })
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chart', 'abc123', 'luan-giai', 'su-nghiep'],
+        {
+          method: 'GET',
+          headers: new Headers(),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new ArrayBuffer(0),
+        } as never,
+      )
+      const text = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
+      expect(text).toContain('đang được hoàn thiện cho bản public')
+      expect(text).not.toContain('all 3 attempts failed')
+      expect(text).not.toContain('suggested_packages')
+      expect(text).not.toContain('49000')
+    } finally {
+      global.fetch = originalFetch
+    }
   })
 
   it('sanitizes legacy backend palace naming leaks while Railway catches up', () => {

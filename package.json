@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "deploy:vercel": "bash scripts/deploy-vercel.sh"
+    "deploy:vercel": "bash scripts/deploy-vercel.sh",
+    "smoke:boitoan-shadow": "node scripts/boitoan-shadow-smoke.mjs"
   },
   "dependencies": {
     "@langchain/core": "^1.1.42",

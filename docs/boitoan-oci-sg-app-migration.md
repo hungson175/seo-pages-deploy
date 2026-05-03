@@ -159,6 +159,23 @@ Before DNS switch, run against OCI shadow host/port or hosts-file override:
 9. Static SEO pages still have one H1, `lang=vi`, canonical, schema, and no placeholder copy.
 10. No secrets in Docker logs, Caddy logs, or app HTML.
 
+Reusable smoke command from the top-level repo:
+
+```bash
+BASE_URL=http://127.0.0.1:17120 npm run smoke:boitoan-shadow
+```
+
+If the web service is only reachable on OCI-SG loopback, run through an SSH tunnel:
+
+```bash
+ssh -N -L 127.0.0.1:18120:127.0.0.1:17120 oci-sg
+BASE_URL=http://127.0.0.1:18120 npm run smoke:boitoan-shadow
+```
+
+The smoke script covers route status, robots private-route disallows, API `/chart`,
+`Tử Nữ`/legacy `Tử Tức` leakage, `/reading/{chartId}` noindex/nofollow, locked
+tab API fallback header/body, no paywall marker leaks, and the browser form flow.
+
 ## Handoff to John
 
 PO can provide images or build contexts after hotfix review. John should decide:
@@ -183,5 +200,6 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - Nested real-web/api Docker template commit `a54de42` pushed to Boss private `boi-toan-horoscope` branch `feat/oci-sg-docker-templates`.
 - Nested verification: `git diff --check`; `docker build -t boitoan-real-web:704a95a-oci-template ./web` PASS; `docker build -t boitoan-api:704a95a-oci-template ./be` PASS; local Docker network smoke with ephemeral Postgres showed API `/health` PASS and real-web `/lap-la-so` PASS.
 - DB migration follow-up: API Dockerfile now copies `alembic.ini` + `alembic/`; local Docker network smoke ran `alembic upgrade head` from the API image against an empty ephemeral Postgres before API boot, then API `/health` PASS and `/chart` POST PASS with 0 `Tử Tức` and `Tử Nữ` present.
+- Shadow smoke script follow-up: `scripts/boitoan-shadow-smoke.mjs` added and first run through an SSH tunnel to OCI-SG `127.0.0.1:17120` showed the baseline shadow routes/form/API pass, but locked generated tabs returned upstream 503 (`all 3 attempts failed`) instead of the safe fallback. The top-level proxy now maps these paid/generated-tab 5xx failures to the existing safe fallback with `x-boitoan-proxy-fallback: locked-reading`; rebuild `boitoan-web` from this commit before re-running the full smoke.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.

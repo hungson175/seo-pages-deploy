@@ -108,6 +108,16 @@ function isLockedReadingResponse(status: number, path: string[], text: string): 
   }
 }
 
+function isGeneratedReadingUnavailableResponse(status: number, path: string[], text: string): boolean {
+  if (status < 500) return false
+  if (!path.includes('luan-giai')) return false
+  const tab = path[path.indexOf('luan-giai') + 1] ?? ''
+  if (!['su-nghiep', 'tinh-duyen', 'dai-van', 'tieu-han', 'cung'].includes(tab)) {
+    return false
+  }
+  return text.includes('all 3 attempts failed') || text.includes('all attempts failed')
+}
+
 export function lockedReadingFallback(path: string[]): Record<string, unknown> {
   const tab = path[path.indexOf('luan-giai') + 1] ?? ''
   const title =
@@ -250,7 +260,10 @@ export async function proxyRealTuViApi(path: string[], request: NextRequest): Pr
   const contentType = upstream.headers.get('content-type') ?? ''
   if (contentType.includes('application/json') || contentType.includes('text/')) {
     const text = sanitizeRealTuViApiText(await upstream.text())
-    if (isLockedReadingResponse(upstream.status, path, text)) {
+    if (
+      isLockedReadingResponse(upstream.status, path, text) ||
+      isGeneratedReadingUnavailableResponse(upstream.status, path, text)
+    ) {
       return new Response(JSON.stringify(lockedReadingFallback(path)), {
         status: 200,
         headers: {

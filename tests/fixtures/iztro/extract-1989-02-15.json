@@ -1,0 +1,26 @@
+{
+  "animal": "ti",
+  "year": 1989,
+  "gender": "male",
+  "fiveElements": "Thổ",
+  "palaceNames": [
+    "Mệnh",
+    "Phụ Mẫu",
+    "Phúc Đức",
+    "Điền Trạch",
+    "Quan Lộc",
+    "Nô Bộc",
+    "Thiên Di",
+    "Tật Ách",
+    "Tài Bạch",
+    "Tử Nữ",
+    "Phu Thê",
+    "Huynh Đệ"
+  ],
+  "transformations": [
+    { "name": "Hóa Lộc", "palace": "Mệnh" },
+    { "name": "Hóa Quyền", "palace": "Quan Lộc" },
+    { "name": "Hóa Khoa", "palace": "Tài Bạch" },
+    { "name": "Hóa Kỵ", "palace": "Tật Ách" }
+  ]
+}

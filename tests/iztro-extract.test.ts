@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest'
+import fixture1989 from './fixtures/iztro/extract-1989-02-15.json'
+import { ANIMALS } from '../src/content/routes'
 import { extractIztroData } from '../src/lib/iztro/extract'
 
 describe('extractIztroData', () => {
@@ -65,6 +67,50 @@ describe('extractIztroData', () => {
     })
     expect(data.fiveElements).toBeDefined()
     expect(['Kim', 'Mộc', 'Thủy', 'Hỏa', 'Thổ']).toContain(data.fiveElements)
+  })
+
+
+  it('maps Tỵ years to canonical slug ti, not tyj or ty-j', () => {
+    const data = extractIztroData({
+      date: '1989-02-15',
+      timeIndex: 5,
+      gender: 'male',
+    })
+
+    expect(data?.animal).toBe('ti')
+    expect(data?.animal).not.toBe('tyj')
+    expect(data?.animal).not.toBe('ty-j')
+  })
+
+  it('uses the same 12 animal slugs as the route allow-list', () => {
+    const years = Array.from({ length: 12 }, (_, index) => 1984 + index)
+    const extracted = years.map((year) => extractIztroData({
+      date: `${year}-02-15`,
+      timeIndex: 0,
+      gender: 'male',
+    })?.animal)
+
+    expect(extracted).toEqual(ANIMALS)
+    expect(extracted).toContain('ti')
+    expect(extracted).not.toContain('tyj')
+    expect(extracted).not.toContain('ty-j')
+  })
+
+  it('matches the approved iztro v2.5.8 fixture shape used by the generation pipeline', () => {
+    const data = extractIztroData({
+      date: '1989-02-15',
+      timeIndex: 5,
+      gender: 'male',
+    })
+
+    expect(data).toMatchObject({
+      animal: fixture1989.animal,
+      year: fixture1989.year,
+      gender: fixture1989.gender,
+      fiveElements: fixture1989.fiveElements,
+      transformations: fixture1989.transformations,
+    })
+    expect(data?.palaces.map((palace) => palace.name)).toEqual(fixture1989.palaceNames)
   })
 
   it('returns null for invalid date', () => {

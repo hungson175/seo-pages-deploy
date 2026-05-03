@@ -2,6 +2,8 @@
  * Extract structured astrolabe data from iztro for content pipeline.
  */
 
+import { ANIMALS } from '../../content/routes'
+
 export interface Palace {
   name: string
   stars: Star[]
@@ -71,6 +73,6 @@ export function extractIztroData(input: {
 }
 
 function getAnimalFromYear(year: number): string {
-  const animals = ['ty', 'suu', 'dan', 'mao', 'thin', 'tyj', 'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi']
-  return animals[(year - 4) % 12]
+  const index = ((year - 4) % ANIMALS.length + ANIMALS.length) % ANIMALS.length
+  return ANIMALS[index]
 }

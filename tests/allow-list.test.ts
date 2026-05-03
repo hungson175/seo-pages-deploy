@@ -67,7 +67,7 @@ describe('isAllowedSlug', () => {
 
 describe('SLUG_ALLOW_LIST', () => {
   it('contains at least 12 animal zodiac entries', () => {
-    const animals = ['ty', 'suu', 'dan', 'mao', 'thin', 'ty-j', 'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi']
+    const animals = ['ty', 'suu', 'dan', 'mao', 'thin', 'ti', 'ngo', 'mui', 'than', 'dau', 'tuat', 'hoi']
     animals.forEach((animal) => {
       expect(SLUG_ALLOW_LIST.some((s) => s.includes(animal))).toBe(true)
     })

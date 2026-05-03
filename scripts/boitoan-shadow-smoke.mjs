@@ -5,6 +5,7 @@ const BASE_URL = (process.env.BASE_URL || process.env.SHADOW_BASE_URL || 'http:/
 const RUN_BROWSER = process.env.SHADOW_SMOKE_BROWSER !== '0'
 const RUN_FORM = process.env.SHADOW_SMOKE_FORM !== '0'
 const TIMEOUT_MS = Number(process.env.SHADOW_SMOKE_TIMEOUT_MS || 90_000)
+const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 15_000)
 const SAMPLE_CHART = {
   name: 'Bạn',
   gender: 'Nam',
@@ -132,12 +133,25 @@ async function browserChecksFromChart(chartId) {
 
     const buttons = await page.getByRole('button', { name: /Sự nghiệp/ }).count()
     if (buttons > 0) {
+      const tabResponsePromise = page.waitForResponse((tabResponse) =>
+        tabResponse.url().includes('/luan-giai/su-nghiep'),
+      { timeout: TIMEOUT_MS }).catch(() => null)
       await page.getByRole('button', { name: /Sự nghiệp/ }).first().click({ timeout: 30_000 })
-      await page.waitForTimeout(1000)
+      const tabResponse = await tabResponsePromise
+      await page.waitForFunction(() => {
+        const text = document.body?.innerText || ''
+        return text.includes('đang được hoàn thiện') ||
+          text.includes('bản công khai') ||
+          text.includes('giai đoạn ra mắt công khai') ||
+          text.includes('Không thể tải luận giải')
+      }, undefined, { timeout: UI_WAIT_MS }).catch(() => null)
       const visible = await page.locator('body').innerText()
       record('reading_tab_ii_visible_fallback', hasFallback(visible) && !visible.includes('Không thể tải luận giải'), {
         hasFallback: hasFallback(visible),
         hasGenericError: visible.includes('Không thể tải luận giải'),
+        tabResponseStatus: tabResponse?.status() ?? null,
+        tabFallbackHeader: tabResponse?.headers()?.['x-boitoan-proxy-fallback'] ?? null,
+        uiWaitMs: UI_WAIT_MS,
       })
     } else {
       record('reading_tab_ii_button_present', false, { buttons })
@@ -155,11 +169,13 @@ async function browserFormFlow() {
   try {
     await page.goto(`${BASE_URL}/lap-la-so`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS })
     await page.getByRole('button', { name: /Tiếp tục/i }).first().click({ timeout: 30_000 })
+    await page.getByPlaceholder('Ngày').waitFor({ state: 'visible', timeout: UI_WAIT_MS })
     await page.getByPlaceholder('Ngày').fill('01')
     await page.getByPlaceholder('Tháng').fill('01')
     await page.getByPlaceholder('Năm').fill('1994')
     await page.getByRole('button', { name: /Ngọ|Ngo|11h-13h/i }).first().click({ timeout: 30_000 })
     await page.getByRole('button', { name: /Tiếp tục/i }).last().click({ timeout: 30_000 })
+    await page.getByRole('button', { name: /Dựng|DỰNG/i }).waitFor({ state: 'visible', timeout: UI_WAIT_MS })
     const chartResponsePromise = page.waitForResponse((response) =>
       response.url().includes('/api/chart') && response.request().method() === 'POST',
     { timeout: TIMEOUT_MS })

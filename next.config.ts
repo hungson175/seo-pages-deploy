@@ -21,10 +21,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,
+  trailingSlash: false,
   // ISR is handled via generateStaticParams + revalidate in page components
   async rewrites() {
-    const realTuViAppOrigin = 'https://horoscope-theta-ten.vercel.app'
+    const realTuViAppOrigin = 'https://web-neon-tau-79.vercel.app'
     return {
       beforeFiles: [
         {

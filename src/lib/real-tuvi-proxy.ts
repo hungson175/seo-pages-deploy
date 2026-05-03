@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 
 const REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
+const REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',
   'content-encoding',
@@ -13,6 +14,22 @@ const HOP_BY_HOP_HEADERS = new Set([
   'transfer-encoding',
   'upgrade',
 ])
+
+const API_SEGMENT_REWRITES: Record<string, string> = {
+  'luan-giai': 'luan_giai',
+  'tinh-cach': 'tinh_cach',
+  'tinh-duyen': 'tinh_duyen',
+  'su-nghiep': 'su_nghiep',
+  'dai-van': 'dai_van',
+  'tieu-han': 'tieu_han',
+  'tieu-han-all': 'tieu_han_all',
+}
+
+export function mapRealTuViApiPath(path: string[]): string {
+  return `/${path
+    .map((segment) => encodeURIComponent(API_SEGMENT_REWRITES[segment] ?? segment))
+    .join('/')}`
+}
 
 function rewriteHtml(html: string): string {
   return html
@@ -63,7 +80,7 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
 }
 
 export async function proxyRealTuViApi(path: string[], request: NextRequest): Promise<Response> {
-  const url = new URL(`/api/${path.join('/')}`, REAL_TUVI_ORIGIN)
+  const url = new URL(mapRealTuViApiPath(path), REAL_TUVI_API_ORIGIN)
   url.search = request.nextUrl.search
   const headers = new Headers(request.headers)
   headers.delete('host')

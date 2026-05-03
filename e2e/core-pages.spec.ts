@@ -1,18 +1,32 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Sprint 2 - Core Pages', () => {
-  test('home page renders with key elements', async ({ page }) => {
+  test('home page renders instant chart form before SEO links', async ({ page }) => {
     await page.goto('/')
     
-    await expect(page).toHaveTitle(/Bói Toán/)
+    await expect(page).toHaveTitle(/Lập lá số Tử Vi ngay lập tức/)
     
     const h1 = page.locator('h1')
     await expect(h1).toBeVisible()
-    await expect(h1).toContainText('Bói Toán')
+    await expect(h1).toContainText('Lập lá số ngay lập tức')
+
+    const form = page.getByTestId('home-chart-form')
+    const seoContent = page.getByTestId('home-seo-content')
+    await expect(form).toBeVisible()
+    await expect(page.getByLabel('Ngày sinh dương lịch')).toBeVisible()
+    await expect(page.getByLabel('Giờ sinh')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Lập lá số ngay' })).toBeVisible()
+    await expect(seoContent).toBeVisible()
+
+    const formBox = await form.boundingBox()
+    const seoBox = await seoContent.boundingBox()
+    expect(formBox?.y ?? 0).toBeLessThan(seoBox?.y ?? 0)
     
     await expect(page.locator('a[href="/lap-la-so/"]')).toBeVisible()
     await expect(page.locator('a[href="/tu-vi/"]')).toBeVisible()
     await expect(page.locator('text=Đọc Tử Vi 2026')).toBeVisible()
+    await expect(page.locator('main')).toContainText('tham khảo')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
     await expect(page.locator('main')).not.toContainText('trọn đời')
     await expect(page.locator('main')).not.toContainText('miễn phí')
   })

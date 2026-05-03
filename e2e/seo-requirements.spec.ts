@@ -55,7 +55,7 @@ test.describe('Sprint 2 - SEO Requirements', () => {
   })
 
   test('pages have single H1', async ({ page }) => {
-    for (const url of ['/tu-vi/', '/tu-vi-2026/giap-ty-1984-nam-mang', '/lap-la-so/']) {
+    for (const url of ['/', '/tu-vi/', '/tu-vi-2026/giap-ty-1984-nam-mang', '/lap-la-so/']) {
       await page.goto(url)
       await expect(page.locator('h1')).toHaveCount(1)
     }

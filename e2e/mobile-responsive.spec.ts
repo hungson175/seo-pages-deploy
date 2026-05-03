@@ -10,6 +10,7 @@ test.describe('Sprint 2 - Mobile Responsiveness', () => {
     const viewportWidth = await page.evaluate(() => window.innerWidth)
     
     expect(bodyWidth).toBeLessThanOrEqual(viewportWidth + 1)
+    await expect(page.getByTestId('home-chart-form')).toBeVisible()
     await expect(page.locator('a[href="/lap-la-so/"]')).toBeVisible()
     await expect(page.locator('a[href="/tu-vi/"]')).toBeVisible()
   })

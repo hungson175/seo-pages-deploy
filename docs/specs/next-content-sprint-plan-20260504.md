@@ -44,14 +44,22 @@ Hard gates:
 - CMO approves CTA/trust copy if CTA wording changes.
 - No domain algorithm changes; content is interpretive/educational only.
 
+SEO additions required before Batch 2 ships:
+- Internal-link matrix deliverable: every new star×cung page must specify links to its related `/cung/*` page, `/sao/*` page, and `/lap-la-so/` CTA/anchor so no page ships orphaned.
+- 7-day post-deploy GSC checkpoint for Batch 2 URLs: index coverage, impressions, `Discovered - currently not indexed`, and URL Inspection on 2–3 sample pages.
+- Baseline keyword tracking before publish: target keyword, current SERP position, and planned 14-day delta check.
+- Sitemap `<lastmod>` must reflect the actual content update date, not a generic build date.
+
 Tests/checks:
 - `npm test`
 - `npm run build`
 - Star×Cung allow-list tests: only approved combinations generated.
 - Sitemap parity: approved pages included, gated pages excluded.
+- Sitemap `<lastmod>` checks: Batch 2 URLs use real content update dates.
 - Redirect/guard tests for unapproved combinations.
 - Article 320/compliance tests: visible “tham khảo” disclaimer and no forbidden deterministic claims.
 - Metadata/H1 uniqueness tests for each new page.
+- Internal-link coverage tests/checklist: each new page links to related `/cung/*`, `/sao/*`, and `/lap-la-so/`; no orphaned Batch 2 URLs.
 - Playwright focused SEO: one H1, `lang=vi`, canonical, Article/Breadcrumb/FAQ schema if applicable, no placeholders.
 
 Dependencies:
@@ -61,6 +69,9 @@ Dependencies:
 
 Deliverables:
 - Batch 2 combination list with rationale.
+- Internal-link matrix: page → `/cung/*`, `/sao/*`, `/lap-la-so/` anchor/CTA.
+- Baseline keyword tracking table: target keyword, pre-publish SERP position, 14-day delta owner.
+- 7-day GSC checkpoint template for Batch 2 URLs.
 - Implementation checklist and exact gate matrix.
 - After approval only: docs + content commits in small batches.
 
@@ -117,14 +128,15 @@ Tests/checks:
 - Ask SEO for 10–20 candidate star×cung combinations and internal-link priorities.
 - Ask Bói-Toán to approve/trim to 6–12 combinations with domain notes.
 - Check current GSC/manual sitemap/indexing status for forecast canary pages.
-- Output: final Sprint Batch 2 list and gate owner matrix.
+- Capture baseline keyword/SERP position for each proposed Batch 2 target before publish.
+- Output: final Sprint Batch 2 list, internal-link matrix, baseline keyword table, and gate owner matrix.
 
 Exit gate:
 - Gal approves the exact batch and no-deploy scope.
 
 ### Phase 1 — Docs/spec only (0.5 day)
 
-- Write `docs/specs/star-palace-batch-2-plan.md` with combination list, page template invariants, gates, tests, and rollback.
+- Write `docs/specs/star-palace-batch-2-plan.md` with combination list, page template invariants, internal-link matrix, baseline keyword table, GSC checkpoint template, gates, tests, and rollback.
 - No public route/code changes yet.
 
 Exit gate:
@@ -135,7 +147,12 @@ Exit gate:
 - Add combinations in small commits.
 - Update copy/content only, no algorithm changes.
 - Run tests/build/focused Playwright.
+- Verify sitemap `<lastmod>` equals actual content update date for Batch 2 URLs.
 - Request consultant reviews before merge/deploy.
+
+Post-deploy checkpoint if Gal later approves publish:
+- Day 7: check Batch 2 URL index coverage, impressions, `Discovered - currently not indexed`, and URL Inspection on 2–3 samples.
+- Day 14: compare baseline SERP position to current position for each target keyword; summarize keep/iterate/hold recommendations.
 
 ## Non-goals for this sprint
 

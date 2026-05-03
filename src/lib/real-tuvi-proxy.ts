@@ -3,6 +3,11 @@ import { NextRequest } from 'next/server'
 const REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
 const REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
 const REAL_TUVI_ASSET_PREFIX = '/real-tuvi-assets'
+const DEFAULT_PRIVACY_CONTACT_EMAIL = 'privacy@boitoan.com.vn'
+const PRIVACY_CONTACT_COPY =
+  'Bói Toán sẽ phản hồi qua kênh liên hệ bạn cung cấp sau khi kiểm tra đủ thông tin để xác định đúng dữ liệu cần xóa.'
+const EARLY_LAUNCH_CONTACT_NOTE =
+  'Kênh liên hệ này được dùng để tiếp nhận yêu cầu trong giai đoạn đầu sau khi ra mắt.'
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',
   'content-encoding',
@@ -31,6 +36,26 @@ export function sanitizeRealTuViApiText(text: string): string {
   )
 }
 
+function getPrivacyContactEmail(): string | undefined {
+  const value = process.env.PRIVACY_CONTACT_EMAIL?.trim()
+  if (!value || value === DEFAULT_PRIVACY_CONTACT_EMAIL) return undefined
+  if (!/^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+$/.test(value)) return undefined
+  return value
+}
+
+export function sanitizeRealTuViPrivacyContactText(text: string): string {
+  const contactEmail = getPrivacyContactEmail()
+  if (!contactEmail) return text
+
+  const withEmail = text.replaceAll(DEFAULT_PRIVACY_CONTACT_EMAIL, contactEmail)
+  if (withEmail.includes(EARLY_LAUNCH_CONTACT_NOTE)) return withEmail
+
+  return withEmail.replaceAll(
+    PRIVACY_CONTACT_COPY,
+    `${PRIVACY_CONTACT_COPY} ${EARLY_LAUNCH_CONTACT_NOTE}`,
+  )
+}
+
 const APPROVED_DISCLAIMER_REWRITES: Array<[RegExp, string]> = [
   [
     /không\s+phải\s+lời\s+khẳng\s+định\s+tương\s+lai/giu,
@@ -41,7 +66,7 @@ const APPROVED_DISCLAIMER_REWRITES: Array<[RegExp, string]> = [
 export function sanitizeRealTuViHtmlText(text: string): string {
   return APPROVED_DISCLAIMER_REWRITES.reduce(
     (current, [pattern, replacement]) => current.replace(pattern, replacement),
-    sanitizeRealTuViApiText(text),
+    sanitizeRealTuViPrivacyContactText(sanitizeRealTuViApiText(text)),
   )
 }
 

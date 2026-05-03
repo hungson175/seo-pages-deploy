@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import {
   mapRealTuViApiPath,
   sanitizeRealTuViApiText,
   sanitizeRealTuViAssetText,
   sanitizeRealTuViHtmlText,
+  sanitizeRealTuViPrivacyContactText,
 } from '../src/lib/real-tuvi-proxy'
 
 describe('real tu vi API proxy mapping', () => {
+  const originalPrivacyContactEmail = process.env.PRIVACY_CONTACT_EMAIL
+
+  afterEach(() => {
+    if (originalPrivacyContactEmail === undefined) {
+      delete process.env.PRIVACY_CONTACT_EMAIL
+    } else {
+      process.env.PRIVACY_CONTACT_EMAIL = originalPrivacyContactEmail
+    }
+  })
+
   it('maps frontend API routes directly to the Railway backend root', () => {
     expect(mapRealTuViApiPath(['chart'])).toBe('/chart')
     expect(mapRealTuViApiPath(['chart', 'abc123'])).toBe('/chart/abc123')
@@ -50,6 +61,35 @@ describe('real tu vi API proxy mapping', () => {
     expect(sanitized).toContain('không phải lời tiên đoán hay lời khẳng định tương lai')
     expect(sanitized).not.toContain('không phải lời khẳng định tương lai."')
     expect(sanitized).toContain('/real-tuvi-assets/_next/')
+  })
+
+  it('keeps the default privacy contact unchanged unless an approved override is configured', () => {
+    delete process.env.PRIVACY_CONTACT_EMAIL
+    const upstream = [
+      'href="mailto:privacy@boitoan.com.vn?subject=Yeu%20cau%20xoa%20du%20lieu%20la%20so"',
+      'Bói Toán sẽ phản hồi qua kênh liên hệ bạn cung cấp sau khi kiểm tra đủ thông tin để xác định đúng dữ liệu cần xóa.',
+    ].join(' ')
+
+    const sanitized = sanitizeRealTuViPrivacyContactText(upstream)
+
+    expect(sanitized).toContain('mailto:privacy@boitoan.com.vn')
+    expect(sanitized).not.toContain('giai đoạn đầu sau khi ra mắt')
+  })
+
+  it('can switch the privacy deletion contact to an approved monitored substitute', () => {
+    process.env.PRIVACY_CONTACT_EMAIL = 'support@example.com'
+    const upstream = [
+      'href="mailto:privacy@boitoan.com.vn?subject=Yeu%20cau%20xoa%20du%20lieu%20la%20so"',
+      'Bói Toán sẽ phản hồi qua kênh liên hệ bạn cung cấp sau khi kiểm tra đủ thông tin để xác định đúng dữ liệu cần xóa.',
+    ].join(' ')
+
+    const sanitized = sanitizeRealTuViPrivacyContactText(upstream)
+
+    expect(sanitized).toContain('mailto:support@example.com')
+    expect(sanitized).not.toContain('privacy@boitoan.com.vn')
+    expect(sanitized).toContain('giai đoạn đầu sau khi ra mắt')
+    expect(sanitized).not.toContain('2 ngày làm việc')
+    expect(sanitized).not.toContain('7 ngày làm việc')
   })
 
   it('sanitizes legacy backend palace naming leaks while Railway catches up', () => {

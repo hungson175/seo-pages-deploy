@@ -15,6 +15,21 @@ const HOP_BY_HOP_HEADERS = new Set([
   'upgrade',
 ])
 
+const LEGACY_TU_TUC_REWRITES: Array<[RegExp, string]> = [
+  [/Tử\s*Tức/g, 'Tử Nữ'],
+  [/Tu\s*Tuc/g, 'Tu Nu'],
+  [/tu_tuc/g, 'tu_nu'],
+  [/tu-tuc/g, 'tu-nu'],
+  [/子息/g, '子女'],
+]
+
+export function sanitizeRealTuViApiText(text: string): string {
+  return LEGACY_TU_TUC_REWRITES.reduce(
+    (current, [pattern, replacement]) => current.replace(pattern, replacement),
+    text,
+  )
+}
+
 const API_SEGMENT_REWRITES: Record<string, string> = {
   'luan-giai': 'luan_giai',
   'tinh-cach': 'tinh_cach',
@@ -95,6 +110,14 @@ export async function proxyRealTuViApi(path: string[], request: NextRequest): Pr
     redirect: 'follow',
     cache: 'no-store',
   })
+  const contentType = upstream.headers.get('content-type') ?? ''
+  if (contentType.includes('application/json') || contentType.includes('text/')) {
+    return new Response(sanitizeRealTuViApiText(await upstream.text()), {
+      status: upstream.status,
+      headers: responseHeaders(upstream, contentType || undefined),
+    })
+  }
+
   return new Response(upstream.body, {
     status: upstream.status,
     headers: responseHeaders(upstream),

@@ -1,0 +1,15 @@
+{
+  "request": {
+    "url": "https://api.kimi.com/coding/chat/completions",
+    "model": "kimi-k2.5"
+  },
+  "response": {
+    "choices": [
+      {
+        "message": {
+          "content": "Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán. Lá số gợi ý xu hướng để bạn tự quan sát và ra quyết định chủ động."
+        }
+      }
+    ]
+  }
+}

@@ -165,3 +165,13 @@ Post-deploy checkpoint if Gal later approves publish:
 ## Recommended immediate next action
 
 Ask SEO and Bói-Toán for Star×Cung Batch 2 candidate list and domain notes. While they respond, PO can draft `docs/specs/star-palace-batch-2-plan.md` from this plan only if Gal approves continuing beyond planning.
+
+## 2026-05-04 Batch 2 synthesis update
+
+Bói-Toán approved 8 Batch 2 combinations for planning and gated 8 sensitive combinations. PO synthesized the list with SEO additions in `docs/specs/star-palace-batch-2-synthesis-20260504.md`.
+
+Recommended split for Gal approval:
+- **Batch 2A first:** Tử Vi×Quan Lộc, Thái Dương×Mệnh, Thái Âm×Mệnh, Vũ Khúc×Mệnh.
+- **Batch 2B after source/support verification:** Thiên Phủ×Mệnh, Cự Môn×Mệnh, Thiên Đồng×Mệnh, Liêm Trinh×Mệnh.
+
+Reason for split: Batch 2A uses stars already supported by current local `PRIORITY_STAR_SLUGS`; Batch 2B is domain-approved but must not ship until `/sao/*` foundation/source support is verified or narrowly enabled, because SEO requires every new star×cung page to link to `/cung/*`, `/sao/*`, and `/lap-la-so/` without orphaning. Liêm Trinh×Mệnh also needs special Reviewer check for crime/violence/legal/deterministic language.

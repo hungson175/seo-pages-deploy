@@ -73,50 +73,20 @@ docker run --rm -p 3000:3000 \
 
 ### Real Tử Vi frontend (`sample_code/horoscope/web`)
 
-No Dockerfile exists yet. Proposed Dockerfile should mirror the root Next standalone pattern:
+Prepared in Boss private `sample_code/horoscope` branch `feat/oci-sg-docker-templates` at commit `a54de42`:
 
-```dockerfile
-FROM node:22-alpine AS deps
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-
-FROM node:22-alpine AS builder
-WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED=1
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-FROM node:22-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 HOSTNAME=0.0.0.0 PORT=3000
-COPY --from=builder /app ./
-EXPOSE 3000
-CMD ["npm", "run", "start", "--", "-p", "3000"]
-```
-
-P1 improvement: add conditional `output: 'standalone'` to `sample_code/horoscope/web/next.config.mjs` and switch runner to `node server.js`.
+- `sample_code/horoscope/web/Dockerfile`: Node 22 Alpine multi-stage build with Next standalone runner, non-root user, and `/lap-la-so` healthcheck.
+- `sample_code/horoscope/web/.dockerignore`: excludes env, build, cache, node_modules, and local screenshot artifacts while keeping public image assets.
+- `sample_code/horoscope/web/next.config.mjs`: `NEXT_OUTPUT_STANDALONE=true` enables standalone output for Docker builds and keeps `/lap-la-so` source-side alias available for OCI shadow smoke.
 
 ### FastAPI backend (`sample_code/horoscope/be`)
 
-No Dockerfile exists yet. Proposed Dockerfile:
+Prepared in Boss private `sample_code/horoscope` branch `feat/oci-sg-docker-templates` at commit `a54de42`:
 
-```dockerfile
-FROM python:3.13-slim
-WORKDIR /app
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-COPY app ./app
-COPY data ./data
-COPY alembic ./alembic
-COPY scripts ./scripts
-EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-Use Python 3.13 to match `pyproject.toml` (`requires-python >=3.13`). If package wheels fail on ARM64, fallback is `python:3.13` non-slim or add build deps in a separate builder stage.
+- `sample_code/horoscope/be/Dockerfile`: Python 3.13 slim multi-stage build, builder-stage `build-essential gcc` for ARM64/Python 3.13 wheel risk, venv copied into non-root runtime, `/health` healthcheck, `uvicorn app.main:app`.
+- `sample_code/horoscope/be/.dockerignore`: excludes env, venv, Python caches, local browser artifacts, and tests.
+- Runtime requires `DATABASE_URL` from `/opt/boitoan/.env`; secrets must never be committed or printed.
+- PDF Chromium remains P2 unless `CHROME_EXECUTABLE_PATH`/system browser dependencies are installed and tested.
 
 ## Compose shadow skeleton
 
@@ -157,6 +127,7 @@ services:
 ```
 
 John owns the final `/opt/boitoan/docker-compose.yml` and Caddy wiring.
+John confirmed local OCI-SG git checkout/build path: `/opt/boitoan/releases/seo-pages-team`, build ARM64 images locally by SHA, no registry credentials. Compose should publish `web` on `127.0.0.1:17120` for smoke and also join `outline-hosting_outline-net` with shared-network alias `boitoan-web`. If Gal later approves a Caddy shadow route, Caddy should reverse proxy `boitoan-web:3000`, not host `127.0.0.1`.
 
 ## Vercel/Railway assumptions to remove
 
@@ -200,5 +171,8 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - `NEXT_OUTPUT_STANDALONE=true npm run build` → PASS and `.next/standalone/server.js` exists.
 - `docker build -t boitoan-web:e52119bb-oci-prep .` → PASS; log `/tmp/boitoan_oci_docker_build_202605032201.log`.
 - Docker container smoke: `boitoan-web:e52119bb-oci-prep` served `/tu-vi/` with HTTP 200 on `127.0.0.1:3348`.
+- Reviewer PASS/no blocker for prep commit `30ec1651`: `/tmp/seo_pages_oci_sg_migration_prep_30ec1651_review_202605032205.txt`.
+- Nested real-web/api Docker template commit `a54de42` pushed to Boss private `boi-toan-horoscope` branch `feat/oci-sg-docker-templates`.
+- Nested verification: `git diff --check`; `docker build -t boitoan-real-web:704a95a-oci-template ./web` PASS; `docker build -t boitoan-api:704a95a-oci-template ./be` PASS; local Docker network smoke with ephemeral Postgres showed API `/health` PASS and real-web `/lap-la-so` PASS.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.

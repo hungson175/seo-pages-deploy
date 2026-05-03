@@ -1,12 +1,14 @@
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
 import { SEO_FORECAST_SEEDS, getSeoForecastPage, type SeoForecastPage } from '@/content/seo-forecasts'
+import { PALACE_IMAGE_LIST } from '@/content/palace-images'
 import {
   BreadcrumbListSchema,
   FAQPageSchema,
   HowToSchema,
   JsonLd,
 } from '@/components/json-ld/json-ld'
+import { PalaceImageFigure } from '@/components/seo/palace-image'
 
 const BASE_URL = 'https://boitoan.com.vn'
 
@@ -165,6 +167,24 @@ export default function TuViHubPage() {
               ))}
             </dl>
           </aside>
+        </div>
+      </section>
+
+      <section className="mv-container pb-14">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mv-kicker">Thư viện minh họa 12 cung</p>
+            <h2 className="mt-2 font-serif text-3xl font-semibold text-navy">12 hình ảnh dùng lại cho hệ nội dung Tử Vi</h2>
+          </div>
+          <p className="max-w-xl text-sm leading-6 text-ink-soft">
+            Bộ hình minh họa được tạo theo phong cách editorial mềm, không chữ trong ảnh, dùng lại cho các bài cung và các phần đọc theo công việc, tài chính, quan hệ, nhịp sống.
+          </p>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {PALACE_IMAGE_LIST.map((asset) => (
+            <PalaceImageFigure key={asset.slug} asset={asset} compact linkToPalace />
+          ))}
         </div>
       </section>
 

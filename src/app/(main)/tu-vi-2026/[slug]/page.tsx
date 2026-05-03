@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation'
 import { buildMetadata } from '@/lib/metadata'
 import { getSeoForecastPage, SEO_FORECAST_CANONICAL_SLUGS } from '@/content/seo-forecasts'
 import {
+  PALACE_IMAGE_ASSETS,
+  getPalaceImageForForecastSection,
+} from '@/content/palace-images'
+import {
   ArticleSchema,
   BreadcrumbListSchema,
   FAQPageSchema,
@@ -11,6 +15,7 @@ import {
 import { MethodLimitModule } from '@/components/trust/method-limit'
 import { ConversionCTA } from '@/components/trust/conversion-cta'
 import { TrustBox } from '@/components/trust/trust-box'
+import { PalaceImageFigure } from '@/components/seo/palace-image'
 
 const BASE_URL = 'https://boitoan.com.vn'
 const LAST_UPDATED = '2026-05-02'
@@ -66,6 +71,7 @@ export default async function TuViForecastPage({
         datePublished={LAST_UPDATED}
         dateModified={LAST_UPDATED}
         authorName="Bói Toán"
+        image={`${BASE_URL}${PALACE_IMAGE_ASSETS.menh.src}`}
       />
       <FAQPageSchema faqs={page.faqs} />
       <BreadcrumbListSchema items={breadcrumbItems} />
@@ -77,6 +83,7 @@ export default async function TuViForecastPage({
           description: page.description,
           url: pageUrl,
           inLanguage: 'vi',
+          image: `${BASE_URL}${PALACE_IMAGE_ASSETS.menh.src}`,
           isPartOf: {
             '@type': 'WebSite',
             name: 'Bói Toán',
@@ -179,16 +186,28 @@ export default async function TuViForecastPage({
         <MethodLimitModule pageType="forecast" className="mt-8" />
 
         <div className="mt-8 space-y-8">
-          {page.sections.map((section) => (
-            <section key={section.heading} className="mv-card">
-              <h2 className="mv-section-title">{section.heading}</h2>
-              <div className="mv-body">
-                {section.content.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </section>
-          ))}
+          {page.sections.map((section) => {
+            const palaceImage = getPalaceImageForForecastSection(section.heading)
+
+            return (
+              <section key={section.heading} className="mv-card">
+                <h2 className="mv-section-title">{section.heading}</h2>
+                {palaceImage && (
+                  <PalaceImageFigure
+                    asset={palaceImage}
+                    compact
+                    linkToPalace
+                    className="mt-5"
+                  />
+                )}
+                <div className="mv-body">
+                  {section.content.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </section>
+            )
+          })}
         </div>
 
         <section className="mv-card mt-10">

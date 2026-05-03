@@ -6,6 +6,8 @@ import {
   getPalaceFoundationPage,
   isPalaceSlug,
 } from '@/content/palaces'
+import { getPalaceImage } from '@/content/palace-images'
+import { PalaceImageFigure } from '@/components/seo/palace-image'
 import { getApprovedStarPalaceLinksForPalace } from '@/content/star-palace'
 import {
   ArticleSchema,
@@ -57,6 +59,7 @@ export default async function PalacePage({
   }
 
   const pageUrl = `${BASE_URL}${page.urlPath}`
+  const palaceImage = getPalaceImage(palace)
   const internalLinks = [...page.internalLinks, ...getApprovedStarPalaceLinksForPalace(palace)]
   const breadcrumbItems = [
     { name: 'Trang chủ', url: `${BASE_URL}/` },
@@ -73,6 +76,7 @@ export default async function PalacePage({
         datePublished={LAST_UPDATED}
         dateModified={LAST_UPDATED}
         authorName="Bói Toán"
+        image={`${BASE_URL}${palaceImage.src}`}
       />
       <FAQPageSchema faqs={page.faqs} />
       <BreadcrumbListSchema items={breadcrumbItems} />
@@ -84,6 +88,7 @@ export default async function PalacePage({
           description: page.description,
           url: pageUrl,
           inLanguage: 'vi',
+          image: `${BASE_URL}${palaceImage.src}`,
           isPartOf: {
             '@type': 'WebSite',
             name: 'Bói Toán',
@@ -120,7 +125,11 @@ export default async function PalacePage({
           </p>
           <h1 className="mv-h1">{page.h1}</h1>
           <div className="mv-lede">
-            {page.intro.map((paragraph) => (
+            <p>{page.intro[0]}</p>
+          </div>
+          <PalaceImageFigure asset={palaceImage} className="mt-6" />
+          <div className="mv-lede">
+            {page.intro.slice(1).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>

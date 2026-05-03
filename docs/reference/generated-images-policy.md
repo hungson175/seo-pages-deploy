@@ -10,6 +10,22 @@ Use generated images selectively, not as decorative unique art on every programm
 4. Birth-year pages: reuse animal / Can-Chi template assets; do not create bespoke images for every year-gender page yet.
 5. Later educational diagrams: 12-cung wheel, Mệnh/Thân/Cục, Tam Phương Tứ Chính.
 
+## 2026-05-03 Update: Reusable Palace Image Set
+
+Boss approved a small reusable image layer rather than thousands of one-off SEO images. The first shipped set is **exactly 12 images**, one for each approved 12-cung foundation page:
+
+Mệnh, Phụ Mẫu, Phúc Đức, Điền Trạch, Quan Lộc, Nô Bộc, Thiên Di, Tật Ách, Tài Bạch, Tử Nữ, Phu Thê, Huynh Đệ.
+
+Implementation notes:
+
+- Source files live in `public/images/palaces/*.webp`.
+- File names follow `tu-vi-cung-{slug}.webp`.
+- Metadata and alt/caption copy live in `src/content/palace-images.ts`.
+- Use the 800×600 palace images for visible page/article imagery and Article schema only; do **not** use them as Open Graph images because OG needs a 1200×630 template.
+- Use the domain-approved term **Tử Nữ**, not `Tử Tức`, in filenames, slugs, alt text, captions, and tests.
+- Images must remain reusable, text-free, and non-deterministic: no words, numbers, Hán glyphs, UI screenshots, money/health/death guarantees, or baby/wedding promises.
+- Forecast article sections may reuse the closest palace visual, e.g. Quan Lộc for career, Tài Bạch for money, Phu Thê for relationships, Tật Ách for wellbeing.
+
 ## Visual Style
 
 Match the reference theme in `docs/reference/horoscope-ui-theme.md`: ivory manuscript paper, deep indigo ink, muted gold linework, vermillion seal, scholarly Vietnamese / Hán-Việt mood. Good motifs: symbolic lá số wheels, star glyphs, con giáp brush silhouettes, calm manuscript diagrams.

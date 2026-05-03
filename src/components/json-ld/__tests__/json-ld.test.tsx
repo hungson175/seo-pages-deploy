@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import {
   JsonLd,
   WebSiteSchema,
+  OrganizationSchema,
   ArticleSchema,
   FAQPageSchema,
   HowToSchema,
@@ -34,6 +35,28 @@ describe('WebSiteSchema', () => {
     expect(json.inLanguage).toBe('vi')
     expect(json.name).toBe('Bói Toán')
     expect(json.url).toBe('https://boitoan.com.vn')
+  })
+})
+
+
+
+describe('OrganizationSchema', () => {
+  it('produces Organization schema for the canonical brand entity', () => {
+    const { container } = render(
+      <OrganizationSchema
+        name="Bói Toán"
+        url="https://boitoan.com.vn/"
+        description="Nội dung Tử Vi và Kinh Dịch bằng tiếng Việt"
+      />
+    )
+    const script = container.querySelector('script[type="application/ld+json"]')
+    const json = JSON.parse(script!.textContent!)
+    expect(json['@type']).toBe('Organization')
+    expect(json['@id']).toBe('https://boitoan.com.vn/#organization')
+    expect(json.name).toBe('Bói Toán')
+    expect(json.url).toBe('https://boitoan.com.vn')
+    expect(json.inLanguage).toBe('vi')
+    expect(json.areaServed.name).toBe('Vietnam')
   })
 })
 

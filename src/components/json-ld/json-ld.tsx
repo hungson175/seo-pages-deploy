@@ -22,9 +22,41 @@ export function WebSiteSchema({ name, url }: { name: string; url: string }) {
       data={{
         '@context': 'https://schema.org',
         '@type': 'WebSite',
+        '@id': `${url.replace(/\/$/, '')}/#website`,
         name,
         url,
         inLanguage: 'vi',
+      }}
+    />
+  )
+}
+
+/* ─── Organization ─── */
+export function OrganizationSchema({
+  name,
+  url,
+  description,
+}: {
+  name: string
+  url: string
+  description: string
+}) {
+  const canonicalUrl = url.replace(/\/$/, '')
+
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        '@id': `${canonicalUrl}/#organization`,
+        name,
+        url: canonicalUrl,
+        description,
+        inLanguage: 'vi',
+        areaServed: {
+          '@type': 'Country',
+          name: 'Vietnam',
+        },
       }}
     />
   )

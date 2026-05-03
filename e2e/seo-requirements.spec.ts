@@ -26,6 +26,16 @@ test.describe('Sprint 2 - SEO Requirements', () => {
     await expect(description).not.toHaveAttribute('content', /trọn đời|miễn phí|vận mệnh/i)
   })
 
+  test('home page exposes WebSite and Organization JSON-LD', async ({ page }) => {
+    await page.goto('/')
+
+    const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const jsonLd = scripts.map((script) => JSON.parse(script))
+
+    expect(jsonLd.some((schema) => schema['@type'] === 'WebSite' && schema['@id'] === 'https://boitoan.com.vn/#website')).toBe(true)
+    expect(jsonLd.some((schema) => schema['@type'] === 'Organization' && schema['@id'] === 'https://boitoan.com.vn/#organization')).toBe(true)
+  })
+
   test('forecast pages have proper meta tags', async ({ page }) => {
     await page.goto('/tu-vi-2026/giap-ty-1984-nam-mang')
     

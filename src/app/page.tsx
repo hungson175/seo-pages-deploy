@@ -1,12 +1,21 @@
 import { Metadata } from 'next'
+import { OrganizationSchema, WebSiteSchema } from '@/components/json-ld/json-ld'
 
 export const metadata: Metadata = {
   title: 'Bói Toán - Trang chủ',
 }
 
 export default function HomePage() {
+  const baseUrl = 'https://boitoan.com.vn'
+
   return (
     <main className="mv-page flex min-h-screen items-center justify-center p-8">
+      <WebSiteSchema name="Bói Toán" url={baseUrl} />
+      <OrganizationSchema
+        name="Bói Toán"
+        url={baseUrl}
+        description="Nội dung Tử Vi, lá số và Kinh Dịch bằng tiếng Việt theo tinh thần tham khảo, rõ nguồn, không hù dọa."
+      />
       <section className="mv-hero-card max-w-3xl text-center">
         <div className="mx-auto mb-6 mv-seal">命</div>
         <p className="mv-kicker">Bói Toán • Tử Vi Đẩu Số</p>

@@ -87,6 +87,14 @@ const API_SEGMENT_REWRITES: Record<string, string> = {
   'tieu-han': 'tieu_han',
   'tieu-han-all': 'tieu_han_all',
 }
+const GENERATED_READING_TABS = new Set([
+  'tinh-cach',
+  'su-nghiep',
+  'tinh-duyen',
+  'dai-van',
+  'tieu-han',
+  'cung',
+])
 
 const LOCKED_READING_COPY =
   'Phần này đang được hoàn thiện cho bản public. Bạn có thể đọc mục Tìm hiểu bản thân và lá số 12 cung trước; Bói Toán sẽ mở thêm luận giải sau khi kiểm định nội dung.'
@@ -112,21 +120,27 @@ function isGeneratedReadingUnavailableResponse(status: number, path: string[], t
   if (status < 500) return false
   if (!path.includes('luan-giai')) return false
   const tab = path[path.indexOf('luan-giai') + 1] ?? ''
-  if (!['su-nghiep', 'tinh-duyen', 'dai-van', 'tieu-han', 'cung'].includes(tab)) {
-    return false
-  }
+  if (!GENERATED_READING_TABS.has(tab)) return false
   return text.includes('all 3 attempts failed') || text.includes('all attempts failed')
+}
+
+function shouldShortCircuitGeneratedReading(path: string[]): boolean {
+  if (process.env.REAL_TUVI_GENERATED_READINGS_MODE !== 'safe-fallback') return false
+  if (!path.includes('luan-giai')) return false
+  const tab = path[path.indexOf('luan-giai') + 1] ?? ''
+  return GENERATED_READING_TABS.has(tab)
 }
 
 export function lockedReadingFallback(path: string[]): Record<string, unknown> {
   const tab = path[path.indexOf('luan-giai') + 1] ?? ''
   const title =
-    tab === 'su-nghiep' ? 'Sự nghiệp & nguồn lực'
-      : tab === 'tinh-duyen' ? 'Tình duyên & hôn nhân'
-        : tab === 'dai-van' ? 'Đại vận'
-          : tab === 'tieu-han' ? 'Tiểu vận'
-            : tab === 'cung' ? '12 cung'
-              : 'Luận giải'
+    tab === 'tinh-cach' ? 'Tìm hiểu bản thân'
+      : tab === 'su-nghiep' ? 'Sự nghiệp & nguồn lực'
+        : tab === 'tinh-duyen' ? 'Tình duyên & hôn nhân'
+          : tab === 'dai-van' ? 'Đại vận'
+            : tab === 'tieu-han' ? 'Tiểu vận'
+              : tab === 'cung' ? '12 cung'
+                : 'Luận giải'
 
   return {
     locked: true,
@@ -242,6 +256,17 @@ export async function proxyRealTuViAsset(path: string[], request: NextRequest): 
 }
 
 export async function proxyRealTuViApi(path: string[], request: NextRequest): Promise<Response> {
+  if (shouldShortCircuitGeneratedReading(path)) {
+    return new Response(JSON.stringify(lockedReadingFallback(path)), {
+      status: 200,
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        'x-boitoan-proxy-fallback': 'locked-reading',
+        'x-boitoan-proxy-fallback-reason': 'generated-readings-disabled',
+      },
+    })
+  }
+
   const url = new URL(mapRealTuViApiPath(path), getRealTuViApiOrigin())
   url.search = request.nextUrl.search
   const headers = new Headers(request.headers)

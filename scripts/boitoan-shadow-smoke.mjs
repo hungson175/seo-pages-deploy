@@ -8,6 +8,7 @@ const RUN_FORM = process.env.SHADOW_SMOKE_FORM !== '0'
 const TIMEOUT_MS = Number(process.env.SHADOW_SMOKE_TIMEOUT_MS || 90_000)
 const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 10_000)
 const OUTPUT_PATH = process.env.SHADOW_SMOKE_OUTPUT || ''
+const STRICT_BROWSER_DIAGNOSTICS = process.env.SHADOW_SMOKE_STRICT_BROWSER_DIAGNOSTICS === '1'
 const SAMPLE_CHART = {
   name: 'Bạn',
   gender: 'Nam',
@@ -44,6 +45,18 @@ function paywallMarkers(text) {
 function record(name, ok, details = {}) {
   result.checks[name] = { ok: Boolean(ok), ...details }
   if (!ok) result.errors.push(`${name} failed`)
+}
+
+function generatedReading5xxIssues() {
+  return browserNetworkIssues.filter((issue) =>
+    typeof issue.status === 'number' &&
+    issue.status >= 500 &&
+    String(issue.url).includes('/luan-giai/'),
+  )
+}
+
+function browser404Issues() {
+  return browserNetworkIssues.filter((issue) => issue.status === 404)
 }
 
 function attachBrowserDiagnostics(page, label) {
@@ -248,6 +261,18 @@ try {
   }
   if (browserNetworkIssues.length) {
     result.artifacts.browserNetworkIssues = browserNetworkIssues.slice(0, 50)
+  }
+  if (STRICT_BROWSER_DIAGNOSTICS && RUN_BROWSER) {
+    const network404s = browser404Issues()
+    const generated5xx = generatedReading5xxIssues()
+    record('browser_no_network_404s', network404s.length === 0, {
+      count: network404s.length,
+      issues: network404s.slice(0, 20),
+    })
+    record('browser_no_generated_reading_5xx', generated5xx.length === 0, {
+      count: generated5xx.length,
+      issues: generated5xx.slice(0, 20),
+    })
   }
   let output = JSON.stringify(result, null, 2)
   if (OUTPUT_PATH) {

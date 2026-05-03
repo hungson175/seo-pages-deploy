@@ -15,6 +15,7 @@ describe('real tu vi API proxy mapping', () => {
   const originalPrivacyContactEmail = process.env.PRIVACY_CONTACT_EMAIL
   const originalRealTuViOrigin = process.env.REAL_TUVI_ORIGIN
   const originalRealTuViApiOrigin = process.env.REAL_TUVI_API_ORIGIN
+  const originalGeneratedReadingsMode = process.env.REAL_TUVI_GENERATED_READINGS_MODE
 
   afterEach(() => {
     if (originalPrivacyContactEmail === undefined) {
@@ -31,6 +32,11 @@ describe('real tu vi API proxy mapping', () => {
       delete process.env.REAL_TUVI_API_ORIGIN
     } else {
       process.env.REAL_TUVI_API_ORIGIN = originalRealTuViApiOrigin
+    }
+    if (originalGeneratedReadingsMode === undefined) {
+      delete process.env.REAL_TUVI_GENERATED_READINGS_MODE
+    } else {
+      process.env.REAL_TUVI_GENERATED_READINGS_MODE = originalGeneratedReadingsMode
     }
   })
 
@@ -163,6 +169,67 @@ describe('real tu vi API proxy mapping', () => {
       expect(text).not.toContain('all 3 attempts failed')
       expect(text).not.toContain('suggested_packages')
       expect(text).not.toContain('49000')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
+  it('uses the safe reading fallback when tinh-cach generated prefetch fails upstream', async () => {
+    const originalFetch = global.fetch
+    global.fetch = async () =>
+      new Response(JSON.stringify({ detail: '[tinh_cach/tong_quan] all attempts failed' }), {
+        status: 503,
+        headers: { 'content-type': 'application/json' },
+      })
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chart', 'abc123', 'luan-giai', 'tinh-cach'],
+        {
+          method: 'GET',
+          headers: new Headers(),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new ArrayBuffer(0),
+        } as never,
+      )
+      const text = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
+      expect(text).toContain('Tìm hiểu bản thân')
+      expect(text).toContain('đang được hoàn thiện')
+      expect(text).not.toContain('all attempts failed')
+      expect(text).not.toContain('suggested_packages')
+      expect(text).not.toContain('49000')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
+  it('can short-circuit generated readings to safe fallback without calling upstream', async () => {
+    const originalFetch = global.fetch
+    process.env.REAL_TUVI_GENERATED_READINGS_MODE = 'safe-fallback'
+    global.fetch = async () => {
+      throw new Error('fetch should not be called when generated readings are disabled')
+    }
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chart', 'abc123', 'luan-giai', 'tinh-cach'],
+        {
+          method: 'GET',
+          headers: new Headers(),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new ArrayBuffer(0),
+        } as never,
+      )
+      const text = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
+      expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('generated-readings-disabled')
+      expect(text).toContain('Tìm hiểu bản thân')
+      expect(text).not.toContain('suggested_packages')
     } finally {
       global.fetch = originalFetch
     }

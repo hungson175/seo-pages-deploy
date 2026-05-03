@@ -27,10 +27,12 @@ Server-only env vars for `web`:
 REAL_TUVI_ORIGIN=http://real-web:3000
 REAL_TUVI_API_ORIGIN=http://api:8000
 PRIVACY_CONTACT_EMAIL=<approved monitored email, optional>
+# Use only when public shadow/cutover is not approved for live generated/LLM calls.
+REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback
 NODE_ENV=production
 ```
 
-Defaults remain current external services so local/dev behavior does not change unless env overrides are set.
+Defaults remain current external services so local/dev behavior does not change unless env overrides are set. Keep `REAL_TUVI_GENERATED_READINGS_MODE` unset when approved live generation is available; set it to `safe-fallback` for public shadow or cutover contexts that must avoid live LLM/generated calls.
 
 Server-only env vars for `real-web`:
 
@@ -181,6 +183,17 @@ BASE_URL=http://127.0.0.1:18120 \
   npm --silent run smoke:boitoan-shadow
 ```
 
+For pre-cutover/public-shadow review after rebuilding `web`, require strict
+browser diagnostics so console/network 404s and generated reading 5xx responses
+fail the smoke instead of staying as advisory artifact data:
+
+```bash
+BASE_URL=http://127.0.0.1:18120 \
+  SHADOW_SMOKE_STRICT_BROWSER_DIAGNOSTICS=1 \
+  SHADOW_SMOKE_OUTPUT=/tmp/boitoan_oci_shadow_smoke_strict_$(date +%Y%m%d%H%M%S).json \
+  npm --silent run smoke:boitoan-shadow
+```
+
 The smoke script covers route status, robots private-route disallows, API `/chart`,
 `Tử Nữ`/legacy `Tử Tức` leakage, `/reading/{chartId}` noindex/nofollow, locked
 tab API fallback header/body, no paywall marker leaks, browser console/network
@@ -212,5 +225,6 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - DB migration follow-up: API Dockerfile now copies `alembic.ini` + `alembic/`; local Docker network smoke ran `alembic upgrade head` from the API image against an empty ephemeral Postgres before API boot, then API `/health` PASS and `/chart` POST PASS with 0 `Tử Tức` and `Tử Nữ` present.
 - Shadow smoke script follow-up: `scripts/boitoan-shadow-smoke.mjs` added and first run through an SSH tunnel to OCI-SG `127.0.0.1:17120` showed the baseline shadow routes/form/API pass, but locked generated tabs returned upstream 503 (`all 3 attempts failed`) instead of the safe fallback. The top-level proxy now maps these paid/generated-tab 5xx failures to the existing safe fallback with `x-boitoan-proxy-fallback: locked-reading`. After John rebuilt shadow web from `d6ac432b`, the smoke script still needed a realistic UI wait because the fallback appears after client hydration/network work. The script now waits up to `SHADOW_SMOKE_UI_WAIT_MS` (default 10s) for fallback/error text after tab click and waits for form fields/buttons before filling/clicking. SSH-tunneled run against OCI-SG loopback PASSed all checks, artifact `/tmp/boitoan_oci_shadow_smoke_uiwait10_20260504003435.json`.
 - Pre-cutover hygiene follow-up: `SHADOW_SMOKE_OUTPUT` now writes strict JSON artifacts and the documented command uses `npm --silent` to avoid npm banner text. SSH-tunneled run against OCI-SG loopback still PASSed 16/16, strict artifact `/tmp/boitoan_oci_shadow_smoke_hygiene_20260504004211.json`. Browser diagnostics identified the prior five console 404s as nested real-web Next font preload requests for `/_next/static/media/*.woff2` before the same fonts load successfully through `/real-tuvi-assets/_next/static/media/*.woff2`; this is accepted for prep-only shadow validation but should be explicitly accepted or fixed before public cutover. The same diagnostic also observed a shadow-only generated `tinh-cach` prefetch 503 from the local real-web/API stack; no visible locked-tab regression, but final cutover review should decide whether to short-circuit generated-tab prefetches faster or provide approved generation env.
+- P1 pre-cutover fix follow-up: top-level proxy now supports an explicit generated-reading safe mode (`REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback`) that returns the existing safe fallback for generated `luan-giai` tabs, including `tinh-cach`, without calling upstream. Even when safe mode is unset, upstream `tinh-cach` 5xx `all attempts failed` responses map to the same safe fallback instead of surfacing 503. A narrow static-media rewrite covers only real-web font preload paths shaped like `/_next/static/media/<16-hex>-s.p.woff2` and rewrites them to `/real-tuvi-assets/_next/static/media/...`; this avoids a broad `/_next/*` proxy that could collide with top-level Next assets. The smoke can now enforce zero browser network 404s and zero generated reading 5xx responses with `SHADOW_SMOKE_STRICT_BROWSER_DIAGNOSTICS=1` after John rebuilds shadow web from this commit.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.

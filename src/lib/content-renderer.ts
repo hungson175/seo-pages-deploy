@@ -1,3 +1,5 @@
+import { validateComplianceContent } from './compliance/policy'
+
 export interface ContentSection {
   heading: string
   content: string
@@ -25,25 +27,11 @@ export function validateContent(content: ForecastContent): { valid: boolean; err
     errors.push('Tối đa 4 FAQ items')
   }
 
-  const forbiddenTerms = ['zodiac', 'horoscope', 'sun sign', 'ascendant']
-  const allText = [
-    ...content.sections.map((s) => s.heading + ' ' + s.content),
-    ...content.faqItems.map((f) => f.question + ' ' + f.answer),
-  ].join(' ').toLowerCase()
-
-  for (const term of forbiddenTerms) {
-    if (allText.includes(term)) {
-      errors.push(`Chứa từ cấm: ${term}`)
-    }
-  }
-
-  // Check for Article 320 compliance: "tham khảo" should appear, "tiên đoán" should not
-  if (!allText.includes('tham khảo') && !allText.includes('tham khao')) {
-    // Only enforce if there's substantial content
-    if (allText.length > 100) {
-      errors.push('Thiếu khung "tham khảo" — cần dùng từ "tham khảo" trong nội dung')
-    }
-  }
+  const compliance = validateComplianceContent(content, {
+    requireThamKhaoIfSubstantial: true,
+    rejectIncorrectBrightnessTerms: true,
+  })
+  errors.push(...compliance.errors)
 
   return { valid: errors.length === 0, errors }
 }

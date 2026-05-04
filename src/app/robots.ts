@@ -19,6 +19,7 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: [
       'https://boitoan.com.vn/sitemap.xml',
       'https://boitoan.com.vn/sitemap-index.xml',
+      'https://boitoan.com.vn/tuvi.xml',
       'https://boitoan.com.vn/stars.xml',
       'https://boitoan.com.vn/palaces.xml',
       'https://boitoan.com.vn/star-palace.xml',

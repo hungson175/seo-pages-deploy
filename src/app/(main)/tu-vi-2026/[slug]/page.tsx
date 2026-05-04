@@ -18,7 +18,7 @@ import { TrustBox } from '@/components/trust/trust-box'
 import { PalaceImageFigure } from '@/components/seo/palace-image'
 
 const BASE_URL = 'https://boitoan.com.vn'
-const LAST_UPDATED = '2026-05-02'
+const LAST_UPDATED = '2026-05-05'
 
 export function generateStaticParams() {
   return SEO_FORECAST_CANONICAL_SLUGS.map((slug) => ({ slug }))

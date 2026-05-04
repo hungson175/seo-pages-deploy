@@ -6,7 +6,7 @@ export const dynamic = 'force-static'
 
 export default function sitemapTuvi(): MetadataRoute.Sitemap {
   const base = 'https://boitoan.com.vn'
-  const lastmod = '2026-05-02'
+  const lastmod = '2026-05-05'
 
   return [
     {

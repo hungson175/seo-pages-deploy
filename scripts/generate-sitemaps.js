@@ -34,6 +34,7 @@ const palaceSlugs = [
 
 const base = 'https://boitoan.com.vn'
 const lastmod = '2026-05-02'
+const tuviLastmod = '2026-05-05'
 const starsLastmod = '2026-05-04'
 const starPalaceLastmod = '2026-05-04'
 
@@ -97,19 +98,19 @@ ${entries}
 const tuviUrls = [
   {
     loc: `${base}/tu-vi/`,
-    lastmod,
+    lastmod: tuviLastmod,
     changefreq: 'weekly',
     priority: '0.95',
   },
   ...animalHubSlugs.map((slug) => ({
     loc: `${base}/tu-vi/${slug}/`,
-    lastmod,
+    lastmod: tuviLastmod,
     changefreq: 'weekly',
     priority: '0.86',
   })),
   ...seoForecasts.map((item) => ({
     loc: `${base}${canonicalForecastPath(item)}`,
-    lastmod,
+    lastmod: tuviLastmod,
     changefreq: 'yearly',
     priority: '0.82',
   })),
@@ -163,7 +164,7 @@ fs.writeFileSync(
   path.join(publicDir, 'sitemap-index.xml'),
   buildSitemapIndex([
     { loc: `${base}/sitemap.xml`, lastmod },
-    { loc: `${base}/tuvi.xml`, lastmod },
+    { loc: `${base}/tuvi.xml`, lastmod: tuviLastmod },
     { loc: `${base}/stars.xml`, lastmod: starsLastmod },
     { loc: `${base}/palaces.xml`, lastmod },
     ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod: starPalaceLastmod }] : []),

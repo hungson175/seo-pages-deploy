@@ -6,6 +6,24 @@ import {
   getSeoForecastPage,
   getSeoForecastSeed,
 } from '../src/content/seo-forecasts'
+import { getAnimalHubPage } from '../src/content/animal-hubs'
+import sitemapTuvi from '../src/app/sitemap-tuvi'
+import robots from '../src/app/robots'
+
+const BY2A_EXPECTED_SEEDS = [
+  { slug: 'tuoi-ty-1996-nam', canonical: 'binh-ty-1996-nam-mang', canChi: 'Bính Tý', year: 1996, animal: 'Tý', element: 'Giản Hạ Thủy' },
+  { slug: 'tuoi-ty-1996-nu', canonical: 'binh-ty-1996-nu-mang', canChi: 'Bính Tý', year: 1996, animal: 'Tý', element: 'Giản Hạ Thủy' },
+  { slug: 'tuoi-suu-1997-nam', canonical: 'dinh-suu-1997-nam-mang', canChi: 'Đinh Sửu', year: 1997, animal: 'Sửu', element: 'Giản Hạ Thủy' },
+  { slug: 'tuoi-suu-1997-nu', canonical: 'dinh-suu-1997-nu-mang', canChi: 'Đinh Sửu', year: 1997, animal: 'Sửu', element: 'Giản Hạ Thủy' },
+  { slug: 'tuoi-dan-1998-nam', canonical: 'mau-dan-1998-nam-mang', canChi: 'Mậu Dần', year: 1998, animal: 'Dần', element: 'Thành Đầu Thổ' },
+  { slug: 'tuoi-dan-1998-nu', canonical: 'mau-dan-1998-nu-mang', canChi: 'Mậu Dần', year: 1998, animal: 'Dần', element: 'Thành Đầu Thổ' },
+  { slug: 'tuoi-mao-1999-nam', canonical: 'ky-mao-1999-nam-mang', canChi: 'Kỷ Mão', year: 1999, animal: 'Mão', element: 'Thành Đầu Thổ' },
+  { slug: 'tuoi-mao-1999-nu', canonical: 'ky-mao-1999-nu-mang', canChi: 'Kỷ Mão', year: 1999, animal: 'Mão', element: 'Thành Đầu Thổ' },
+  { slug: 'tuoi-thin-2000-nam', canonical: 'canh-thin-2000-nam-mang', canChi: 'Canh Thìn', year: 2000, animal: 'Thìn', element: 'Bạch Lạp Kim' },
+  { slug: 'tuoi-thin-2000-nu', canonical: 'canh-thin-2000-nu-mang', canChi: 'Canh Thìn', year: 2000, animal: 'Thìn', element: 'Bạch Lạp Kim' },
+  { slug: 'tuoi-ti-2001-nam', canonical: 'tan-ty-2001-nam-mang', canChi: 'Tân Tỵ', year: 2001, animal: 'Tỵ', element: 'Bạch Lạp Kim' },
+  { slug: 'tuoi-ti-2001-nu', canonical: 'tan-ty-2001-nu-mang', canChi: 'Tân Tỵ', year: 2001, animal: 'Tỵ', element: 'Bạch Lạp Kim' },
+]
 
 function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
@@ -45,9 +63,9 @@ function jaccardSimilarity(textA: string, textB: string, n = 4): number {
 }
 
 describe('static SEO forecast content', () => {
-  it('ships 24 real birth-year pages across all 12 animal signs', () => {
-    expect(SEO_FORECAST_SLUGS).toHaveLength(24)
-    expect(new Set(SEO_FORECAST_SLUGS).size).toBe(24)
+  it('ships 36 real birth-year pages after BY-2A across all 12 animal signs', () => {
+    expect(SEO_FORECAST_SLUGS).toHaveLength(36)
+    expect(new Set(SEO_FORECAST_SLUGS).size).toBe(36)
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-ty-1984-nam')
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-thin-1988-nu')
     expect(SEO_FORECAST_SLUGS).toContain('tuoi-ti-1989-nam')
@@ -56,6 +74,60 @@ describe('static SEO forecast content', () => {
     expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('mau-thin-1988-nu-mang')
     expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('ky-ty-1989-nam-mang')
     expect(SEO_FORECAST_CANONICAL_SLUGS).toContain('at-hoi-1995-nu-mang')
+    for (const seed of BY2A_EXPECTED_SEEDS) {
+      expect(SEO_FORECAST_SLUGS).toContain(seed.slug)
+      expect(SEO_FORECAST_CANONICAL_SLUGS).toContain(seed.canonical)
+    }
+  })
+
+  it('uses the approved BY-2A Can Chi and nạp âm seed table', () => {
+    for (const expected of BY2A_EXPECTED_SEEDS) {
+      const seed = getSeoForecastSeed(expected.slug)
+      expect(seed, expected.slug).not.toBeNull()
+      expect(seed).toMatchObject({
+        animal: expected.animal,
+        year: expected.year,
+        canChi: expected.canChi,
+        element: expected.element,
+      })
+      expect(getSeoForecastPage(expected.canonical)?.urlPath).toBe(`/tu-vi-2026/${expected.canonical}/`)
+    }
+  })
+
+  it('keeps BY-2A tone/career/money/love/health/advice seeds unique per page', () => {
+    const fields = ['tone', 'career', 'money', 'love', 'health', 'advice'] as const
+
+    for (const field of fields) {
+      const values = BY2A_EXPECTED_SEEDS.map((expected) => {
+        const seed = getSeoForecastSeed(expected.slug)
+        expect(seed, expected.slug).not.toBeNull()
+        return seed![field]
+      })
+
+      expect(new Set(values).size, `BY-2A unique ${field} seeds`).toBe(values.length)
+    }
+  })
+
+  it('adds BY-2A URLs to tuvi.xml sitemap and exposes tuvi.xml directly in robots', () => {
+    const entries = sitemapTuvi()
+    const urls = entries.map((entry) => entry.url)
+
+    expect(urls).toHaveLength(49)
+    for (const expected of BY2A_EXPECTED_SEEDS) {
+      expect(urls).toContain(`https://boitoan.com.vn/tu-vi-2026/${expected.canonical}/`)
+    }
+    expect(entries.every((entry) => entry.lastModified === '2026-05-05')).toBe(true)
+    expect(robots().sitemap).toContain('https://boitoan.com.vn/tuvi.xml')
+  })
+
+  it('enriches Tý through Tỵ animal hubs once they reach four linked forecasts', () => {
+    for (const slug of ['tuoi-ty', 'tuoi-suu', 'tuoi-dan', 'tuoi-mao', 'tuoi-thin', 'tuoi-ti']) {
+      const hub = getAnimalHubPage(slug)
+      expect(hub, slug).not.toBeNull()
+      expect(hub?.linkedForecasts).toHaveLength(4)
+      expect(hub?.clusterInsights.length, `${slug} cluster insights`).toBeGreaterThanOrEqual(3)
+      expect(hub?.clusterInsights.join(' ')).toContain('không phải lá số cá nhân')
+    }
   })
 
   it('maps every seed to a complete static page', () => {
@@ -111,6 +183,21 @@ describe('static SEO forecast content', () => {
       const female = visiblePageText(getSeoForecastPage(pair.nu!)!)
       const similarity = jaccardSimilarity(male, female)
       expect(similarity, `${year} male/female similarity`).toBeLessThan(0.72)
+    }
+  })
+
+  it('keeps BY-2A pages distinct from the existing 1984-1995 cohort', () => {
+    const existingSlugs = SEO_FORECAST_SLUGS.filter(
+      (slug) => !BY2A_EXPECTED_SEEDS.some((seed) => seed.slug === slug),
+    )
+
+    for (const expected of BY2A_EXPECTED_SEEDS) {
+      const newText = visiblePageText(getSeoForecastPage(expected.slug)!)
+      for (const existingSlug of existingSlugs) {
+        const existingText = visiblePageText(getSeoForecastPage(existingSlug)!)
+        const similarity = jaccardSimilarity(newText, existingText)
+        expect(similarity, `${expected.slug} vs ${existingSlug}`).toBeLessThan(0.84)
+      }
     }
   })
 

@@ -10,7 +10,7 @@ import {
 } from '@/components/json-ld/json-ld'
 
 const BASE_URL = 'https://boitoan.com.vn'
-const LAST_UPDATED = '2026-05-02'
+const LAST_UPDATED = '2026-05-05'
 
 export function generateStaticParams() {
   return [...ANIMAL_HUB_SLUGS, ...SEO_FORECAST_SLUGS].map((slug) => ({ slug }))
@@ -146,6 +146,17 @@ export default async function TuViAnimalOrLegacyPage({
             ))}
           </div>
         </section>
+
+        {animalHub.clusterInsights.length > 0 && (
+          <section className="mv-card mt-8">
+            <h2 className="mv-section-title">Cách đọc cụm tuổi {animalHub.animal} khi có nhiều năm sinh</h2>
+            <div className="mv-body">
+              {animalHub.clusterInsights.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="mv-card mt-8">
           <h2 className="mv-section-title">Vì sao nên chọn đúng năm sinh và giới tính?</h2>

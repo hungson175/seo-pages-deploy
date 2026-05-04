@@ -43,6 +43,8 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page).toHaveTitle(/Tử Vi 2026 - Xem Lá Số Tử Vi Online/)
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
     await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nam-mang"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/binh-ty-1996-nam-mang"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/tan-ty-2001-nu-mang"]')).toBeVisible()
     await expect(page.locator('text=Câu hỏi thường gặp')).toBeVisible()
     await expect(page.locator('main')).toContainText('chỉ mang tính chất tham khảo')
   })
@@ -74,6 +76,19 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
   })
 
+  test('BY-2A static forecast page renders approved 1996-2001 content', async ({ page }) => {
+    await page.goto('/tu-vi-2026/tan-ty-2001-nu-mang')
+
+    await expect(page).toHaveTitle(/Tử vi tuổi Tân Tỵ 2001 nữ mạng năm 2026/)
+    await expect(page.locator('h1')).toContainText('Tử vi tuổi Tân Tỵ 2001 nữ mạng năm 2026')
+    await expect(page.locator('main')).toContainText('Bạch Lạp Kim')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).toContainText('không thể kết luận về sao tại Mệnh Cung')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+    await expect(page.locator('a[href="/tu-vi/tuoi-ti/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/lap-la-so/"]').first()).toBeVisible()
+  })
+
 
   test('animal hub page renders with links to canonical birth-year pages', async ({ page }) => {
     await page.goto('/tu-vi/tuoi-ty/')
@@ -82,6 +97,10 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toContainText('Tử vi tuổi Tý năm 2026')
     await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nam-mang"]')).toBeVisible()
     await expect(page.locator('a[href^="/tu-vi-2026/giap-ty-1984-nu-mang"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/binh-ty-1996-nam-mang"]')).toBeVisible()
+    await expect(page.locator('a[href^="/tu-vi-2026/binh-ty-1996-nu-mang"]')).toBeVisible()
+    await expect(page.locator('main')).toContainText('Cách đọc cụm tuổi Tý khi có nhiều năm sinh')
+    await expect(page.locator('main')).toContainText('không phải lá số cá nhân')
     await expect(page.locator('main')).toContainText('Tam Hợp Phái')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
   })

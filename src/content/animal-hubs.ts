@@ -16,6 +16,7 @@ export interface AnimalHubPage {
     genderLabel: string
     summary: string
   }>
+  clusterInsights: string[]
   faqs: Array<{ question: string; answer: string }>
 }
 
@@ -25,6 +26,21 @@ export const ANIMAL_HUB_SLUGS = animalOrder
   .map((animal) => SEO_FORECAST_SEEDS.find((seed) => seed.animal === animal))
   .filter(Boolean)
   .map((seed) => getAnimalHubSlug(seed!))
+
+function buildClusterInsights(animal: string, seeds: typeof SEO_FORECAST_SEEDS): string[] {
+  if (seeds.length < 4) return []
+
+  const sortedSeeds = [...seeds].sort((a, b) => a.year - b.year)
+  const years = sortedSeeds.map((seed) => seed.year)
+  const canChiList = [...new Set(sortedSeeds.map((seed) => seed.canChi))].join(', ')
+  const elements = [...new Set(sortedSeeds.map((seed) => seed.element))].join(', ')
+
+  return [
+    `Cụm tuổi ${animal} hiện có ${seeds.length} bài theo năm sinh và giới tính, trải từ ${Math.min(...years)} đến ${Math.max(...years)}. Các bài đã tách Can Chi ${canChiList} để người đọc không bị gộp nhầm mọi người cùng con giáp vào một khuôn chung.`,
+    `Nạp âm trong cụm này gồm ${elements}. Đây là lớp tham khảo theo năm sinh, giúp đặt bối cảnh tổng quan về công việc, tài chính, gia đạo và nhịp sống; không phải lá số cá nhân và không dùng để kết luận Mệnh, Thân, Cục hay vị trí sao.`,
+    `Nếu chỉ biết năm sinh, hãy đọc bài theo tuổi như bản định hướng mềm. Khi cần xem kỹ hơn, hãy chuyển sang lập lá số theo ngày giờ sinh để có đủ dữ kiện trước khi tự đối chiếu với trải nghiệm thực tế.`,
+  ]
+}
 
 export function getAnimalHubPage(slug: string): AnimalHubPage | null {
   const seeds = SEO_FORECAST_SEEDS.filter((seed) => getAnimalHubSlug(seed) === slug)
@@ -56,6 +72,7 @@ export function getAnimalHubPage(slug: string): AnimalHubPage | null {
       'Tham khảo thuật ngữ Tam Hợp Phái / 《紫微斗数全书》; không an sao cá nhân khi chưa có ngày giờ sinh.',
     urlPath: `/tu-vi/${slug}/`,
     linkedForecasts,
+    clusterInsights: buildClusterInsights(animal, seeds),
     faqs: [
       {
         question: `Tử vi tuổi ${animal} năm 2026 nên đọc thế nào?`,

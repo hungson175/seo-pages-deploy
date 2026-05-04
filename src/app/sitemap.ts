@@ -9,24 +9,26 @@ export const dynamic = 'force-static'
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://boitoan.com.vn'
   const lastmod = '2026-05-02'
+  const tuviLastmod = '2026-05-05'
+  const starsLastmod = '2026-05-04'
   const starPalaceLastmod = '2026-05-04'
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: lastmod, changeFrequency: 'daily', priority: 1 },
-    { url: `${base}/tu-vi/`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.95 },
+    { url: `${base}/tu-vi/`, lastModified: tuviLastmod, changeFrequency: 'weekly', priority: 0.95 },
     { url: `${base}/lap-la-so/`, lastModified: lastmod, changeFrequency: 'weekly', priority: 0.85 },
   ]
 
   const animalHubPages: MetadataRoute.Sitemap = ANIMAL_HUB_SLUGS.map((slug) => ({
     url: `${base}/tu-vi/${slug}/`,
-    lastModified: lastmod,
+    lastModified: tuviLastmod,
     changeFrequency: 'weekly' as const,
     priority: 0.86,
   }))
 
   const saoPages: MetadataRoute.Sitemap = PRIORITY_STAR_SLUGS.map((star) => ({
     url: `${base}/sao/${star}/`,
-    lastModified: lastmod,
+    lastModified: starsLastmod,
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }))

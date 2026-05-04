@@ -99,17 +99,17 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
-  test('Batch 2B foundation star page renders without opening star×cung combo', async ({ page }) => {
-    const response = await page.goto('/sao/thien-phu/')
+  test('Batch 2B foundation Liêm Trinh page renders while special-review combo stays gated', async ({ page }) => {
+    const response = await page.goto('/sao/liem-trinh/')
 
     expect(response?.status()).toBe(200)
-    await expect(page.locator('h1')).toHaveText('Sao Thiên Phủ Trong Tử Vi — Ý Nghĩa, Cung Vị Và Cách Đọc')
+    await expect(page.locator('h1')).toHaveText('Sao Liêm Trinh Trong Tử Vi — Ý Nghĩa, Cung Vị Và Cách Đọc')
     await expect(page.locator('main')).toContainText('Tam Hợp Phái')
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
     await expect(page.locator('main')).not.toContainText('Tử Tức')
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
 
-    const gatedCombo = await page.goto('/sao/thien-phu/cung/menh/')
+    const gatedCombo = await page.goto('/sao/liem-trinh/cung/menh/')
     expect(gatedCombo?.status()).toBe(404)
   })
 
@@ -134,7 +134,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })
 
-  test('approved Batch 2A star×cung page renders and unapproved combo stays gated', async ({ page }) => {
+  test('approved star×cung pages render and unapproved combos stay gated', async ({ page }) => {
     const approvedResponse = await page.goto('/sao/tu-vi/cung/menh/')
 
     expect(approvedResponse?.status()).toBe(200)
@@ -152,6 +152,18 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('a[href="/sao/tu-vi/"]').first()).toBeVisible()
     await expect(page.locator('a[href="/cung/quan-loc/"]').first()).toBeVisible()
     await expect(page.locator('a[href="/lap-la-so/"]').first()).toBeVisible()
+
+    const batch2b1Response = await page.goto('/sao/thien-phu/cung/menh/')
+
+    expect(batch2b1Response?.status()).toBe(200)
+    await expect(page.locator('h1')).toHaveText('Sao Thiên Phủ Ở Cung Mệnh — Ý Nghĩa, Cách Đọc Và Lưu Ý')
+    await expect(page.locator('main')).toContainText('tam phương')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+    await expect(page.locator('a[href="/sao/thien-phu/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/cung/menh/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/lap-la-so/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/sao/tu-vi/cung/menh/"]').first()).toBeVisible()
 
     const unapprovedResponse = await page.goto('/sao/vu-khuc/cung/tai-bach/')
 

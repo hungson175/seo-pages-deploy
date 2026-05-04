@@ -3,5 +3,8 @@
   { "star": "tu-vi", "palace": "quan-loc" },
   { "star": "thai-duong", "palace": "menh" },
   { "star": "thai-am", "palace": "menh" },
-  { "star": "vu-khuc", "palace": "menh" }
+  { "star": "vu-khuc", "palace": "menh" },
+  { "star": "thien-phu", "palace": "menh" },
+  { "star": "cu-mon", "palace": "menh" },
+  { "star": "thien-dong", "palace": "menh" }
 ]

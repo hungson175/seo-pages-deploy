@@ -795,9 +795,263 @@ const BATCH_2A_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
   },
 }
 
+
+const BATCH_2B_1_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
+  [comboKey('thien-phu', 'menh')]: {
+    intersectionThesis:
+      'Thiên Phủ đem sắc thái kho chứa, quản trị nguồn lực và giữ nhịp ổn định; cung Mệnh là khí chất gốc và cách một người tự đứng vào đời sống; câu hỏi hữu ích là sự vững vàng này đang giúp người xem biết gìn giữ điều quan trọng hay đang khiến họ quá thận trọng trước thay đổi.',
+    misreadWarning:
+      'Không nên đọc Thiên Phủ ở Mệnh như lời hứa về nguồn lực, vị thế hoặc đời sống luôn đủ đầy. Cách đọc an toàn là xem năng lực giữ nhịp, quản trị nguồn lực, tam phương Mệnh - Quan - Tài và mức linh hoạt trong hành vi thật.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết khí chất ổn định ban đầu có chuyển thành năng lực chăm giữ dài hạn không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết khả năng gìn giữ có đi cùng vai trò nghề và nguồn lực thực tế không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài nhìn sự thận trọng này như uy tín, sự chậm rãi hay một hàng rào khó tiếp cận.',
+      'Đọc cùng Tử Vi, Vũ Khúc, Thái Âm hoặc Tứ Hóa nếu có để phân biệt quản trị nguồn lực, tự chủ và nhu cầu an toàn.',
+      'Đối chiếu dữ kiện đời sống: thói quen lập kế hoạch, giữ cam kết, cách dùng tiền-thời gian và mức sẵn sàng thay đổi khi bối cảnh đổi.',
+    ],
+    selfCheckQuestions: [
+      'Mình đang giữ điều gì vì nó thật sự quan trọng, và điều gì chỉ vì sợ mất ổn định?',
+      'Nguồn lực nào cần được ghi chép, chia sẻ hoặc đặt ranh giới rõ hơn trong tháng này?',
+      'Khi môi trường thay đổi, mình có phương án thử nhỏ hay chỉ chờ đến khi mọi thứ thật chắc?',
+      'Ai là người có thể phản hồi giúp mình phân biệt thận trọng lành mạnh với trì hoãn?',
+    ],
+    sensitiveTopicFlags: ['resource-management'],
+    contrastNotes: [
+      'Khác với Thiên Phủ ở Tài Bạch, trọng tâm không nằm trước hết ở dòng nguồn lực mà ở khí chất tự thân: cách người xem giữ nhịp, tin cậy và tổ chức đời sống.',
+      'Khác với Tử Vi ở Mệnh, Thiên Phủ nhấn vào gìn giữ và dung chứa nhiều hơn vai trò trung tâm điều phối; hai sao cần đọc trong toàn cục, không thay thế nhau.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Ổn định, quản trị nguồn lực, gìn giữ cam kết và khí chất đáng tin', readingCue: 'Đọc như thói quen chăm giữ, không như lời hứa vật chất.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng biết giữ lời, tạo nền an toàn, gom việc thành nề nếp và bảo vệ điều có giá trị.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết nền này có thành năng lực thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ quá an toàn, chậm thử điều mới hoặc dùng sự ổn định để tránh đối thoại khó.', readingCue: 'Tìm dấu hiệu linh hoạt, thử nghiệm nhỏ và phản hồi từ Thiên Di.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa bảo đảm nguồn lực, nhà cửa, chức vị hoặc đời sống luôn thuận.', readingCue: 'Tránh mọi kết luận vật chất từ một sao ở Mệnh.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, phụ tinh và thói quen quản trị đời sống thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khung tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Thiên Phủ ở Mệnh là dấu hiệu đời sống vật chất tự nhiên đủ đầy.', better: 'Thiên Phủ ở Mệnh gợi khí chất gìn giữ và quản trị nguồn lực; cần xem tam phương, Tứ Hóa và hành vi thật trước khi đưa lời khuyên tham khảo.' },
+      { wrong: 'Có Thiên Phủ thì cứ giữ nguyên mọi thứ là an toàn.', better: 'Điểm mạnh ổn định chỉ bền khi biết cập nhật dữ liệu, thử nhỏ, đặt ranh giới và linh hoạt trước bối cảnh mới.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Thiên Phủ ở cung Mệnh nên được đọc như năng lực tạo nền và giữ nhịp cho đời sống, không phải như một nhãn bảo đảm về nguồn lực. Thiên Phủ trong ngôn ngữ Tử Vi thường gắn với kho chứa, sự cẩn trọng và khả năng bảo quản; cung Mệnh lại nói về khí chất gốc, cách một người tự đặt mình vào thế giới và phản ứng đầu tiên khi có việc cần quyết định. Khi hai lớp này gặp nhau, điểm cần quan sát là người xem dùng sự vững vàng để nuôi dưỡng điều quan trọng hay dùng nó để né thay đổi.',
+          'Điểm khác với trang sao Thiên Phủ chung là bài này không chỉ nói “biết giữ” một cách rộng. Nó đặt câu hỏi cụ thể hơn: người này giữ lời hứa ra sao, quản trị thời gian và nguồn lực thế nào, có biết chia sẻ trách nhiệm không, và khi bối cảnh đổi thì họ có đủ mềm để cập nhật cách làm. Vì vậy nội dung chỉ mang tính tham khảo, không phải lá số cá nhân và không phải lời tiên đoán về kết quả vật chất.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Thiên Phủ ở Mệnh gợi hình ảnh một người thích tạo nền an toàn trước khi hành động. Họ có thể hợp với việc xây nề nếp, giữ cam kết, quản trị lịch, chăm sóc tài sản chung theo nghĩa rộng và làm cho người xung quanh cảm thấy việc quan trọng được đặt đúng chỗ. Điểm mạnh này đặc biệt hữu ích trong giai đoạn nhiều việc rời rạc, vì nó nhắc người xem biến sự ổn định thành hệ thống có thể kiểm tra.',
+          'Trong đời sống hiện đại, cách phát huy an toàn là ghi rõ nguồn lực đang có: thời gian, năng lượng, kỹ năng, quan hệ hỗ trợ và trách nhiệm đang nhận. Thiên Phủ ở Mệnh không khuyến khích ôm hết mọi thứ; nó hợp hơn với câu hỏi “điều gì cần được giữ, điều gì cần giao lại, điều gì nên đơn giản hóa”. Khi câu trả lời đi thành lịch, danh sách và ranh giới, tổ hợp này trở thành bài học quản trị bản thân thay vì lời khen mơ hồ.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là sự thận trọng quá mức. Người có khí chất Thiên Phủ ở Mệnh trong bài đọc tham khảo có thể quen đợi đủ điều kiện mới bắt đầu, khó đổi kế hoạch vì sợ mất nền, hoặc giữ nhiều trách nhiệm vì không yên tâm giao cho người khác. Nếu đọc thiếu bối cảnh, người viết dễ tô hồng sự ổn định và bỏ qua phần trì hoãn, khép kín hoặc nặng gánh.',
+          'Cách viết an toàn là nhắc người đọc thử nghiệm nhỏ, kiểm chứng bằng dữ liệu thật và hỏi phản hồi. Với các chủ đề nguồn lực, tuyệt đối không đưa lời hứa kết quả hoặc khuyến nghị rủi ro. Bài đọc chỉ nên gợi thói quen: lập kế hoạch vừa đủ, theo dõi cam kết, hỏi người có chuyên môn khi quyết định quan trọng và phân biệt an toàn lành mạnh với nỗi sợ thay đổi.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh nối với Quan Lộc và Tài Bạch, nên Thiên Phủ ở Mệnh không thể đọc rời công việc và nguồn lực. Nếu Mệnh có nhu cầu ổn định nhưng Quan Lộc chưa rõ vai trò, người xem có thể bận giữ nề nếp mà chưa biết đặt sức vào đâu. Nếu Tài Bạch chưa có hệ thống, sự cẩn trọng dễ biến thành lo xa. Ngược lại, khi nghề nghiệp và nguồn lực có dữ kiện tốt, khí chất Thiên Phủ có thể giúp duy trì nhịp bền hơn.',
+          'Thiên Di đối chiếu cho biết môi trường ngoài phản hồi sự vững vàng này như thế nào. Có nơi cần người giữ nhịp, nhưng cũng có nơi cần phản ứng nhanh và đối thoại nhiều hơn. Tam phương tứ chính giúp bài đọc không đóng khung “người ổn định” thành một tính cách bất biến; nó biến tổ hợp thành bộ câu hỏi về bối cảnh, vai trò và hành vi có thể quan sát.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên đi vào việc rất gần: mình đang giữ điều gì, vì sao giữ, ai đang cùng chịu trách nhiệm, và dấu hiệu nào cho thấy nền hiện tại đã đủ để thử bước tiếp. Nếu người đọc chỉ trả lời bằng cảm giác chung, bài Tử Vi vẫn còn ở tầng biểu tượng. Nếu họ trả lời bằng lịch, con số, ranh giới và ví dụ tuần gần nhất, nội dung tham khảo bắt đầu có ích.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là biến Thiên Phủ ở Mệnh thành lời hứa về sự đủ đầy hoặc một lý do để không thay đổi. Cách đọc tốt hơn là nói: tổ hợp này gợi nhu cầu tạo nền, giữ cam kết và quản trị nguồn lực, nhưng muốn biết nó là điểm mạnh hay điểm kẹt phải xem Mệnh - Quan - Tài, Thiên Di, Thân Cung, Tứ Hóa và đời sống thật.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thay thế tư vấn tài chính, pháp lý, y tế hoặc quyết định quan trọng. Để đọc cá nhân cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, Tứ Hóa, phụ tinh và câu hỏi cụ thể. Người đọc nên dùng bài viết để quan sát cách mình giữ nền và quản trị nguồn lực, không dùng để kết luận kết quả đời sống.',
+        ],
+      },
+    ],
+  },
+  [comboKey('cu-mon', 'menh')]: {
+    intersectionThesis:
+      'Cự Môn đem năng lực ngôn ngữ, đặt câu hỏi và soi rõ điểm chưa nói; cung Mệnh là khí chất gốc và cách một người tự thể hiện; câu hỏi hữu ích là lời nói của người xem đang mở ra hiểu biết chung hay đang làm mọi thứ nặng hơn vì thiếu lắng nghe.',
+    misreadWarning:
+      'Không nên đọc Cự Môn ở Mệnh như nhãn “hay tranh cãi” hoặc bảo đảm phù hợp với một nghề nào đó. Cách đọc an toàn là xem phong cách giao tiếp, khả năng đặt câu hỏi, tam phương Mệnh - Quan - Tài và cách người xem kiểm chứng lời nói bằng hành vi.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết khí chất nói thẳng ban đầu có trưởng thành thành kỹ năng đối thoại không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết lời nói, tri thức và năng lực truyền đạt có tạo giá trị thực tế không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài nghe lời nói này như sự rõ ràng, sự chất vấn hữu ích hay áp lực giao tiếp.',
+      'Đọc cùng Thiên Cơ, Thái Dương, Thái Âm hoặc Tứ Hóa nếu có để cân bằng giữa phân tích, minh bạch, cảm xúc và nhịp lắng nghe.',
+      'Đối chiếu dữ kiện đời sống: cách họ hỏi, viết, phản hồi, xin lỗi, tóm tắt thỏa thuận và kiểm tra hiểu lầm trước khi kết luận.',
+    ],
+    selfCheckQuestions: [
+      'Mình đang hỏi để hiểu thêm hay hỏi để thắng một cuộc đối thoại?',
+      'Trước khi nói điều khó, mình đã tóm tắt đúng điều người kia muốn nói chưa?',
+      'Lời nói nào của mình gần đây tạo rõ ràng, và lời nào làm người khác phải phòng thủ?',
+      'Mình có thói quen ghi lại thỏa thuận, phản hồi và việc cần làm sau cuộc trò chuyện không?',
+    ],
+    sensitiveTopicFlags: [],
+    contrastNotes: [
+      'Khác với Cự Môn ở Quan Lộc, trọng tâm không nằm trước hết ở nghề truyền đạt mà ở khí chất giao tiếp và cách bản thân dùng câu hỏi trong đời sống.',
+      'Khác với Thái Dương ở Mệnh, Cự Môn không chỉ là ánh sáng công khai; nó nhấn vào khả năng mở vấn đề, đặt tên điều mơ hồ và kiểm tra ngôn từ.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Giao tiếp, chất vấn, đặt tên vấn đề và học cách lắng nghe', readingCue: 'Đọc như phong cách đối thoại, không như nhãn tính cách cố định.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng nhận ra điểm chưa rõ, hỏi đúng chỗ, diễn đạt mạch lạc và giúp nhóm thống nhất cách hiểu.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết lời nói có thành giá trị thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ nói quá nhanh, hỏi quá sắc hoặc biến việc làm rõ thành áp lực cho người đối diện.', readingCue: 'Tìm dấu hiệu lắng nghe, ghi nhận cảm xúc và xác nhận lại trước khi phản biện.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa người này luôn gây rối, luôn đúng, hoặc chỉ hợp một nhóm nghề truyền đạt.', readingCue: 'Tránh dán nhãn từ một sao ở Mệnh.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, phụ tinh và ví dụ giao tiếp thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khung tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Cự Môn ở Mệnh là người hay gây chuyện nên các quan hệ khó yên.', better: 'Cự Môn ở Mệnh gợi khí chất đặt câu hỏi và dùng lời nói mạnh; cần xem cách lắng nghe, Thiên Di, tam phương và ví dụ giao tiếp thật.' },
+      { wrong: 'Có Cự Môn thì nói thẳng lúc nào cũng đúng.', better: 'Điểm mạnh nói rõ chỉ bền khi có mục đích, dữ kiện, sự tôn trọng cảm xúc và bước xác nhận lại sau đối thoại.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Cự Môn ở cung Mệnh là tổ hợp nên đọc bằng ngôn ngữ giao tiếp và nhận thức, không đọc như lời phán về tính cách xấu. Cự Môn gắn với miệng nói, câu hỏi, khả năng mở điều bị che và nhu cầu kiểm tra ngôn từ; cung Mệnh nói về khí chất gốc, cách một người xuất hiện và phản ứng đầu tiên với đời sống. Khi gặp nhau, bài đọc hữu ích không hỏi “người này có hay cãi không”, mà hỏi lời nói của họ đang giúp làm sáng vấn đề hay làm đối thoại thêm căng.',
+          'Điểm khác với trang sao Cự Môn chung là bài này đặt trọng tâm vào chủ thể: cách người xem tự dùng tiếng nói của mình. Một câu hỏi sắc có thể giúp nhóm nhìn ra điểm mù, nhưng cũng có thể làm người khác phòng thủ nếu thiếu lắng nghe. Vì vậy nội dung chỉ mang tính tham khảo, không phải lá số cá nhân và không phải lời tiên đoán về quan hệ hay nghề nghiệp.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Cự Môn ở Mệnh gợi khả năng đặt câu hỏi đúng lúc, phát hiện điểm chưa rõ và diễn đạt điều phức tạp thành câu chữ dễ kiểm tra. Đây là điểm mạnh lớn trong học tập, làm việc nhóm, tư vấn nội bộ, viết lách, giảng giải hoặc bất kỳ tình huống nào cần thống nhất cách hiểu. Giá trị không nằm ở việc nói nhiều, mà ở việc nói giúp mọi người nhìn vấn đề rõ hơn.',
+          'Cách phát huy an toàn là rèn các kỹ năng rất cụ thể: tóm tắt lại điều đã nghe, hỏi một câu trước khi phản biện, viết thỏa thuận sau cuộc họp, phân biệt dữ kiện với suy đoán và xin phản hồi về giọng điệu. Khi lời nói đi cùng trách nhiệm kiểm chứng, Cự Môn ở Mệnh có thể trở thành năng lực xây cầu nối thay vì nguồn căng thẳng.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là thói quen dùng lời nói như phản xạ phòng thủ. Người có khí chất Cự Môn ở Mệnh trong bài đọc tham khảo có thể thấy điểm sai rất nhanh, nhưng nếu nói ngay khi cảm xúc còn cao, câu đúng vẫn có thể sai thời điểm. Rủi ro không phải là một kết quả cố định; nó là dấu hiệu cần luyện nhịp dừng, nghe đủ và chọn kênh phù hợp.',
+          'Bài viết không nên dùng ngôn ngữ hù dọa về hiểu lầm kéo dài, xung đột hoặc quan hệ đổ vỡ. Cách viết tốt hơn là nói về vệ sinh giao tiếp: nói rõ mục đích, tránh suy diễn động cơ, hỏi lại trước khi kết luận, ghi nhận phần mình chưa biết và đặt ranh giới khi cuộc trò chuyện quá tải. Đây là những hành vi có thể tập, không phải số phận.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh kéo Quan Lộc và Tài Bạch vào cùng bài đọc. Nếu Cự Môn ở Mệnh có khả năng diễn đạt nhưng Quan Lộc chưa có vai trò phù hợp, lời nói có thể nhiều mà chưa thành giá trị. Nếu Tài Bạch chưa rõ nguồn lực, người xem có thể phải biến năng lực giao tiếp thành kỹ năng đo được: viết tài liệu, đào tạo, tư vấn quy trình hoặc làm rõ yêu cầu. Không thể kết luận từ một cung riêng lẻ.',
+          'Thiên Di đối chiếu đặc biệt quan trọng vì giao tiếp luôn có người nghe. Môi trường ngoài có thể xem lời chất vấn là hữu ích nếu có niềm tin và quy tắc chung; cũng có thể thấy nó nặng nếu thiếu bối cảnh. Tam phương tứ chính giúp người xem hỏi: lời mình nói đang phục vụ điều gì, được môi trường tiếp nhận thế nào, và cần điều chỉnh kênh giao tiếp ra sao.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên bám vào các cuộc trò chuyện gần nhất: mình đã nghe đủ chưa, có tóm tắt lại trước khi phản biện không, sau khi nói có hành động tiếp theo rõ không, và người khác có hiểu ý mình theo cách mình muốn không. Nếu câu trả lời chỉ là “tôi nói đúng”, bài đọc còn thiếu nửa phần lắng nghe. Nếu có ví dụ, ghi chú và điều chỉnh, tổ hợp này được dùng đúng hướng tham khảo.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là dán nhãn Cự Môn ở Mệnh thành người luôn gây căng thẳng. Cách đọc tốt hơn là nói: tổ hợp này gợi năng lực đặt câu hỏi và làm rõ vấn đề; muốn biết nó đang giúp hay làm nặng, cần xem Mệnh - Quan - Tài, Thiên Di, Thân Cung, Tứ Hóa và cách người đó thật sự đối thoại.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thay thế tư vấn pháp lý, y tế, tài chính hoặc quyết định quan trọng. Không dùng một sao ở Mệnh để đánh giá phẩm chất của một người. Để đọc cá nhân cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, Tứ Hóa, phụ tinh và bối cảnh câu hỏi. Người đọc nên dùng bài viết để quan sát lời nói và nhịp lắng nghe, không dùng để kết luận quan hệ.',
+        ],
+      },
+    ],
+  },
+  [comboKey('thien-dong', 'menh')]: {
+    intersectionThesis:
+      'Thiên Đồng đem sắc thái mềm, dễ thích nghi và nhu cầu được sống nhẹ; cung Mệnh là khí chất gốc và cách một người tự bước vào đời sống; câu hỏi hữu ích là sự mềm này đang giúp người xem linh hoạt hơn hay đang khiến trách nhiệm bị trì hoãn.',
+    misreadWarning:
+      'Không nên đọc Thiên Đồng ở Mệnh như bảo đảm an nhàn, phúc lộc hoặc trạng thái thân-tâm luôn thuận. Cách đọc an toàn là xem khả năng thích nghi, nhu cầu nhịp sống mềm, tam phương Mệnh - Quan - Tài và cách người xem nhận trách nhiệm thật.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết khí chất mềm ban đầu có trưởng thành thành sự linh hoạt có trách nhiệm không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết nhịp sống mềm có được vai trò nghề và nguồn lực thực tế nâng đỡ không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài phản hồi sự dễ chịu này như sự hòa hợp, thiếu ranh giới hay nhu cầu rõ ràng hơn.',
+      'Đọc cùng Thiên Lương, Thái Âm, Thiên Cơ hoặc Tứ Hóa nếu có để phân biệt lòng tốt, cảm xúc, học hỏi và xu hướng đổi nhịp.',
+      'Đối chiếu dữ kiện đời sống: lịch nghỉ, mức chủ động, cách nhận việc, lời hứa đã giữ và khả năng nói không khi quá tải.',
+    ],
+    selfCheckQuestions: [
+      'Mình đang chọn sự nhẹ nhàng vì nó giúp bền hơn hay vì muốn tránh việc khó?',
+      'Lời hứa nào cần được viết rõ để sự mềm không biến thành mơ hồ?',
+      'Môi trường nào giúp mình vui vẻ mà vẫn có ranh giới và trách nhiệm?',
+      'Tuần này mình có một bước nhỏ nào để biến cảm hứng thành hành động thật không?',
+    ],
+    sensitiveTopicFlags: [],
+    contrastNotes: [
+      'Khác với Thiên Đồng ở Phúc Đức, trọng tâm không nằm ở nền gia đình hoặc phúc khí tinh thần mà ở khí chất tự thân và cách người xem bắt đầu hành động.',
+      'Khác với Thái Âm ở Mệnh, Thiên Đồng nhấn vào sự mềm, khả năng đổi nhịp và nhu cầu vui sống hơn là chiều sâu cảm xúc kín đáo.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Mềm mại, thích nghi, vui sống, nhịp nghỉ và trách nhiệm nhẹ nhưng rõ', readingCue: 'Đọc như phong cách sống, không như lời hứa an nhàn.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng dễ hòa nhập, biết làm dịu không khí, học qua trải nghiệm và tạo nhịp sống ít căng hơn.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết sự mềm có thành năng lực thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ trì hoãn việc khó, mơ hồ ranh giới hoặc chờ cảm hứng trước khi nhận trách nhiệm.', readingCue: 'Tìm dấu hiệu lịch nhỏ, cam kết rõ và khả năng nói không.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa đời sống luôn nhẹ, luôn được nâng đỡ hoặc có thể bỏ qua nỗ lực.', readingCue: 'Tránh biến sao thành bảo chứng kết quả.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, phụ tinh và thói quen nhận việc thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khung tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Thiên Đồng ở Mệnh là đời sống an nhàn nên không cần lo nhiều.', better: 'Thiên Đồng ở Mệnh gợi khí chất mềm và nhu cầu nhịp sống dễ thở; cần xem tam phương, trách nhiệm thật và khả năng giữ lời hứa.' },
+      { wrong: 'Có Thiên Đồng thì cứ thuận theo cảm xúc là đúng.', better: 'Sự mềm chỉ bền khi có ranh giới, lịch nhỏ, trách nhiệm rõ và cách phục hồi lành mạnh.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Thiên Đồng ở cung Mệnh nên được đọc như cách một người tìm nhịp sống dễ thở, không phải như lời hứa đời sống luôn nhẹ. Thiên Đồng đem ngôn ngữ của sự mềm, thích nghi, vui sống và khả năng làm dịu không khí; cung Mệnh nói về khí chất gốc, phản ứng đầu tiên và cách một người tự bước vào các tình huống. Khi hai lớp này gặp nhau, trọng tâm là người xem đang dùng sự mềm để linh hoạt hơn hay dùng nó để tránh trách nhiệm cần nhận.',
+          'Điểm khác với trang sao Thiên Đồng chung là bài này không chỉ nói về “phúc” hoặc sự dễ chịu. Nó hỏi cụ thể hơn: người này nhận việc ra sao, giữ lời hứa thế nào, biết nghỉ đúng lúc không, và có biến cảm hứng thành bước nhỏ được không. Nội dung chỉ mang tính tham khảo, không phải lá số cá nhân và không phải lời tiên đoán về mức an nhàn hay trạng thái thân-tâm.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Thiên Đồng ở Mệnh gợi người có khả năng làm mềm không khí và thích nghi với hoàn cảnh. Họ có thể học tốt qua trải nghiệm, dễ kết nối với người khác bằng sự gần gũi, và biết tìm cách giảm căng thẳng khi mọi việc quá cứng. Trong môi trường nhiều áp lực, đây là điểm mạnh vì nó nhắc mọi người rằng nhịp sống bền không chỉ có kỷ luật mà còn cần khả năng phục hồi.',
+          'Cách phát huy an toàn là biến sự mềm thành phương pháp. Người xem có thể đặt lịch nhỏ thay vì mục tiêu mơ hồ, chia việc khó thành bước nhẹ, có giờ nghỉ rõ và nói ranh giới trước khi quá tải. Khi Thiên Đồng ở Mệnh đi cùng trách nhiệm được viết ra, nó không còn là sự trôi theo cảm xúc mà trở thành năng lực điều hòa đời sống.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là xu hướng né điều khó bằng sự dễ chịu. Người có khí chất Thiên Đồng ở Mệnh trong bài đọc tham khảo có thể chờ cảm hứng, đổi ý khi việc nặng lên hoặc để người khác đoán ranh giới của mình. Đây không phải kết luận cố định, mà là dấu hiệu nên kiểm tra lịch, lời hứa và mức chủ động trong đời sống thật.',
+          'Bài viết cần tránh mọi lời bảo đảm về an nhàn, trạng thái thân-tâm hoặc sự thuận lợi. Cách viết tốt hơn là nói về hành vi bảo vệ nhịp sống: nghỉ đúng lúc, hỏi hỗ trợ khi cần, viết rõ cam kết, chọn môi trường bớt căng và không dùng cảm giác dễ chịu để trì hoãn quyết định quan trọng. Tử Vi ở đây là khung văn hóa để tự quan sát, không phải công cụ thay trách nhiệm cá nhân.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh nối với Quan Lộc và Tài Bạch. Nếu Thiên Đồng ở Mệnh mềm và dễ thích nghi nhưng Quan Lộc thiếu cấu trúc, người xem có thể nhiều ý tưởng mà ít bước triển khai. Nếu Tài Bạch chưa có nền, nhịp sống dễ chịu cần được đặt cạnh cách quản trị nguồn lực và thời gian. Khi Quan Lộc và Tài Bạch hỗ trợ, sự mềm có thể trở thành khả năng làm việc bền, không phải sự buông lỏng.',
+          'Thiên Di đối chiếu cho biết môi trường ngoài cần gì ở khí chất này. Có môi trường quý sự hòa hợp; có môi trường cần quyết định nhanh, lời hứa rõ và ranh giới mạnh hơn. Đọc tam phương tứ chính giúp người xem không biến Thiên Đồng thành nhãn “vui vẻ” đơn giản, mà xem nó như câu hỏi về bối cảnh, trách nhiệm và khả năng điều chỉnh nhịp.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên rất thực tế: việc nào mình đang trì hoãn vì nó nặng, ranh giới nào cần nói trước, lịch nghỉ nào giúp mình bền hơn, và một bước nhỏ nào có thể làm ngay hôm nay. Nếu người đọc tìm được ví dụ cụ thể, Thiên Đồng ở Mệnh trở thành lời nhắc sống mềm mà không mơ hồ.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là nói Thiên Đồng ở Mệnh bảo đảm đời sống nhẹ nhàng hoặc cho phép đi theo cảm xúc mọi lúc. Cách đọc tốt hơn là nói: tổ hợp này gợi khả năng thích nghi, làm dịu và phục hồi; muốn biết nó giúp hay làm trì hoãn, cần xem Mệnh - Quan - Tài, Thiên Di, Thân Cung, Tứ Hóa và hành vi thật.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không đưa lời khuyên y tế, tài chính, pháp lý hoặc quyết định quan trọng. Để đọc cá nhân cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, Tứ Hóa, phụ tinh và câu hỏi cụ thể. Người đọc nên dùng bài viết để quan sát nhịp sống, ranh giới và trách nhiệm, không dùng để kết luận kết quả đời sống.',
+        ],
+      },
+    ],
+  },
+}
+
 const REVIEWED_STAR_PALACE_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
   ...FIRST_BATCH_DRAFT_PROFILES,
   ...BATCH_2A_DRAFT_PROFILES,
+  ...BATCH_2B_1_DRAFT_PROFILES,
 }
 
 export function buildStarPalacePath(star: PriorityStarSlug, palace: PalaceSlug): string {
@@ -925,14 +1179,31 @@ function buildStarPalaceFaqs(
 }
 
 function buildStarPalaceInternalLinks(
+  star: PriorityStarSlug,
+  palace: PalaceSlug,
   starName: string,
   palaceName: string,
   starUrl: string,
   palaceUrl: string
 ): StarPalaceInternalLink[] {
+  const siblingLinks = APPROVED_STAR_PALACE_COMBINATIONS
+    .filter((combo) => combo.palace === palace && combo.star !== star)
+    .map((combo) => {
+      const siblingStar = getStarFoundationPage(combo.star)
+
+      return {
+        href: buildStarPalacePath(combo.star, combo.palace),
+        label: siblingStar
+          ? `Sao ${siblingStar.name} ở cung ${palaceName}`
+          : `Tổ hợp ${combo.star} ở cung ${palaceName}`,
+        relation: 'Tổ hợp cùng cung đã duyệt',
+      }
+    })
+
   return [
     { href: starUrl, label: `Sao ${starName}`, relation: 'Nền tảng về chính tinh' },
     { href: palaceUrl, label: `Cung ${palaceName}`, relation: 'Nền tảng về cung vị' },
+    ...siblingLinks.slice(0, 3),
     { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Thư viện Tử Vi' },
     { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
   ]
@@ -980,7 +1251,7 @@ export function getStarPalaceDraftPage(
     summaryRows: profile.summaryRows,
     wrongVsBetterExamples: profile.wrongVsBetterExamples,
     faqs: buildStarPalaceFaqs(starName, palaceName, starPage.urlPath, palacePage.urlPath),
-    internalLinks: buildStarPalaceInternalLinks(starName, palaceName, starPage.urlPath, palacePage.urlPath),
+    internalLinks: buildStarPalaceInternalLinks(star, palace, starName, palaceName, starPage.urlPath, palacePage.urlPath),
     qualityGate: [
       '1,500+ words of unique, non-template educational content',
       'Bói-Toán domain review for star meaning in this palace',

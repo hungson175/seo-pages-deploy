@@ -23,12 +23,21 @@ import rootSitemap from '../src/app/sitemap'
 import starPalaceSitemap from '../src/app/sitemap-star-palace'
 import { generateStaticParams } from '../src/app/(main)/sao/[star]/cung/[palace]/page'
 
-const BATCH_2A_APPROVED_COMBINATIONS = [
+const APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED = [
   { star: 'tu-vi', palace: 'menh' },
   { star: 'tu-vi', palace: 'quan-loc' },
   { star: 'thai-duong', palace: 'menh' },
   { star: 'thai-am', palace: 'menh' },
   { star: 'vu-khuc', palace: 'menh' },
+  { star: 'thien-phu', palace: 'menh' },
+  { star: 'cu-mon', palace: 'menh' },
+  { star: 'thien-dong', palace: 'menh' },
+] as const
+
+const BATCH_2B_1_COMBINATIONS = [
+  { star: 'thien-phu', palace: 'menh' },
+  { star: 'cu-mon', palace: 'menh' },
+  { star: 'thien-dong', palace: 'menh' },
 ] as const
 
 function draftText(
@@ -68,27 +77,31 @@ describe('star×cung expansion template', () => {
     expect(matrix.every((page) => page.indexable === false)).toBe(true)
   })
 
-  it('stages only the explicitly approved Batch 2A star×cung allow-list', () => {
-    expect(APPROVED_STAR_PALACE_COMBINATIONS).toEqual(BATCH_2A_APPROVED_COMBINATIONS)
+  it('stages only the explicitly approved star×cung allow-list through Batch 2B-1', () => {
+    expect(APPROVED_STAR_PALACE_COMBINATIONS).toEqual(APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED)
     expect(getApprovedStarPalacePages().map((page) => page.urlPath)).toEqual([
       '/sao/tu-vi/cung/menh/',
       '/sao/tu-vi/cung/quan-loc/',
       '/sao/thai-duong/cung/menh/',
       '/sao/thai-am/cung/menh/',
       '/sao/vu-khuc/cung/menh/',
+      '/sao/thien-phu/cung/menh/',
+      '/sao/cu-mon/cung/menh/',
+      '/sao/thien-dong/cung/menh/',
     ])
-    expect(generateStaticParams()).toEqual(BATCH_2A_APPROVED_COMBINATIONS)
+    expect(generateStaticParams()).toEqual(APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED)
     expect(getStarPalacePage('tu-vi', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('tu-vi', 'quan-loc')?.indexable).toBe(true)
     expect(getStarPalacePage('thai-duong', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('thai-am', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('vu-khuc', 'menh')?.indexable).toBe(true)
+    expect(getStarPalacePage('thien-phu', 'menh')?.indexable).toBe(true)
+    expect(getStarPalacePage('cu-mon', 'menh')?.indexable).toBe(true)
+    expect(getStarPalacePage('thien-dong', 'menh')?.indexable).toBe(true)
 
-    // Bói-Toán/SEO approved Batch 2B and sensitive combinations stay gated
-    // until source support and separate reviews are complete.
-    expect(getStarPalacePage('thien-phu', 'menh')).toBeNull()
-    expect(getStarPalacePage('cu-mon', 'menh')).toBeNull()
-    expect(getStarPalacePage('thien-dong', 'menh')).toBeNull()
+    // Liêm Trinh×Mệnh and other sensitive combinations stay gated until
+    // source support and separate reviews are complete.
+
     expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
     expect(getStarPalacePage('tham-lang', 'phu-the')).toBeNull()
     expect(getStarPalacePage('that-sat', 'menh')).toBeNull()
@@ -192,7 +205,7 @@ describe('star×cung expansion template', () => {
     }
   })
 
-  it('keeps every approved Batch 2A page deep, compliant, and domain-safe', () => {
+  it('keeps every approved star×cung page deep, compliant, and domain-safe', () => {
     for (const combo of APPROVED_STAR_PALACE_COMBINATIONS) {
       const page = getStarPalacePage(combo.star, combo.palace)
 
@@ -219,6 +232,29 @@ describe('star×cung expansion template', () => {
     }
   })
 
+  it('adds Batch 2B-1 internal-link matrix while keeping Liêm Trinh gated', () => {
+    const approvedMenhSiblingHrefs = APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED
+      .filter((combo) => combo.palace === 'menh')
+      .map((combo) => `/sao/${combo.star}/cung/${combo.palace}/`)
+
+    for (const combo of BATCH_2B_1_COMBINATIONS) {
+      const page = getStarPalacePage(combo.star, combo.palace)
+      const hrefs = page?.internalLinks.map((link) => link.href) ?? []
+      const siblingHrefs = hrefs.filter(
+        (href) => approvedMenhSiblingHrefs.includes(href) && href !== `/sao/${combo.star}/cung/${combo.palace}/`
+      )
+
+      expect(page, `${combo.star}×${combo.palace}`).not.toBeNull()
+      expect(hrefs).toContain(`/sao/${combo.star}/`)
+      expect(hrefs).toContain('/cung/menh/')
+      expect(hrefs).toContain('/lap-la-so/')
+      expect(siblingHrefs.length, `${combo.star}×${combo.palace} sibling links`).toBeGreaterThanOrEqual(1)
+    }
+
+    expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
+    expect(getStarPalacePage('liem-trinh', 'phu-the')).toBeNull()
+  })
+
   it('publishes only approved star×cung sitemap entries', () => {
     const rootUrls = rootSitemap().map((entry) => entry.url)
     const starPalaceUrls = starPalaceSitemap().map((entry) => entry.url)
@@ -229,6 +265,9 @@ describe('star×cung expansion template', () => {
       'https://boitoan.com.vn/sao/thai-duong/cung/menh/',
       'https://boitoan.com.vn/sao/thai-am/cung/menh/',
       'https://boitoan.com.vn/sao/vu-khuc/cung/menh/',
+      'https://boitoan.com.vn/sao/thien-phu/cung/menh/',
+      'https://boitoan.com.vn/sao/cu-mon/cung/menh/',
+      'https://boitoan.com.vn/sao/thien-dong/cung/menh/',
     ])
     expect(rootUrls.filter((url) => url.includes('/sao/') && url.includes('/cung/'))).toEqual([
       'https://boitoan.com.vn/sao/tu-vi/cung/menh/',
@@ -236,6 +275,9 @@ describe('star×cung expansion template', () => {
       'https://boitoan.com.vn/sao/thai-duong/cung/menh/',
       'https://boitoan.com.vn/sao/thai-am/cung/menh/',
       'https://boitoan.com.vn/sao/vu-khuc/cung/menh/',
+      'https://boitoan.com.vn/sao/thien-phu/cung/menh/',
+      'https://boitoan.com.vn/sao/cu-mon/cung/menh/',
+      'https://boitoan.com.vn/sao/thien-dong/cung/menh/',
     ])
   })
 
@@ -256,11 +298,23 @@ describe('star×cung expansion template', () => {
     expect(getApprovedStarPalaceLinksForStar('vu-khuc').map((link) => link.href)).toEqual([
       '/sao/vu-khuc/cung/menh/',
     ])
+    expect(getApprovedStarPalaceLinksForStar('thien-phu').map((link) => link.href)).toEqual([
+      '/sao/thien-phu/cung/menh/',
+    ])
+    expect(getApprovedStarPalaceLinksForStar('cu-mon').map((link) => link.href)).toEqual([
+      '/sao/cu-mon/cung/menh/',
+    ])
+    expect(getApprovedStarPalaceLinksForStar('thien-dong').map((link) => link.href)).toEqual([
+      '/sao/thien-dong/cung/menh/',
+    ])
     expect(getApprovedStarPalaceLinksForPalace('menh').map((link) => link.href)).toEqual([
       '/sao/tu-vi/cung/menh/',
       '/sao/thai-duong/cung/menh/',
       '/sao/thai-am/cung/menh/',
       '/sao/vu-khuc/cung/menh/',
+      '/sao/thien-phu/cung/menh/',
+      '/sao/cu-mon/cung/menh/',
+      '/sao/thien-dong/cung/menh/',
     ])
     expect(getApprovedStarPalaceLinksForPalace('quan-loc').map((link) => link.href)).toEqual([
       '/sao/tu-vi/cung/quan-loc/',

@@ -285,8 +285,10 @@ describe('star×cung expansion template', () => {
     expect(palaceSource).toContain('getApprovedStarPalaceLinksForPalace')
   })
 
-  it('rejects legacy stars and invalid public terminology', () => {
-    expect(getStarPalaceDraftPage('thien-phu', 'menh')).toBeNull()
+  it('rejects non-priority legacy stars and invalid public terminology', () => {
+    expect(getStarPalaceDraftPage('tham-lang', 'menh')).toBeNull()
+    expect(getStarPalaceDraftPage('that-sat', 'menh')).toBeNull()
+    expect(getStarPalaceDraftPage('pha-quan', 'menh')).toBeNull()
     expect(getStarPalaceDraftPage('tu-vi', 'tu-tuc')).toBeNull()
   })
 

@@ -59,4 +59,13 @@ describe('legacy star redirect parity with priority-star allow-list', () => {
       })
     }
   })
+
+  it('does not redirect priority foundation star pages', async () => {
+    const redirects = await nextConfig.redirects?.()
+    const redirectSources = new Set((redirects ?? []).map((redirect) => redirect.source))
+
+    for (const slug of PRIORITY_STAR_SLUGS) {
+      expect(redirectSources.has(`/sao/${slug}`), `${slug} should stay indexable`).toBe(false)
+    }
+  })
 })

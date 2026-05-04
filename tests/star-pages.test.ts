@@ -25,7 +25,7 @@ function pageText(page: NonNullable<ReturnType<typeof getStarFoundationPage>>): 
 }
 
 describe('priority star foundation pages', () => {
-  it('ships the six requested P1 star pages', () => {
+  it('ships the requested P1 plus Batch 2B foundation star pages', () => {
     expect(PRIORITY_STAR_SLUGS).toEqual([
       'tu-vi',
       'thai-duong',
@@ -33,14 +33,23 @@ describe('priority star foundation pages', () => {
       'thien-co',
       'vu-khuc',
       'thien-luong',
+      'thien-phu',
+      'cu-mon',
+      'thien-dong',
+      'liem-trinh',
     ])
   })
 
   it('keeps legacy unsafe star pages disabled until rewritten', () => {
     expect(isPriorityStarSlug('tu-vi')).toBe(true)
-    expect(isPriorityStarSlug('thien-phu')).toBe(false)
-    expect(getStarFoundationPage('thien-phu')).toBeNull()
-    expect(getStarFoundationPage('thien-dong')).toBeNull()
+    expect(isPriorityStarSlug('thien-phu')).toBe(true)
+    expect(isPriorityStarSlug('cu-mon')).toBe(true)
+    expect(isPriorityStarSlug('thien-dong')).toBe(true)
+    expect(isPriorityStarSlug('liem-trinh')).toBe(true)
+    expect(isPriorityStarSlug('tham-lang')).toBe(false)
+    expect(getStarFoundationPage('tham-lang')).toBeNull()
+    expect(getStarFoundationPage('that-sat')).toBeNull()
+    expect(getStarFoundationPage('pha-quan')).toBeNull()
   })
 
   it('generates complete 1,500+ word pages with SEO fields', () => {
@@ -93,5 +102,26 @@ describe('priority star foundation pages', () => {
         expect(text, `${slug} should avoid ${pattern}`).not.toMatch(pattern)
       }
     }
+  })
+
+  it('keeps Liêm Trinh foundation language away from crime and legal claims', () => {
+    const text = pageText(getStarFoundationPage('liem-trinh')!)
+    const forbiddenPatterns = [
+      /dễ phạm pháp/i,
+      /dính tù tội/i,
+      /số có án/i,
+      /kiện tụng/i,
+      /bạo lực/i,
+      /tội phạm/i,
+      /hình phạt/i,
+      /chắc chắn.*pháp lý/i,
+    ]
+
+    for (const pattern of forbiddenPatterns) {
+      expect(text, `liem-trinh should avoid ${pattern}`).not.toMatch(pattern)
+    }
+    expect(text).toContain('liêm chính')
+    expect(text).toContain('ranh giới')
+    expect(text).toContain('không phải lời tiên đoán')
   })
 })

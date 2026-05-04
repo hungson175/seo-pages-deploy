@@ -11,6 +11,10 @@ const priorityStarSlugs = [
   'thien-co',
   'vu-khuc',
   'thien-luong',
+  'thien-phu',
+  'cu-mon',
+  'thien-dong',
+  'liem-trinh',
 ]
 
 const palaceSlugs = [
@@ -30,6 +34,7 @@ const palaceSlugs = [
 
 const base = 'https://boitoan.com.vn'
 const lastmod = '2026-05-02'
+const starsLastmod = '2026-05-04'
 const starPalaceLastmod = '2026-05-04'
 
 function toSlug(input) {
@@ -119,7 +124,7 @@ const gieoqueUrls = routes.queSlugs.map((slug) => ({
 
 const starUrls = priorityStarSlugs.map((slug) => ({
   loc: `${base}/sao/${slug}/`,
-  lastmod,
+  lastmod: starsLastmod,
   changefreq: 'monthly',
   priority: '0.75',
 }))
@@ -159,7 +164,7 @@ fs.writeFileSync(
   buildSitemapIndex([
     { loc: `${base}/sitemap.xml`, lastmod },
     { loc: `${base}/tuvi.xml`, lastmod },
-    { loc: `${base}/stars.xml`, lastmod },
+    { loc: `${base}/stars.xml`, lastmod: starsLastmod },
     { loc: `${base}/palaces.xml`, lastmod },
     ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod: starPalaceLastmod }] : []),
     { loc: `${base}/gieoque.xml`, lastmod },

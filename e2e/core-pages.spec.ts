@@ -99,6 +99,20 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
+  test('Batch 2B foundation star page renders without opening star×cung combo', async ({ page }) => {
+    const response = await page.goto('/sao/thien-phu/')
+
+    expect(response?.status()).toBe(200)
+    await expect(page.locator('h1')).toHaveText('Sao Thiên Phủ Trong Tử Vi — Ý Nghĩa, Cung Vị Và Cách Đọc')
+    await expect(page.locator('main')).toContainText('Tam Hợp Phái')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+    await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
+
+    const gatedCombo = await page.goto('/sao/thien-phu/cung/menh/')
+    expect(gatedCombo?.status()).toBe(404)
+  })
+
 
   test('palace foundation page renders', async ({ page }) => {
     await page.goto('/cung/menh')
@@ -115,7 +129,7 @@ test.describe('Sprint 2 - Core Pages', () => {
   })
 
   test('legacy non-priority star page redirects to preserve equity', async ({ page }) => {
-    await page.goto('/sao/thien-phu/')
+    await page.goto('/sao/tham-lang/')
     await expect(page).toHaveURL(/\/tu-vi\/?$/)
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })

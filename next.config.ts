@@ -1,11 +1,7 @@
 import type { NextConfig } from 'next'
 
 const LEGACY_STAR_REDIRECT_SLUGS = [
-  'thien-dong',
-  'liem-trinh',
-  'thien-phu',
   'tham-lang',
-  'cu-mon',
   'pha-quan',
   'ta-phu',
   'huu-bat',

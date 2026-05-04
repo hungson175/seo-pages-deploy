@@ -1,10 +1,12 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  applyChatVisibilityGate,
   buildReadingServerFallback,
   extractReadingChartId,
   getRealTuViApiOrigin,
   getRealTuViOrigin,
   injectReadingServerFallback,
+  isRealTuViChatEnabled,
   lockedReadingFallback,
   mapRealTuViApiPath,
   proxyRealTuViApi,
@@ -20,6 +22,8 @@ describe('real tu vi API proxy mapping', () => {
   const originalRealTuViOrigin = process.env.REAL_TUVI_ORIGIN
   const originalRealTuViApiOrigin = process.env.REAL_TUVI_API_ORIGIN
   const originalGeneratedReadingsMode = process.env.REAL_TUVI_GENERATED_READINGS_MODE
+  const originalRealTuViChatEnabled = process.env.REAL_TUVI_CHAT_ENABLED
+  const originalChatEnabled = process.env.CHAT_ENABLED
 
   afterEach(() => {
     if (originalPrivacyContactEmail === undefined) {
@@ -41,6 +45,16 @@ describe('real tu vi API proxy mapping', () => {
       delete process.env.REAL_TUVI_GENERATED_READINGS_MODE
     } else {
       process.env.REAL_TUVI_GENERATED_READINGS_MODE = originalGeneratedReadingsMode
+    }
+    if (originalRealTuViChatEnabled === undefined) {
+      delete process.env.REAL_TUVI_CHAT_ENABLED
+    } else {
+      process.env.REAL_TUVI_CHAT_ENABLED = originalRealTuViChatEnabled
+    }
+    if (originalChatEnabled === undefined) {
+      delete process.env.CHAT_ENABLED
+    } else {
+      process.env.CHAT_ENABLED = originalChatEnabled
     }
   })
 
@@ -129,6 +143,35 @@ describe('real tu vi API proxy mapping', () => {
     expect(sanitized).toContain('giai đoạn đầu sau khi ra mắt')
     expect(sanitized).not.toContain('2 ngày làm việc')
     expect(sanitized).not.toContain('7 ngày làm việc')
+  })
+
+  it('keeps reading chat hidden by default until the production feature flag is explicitly enabled', () => {
+    delete process.env.REAL_TUVI_CHAT_ENABLED
+    delete process.env.CHAT_ENABLED
+
+    const upstream = [
+      '<html><body>',
+      '<main><h1>Lá số của bạn</h1><aside class="rdg-chat">Gợi ý hỏi Bói Toán Bạn muốn hỏi thêm điều gì?</aside>',
+      '<button>命 Hỏi</button></main>',
+      '</body></html>',
+    ].join('')
+    const gated = applyChatVisibilityGate(upstream)
+
+    expect(isRealTuViChatEnabled()).toBe(false)
+    expect(gated).toContain('data-boitoan-chat-gate="disabled"')
+    expect(gated).toContain('data-boitoan-chat-disabled')
+    expect(gated).toContain('.rdg-chat')
+    expect(gated).toContain('data-boitoan-chat-hidden')
+    expect(gated).not.toContain('Không thể kết nối')
+    expect(gated).not.toContain('AI đang lỗi')
+  })
+
+  it('does not inject the chat visibility gate when chat is explicitly enabled', () => {
+    process.env.REAL_TUVI_CHAT_ENABLED = 'true'
+    const upstream = '<html><body><aside class="rdg-chat">Bạn muốn hỏi thêm điều gì?</aside></body></html>'
+
+    expect(isRealTuViChatEnabled()).toBe(true)
+    expect(applyChatVisibilityGate(upstream)).toBe(upstream)
   })
 
   it('builds a safe public placeholder for locked reading tabs', () => {
@@ -337,6 +380,7 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.status).toBe(200)
       expect(calls).toEqual(['http://real-web:3000/reading/abc123', 'http://api:8000/chart/abc123'])
       expect(html).toContain('data-boitoan-reading-ssr-fallback')
+      expect(html).toContain('data-boitoan-chat-gate="disabled"')
       expect(html).toContain('Lá số đã tạo')
       expect(html).toContain('Tử Nữ')
       expect(html).not.toContain('Tử Tức')

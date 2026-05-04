@@ -9,6 +9,7 @@ const TIMEOUT_MS = Number(process.env.SHADOW_SMOKE_TIMEOUT_MS || 90_000)
 const UI_WAIT_MS = Number(process.env.SHADOW_SMOKE_UI_WAIT_MS || 10_000)
 const OUTPUT_PATH = process.env.SHADOW_SMOKE_OUTPUT || ''
 const STRICT_BROWSER_DIAGNOSTICS = process.env.SHADOW_SMOKE_STRICT_BROWSER_DIAGNOSTICS === '1'
+const EXPECT_CHAT_HIDDEN = process.env.SHADOW_SMOKE_EXPECT_CHAT_HIDDEN !== '0'
 const SAMPLE_CHART = {
   name: 'Bạn',
   gender: 'Nam',
@@ -193,6 +194,18 @@ async function browserChecksFromChart(chartId) {
       xRobotsTag: headers['x-robots-tag'] || null,
       metaRobots,
     })
+
+    if (EXPECT_CHAT_HIDDEN) {
+      await page.waitForTimeout(1000)
+      const visible = await page.locator('body').innerText()
+      record('reading_chat_entrypoints_hidden', !visible.includes('Bạn muốn hỏi thêm điều gì') &&
+        !visible.includes('Gợi ý hỏi Bói Toán') &&
+        !visible.includes('Không thể kết nối'), {
+        hasChatPrompt: visible.includes('Bạn muốn hỏi thêm điều gì'),
+        hasChatSuggestions: visible.includes('Gợi ý hỏi Bói Toán'),
+        hasChatConnectionError: visible.includes('Không thể kết nối'),
+      })
+    }
 
     const buttons = await page.getByRole('button', { name: /Sự nghiệp/ }).count()
     if (buttons > 0) {

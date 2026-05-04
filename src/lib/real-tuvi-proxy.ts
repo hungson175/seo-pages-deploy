@@ -78,6 +78,43 @@ const APPROVED_DISCLAIMER_REWRITES: Array<[RegExp, string]> = [
     'không phải lời tiên đoán hay lời khẳng định tương lai',
   ],
 ]
+const TY_HOUR_DISTINCTION_NOTE =
+  'Giờ Tý kéo dài qua nửa đêm: Tý sớm (00:00-00:59) giữ nguyên ngày âm lịch; Tý muộn (23:00-23:59) tính sang ngày âm lịch hôm sau. Nếu chưa nhớ rõ, hãy chọn khung giờ gần nhất và đọc kết quả như bản tham khảo sơ bộ.'
+const BIRTH_HOUR_COPY_REWRITES: Array<[RegExp, string]> = [
+  [
+    /T\\xfd\s+sớm\s*\(0h-1h\)/g,
+    'Tý sớm (00:00-00:59)',
+  ],
+  [
+    /T\\xfd\s+muộn\s*\(23h-24h\)/g,
+    'Tý muộn (23:00-23:59)',
+  ],
+  [
+    /Tý\s+sớm\s*(?:\(?0h-1h\)?|\(?00h-01h\)?|\(?00:00\s*-\s*01:00\)?|\(?00:00\s*-\s*00:59\)?)/giu,
+    'Tý sớm (00:00-00:59)',
+  ],
+  [
+    /Tý\s+muộn\s*(?:\(?23h-24h\)?|\(?23:00\s*-\s*24:00\)?|\(?23:00\s*-\s*23:59\)?)/giu,
+    'Tý muộn (23:00-23:59)',
+  ],
+  [/\b0h-1h\b/g, '(00:00-00:59)'],
+  [/\b23h-24h\b/g, '(23:00-23:59)'],
+  [
+    /Nếu chưa nhớ rõ, hãy chọn khung giờ gần nhất và đọc kết quả như bản tham khảo sơ bộ\./g,
+    TY_HOUR_DISTINCTION_NOTE,
+  ],
+  [
+    /Nếu chưa nhớ r\\xf5, h\\xe3y chọn khung giờ gần nhất v\\xe0 đọc kết quả như bản tham khảo sơ bộ\./g,
+    TY_HOUR_DISTINCTION_NOTE,
+  ],
+]
+
+function normalizeBirthHourCopyText(text: string): string {
+  return BIRTH_HOUR_COPY_REWRITES.reduce(
+    (current, [pattern, replacement]) => current.replace(pattern, replacement),
+    text,
+  )
+}
 
 export function sanitizeRealTuViHtmlText(text: string): string {
   return APPROVED_DISCLAIMER_REWRITES.reduce(
@@ -464,7 +501,7 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
 }
 
 export function sanitizeRealTuViAssetText(text: string): string {
-  return sanitizeRealTuViHtmlText(text)
+  return normalizeBirthHourCopyText(sanitizeRealTuViHtmlText(text))
     .replaceAll(
       'kh\\xf4ng phải lời khẳng định tương lai',
       'không phải lời tiên đoán hay lời khẳng định tương lai',

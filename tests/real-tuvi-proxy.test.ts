@@ -116,6 +116,27 @@ describe('real tu vi API proxy mapping', () => {
     expect(sanitized).toContain('/real-tuvi-assets/_next/')
   })
 
+  it('normalizes Tý sớm/Tý muộn labels and forbids the Tử typo in proxied real app text', () => {
+    const upstream = [
+      '13 lựa chọn gồm Tý sớm và Tý muộn',
+      'Tý sớm 0h-1h',
+      'Tý muộn 23h-24h',
+      'Nếu chưa nhớ rõ, hãy chọn khung giờ gần nhất và đọc kết quả như bản tham khảo sơ bộ.',
+    ].join(' ')
+    const sanitized = sanitizeRealTuViAssetText(upstream)
+
+    expect(sanitized).toContain('Tý sớm (00:00-00:59)')
+    expect(sanitized).toContain('Tý muộn (23:00-23:59)')
+    expect(sanitized).toContain('Tý sớm (00:00-00:59) giữ nguyên ngày âm lịch')
+    expect(sanitized).toContain('Tý muộn (23:00-23:59) tính sang ngày âm lịch hôm sau')
+    expect(sanitized).not.toContain('0h-1h')
+    expect(sanitized).not.toContain('23h-24h')
+    expect(sanitized).not.toContain('Tử sớm')
+    expect(sanitized).not.toContain('Tử muộn')
+    expect(sanitized).not.toContain('tốt hơn')
+    expect(sanitized).not.toContain('xấu hơn')
+  })
+
   it('keeps the default privacy contact unchanged unless an approved override is configured', () => {
     delete process.env.PRIVACY_CONTACT_EMAIL
     const upstream = [

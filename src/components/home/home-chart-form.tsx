@@ -4,7 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const BIRTH_HOURS = [
-  { value: 'Ty', label: 'Tý (23h-01h)' },
+  { value: 'Ty_som', label: 'Tý sớm (00:00-00:59)' },
   { value: 'Suu', label: 'Sửu (01h-03h)' },
   { value: 'Dan', label: 'Dần (03h-05h)' },
   { value: 'Mao', label: 'Mão (05h-07h)' },
@@ -16,6 +16,7 @@ const BIRTH_HOURS = [
   { value: 'Dau', label: 'Dậu (17h-19h)' },
   { value: 'Tuat', label: 'Tuất (19h-21h)' },
   { value: 'Hoi', label: 'Hợi (21h-23h)' },
+  { value: 'Ty_muon', label: 'Tý muộn (23:00-23:59)' },
 ]
 
 export function HomeChartForm() {
@@ -151,7 +152,7 @@ export function HomeChartForm() {
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-6 text-ink-soft">
-          Dùng Dương lịch trong bản ra mắt. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.
+          Dùng Dương lịch trong bản ra mắt. Giờ Tý được tách thành Tý sớm và Tý muộn vì khung 23:00-00:59 đi qua nửa đêm. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.
         </p>
         <button
           className="mv-button-primary min-h-12 cursor-pointer whitespace-nowrap disabled:cursor-wait disabled:opacity-70"

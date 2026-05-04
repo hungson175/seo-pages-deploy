@@ -1,3 +1,7 @@
 [
-  { "star": "tu-vi", "palace": "menh" }
+  { "star": "tu-vi", "palace": "menh" },
+  { "star": "tu-vi", "palace": "quan-loc" },
+  { "star": "thai-duong", "palace": "menh" },
+  { "star": "thai-am", "palace": "menh" },
+  { "star": "vu-khuc", "palace": "menh" }
 ]

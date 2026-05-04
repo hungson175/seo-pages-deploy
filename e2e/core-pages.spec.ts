@@ -23,7 +23,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     const seoBox = await seoContent.boundingBox()
     expect(formBox?.y ?? 0).toBeLessThan(seoBox?.y ?? 0)
     
-    await expect(page.locator('a[href="/lap-la-so/"]')).toBeVisible()
+    await expect(page.locator('a[href="/lap-la-so/"]').first()).toBeVisible()
     await expect(page.locator('a[href="/tu-vi/"]')).toBeVisible()
     await expect(page.locator('text=Đọc Tử Vi 2026')).toBeVisible()
     await expect(page.locator('main')).toContainText('tham khảo')
@@ -110,7 +110,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
     await expect(page.locator('main')).toContainText('Tử Nữ')
     await expect(page.locator('main')).not.toContainText('Tử Tức')
-    await expect(page.locator('a[href="/sao/tu-vi/"]')).toBeVisible()
+    await expect(page.locator('a[href="/sao/tu-vi/"]').first()).toBeVisible()
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
@@ -120,13 +120,24 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('h1')).toHaveText('Tử Vi 2026 - Xem Lá Số Tử Vi Online')
   })
 
-  test('approved star×cung page renders and unapproved combo stays gated', async ({ page }) => {
+  test('approved Batch 2A star×cung page renders and unapproved combo stays gated', async ({ page }) => {
     const approvedResponse = await page.goto('/sao/tu-vi/cung/menh/')
 
     expect(approvedResponse?.status()).toBe(200)
     await expect(page.locator('h1')).toHaveText('Sao Tử Vi Ở Cung Mệnh — Ý Nghĩa, Cách Đọc Và Lưu Ý')
     await expect(page.locator('main')).toContainText('Tam Hợp Phái')
     await expect(page.locator('main')).toContainText('紫微斗数全书')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+
+    const batch2Response = await page.goto('/sao/tu-vi/cung/quan-loc/')
+
+    expect(batch2Response?.status()).toBe(200)
+    await expect(page.locator('h1')).toHaveText('Sao Tử Vi Ở Cung Quan Lộc — Ý Nghĩa, Cách Đọc Và Lưu Ý')
+    await expect(page.locator('main')).toContainText('tam phương')
+    await expect(page.locator('a[href="/sao/tu-vi/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/cung/quan-loc/"]').first()).toBeVisible()
+    await expect(page.locator('a[href="/lap-la-so/"]').first()).toBeVisible()
 
     const unapprovedResponse = await page.goto('/sao/vu-khuc/cung/tai-bach/')
 

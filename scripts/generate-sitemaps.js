@@ -30,6 +30,7 @@ const palaceSlugs = [
 
 const base = 'https://boitoan.com.vn'
 const lastmod = '2026-05-02'
+const starPalaceLastmod = '2026-05-04'
 
 function toSlug(input) {
   return input
@@ -139,7 +140,7 @@ const palaceUrls = palaceSlugs.map((slug) => ({
 
 const starPalaceUrls = approvedStarPalaceCombinations.map((combo) => ({
   loc: `${base}/sao/${combo.star}/cung/${combo.palace}/`,
-  lastmod,
+  lastmod: starPalaceLastmod,
   changefreq: 'monthly',
   priority: '0.68',
 }))
@@ -160,7 +161,7 @@ fs.writeFileSync(
     { loc: `${base}/tuvi.xml`, lastmod },
     { loc: `${base}/stars.xml`, lastmod },
     { loc: `${base}/palaces.xml`, lastmod },
-    ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod }] : []),
+    ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod: starPalaceLastmod }] : []),
     { loc: `${base}/gieoque.xml`, lastmod },
     { loc: `${base}/tools.xml`, lastmod },
   ])

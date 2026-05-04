@@ -59,4 +59,13 @@ describe('canonical compliance policy', () => {
     expect(result.valid).toBe(true)
     expect(result.errors).toHaveLength(0)
   })
+
+  it('allows Tử Vi technical phrase xác định Mệnh Cung', () => {
+    const result = validateComplianceContent(
+      'Cần ngày sinh, giờ sinh và giới tính để xác định Mệnh Cung, Thân Cung và vị trí sao. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán.',
+      { requireThamKhaoIfSubstantial: true },
+    )
+
+    expect(result.errors).toEqual([])
+  })
 })

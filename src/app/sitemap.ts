@@ -9,6 +9,7 @@ export const dynamic = 'force-static'
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://boitoan.com.vn'
   const lastmod = '2026-05-02'
+  const starPalaceLastmod = '2026-05-04'
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: lastmod, changeFrequency: 'daily', priority: 1 },
@@ -39,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const starPalacePages: MetadataRoute.Sitemap = getApprovedStarPalacePages().map((page) => ({
     url: `${base}${page.urlPath}`,
-    lastModified: lastmod,
+    lastModified: starPalaceLastmod,
     changeFrequency: 'monthly' as const,
     priority: 0.68,
   }))

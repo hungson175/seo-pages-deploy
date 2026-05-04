@@ -459,6 +459,347 @@ const FIRST_BATCH_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
   },
 }
 
+
+const BATCH_2A_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
+  [comboKey('tu-vi', 'quan-loc')]: {
+    intersectionThesis:
+      'Tử Vi đem trục tổ chức, trách nhiệm và khả năng giữ trung tâm; cung Quan Lộc là cách một người đứng vào công việc, vai trò xã hội và tiêu chuẩn nghề nghiệp; câu hỏi hữu ích là người này đang dùng trách nhiệm để tạo hệ thống bền hay chỉ đang gồng mình để giữ hình ảnh đúng.',
+    misreadWarning:
+      'Không nên đọc Tử Vi ở Quan Lộc như lời hứa địa vị, chức danh hoặc con đường nghề nghiệp luôn thuận. Cách đọc an toàn là xem năng lực tổ chức, cách nhận trách nhiệm, tam phương Mệnh - Quan - Tài, cung Phu Thê đối chiếu và hành vi nghề nghiệp thật.',
+    contextChecklist: [
+      'Kiểm tra tam hợp Quan Lộc - Mệnh - Tài Bạch để biết vai trò nghề có được khí chất cá nhân và nguồn lực thực tế nâng đỡ không.',
+      'Xem cung Phu Thê đối chiếu để hiểu trách nhiệm công việc có làm lệch quan hệ thân cận, cam kết và khả năng chia sẻ đời sống không.',
+      'Đọc cùng Thân Cung để biết sau quá trình trưởng thành người xem có thật sự bước vào vai trò điều phối hay chỉ đang mong được công nhận.',
+      'Đối chiếu Tứ Hóa, phụ tinh, sát tinh và môi trường nghề; không kết luận nghề nghiệp chỉ từ một sao ở một cung.',
+      'Kiểm tra dữ kiện thực tế: loại công việc, mức phân quyền, thói quen họp hành, cách ghi nhận đóng góp và nhịp nghỉ.',
+    ],
+    selfCheckQuestions: [
+      'Vai trò hiện tại của mình cần thêm hệ thống hay cần bớt ôm việc?',
+      'Mình đang giữ tiêu chuẩn nghề vì giá trị thật hay vì sợ người khác đánh giá?',
+      'Việc nào nên được phân quyền, viết quy trình hoặc chuyển thành nhịp làm việc rõ hơn?',
+      'Công việc đang nuôi dưỡng uy tín dài hạn hay chỉ tạo cảm giác phải đứng ở trung tâm?',
+    ],
+    sensitiveTopicFlags: [],
+    contrastNotes: [
+      'Khác với Tử Vi ở Mệnh, trọng tâm không nằm ở khí chất gốc mà ở vai trò nghề nghiệp và cách người xem tạo trật tự trong công việc.',
+      'Khác với Thái Dương ở Quan Lộc, Tử Vi nhấn mạnh cấu trúc, phân quyền và trách nhiệm điều phối hơn là ánh sáng công khai hoặc khả năng truyền cảm hứng trực diện.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Trách nhiệm nghề nghiệp, trục tổ chức, phân quyền và uy tín qua hệ thống', readingCue: 'Đọc như phong cách làm việc, không phải bảo chứng chức danh.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng biết gom việc thành cấu trúc, giữ lời hứa, thiết lập chuẩn mực và đứng ra chịu trách nhiệm khi việc chung rối.', readingCue: 'Kiểm tra Mệnh/Tài Bạch để biết năng lực và nguồn lực có theo kịp vai trò không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ ôm trách nhiệm, quá đặt nặng hình ảnh đúng hoặc biến tiêu chuẩn nghề thành áp lực cho đội nhóm.', readingCue: 'Tìm dấu hiệu phân quyền, phản hồi hai chiều và lịch nghỉ bền.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa được bảo đảm địa vị, luôn có quyền, hay mọi lựa chọn nghề đều đúng.', readingCue: 'Tránh phán danh vị từ một tổ hợp sao×cung.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Mệnh, Tài Bạch, Phu Thê đối chiếu, Thân Cung, Tứ Hóa, phụ tinh và bối cảnh nghề thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khung tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Tử Vi ở Quan Lộc là số có chức quyền nên nghề nghiệp tự nhiên thuận.', better: 'Tử Vi ở Quan Lộc gợi nhu cầu tổ chức và nhận trách nhiệm; cần xem Mệnh, Tài Bạch, Phu Thê đối chiếu, Tứ Hóa và cách người đó làm việc thật.' },
+      { wrong: 'Có tổ hợp này thì cứ đứng ra quyết hết là tốt.', better: 'Điểm mạnh điều phối chỉ bền khi có phân quyền, lắng nghe, chuẩn mực rõ và khả năng để người khác cùng chịu trách nhiệm.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Tử Vi ở cung Quan Lộc nên được đọc như ngôn ngữ của trách nhiệm trong công việc, không phải như một tấm bảng phong chức. Tử Vi đem cảm giác trung tâm, trật tự và khả năng giữ nhịp; Quan Lộc nói về nghề nghiệp, vai trò xã hội, tiêu chuẩn làm việc và cách một người được nhìn nhận qua việc họ tạo giá trị. Khi hai lớp này gặp nhau, câu hỏi quan trọng là người xem đang xây hệ thống để công việc bền hơn, hay đang dùng vai trò trung tâm để che cảm giác bất an.',
+          'Điểm hay của tổ hợp nằm ở khả năng biến việc rời rạc thành cấu trúc: biết xác định tiêu chuẩn, gọi đúng người vào đúng vai, chịu trách nhiệm khi có việc khó và giữ lời hứa với tập thể. Nhưng nếu đọc thiếu tam phương tứ chính, người viết rất dễ biến Tử Vi ở Quan Lộc thành lời khen chung chung về địa vị. Bài viết này chỉ dùng tổ hợp như khung tham khảo để quan sát cách làm việc và trách nhiệm nghề, không thay cho lá số cá nhân.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Tử Vi ở Quan Lộc gợi người có xu hướng thích làm việc có tiêu chuẩn và có cấu trúc. Họ có thể không luôn là người xuất hiện ồn ào nhất, nhưng thường muốn mọi việc được đặt vào trật tự: mục tiêu rõ, vai trò rõ, cách đánh giá rõ và trách nhiệm không bị đẩy qua lại. Trong đời sống hiện đại, đây là lời nhắc tốt để rèn kỹ năng quản trị công việc, viết quy trình, theo dõi cam kết và học cách phân quyền.',
+          'Điểm mạnh này chỉ thật sự có giá trị khi đi cùng năng lực cụ thể. Nếu Mệnh cho thấy khí chất tự chủ nhưng Tài Bạch chưa đủ nguồn lực, người xem có thể phải bắt đầu từ hệ thống nhỏ: quản lý lịch, ghi nhận đầu việc, xây uy tín bằng việc đúng hẹn. Nếu Tài Bạch tốt nhưng Mệnh căng, trách nhiệm nghề có thể lớn hơn sức chịu hiện tại. Vì vậy lời khuyên an toàn luôn đi về hành vi kiểm chứng được.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là xu hướng tự xem mình là người phải giữ mọi thứ đúng. Khi Tử Vi gặp Quan Lộc, người xem có thể đặt kỳ vọng cao vào hình ảnh nghề nghiệp, sợ sai trước tập thể hoặc khó để người khác làm theo cách riêng. Nếu không có phản hồi hai chiều, năng lực tổ chức có thể biến thành kiểm soát, còn trách nhiệm biến thành cảm giác cô độc.',
+          'Cách đọc tốt không hù dọa và cũng không tô hồng. Nó nên gợi ý người xem kiểm tra ranh giới công việc, lịch nghỉ, mức phân quyền, cách họ ghi nhận đóng góp của người khác và khả năng nói “việc này cần thêm nguồn lực”. Nếu tổ hợp này đang căng, giải pháp thực tế thường không phải gồng mạnh hơn mà là làm rõ hệ thống, giảm việc không cần thiết và tạo kênh phản hồi.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Với cung Quan Lộc, tam phương kéo Mệnh và Tài Bạch vào cùng một bài đọc. Mệnh cho biết người xem có đủ khí chất và sự chủ động để nhận vai trò không; Tài Bạch cho biết nguồn lực, kỹ năng và kết quả đo được có nâng đỡ vai trò đó không. Nếu chỉ nhìn Quan Lộc mà bỏ Mệnh - Tài, bài đọc sẽ dễ thành lời khen nghề nghiệp thiếu nền.',
+          'Cung Phu Thê đối chiếu cũng rất quan trọng vì công việc không đứng ngoài đời sống cam kết. Một người có trách nhiệm nghề mạnh nhưng không biết chia sẻ, lắng nghe hoặc giữ nhịp thân cận thì trục Quan Lộc có thể kéo lệch đời sống riêng. Đây là lý do mọi trang sao×cung phải nhắc tam phương tứ chính: một tổ hợp chỉ mở câu hỏi, không tự đóng kết luận.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Người đọc có thể tự kiểm chứng tổ hợp bằng những câu hỏi rất cụ thể: tuần này mình đã làm rõ vai trò cho ai chưa, việc nào mình còn ôm vì không tin người khác, tiêu chuẩn nghề nào đang giúp công việc tốt lên và tiêu chuẩn nào chỉ làm mọi người căng hơn. Càng trả lời bằng ví dụ thật, nội dung Tử Vi càng trở thành công cụ phản tư thay vì lời khen mơ hồ.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là nói Tử Vi ở Quan Lộc bảo đảm chức vụ hoặc thành tựu. Cách đọc tốt hơn là nói: tổ hợp này gợi khả năng và nhu cầu tạo trật tự trong công việc, nhưng hiệu quả phụ thuộc Mệnh, Tài Bạch, Phu Thê đối chiếu, Tứ Hóa, môi trường nghề và hành vi thật. Người xem nên dùng nó để hỏi mình cần xây hệ thống nào, không dùng nó để đợi một kết quả có sẵn.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này là bài nền SEO và giáo dục khái niệm. Để đọc riêng cần ngày sinh, giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ vị trí sao trong 12 cung và câu hỏi đời sống cụ thể. Không dùng tổ hợp này để quyết định nghề nghiệp quan trọng mà không kiểm tra dữ kiện thật và lời khuyên phù hợp.',
+        ],
+      },
+    ],
+  },
+  [comboKey('thai-duong', 'menh')]: {
+    intersectionThesis:
+      'Thái Dương đem ánh sáng công khai, tinh thần minh bạch và trách nhiệm; cung Mệnh là khí chất gốc và cách một người tự đứng vào đời sống; câu hỏi hữu ích là ánh sáng này đang giúp người xem sống rõ ràng hơn hay đang tạo áp lực phải luôn tỏ ra mạnh.',
+    misreadWarning:
+      'Không nên đọc Thái Dương ở Mệnh như bảo đảm nổi bật, luôn đúng hoặc luôn được người khác công nhận. Cách đọc an toàn là xem xu hướng hiện diện công khai, tinh thần trách nhiệm, tam phương Mệnh - Quan - Tài và khả năng nghỉ khi không cần chiếu sáng mọi thứ.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết khí chất công khai ban đầu có chuyển thành trách nhiệm trưởng thành không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết sự minh bạch cá nhân có đi cùng nghề nghiệp và nguồn lực thực tế không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài phản chiếu hình ảnh sáng rõ này như uy tín hay như áp lực phải biểu diễn.',
+      'Đọc cùng Thái Âm, Cự Môn, Thiên Lương hoặc Tứ Hóa nếu có để cân bằng giữa ánh sáng, cảm xúc, lời nói và chuẩn mực.',
+      'Không dùng một sao ở Mệnh để đóng khung tính cách; cần dữ kiện đời sống thật và phản hồi từ môi trường.',
+    ],
+    selfCheckQuestions: [
+      'Mình đang nói rõ điều cần nói hay đang cố chứng minh mình ổn?',
+      'Khi nhận trách nhiệm, mình có còn biết lắng nghe và nghỉ ngơi không?',
+      'Môi trường nào giúp mình hiện diện tự nhiên thay vì phải luôn tỏa sáng?',
+      'Điều gì cần được minh bạch hơn trong mục tiêu, quan hệ hoặc nhịp làm việc của mình?',
+    ],
+    sensitiveTopicFlags: [],
+    contrastNotes: [
+      'Khác với Thái Dương ở Quan Lộc, trọng tâm ở đây là khí chất tự thân và cách xuất hiện đầu tiên, không chỉ là vai trò nghề nghiệp.',
+      'Khác với Thái Âm ở Mệnh, Thái Dương nhấn vào sự rõ ràng, hướng ngoại và trách nhiệm công khai hơn là chiều sâu cảm xúc kín đáo.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Minh bạch, hiện diện công khai, trách nhiệm và khí chất hướng sáng', readingCue: 'Đọc như cách tự biểu đạt, không phải lời hứa nổi bật.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng muốn rõ ràng, thẳng thắn, giữ lời và tạo cảm giác tin cậy khi đứng trước việc chung.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết sự rõ ràng có thành năng lực thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ gồng hình ảnh mạnh mẽ, khó nhận mệt hoặc biến sự minh bạch thành áp lực cho bản thân và người khác.', readingCue: 'Tìm khả năng lắng nghe, nghỉ ngơi và chấp nhận không cần lúc nào cũng dẫn dắt.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa luôn được công nhận, luôn đúng, hoặc lúc nào cũng phù hợp đứng trước đám đông.', readingCue: 'Không biến sao thành nhãn định danh cố định.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, các sao cảm xúc/lời nói và bối cảnh thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khái niệm tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Thái Dương ở Mệnh là người luôn nổi bật và luôn được công nhận.', better: 'Thái Dương ở Mệnh gợi xu hướng hiện diện rõ ràng và có trách nhiệm; cần xem tam phương, Thiên Di và cách người đó sống thật.' },
+      { wrong: 'Có Thái Dương thì cứ nói thẳng là đúng.', better: 'Sự minh bạch cần đi cùng lắng nghe, đúng thời điểm, hiểu cảm xúc người khác và kiểm chứng dữ kiện.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Thái Dương ở cung Mệnh là tổ hợp nói nhiều về cách một người xuất hiện trong đời sống. Thái Dương đem biểu tượng của ánh sáng, sự minh bạch, trách nhiệm và xu hướng muốn làm rõ vấn đề; cung Mệnh là khí chất gốc, phản ứng đầu tiên và cách tự nhận diện. Khi đặt cùng nhau, trọng tâm không phải là “người này sẽ nổi bật”, mà là cách họ dùng sự rõ ràng: soi sáng để mọi việc minh bạch hơn, hay tự ép mình phải lúc nào cũng mạnh mẽ.',
+          'Một bài đọc an toàn cần giữ hai mặt. Mặt thuận là sự thẳng thắn, tinh thần trách nhiệm và khả năng tạo niềm tin khi người xem dám đứng ra nói điều cần nói. Mặt cần cân bằng là áp lực hình ảnh: sợ bị hiểu sai, sợ không đủ tốt, hoặc nghĩ rằng mình phải luôn có câu trả lời. Vì vậy trang này dùng Thái Dương ở Mệnh như khung tham khảo về hiện diện cá nhân, không phải lá số cá nhân, không phải lời tiên đoán.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, tổ hợp này gợi khả năng sống rõ ràng và có trách nhiệm với lời nói. Người xem có thể hợp với môi trường cần minh bạch, cần trình bày, cần giữ tiêu chuẩn hoặc cần làm cầu nối giữa điều mơ hồ và hành động cụ thể. Trong thực tế, điểm mạnh không nằm ở việc được nhìn thấy nhiều, mà ở việc làm cho điều quan trọng trở nên dễ hiểu hơn.',
+          'Thái Dương ở Mệnh cũng nhắc đến danh dự cá nhân. Nếu được rèn lành mạnh, người xem biết giữ lời, biết nhận phần việc của mình và không thích né tránh trách nhiệm. Tuy nhiên, danh dự này cần đi cùng sự mềm mại. Một người càng muốn rõ ràng càng cần học cách hỏi lại, nghe phản hồi và thừa nhận khi mình chưa đủ dữ kiện.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là gồng sáng. Có những lúc người xem tưởng rằng mình phải tích cực, phải mạnh, phải giải thích mọi thứ hoặc phải là người đứng ra trước. Nếu nhịp này kéo dài, Thái Dương ở Mệnh dễ thành áp lực tự chứng minh. Bài đọc nên khuyên kiểm tra nhịp nghỉ, không gian riêng và khả năng để người khác cùng chia sẻ trách nhiệm.',
+          'Một rủi ro khác là dùng sự thẳng thắn thiếu bối cảnh. Minh bạch không đồng nghĩa nói mọi điều theo cách sắc cạnh. Nếu Cự Môn, Thiên Lương, Thái Âm hoặc Tứ Hóa tạo sắc thái khác trong lá số, cách nói cần mềm hơn, đúng thời điểm hơn. Vì vậy nội dung chỉ nên gợi hướng quan sát chứ không đóng khung người đọc là kiểu tính cách cố định.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh kéo Quan Lộc và Tài Bạch vào bài đọc. Nếu Mệnh có Thái Dương nhưng Quan Lộc chưa rõ, người xem có thể có nhu cầu hiện diện nhưng chưa có vai trò phù hợp để dùng ánh sáng đó. Nếu Quan Lộc tốt mà Tài Bạch thiếu, sự hiện diện công khai có thể chưa chuyển thành nguồn lực bền. Vì vậy phải đọc Mệnh - Quan - Tài cùng nhau.',
+          'Thiên Di đối chiếu cho biết môi trường bên ngoài nhìn nhận sự rõ ràng này ra sao. Có nơi cần người minh bạch và chủ động; cũng có nơi phản chiếu sự hiện diện ấy thành áp lực cạnh tranh. Đọc tam phương tứ chính giúp bài viết tránh kết luận một chiều và giúp người xem đặt câu hỏi đúng với môi trường thật.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên kéo người đọc về hành vi gần nhất: lần nào mình đã làm rõ kỳ vọng thay vì đoán ý, lần nào mình nói thẳng nhưng chưa đủ lắng nghe, lần nào mình nhận trách nhiệm vì giá trị thật chứ không phải vì sợ bị đánh giá. Nếu không có ví dụ cụ thể, tổ hợp này chỉ nên dừng ở mức khái niệm tham khảo.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là biến Thái Dương ở Mệnh thành nhãn “người luôn tỏa sáng”. Cách đọc tốt hơn là nói: tổ hợp này gợi nhu cầu sống minh bạch, có trách nhiệm và được nhìn thấy đúng cách, nhưng phải kiểm tra Thiên Di, Quan Lộc, Tài Bạch, Thân Cung và phản hồi thực tế để biết ánh sáng đó đang nâng đỡ hay đang làm người xem mệt.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thể thay thế một lá số cá nhân. Muốn đọc riêng cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, chính tinh, phụ tinh, Tứ Hóa và bối cảnh câu hỏi. Người đọc nên dùng bài viết để tự quan sát cách hiện diện và trách nhiệm, không dùng để khẳng định tương lai.',
+        ],
+      },
+    ],
+  },
+  [comboKey('thai-am', 'menh')]: {
+    intersectionThesis:
+      'Thái Âm đem chiều sâu cảm xúc, khả năng nuôi dưỡng và nhịp tích lũy mềm; cung Mệnh là khí chất gốc và cách một người tự nhận diện; câu hỏi hữu ích là sự nhạy cảm này đang giúp người xem hiểu mình sâu hơn hay đang làm họ giữ quá nhiều điều trong lòng.',
+    misreadWarning:
+      'Không nên đọc Thái Âm ở Mệnh như tính cách yếu, kín hoặc may mắn tự đến. Cách đọc an toàn là xem khả năng quan sát cảm xúc, nhịp tích lũy, tam phương Mệnh - Quan - Tài, Thiên Di đối chiếu và cách người xem chăm sóc ranh giới của mình.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết chiều sâu cảm xúc ban đầu có chuyển thành khả năng nuôi dưỡng và tự chủ trưởng thành không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết cảm xúc, nghề nghiệp và nguồn lực có nâng nhau hay làm nhau chậm lại.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài có làm người xem mở lòng, phòng thủ hay tự thu mình.',
+      'Đọc cùng Thái Dương, Thiên Cơ, Cự Môn hoặc Tứ Hóa để cân bằng giữa cảm xúc, lý trí, lời nói và trách nhiệm công khai.',
+      'Không suy luận tình trạng thân-tâm từ một sao; chỉ dùng như khung tham khảo về nhịp sống và tự quan sát.',
+    ],
+    selfCheckQuestions: [
+      'Mình đang lắng nghe cảm xúc thật hay chỉ im lặng để tránh va chạm?',
+      'Nhịp tích lũy nào giúp mình bền hơn: học, ghi chép, nghỉ ngơi hay chăm không gian sống?',
+      'Mình cần nói rõ ranh giới nào để sự dịu dàng không biến thành chịu đựng?',
+      'Môi trường nào làm mình mở lòng và môi trường nào khiến mình thu mình quá mức?',
+    ],
+    sensitiveTopicFlags: ['wellbeing'],
+    contrastNotes: [
+      'Khác với Thái Âm ở Phúc Đức, trọng tâm không nằm ở nền tinh thần/gia tộc mà ở khí chất tự thân và cách tự cảm nhận bản thân.',
+      'Khác với Thái Dương ở Mệnh, Thái Âm nhấn vào quan sát kín, cảm xúc, nhịp tích lũy và khả năng nuôi dưỡng hơn là hiện diện công khai.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Chiều sâu cảm xúc, quan sát kín, nuôi dưỡng, tích lũy mềm và ranh giới tinh thần', readingCue: 'Đọc như nhịp tự cảm nhận, không như nhãn yếu/mạnh.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng biết lắng nghe, chăm chi tiết, tích lũy đều và nhìn ra điều người khác bỏ qua.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết sự tinh tế có thành năng lực thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ giữ cảm xúc quá lâu, né va chạm hoặc để sự chăm sóc người khác làm mờ nhu cầu của mình.', readingCue: 'Tìm ranh giới, thói quen nói rõ và nhịp phục hồi.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa yếu đuối, thụ động, luôn may mắn hoặc luôn phù hợp sống kín.', readingCue: 'Tránh đóng khung tính cách từ biểu tượng mặt trăng.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, môi trường sống và nhịp cảm xúc thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như bài tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Thái Âm ở Mệnh là người yếu và chỉ hợp sống kín.', better: 'Thái Âm ở Mệnh gợi chiều sâu cảm xúc và khả năng nuôi dưỡng; cần xem tam phương, Thiên Di, Thân Cung và bối cảnh thật.' },
+      { wrong: 'Có Thái Âm thì chỉ cần chờ may mắn đến.', better: 'Cách đọc an toàn là nhấn vào nhịp tích lũy, chăm chi tiết, ranh giới cảm xúc và hành động đều đặn.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Thái Âm ở cung Mệnh nên được đọc như một kiểu nhạy cảm có chiều sâu. Thái Âm đem biểu tượng của mặt trăng, cảm xúc, sự nuôi dưỡng, khả năng quan sát kín và nhịp tích lũy mềm; cung Mệnh là khí chất gốc, nơi người xem phản ứng đầu tiên với đời sống. Khi hai lớp này gặp nhau, câu hỏi không phải là người này yếu hay mạnh, mà là họ đang dùng sự tinh tế để hiểu mình và chăm đời sống ra sao.',
+          'Tổ hợp này dễ bị hiểu sai theo hai hướng: hoặc lãng mạn hóa như may mắn tự đến, hoặc hạ thấp như quá mềm. Cả hai đều không an toàn. Bài đọc tốt cần đưa người xem về hành vi cụ thể: cách họ ghi nhận cảm xúc, chăm không gian, tích lũy kỹ năng, giữ ranh giới và nói rõ nhu cầu. Đây là nội dung tham khảo theo Tam Hợp Phái, không phải lá số cá nhân.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Thái Âm ở Mệnh gợi khả năng nhận ra sắc thái nhỏ: một thay đổi trong giọng nói, một cảm giác chưa gọi tên, một chi tiết trong môi trường sống hoặc công việc. Nếu được rèn đúng, sự nhạy này giúp người xem làm việc bền, chăm chất lượng, nuôi dưỡng quan hệ và tích lũy từng bước thay vì đốt sức trong các cú bứt phá ngắn.',
+          'Điểm mạnh còn nằm ở khả năng tự quan sát. Người có tổ hợp này có thể học tốt qua ghi chép, phản tư, chăm nhịp sinh hoạt và sắp xếp không gian. Nếu Quan Lộc và Tài Bạch hỗ trợ, sự tinh tế có thể chuyển thành năng lực nghề: làm việc với chi tiết, trải nghiệm, nội dung, chăm sóc khách hàng, nghiên cứu hoặc các vai trò cần độ nhạy. Nhưng tất cả vẫn cần kiểm chứng bằng kỹ năng thật.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là giữ quá nhiều trong lòng. Thái Âm ở Mệnh có thể khiến người xem quen quan sát trước khi nói, nhưng nếu kéo dài, sự im lặng dễ thành chịu đựng hoặc suy diễn. Bài đọc nên nhắc đến ranh giới, khả năng gọi tên cảm xúc, thói quen hỏi lại và việc chọn môi trường an toàn để nói điều cần nói.',
+          'Vì có sắc thái wellbeing, nội dung phải tránh mọi suy luận y tế hoặc kết luận trạng thái thân-tâm. Cách viết tốt là nói về nhịp nghỉ, không gian sống, thói quen ghi chép, sự hỗ trợ phù hợp và việc tìm người có chuyên môn khi có dấu hiệu bất thường. Tử Vi ở đây chỉ là khung văn hóa giúp tự quan sát, không phải chẩn đoán.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh nối với Quan Lộc và Tài Bạch. Nếu Thái Âm ở Mệnh rất nhạy nhưng Quan Lộc đòi hiện diện mạnh, người xem có thể cần học cách trình bày điều tinh tế thành ngôn ngữ rõ. Nếu Tài Bạch tốt, nhịp tích lũy mềm có thể giúp tạo nguồn lực ổn định; nếu Tài Bạch căng, cảm xúc dễ bị kéo bởi nỗi lo nguồn lực.',
+          'Thiên Di đối chiếu cho biết môi trường bên ngoài làm người xem mở ra hay co lại. Một môi trường có nhịp tin cậy có thể giúp Thái Âm biểu hiện thành sự tinh tế; môi trường quá ồn hoặc thiếu an toàn có thể khiến người xem thu mình. Vì vậy không thể kết luận từ một cung Mệnh riêng lẻ, càng không nên đóng khung tính cách.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Người đọc có thể tự kiểm chứng bằng những câu hỏi gần đời sống: mình có ghi lại điều đang cảm không, có nói rõ nhu cầu trước khi quá tải không, có không gian nào giúp mình hồi lại không, và công việc nào biến sự tinh tế thành giá trị thật. Nếu câu trả lời chỉ là cảm giác mơ hồ, nên dừng ở mức tham khảo và tiếp tục quan sát.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là nói Thái Âm ở Mệnh làm người xem yếu hoặc chỉ cần chờ thuận lợi. Cách đọc tốt hơn là nói: tổ hợp này gợi chiều sâu cảm xúc, khả năng nuôi dưỡng và nhịp tích lũy mềm; cần xem tam phương, Thiên Di, Thân Cung, Tứ Hóa và hành vi thật để biết sự nhạy cảm đang nâng đỡ hay đang làm người xem thu mình.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thay thế tư vấn chuyên môn và không đọc thay lá số cá nhân. Để đọc riêng cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, vị trí sao đủ 12 cung, Tứ Hóa và bối cảnh câu hỏi. Nếu liên quan đến sức khỏe thân-tâm, người xem nên tìm hỗ trợ chuyên môn phù hợp.',
+        ],
+      },
+    ],
+  },
+  [comboKey('vu-khuc', 'menh')]: {
+    intersectionThesis:
+      'Vũ Khúc đem kỷ luật, tiêu chuẩn, năng lực đo lường và tinh thần tự lập; cung Mệnh là khí chất gốc và cách một người đứng vào đời sống; câu hỏi hữu ích là kỷ luật này đang giúp người xem tự chủ hơn hay đang làm họ quá cứng với bản thân.',
+    misreadWarning:
+      'Không nên đọc Vũ Khúc ở Mệnh như bảo đảm giàu, lạnh lùng hoặc chỉ hợp với con số. Cách đọc an toàn là xem xu hướng tự lập, tiêu chuẩn cá nhân, tam phương Mệnh - Quan - Tài, Thiên Di đối chiếu và cách người xem cân bằng kỷ luật với sự mềm mại.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết tinh thần tự lập ban đầu có chuyển thành năng lực trưởng thành hay thành thói quen tự gồng không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết kỷ luật cá nhân có được nghề nghiệp và nguồn lực thực tế hỗ trợ không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài phản hồi sự thẳng, chắc và tiêu chuẩn cao ra sao.',
+      'Đọc cùng Thái Âm, Thiên Lương, Cự Môn hoặc Tứ Hóa nếu có để cân bằng giữa con số, cảm xúc, lời nói và chuẩn mực.',
+      'Tránh mọi lời hứa kết quả nguồn lực; chỉ dùng ngôn ngữ về thói quen, tiêu chuẩn, quản trị rủi ro và hành vi thật.',
+    ],
+    selfCheckQuestions: [
+      'Tiêu chuẩn nào đang giúp mình tự chủ hơn, tiêu chuẩn nào chỉ làm mình căng?',
+      'Mình có đang đo đúng thứ cần đo hay dùng con số để tránh cảm xúc?',
+      'Khi tự lập, mình có biết nhờ hỗ trợ đúng lúc không?',
+      'Hệ thống nhỏ nào giúp mình bền hơn: ghi chép, lịch nghỉ, ngân sách thời gian hay ranh giới công việc?',
+    ],
+    sensitiveTopicFlags: ['resource-management'],
+    contrastNotes: [
+      'Khác với Vũ Khúc ở Tài Bạch, trọng tâm không chỉ là nguồn lực vật chất mà là khí chất tự lập, tiêu chuẩn cá nhân và cách đứng vào đời sống.',
+      'Khác với Tử Vi ở Mệnh, Vũ Khúc nhấn vào kỷ luật, đo lường và tiêu chuẩn rõ hơn là trục điều phối hoặc danh dự trung tâm.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Tự lập, kỷ luật, tiêu chuẩn cá nhân, đo lường và quản trị nguồn lực', readingCue: 'Đọc như thói quen tự chủ, không như lời hứa kết quả.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng chịu trách nhiệm, thích rõ ràng, biết ghi chép và biến mục tiêu thành hệ thống nhỏ có thể theo dõi.', readingCue: 'Kiểm tra Quan Lộc/Tài Bạch để biết kỷ luật có thành giá trị thực tế không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ quá cứng, khó nhờ giúp, tự đánh giá bằng kết quả đo được hoặc bỏ qua nhu cầu cảm xúc.', readingCue: 'Tìm khả năng mềm lại, nghỉ ngơi và nhận hỗ trợ.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa bảo đảm kết quả nguồn lực, luôn giỏi quản lý hoặc phải sống khô khan.', readingCue: 'Tránh dùng sao để hứa hẹn hoặc đóng khung tính cách.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, Mệnh - Quan - Tài, Tứ Hóa, thói quen ghi chép và nhịp sống thật.', readingCue: 'Thiếu dữ liệu giờ sinh thì chỉ đọc như khái niệm tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Vũ Khúc ở Mệnh là số tự nhiên có nhiều nguồn lực.', better: 'Vũ Khúc ở Mệnh gợi kỷ luật và tiêu chuẩn tự lập; cần xem tam phương, nghề nghiệp, nguồn lực thật và thói quen quản trị.' },
+      { wrong: 'Có Vũ Khúc thì càng cứng càng tốt.', better: 'Kỷ luật chỉ bền khi đi cùng nhịp nghỉ, khả năng nhờ hỗ trợ, dữ liệu đúng và sự mềm mại trong quan hệ.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Vũ Khúc ở cung Mệnh là tổ hợp nên đọc bằng ngôn ngữ của kỷ luật và tự chủ. Vũ Khúc đem biểu tượng của tiêu chuẩn, đo lường, trách nhiệm với nguồn lực và khả năng chịu việc khó; cung Mệnh là khí chất gốc và cách một người tự đứng vào đời sống. Khi hai lớp này gặp nhau, trọng tâm là người xem đang dùng kỷ luật để xây nền vững hay đang tự siết mình bằng những tiêu chuẩn quá cứng.',
+          'Đây là tổ hợp rất dễ bị kéo sang lời hứa về tiền bạc hoặc hình ảnh người lạnh lùng. Cách viết an toàn phải tránh cả hai. Vũ Khúc ở Mệnh không nói rằng kết quả nguồn lực sẽ tự đến; nó chỉ gợi khả năng làm việc có tiêu chuẩn, ghi chép, đo lường, giữ cam kết và chịu trách nhiệm với lựa chọn. Muốn đọc đúng vẫn phải đặt trong tam phương tứ chính và bối cảnh đời sống thật.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Vũ Khúc ở Mệnh gợi một người có xu hướng thích rõ ràng: mục tiêu rõ, tiêu chuẩn rõ, kết quả đo được và trách nhiệm không mơ hồ. Trong thực tế, đây là lời nhắc rất hữu ích để xây hệ thống cá nhân: ghi chép việc quan trọng, đặt giới hạn thời gian, theo dõi năng lượng, quản trị nguồn lực theo khả năng thật và học cách nói “không” với việc không phục vụ mục tiêu.',
+          'Điểm mạnh tự lập cũng cần được hiểu đúng. Tự lập không phải làm mọi thứ một mình, mà là biết mình chịu trách nhiệm phần nào và cần hỗ trợ phần nào. Nếu Quan Lộc rõ, kỷ luật này có thể thành năng lực nghề. Nếu Tài Bạch rõ, nó có thể giúp người xem quản trị nguồn lực tốt hơn. Nếu Thiên Di phản chiếu áp lực, người xem cần học cách mềm hơn khi tương tác với môi trường ngoài.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là sự khô cứng với bản thân. Vũ Khúc ở Mệnh có thể khiến người xem quen nhìn mọi việc qua tiêu chuẩn, kết quả hoặc con số. Điều này hữu ích khi cần kỷ luật, nhưng nếu quá mức sẽ làm họ khó nhận hỗ trợ, khó nói về cảm xúc hoặc tự đánh giá mình chỉ bằng năng suất. Bài đọc nên nhắc đến nghỉ ngơi, ranh giới và dữ liệu đúng thay vì kích hoạt áp lực phải thắng nhanh.',
+          'Vì có liên quan đến nguồn lực, nội dung phải đặc biệt tránh lời hứa kết quả hoặc khuyến nghị quyết định rủi ro. Cách viết tốt là nói về thói quen: ghi chép, kiểm tra mục tiêu, đặt giới hạn, học kỹ năng, hỏi người có chuyên môn khi cần và không dùng Tử Vi để thay thế quyết định quan trọng.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh nối với Quan Lộc và Tài Bạch. Nếu Vũ Khúc ở Mệnh có kỷ luật nhưng Quan Lộc chưa rõ, người xem có thể rất cố gắng nhưng chưa biết đặt sức vào đúng vai trò. Nếu Tài Bạch thiếu nền, tiêu chuẩn cao có thể biến thành lo lắng về nguồn lực. Nếu cả Quan Lộc và Tài Bạch hỗ trợ, kỷ luật cá nhân có cơ hội chuyển thành giá trị đo được.',
+          'Thiên Di đối chiếu cho biết môi trường ngoài phản hồi sự chắc, thẳng và tiêu chuẩn cao như thế nào. Có môi trường đánh giá cao sự rõ ràng; cũng có môi trường cần mềm hơn, nhiều đối thoại hơn. Đọc tam phương tứ chính giúp người xem không dùng Vũ Khúc như một cái cớ để cứng mãi, mà xem nó như năng lực cần đặt đúng hoàn cảnh.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên rất thực tế: mình đang đo điều gì, con số nào thật sự hữu ích, tiêu chuẩn nào cần giữ, tiêu chuẩn nào nên hạ để sống bền hơn, và việc nào nên nhờ người khác. Nếu câu trả lời có thể viết thành lịch, bảng theo dõi hoặc ranh giới cụ thể, tổ hợp này được dùng đúng hướng tham khảo.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là nói Vũ Khúc ở Mệnh bảo đảm nguồn lực hoặc biến người xem thành kiểu người khô khan cố định. Cách đọc tốt hơn là nói: tổ hợp này gợi kỷ luật, tự lập và khả năng quản trị tiêu chuẩn; muốn biết nó giúp hay làm căng, cần xem Mệnh - Quan - Tài, Thiên Di, Thân Cung, Tứ Hóa và hành vi thật.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thay thế tư vấn tài chính, pháp lý, y tế hoặc quyết định quan trọng. Để đọc cá nhân cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, Tứ Hóa và bối cảnh câu hỏi. Người đọc nên dùng bài viết để tự quan sát kỷ luật và nguồn lực, không dùng để hứa hẹn kết quả.',
+        ],
+      },
+    ],
+  },
+}
+
+const REVIEWED_STAR_PALACE_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
+  ...FIRST_BATCH_DRAFT_PROFILES,
+  ...BATCH_2A_DRAFT_PROFILES,
+}
+
 export function buildStarPalacePath(star: PriorityStarSlug, palace: PalaceSlug): string {
   return `/sao/${star}/cung/${palace}/`
 }
@@ -611,7 +952,7 @@ export function getStarPalaceDraftPage(
   const palaceName = palacePage.name
   const urlPath = buildStarPalacePath(star, palace)
   const profile =
-    FIRST_BATCH_DRAFT_PROFILES[comboKey(star, palace)] ?? buildGenericDraftProfile(starName, palaceName)
+    REVIEWED_STAR_PALACE_DRAFT_PROFILES[comboKey(star, palace)] ?? buildGenericDraftProfile(starName, palaceName)
   const xungChieu = palacePage.summaryRows.find((row) => row.aspect === 'Trục xung chiếu')?.meaning
   const tamHop = getPalaceTamHop(palace)
   const contextChecklist = [...profile.contextChecklist, xungChieu, `Tam hợp: ${tamHop}`].filter(

@@ -13,7 +13,7 @@ import {
 } from '@/components/json-ld/json-ld'
 
 const BASE_URL = 'https://boitoan.com.vn'
-const LAST_UPDATED = '2026-05-02'
+const LAST_UPDATED = '2026-05-04'
 
 export const dynamicParams = false
 

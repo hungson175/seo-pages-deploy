@@ -120,7 +120,11 @@ export function validateComplianceContent(
     errors.push('Found forbidden term: tiên đoán')
   }
 
-  if (/định\s*mệnh/iu.test(allText)) {
+  // Phrase-aware: reject "định mệnh" fatalism, but allow normal domain
+  // wording such as "xác định Mệnh Cung" where "định" belongs to
+  // "xác định" and "Mệnh" is the palace name.
+  const fatalismText = allText.replace(/xác\s*định\s*Mệnh/giu, 'xác định Menh')
+  if (/(^|[^\p{L}])định\s*mệnh([^\p{L}]|$)/iu.test(fatalismText)) {
     errors.push('Found forbidden term: định mệnh')
   }
 

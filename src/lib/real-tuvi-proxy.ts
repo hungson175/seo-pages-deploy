@@ -8,6 +8,7 @@ const PRIVACY_CONTACT_COPY =
   'Bói Toán sẽ phản hồi qua kênh liên hệ bạn cung cấp sau khi kiểm tra đủ thông tin để xác định đúng dữ liệu cần xóa.'
 const EARLY_LAUNCH_CONTACT_NOTE =
   'Kênh liên hệ này được dùng để tiếp nhận yêu cầu trong giai đoạn đầu sau khi ra mắt.'
+const CHAT_DISABLED_GATE_MARKER = 'data-boitoan-chat-gate="disabled"'
 const HOP_BY_HOP_HEADERS = new Set([
   'connection',
   'content-encoding',
@@ -35,6 +36,13 @@ export function getRealTuViOrigin(): string {
 
 export function getRealTuViApiOrigin(): string {
   return process.env.REAL_TUVI_API_ORIGIN?.trim() || DEFAULT_REAL_TUVI_API_ORIGIN
+}
+
+export function isRealTuViChatEnabled(): boolean {
+  const value = (process.env.REAL_TUVI_CHAT_ENABLED ?? process.env.CHAT_ENABLED ?? '')
+    .trim()
+    .toLowerCase()
+  return value === 'true' || value === '1' || value === 'yes'
 }
 
 export function sanitizeRealTuViApiText(text: string): string {
@@ -195,12 +203,69 @@ export function lockedReadingFallback(path: string[]): Record<string, unknown> {
   }
 }
 
-function rewriteHtml(html: string): string {
-  return sanitizeRealTuViHtmlText(html)
+function buildChatDisabledGate(): string {
+  return `
+<style ${CHAT_DISABLED_GATE_MARKER}>
+  html[data-boitoan-chat-disabled="true"] .rdg-chat,
+  html[data-boitoan-chat-disabled="true"] [data-boitoan-chat-hidden="true"] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+</style>
+<script ${CHAT_DISABLED_GATE_MARKER}>
+  (() => {
+    const hide = (element) => {
+      if (!element || element.getAttribute('data-boitoan-chat-hidden') === 'true') return
+      element.setAttribute('data-boitoan-chat-hidden', 'true')
+      element.setAttribute('aria-hidden', 'true')
+      if ('tabIndex' in element) element.tabIndex = -1
+    }
+    const normalize = (value) => String(value || '').replace(/\\s+/g, ' ').trim()
+    const isChatTabText = (text) => text === 'Hỏi' || text === '命 Hỏi' || text === 'HỎI' || text === '命 HỎI'
+    const isChatPromiseText = (text) =>
+      text.includes('Gợi ý hỏi Bói Toán') ||
+      text.includes('Bạn muốn hỏi thêm điều gì')
+    const hideChat = () => {
+      document.documentElement?.setAttribute('data-boitoan-chat-disabled', 'true')
+      document.querySelectorAll('.rdg-chat').forEach(hide)
+      document.querySelectorAll('button,[role="button"],a,textarea,input,form,aside').forEach((element) => {
+        const text = normalize(element.innerText || element.textContent)
+        if (!text) return
+        if (isChatTabText(text) || isChatPromiseText(text)) hide(element)
+      })
+    }
+    const start = () => {
+      hideChat()
+      const observer = new MutationObserver(hideChat)
+      observer.observe(document.body, { childList: true, subtree: true, characterData: true })
+      setTimeout(hideChat, 500)
+      setTimeout(hideChat, 1500)
+      setTimeout(hideChat, 3000)
+    }
+    if (document.body) start()
+    else document.addEventListener('DOMContentLoaded', start, { once: true })
+  })()
+</script>`
+}
+
+export function applyChatVisibilityGate(html: string): string {
+  if (isRealTuViChatEnabled() || html.includes(CHAT_DISABLED_GATE_MARKER)) return html
+  const gate = buildChatDisabledGate()
+  const bodyStart = html.search(/<body(?:\s[^>]*)?>/i)
+  if (bodyStart === -1) return `${gate}${html}`
+  const bodyEnd = html.indexOf('>', bodyStart)
+  if (bodyEnd === -1) return `${gate}${html}`
+  return `${html.slice(0, bodyEnd + 1)}${gate}${html.slice(bodyEnd + 1)}`
+}
+
+function rewriteHtml(html: string, options: { gateChat?: boolean } = {}): string {
+  const rewritten = sanitizeRealTuViHtmlText(html)
     .replaceAll('/_next/', `${REAL_TUVI_ASSET_PREFIX}/_next/`)
     .replaceAll('/assets/', `${REAL_TUVI_ASSET_PREFIX}/assets/`)
     .replaceAll('/icon.png', `${REAL_TUVI_ASSET_PREFIX}/icon.png`)
     .replaceAll('/apple-icon.png', `${REAL_TUVI_ASSET_PREFIX}/apple-icon.png`)
+  return options.gateChat ? applyChatVisibilityGate(rewritten) : rewritten
 }
 
 function responseHeaders(upstream: Response, contentType?: string): Headers {
@@ -377,8 +442,8 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
   })
   const contentType = upstream.headers.get('content-type') ?? ''
   if (contentType.includes('text/html')) {
-    let html = rewriteHtml(await upstream.text())
     const chartId = extractReadingChartId(pathname)
+    let html = rewriteHtml(await upstream.text(), { gateChat: Boolean(chartId) })
     if (chartId) {
       try {
         const fallbackHtml = await fetchReadingServerFallbackHtml(chartId)

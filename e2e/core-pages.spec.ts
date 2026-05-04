@@ -99,7 +99,7 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
   })
 
-  test('Batch 2B foundation Liêm Trinh page renders while special-review combo stays gated', async ({ page }) => {
+  test('Batch 2B foundation Liêm Trinh page renders and sensitive non-Mệnh combo stays gated', async ({ page }) => {
     const response = await page.goto('/sao/liem-trinh/')
 
     expect(response?.status()).toBe(200)
@@ -109,7 +109,14 @@ test.describe('Sprint 2 - Core Pages', () => {
     await expect(page.locator('main')).not.toContainText('Tử Tức')
     await expect(page.getByRole('link', { name: 'Tìm hiểu cách lập lá số Tử Vi', exact: true })).toBeVisible()
 
-    const gatedCombo = await page.goto('/sao/liem-trinh/cung/menh/')
+    const approvedCombo = await page.goto('/sao/liem-trinh/cung/menh/')
+    expect(approvedCombo?.status()).toBe(200)
+    await expect(page.locator('h1')).toHaveText('Sao Liêm Trinh Ở Cung Mệnh — Ý Nghĩa, Cách Đọc Và Lưu Ý')
+    await expect(page.locator('main')).toContainText('không phải lời tiên đoán')
+    await expect(page.locator('main')).toContainText('tam phương')
+    await expect(page.locator('main')).not.toContainText('Tử Tức')
+
+    const gatedCombo = await page.goto('/sao/liem-trinh/cung/phu-the/')
     expect(gatedCombo?.status()).toBe(404)
   })
 

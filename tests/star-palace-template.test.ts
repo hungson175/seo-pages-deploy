@@ -32,6 +32,7 @@ const APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED = [
   { star: 'thien-phu', palace: 'menh' },
   { star: 'cu-mon', palace: 'menh' },
   { star: 'thien-dong', palace: 'menh' },
+  { star: 'liem-trinh', palace: 'menh' },
 ] as const
 
 const BATCH_2B_1_COMBINATIONS = [
@@ -98,7 +99,7 @@ describe('star×cung expansion template', () => {
     expect(matrix.every((page) => page.indexable === false)).toBe(true)
   })
 
-  it('stages only the explicitly approved star×cung allow-list through Batch 2B-1', () => {
+  it('stages only the explicitly approved star×cung allow-list through Liêm Trinh release prep', () => {
     expect(APPROVED_STAR_PALACE_COMBINATIONS).toEqual(APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED)
     expect(getApprovedStarPalacePages().map((page) => page.urlPath)).toEqual([
       '/sao/tu-vi/cung/menh/',
@@ -109,6 +110,7 @@ describe('star×cung expansion template', () => {
       '/sao/thien-phu/cung/menh/',
       '/sao/cu-mon/cung/menh/',
       '/sao/thien-dong/cung/menh/',
+      '/sao/liem-trinh/cung/menh/',
     ])
     expect(generateStaticParams()).toEqual(APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED)
     expect(getStarPalacePage('tu-vi', 'menh')?.indexable).toBe(true)
@@ -119,11 +121,11 @@ describe('star×cung expansion template', () => {
     expect(getStarPalacePage('thien-phu', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('cu-mon', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('thien-dong', 'menh')?.indexable).toBe(true)
+    expect(getStarPalacePage('liem-trinh', 'menh')?.indexable).toBe(true)
 
-    // Liêm Trinh×Mệnh and other sensitive combinations stay gated until
-    // source support and separate reviews are complete.
+    // Other sensitive combinations stay gated until separate reviews are complete.
 
-    expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
+    expect(getStarPalacePage('liem-trinh', 'phu-the')).toBeNull()
     expect(getStarPalacePage('tham-lang', 'phu-the')).toBeNull()
     expect(getStarPalacePage('that-sat', 'menh')).toBeNull()
     expect(getStarPalacePage('pha-quan', 'menh')).toBeNull()
@@ -253,7 +255,7 @@ describe('star×cung expansion template', () => {
     }
   })
 
-  it('adds Batch 2B-1 internal-link matrix while keeping Liêm Trinh gated', () => {
+  it('adds Batch 2B-1 internal-link matrix while keeping sensitive Liêm Trinh combos gated', () => {
     const approvedMenhSiblingHrefs = APPROVED_STAR_PALACE_COMBINATIONS_EXPECTED
       .filter((combo) => combo.palace === 'menh')
       .map((combo) => `/sao/${combo.star}/cung/${combo.palace}/`)
@@ -272,11 +274,11 @@ describe('star×cung expansion template', () => {
       expect(siblingHrefs.length, `${combo.star}×${combo.palace} sibling links`).toBeGreaterThanOrEqual(1)
     }
 
-    expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
+    expect(getStarPalacePage('liem-trinh', 'menh')?.indexable).toBe(true)
     expect(getStarPalacePage('liem-trinh', 'phu-the')).toBeNull()
   })
 
-  it('prepares Liêm Trinh×Mệnh as a reviewed draft while keeping the public route gated', () => {
+  it('publishes only Liêm Trinh×Mệnh from the special-review draft while keeping other sensitive routes gated', () => {
     const draft = getStarPalaceDraftPage('liem-trinh', 'menh')
     const text = draftText(draft!)
     const hrefs = draft?.internalLinks.map((link) => link.href) ?? []
@@ -284,15 +286,17 @@ describe('star×cung expansion template', () => {
     expect(draft).not.toBeNull()
     expect(draft?.status).toBe('draft-template')
     expect(draft?.indexable).toBe(false)
-    expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
-    expect(APPROVED_STAR_PALACE_COMBINATIONS).not.toContainEqual({
+    expect(getStarPalacePage('liem-trinh', 'menh')?.indexable).toBe(true)
+    expect(APPROVED_STAR_PALACE_COMBINATIONS).toContainEqual({
       star: 'liem-trinh',
       palace: 'menh',
     })
-    expect(generateStaticParams()).not.toContainEqual({ star: 'liem-trinh', palace: 'menh' })
-    expect(starPalaceSitemap().map((entry) => entry.url)).not.toContain(
+    expect(generateStaticParams()).toContainEqual({ star: 'liem-trinh', palace: 'menh' })
+    expect(starPalaceSitemap().map((entry) => entry.url)).toContain(
       'https://boitoan.com.vn/sao/liem-trinh/cung/menh/'
     )
+    expect(getStarPalacePage('liem-trinh', 'phu-the')).toBeNull()
+    expect(getStarPalacePage('tu-vi', 'tat-ach')).toBeNull()
     expect(getStarPalaceWordCount(draft!), 'Liêm Trinh×Mệnh draft depth').toBeGreaterThanOrEqual(
       MIN_STAR_PALACE_WORDS
     )
@@ -353,6 +357,7 @@ describe('star×cung expansion template', () => {
       'https://boitoan.com.vn/sao/thien-phu/cung/menh/',
       'https://boitoan.com.vn/sao/cu-mon/cung/menh/',
       'https://boitoan.com.vn/sao/thien-dong/cung/menh/',
+      'https://boitoan.com.vn/sao/liem-trinh/cung/menh/',
     ])
     expect(rootUrls.filter((url) => url.includes('/sao/') && url.includes('/cung/'))).toEqual([
       'https://boitoan.com.vn/sao/tu-vi/cung/menh/',
@@ -363,6 +368,7 @@ describe('star×cung expansion template', () => {
       'https://boitoan.com.vn/sao/thien-phu/cung/menh/',
       'https://boitoan.com.vn/sao/cu-mon/cung/menh/',
       'https://boitoan.com.vn/sao/thien-dong/cung/menh/',
+      'https://boitoan.com.vn/sao/liem-trinh/cung/menh/',
     ])
   })
 
@@ -392,6 +398,9 @@ describe('star×cung expansion template', () => {
     expect(getApprovedStarPalaceLinksForStar('thien-dong').map((link) => link.href)).toEqual([
       '/sao/thien-dong/cung/menh/',
     ])
+    expect(getApprovedStarPalaceLinksForStar('liem-trinh').map((link) => link.href)).toEqual([
+      '/sao/liem-trinh/cung/menh/',
+    ])
     expect(getApprovedStarPalaceLinksForPalace('menh').map((link) => link.href)).toEqual([
       '/sao/tu-vi/cung/menh/',
       '/sao/thai-duong/cung/menh/',
@@ -400,6 +409,7 @@ describe('star×cung expansion template', () => {
       '/sao/thien-phu/cung/menh/',
       '/sao/cu-mon/cung/menh/',
       '/sao/thien-dong/cung/menh/',
+      '/sao/liem-trinh/cung/menh/',
     ])
     expect(getApprovedStarPalaceLinksForPalace('quan-loc').map((link) => link.href)).toEqual([
       '/sao/tu-vi/cung/quan-loc/',

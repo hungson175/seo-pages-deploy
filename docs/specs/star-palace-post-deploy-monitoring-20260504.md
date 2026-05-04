@@ -84,7 +84,7 @@ Do **not** let gated URLs appear in `star-palace.xml`. Current live SHA expectat
 
 ## 4. Baseline keyword table
 
-Manual baseline should be collected on 2026-05-04 or as soon as GSC/search access is available. Use Vietnam/`vi` search context where possible. Record raw source: GSC Performance, Google manual SERP, or SEO tool. If no ranking is visible, mark `not in top 100`, not blank.
+Manual baseline should be collected on 2026-05-04 or as soon as GSC/search access is available. **Do not claim Day-0 GSC completion until access is verified.** Standard baseline method: first prefer GSC Performance for the exact URL + exact query over the last available 28 days; if GSC has no data, use a neutral/incognito Google Vietnam manual SERP check (`hl=vi`, `gl=VN`) and record device, location context, timestamp, and whether personalization was minimized; if available, cross-check with one SEO tool. If no ranking is visible, mark `not in top 100`, not blank. Always record the raw source and method in the baseline source column.
 
 ### 4.1 Homepage baseline
 
@@ -124,7 +124,7 @@ Manual baseline should be collected on 2026-05-04 or as soon as GSC/search acces
 
 | Checkpoint | Date (+07) | Owner | Required actions | Decision output |
 |---|---|---|---|---|
-| Day 0 | 2026-05-04 | PO / Gal with GSC access | Submit/check `sitemap-index.xml`, `stars.xml`, `star-palace.xml`; inspect 3 sample URLs; record keyword baseline. | Confirm Google can fetch pages and no sitemap mismatch. |
+| Day 0 | 2026-05-04 | PO / Gal with GSC access | **First verify GSC property for `boitoan.com.vn` exists and PO has Editor-level access. If not, escalate to Gal immediately.** Only after access is confirmed: submit/check `sitemap-index.xml`, `stars.xml`, `star-palace.xml`; inspect 3 sample URLs; record keyword baseline using the standardized method in §4. | Access confirmed + Google can fetch pages + no sitemap mismatch. If access missing, Day-0 remains incomplete. |
 | Day 1 | 2026-05-05 | PO | Daily monitor template: HTTP/indexability/sitemap/gating check; note any GSC discoverability if available. | PASS/attention list. |
 | Day 2 | 2026-05-06 | PO | Repeat daily monitor for 19-url set; compare noindex/gating. | PASS/attention list. |
 | Day 3 | 2026-05-07 | PO | Repeat daily monitor; watch for accidental broad ungating. | PASS/attention list. |
@@ -142,6 +142,7 @@ Suggested Day-7 URL Inspection samples:
 
 ## 6. Manual GSC submission and URL Inspection instructions
 
+0. **Access checkpoint:** verify a GSC property for `boitoan.com.vn` exists and PO has Editor-level access. If the property is missing or PO has lower/no access, stop and escalate to Gal immediately; do not mark Day-0 complete.
 1. Open Google Search Console property for `boitoan.com.vn`.
 2. Go to **Sitemaps**.
 3. Submit or re-submit these URLs:
@@ -183,6 +184,7 @@ Owner: PO
 - Gated combo spot-check: PASS / FAIL
 - /api/chart terminology: zero Tử Tức + Tử Nữ present / FAIL
 - /reading robots: noindex,nofollow / FAIL
+- GSC access: confirmed Editor / missing — escalated to Gal / not checked
 - GSC status changes: none / list
 
 ## URL checks
@@ -196,6 +198,8 @@ Owner: PO
 
 ## GSC notes
 
+- GSC property exists? yes/no
+- PO access level: Editor / lower / none
 - Sitemap-index status:
 - stars.xml status:
 - star-palace.xml status:

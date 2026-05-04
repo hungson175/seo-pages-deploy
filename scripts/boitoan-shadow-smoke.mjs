@@ -32,9 +32,17 @@ function count(text, needle) {
 }
 
 function hasFallback(text) {
-  return String(text || '').includes('đang được hoàn thiện') ||
+  return String(text || '').includes('Chưa tạo được luận giải') ||
+    String(text || '').includes('đang được hoàn thiện') ||
     String(text || '').includes('bản công khai') ||
     String(text || '').includes('giai đoạn ra mắt công khai')
+}
+
+function hasFakeGeneratedPlaceholder(text) {
+  return String(text || '').includes('Phần luận giải này đang được kiểm định trước khi mở công khai') ||
+    String(text || '').includes('đang được hoàn thiện cho bản public') ||
+    String(text || '').includes('mở công khai') ||
+    String(text || '').includes('bản public')
 }
 
 function paywallMarkers(text) {
@@ -166,13 +174,15 @@ async function tinhCachApiChecks(chartId) {
     text.includes('Tìm hiểu bản thân') &&
     paywallMarkers(text).length === 0 &&
     !text.includes('Không thể tải luận giải') &&
+    !hasFakeGeneratedPlaceholder(text) &&
     count(text, 'Tử Tức') === 0 &&
     count(text, 'tu_tuc') === 0 &&
     count(text, '子息') === 0, {
     status: response.status,
     fallbackHeader: response.headers.get('x-boitoan-proxy-fallback'),
     hasAnalysisTitle: text.includes('Tìm hiểu bản thân'),
-    hasP0FallbackCopy: text.includes('Phần luận giải này đang được kiểm định trước khi mở công khai'),
+    hasRetryableFailCopy: text.includes('Chưa tạo được luận giải'),
+    hasFakeGeneratedPlaceholder: hasFakeGeneratedPlaceholder(text),
     paywallMarkers: paywallMarkers(text),
     hasGenericError: text.includes('Không thể tải luận giải'),
     tuTuc: count(text, 'Tử Tức') + count(text, 'tu_tuc') + count(text, '子息'),
@@ -217,9 +227,27 @@ async function browserChecksFromChart(chartId) {
     const initialVisible = await page.locator('body').innerText()
     const chartIndex = initialVisible.indexOf('THIÊN BÀN') >= 0 ? initialVisible.indexOf('THIÊN BÀN') : initialVisible.indexOf('Thiên Bàn')
     const longDisclaimerIndex = initialVisible.indexOf('TÓM TẮT TRƯỚC KHI ĐỌC') >= 0 ? initialVisible.indexOf('TÓM TẮT TRƯỚC KHI ĐỌC') : initialVisible.indexOf('Không khẳng định tương lai')
-    record('reading_mobile_chart_first', chartIndex >= 0 && (longDisclaimerIndex === -1 || chartIndex < longDisclaimerIndex), {
+    const chartMetrics = await page.evaluate(() => {
+      const svg = Array.from(document.querySelectorAll('svg')).find((candidate) =>
+        /Mệnh|Quan Lộc|Tử Nữ|Phụ Mẫu|Phúc Đức/.test(candidate.textContent || ''),
+      )
+      const note = document.querySelector('[data-boitoan-mobile-compact-disclaimer]')
+      const rect = (element) => {
+        if (!element) return null
+        const box = element.getBoundingClientRect()
+        return { top: box.top, bottom: box.bottom, left: box.left, width: box.width, height: box.height }
+      }
+      return { chart: rect(svg), compactDisclaimer: rect(note) }
+    })
+    record('reading_mobile_chart_first', chartIndex >= 0 &&
+      (longDisclaimerIndex === -1 || chartIndex < longDisclaimerIndex) &&
+      Boolean(chartMetrics.chart) &&
+      chartMetrics.chart.top < 260 &&
+      chartMetrics.chart.height > 280 &&
+      (!chartMetrics.compactDisclaimer || chartMetrics.compactDisclaimer.top >= chartMetrics.chart.bottom - 1), {
       chartIndex,
       longDisclaimerIndex,
+      chartMetrics,
       first300: initialVisible.slice(0, 300),
     })
 
@@ -254,10 +282,16 @@ async function browserChecksFromChart(chartId) {
 
     const luanVisible = await page.locator('body').innerText()
     record('reading_tinh_cach_visible_not_blank', luanVisible.includes('Tìm hiểu bản thân') &&
-      luanVisible.includes('Phần luận giải này đang được kiểm định trước khi mở công khai') &&
+      luanVisible.includes('Chưa tạo được luận giải') &&
+      luanVisible.includes('Thử lại') &&
+      luanVisible.includes('Xem lá số 12 cung') &&
+      !hasFakeGeneratedPlaceholder(luanVisible) &&
       !luanVisible.includes('Không thể tải luận giải'), {
       hasAnalysisTitle: luanVisible.includes('Tìm hiểu bản thân'),
-      hasP0FallbackCopy: luanVisible.includes('Phần luận giải này đang được kiểm định trước khi mở công khai'),
+      hasRetryableFailCopy: luanVisible.includes('Chưa tạo được luận giải'),
+      hasRetry: luanVisible.includes('Thử lại'),
+      hasViewChart: luanVisible.includes('Xem lá số 12 cung'),
+      hasFakeGeneratedPlaceholder: hasFakeGeneratedPlaceholder(luanVisible),
       hasGenericError: luanVisible.includes('Không thể tải luận giải'),
       sample: luanVisible.slice(0, 500),
     })
@@ -271,14 +305,24 @@ async function browserChecksFromChart(chartId) {
       const tabResponse = await tabResponsePromise
       await page.waitForFunction(() => {
         const text = document.body?.innerText || ''
+        return text.includes('Chưa tạo được luận giải') ||
+          text.includes('Thử lại') ||
+          text.includes('Xem lá số 12 cung') ||
+          text.includes('Không thể tải luận giải')
+      }, undefined, { timeout: UI_WAIT_MS }).catch(() => null)
+      await page.waitForFunction(() => {
+        const text = document.body?.innerText || ''
         return text.includes('đang được hoàn thiện') ||
           text.includes('bản công khai') ||
           text.includes('giai đoạn ra mắt công khai') ||
+          text.includes('Chưa tạo được luận giải') ||
           text.includes('Không thể tải luận giải')
       }, undefined, { timeout: UI_WAIT_MS }).catch(() => null)
       const visible = await page.locator('body').innerText()
-      record('reading_tab_ii_visible_fallback', hasFallback(visible) && !visible.includes('Không thể tải luận giải'), {
+      record('reading_tab_ii_visible_fallback', hasFallback(visible) && !hasFakeGeneratedPlaceholder(visible) && !visible.includes('Không thể tải luận giải'), {
         hasFallback: hasFallback(visible),
+        hasRetryableFailCopy: visible.includes('Chưa tạo được luận giải'),
+        hasFakeGeneratedPlaceholder: hasFakeGeneratedPlaceholder(visible),
         hasGenericError: visible.includes('Không thể tải luận giải'),
         tabResponseStatus: tabResponse?.status() ?? null,
         tabFallbackHeader: tabResponse?.headers()?.['x-boitoan-proxy-fallback'] ?? null,

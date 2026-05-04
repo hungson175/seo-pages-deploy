@@ -141,13 +141,15 @@ const GENERATED_READING_TABS = new Set([
   'cung',
 ])
 
-const LOCKED_READING_COPY =
-  'Phần này đang được hoàn thiện cho bản public. Bạn có thể đọc mục Tìm hiểu bản thân và lá số 12 cung trước; Bói Toán sẽ mở thêm luận giải sau khi kiểm định nội dung.'
+const GENERATED_READING_FAIL_COPY =
+  'Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.'
+const GENERATED_READING_RETRY_LABEL = 'Thử lại'
+const GENERATED_READING_CHART_LABEL = 'Xem lá số 12 cung'
 
 const SAFE_READING_DISCLAIMER =
   'Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.'
 const BLANK_READING_FALLBACK_COPY =
-  'Phần luận giải này đang được kiểm định trước khi mở công khai. Bạn vẫn có thể xem lá số 12 cung và phần tóm tắt trước.'
+  GENERATED_READING_FAIL_COPY
 const MOBILE_READING_P0_PATCH_MARKER = 'data-boitoan-mobile-p0-patch="true"'
 
 function safeReadingKeynotes(...items: string[]): string[] {
@@ -160,6 +162,10 @@ function buildTinhCachSafeFallback(): Record<string, unknown> {
       headline: 'Tìm hiểu bản thân — bản luận giải tóm tắt',
       sub: `${BLANK_READING_FALLBACK_COPY} ${SAFE_READING_DISCLAIMER}`,
     },
+    retry_actions: [
+      { label: GENERATED_READING_RETRY_LABEL, action: 'reload' },
+      { label: GENERATED_READING_CHART_LABEL, action: 'open-chart' },
+    ],
     tinh_cach: {
       basis: 'Đọc theo Mệnh, Thân, Cục và tam phương để lấy bối cảnh, không tách một sao thành kết luận cố định.',
       hero_sub: 'Phần này giúp bạn nhìn các khuynh hướng nền: cách quan sát, cách phản ứng, điểm mạnh dễ dùng và phần nên rèn thêm.',
@@ -350,22 +356,31 @@ export function lockedReadingFallback(path: string[]): Record<string, unknown> {
   return {
     locked: true,
     hero: {
-      headline: `${title} đang được mở sau`,
-      sub: LOCKED_READING_COPY,
+      headline: `${title} chưa tạo được luận giải`,
+      sub: `${GENERATED_READING_FAIL_COPY} ${SAFE_READING_DISCLAIMER}`,
     },
     tong_quan: {
       headline: title,
-      sub: LOCKED_READING_COPY,
-      keynotes: [LOCKED_READING_COPY],
+      sub: `${GENERATED_READING_FAIL_COPY} ${SAFE_READING_DISCLAIMER}`,
+      keynotes: [
+        GENERATED_READING_FAIL_COPY,
+        SAFE_READING_DISCLAIMER,
+        `${GENERATED_READING_RETRY_LABEL} · ${GENERATED_READING_CHART_LABEL}`,
+      ],
     },
     loi_khuyen: {
       headline: 'Gợi ý đọc tiếp',
-      sub: LOCKED_READING_COPY,
+      sub: `${GENERATED_READING_FAIL_COPY} ${SAFE_READING_DISCLAIMER}`,
       keynotes: [
-        'Đọc phần Tìm hiểu bản thân trước để nắm Mệnh, Thân, Cục và các điểm nền.',
+        `${GENERATED_READING_RETRY_LABEL}: tải lại phần luận giải này khi kết nối sẵn sàng.`,
+        `${GENERATED_READING_CHART_LABEL}: đọc lá số 12 cung đã an lập trong lúc chờ luận giải.`,
         'Dùng lá số 12 cung như bản tham khảo văn hóa, không thay thế tư vấn chuyên môn.',
       ],
     },
+    retry_actions: [
+      { label: GENERATED_READING_RETRY_LABEL, action: 'reload' },
+      { label: GENERATED_READING_CHART_LABEL, action: 'open-chart' },
+    ],
     ask_chips: [
       'Bói Toán giải thích cung Mệnh giúp tôi',
       'Năm nay tôi nên tự quan sát điều gì?',
@@ -462,7 +477,19 @@ export function applyMobileReadingP0Patch(html: string): string {
     .rdg-root .rdg-app > aside.rdg-chat { order: 3 !important; }
     .rdg-root .rdg-app > .rdg-mobile-tabs { order: 4 !important; }
     .rdg-root .rdg-panel[data-mobile-hidden="laso"] { display: flex !important; }
-    .rdg-root [data-boitoan-mobile-chart-first="true"] { order: 1 !important; }
+    .rdg-root [data-boitoan-mobile-chart-first="true"] {
+      order: 1 !important;
+      flex: 0 0 auto !important;
+      min-height: auto !important;
+      overflow: visible !important;
+    }
+    .rdg-root [data-boitoan-mobile-chart-square="true"] {
+      display: block !important;
+      flex: 0 0 auto !important;
+      min-height: min(calc(100vw - 40px), 560px) !important;
+      margin-bottom: 10px !important;
+      position: relative !important;
+    }
     .rdg-root [data-boitoan-mobile-compact-disclaimer="true"] {
       order: 2 !important;
       margin: 10px 0 14px;
@@ -475,6 +502,28 @@ export function applyMobileReadingP0Patch(html: string): string {
       line-height: 1.55;
     }
     .rdg-root [data-boitoan-mobile-summary-below-chart="true"] { order: 3 !important; }
+    .boitoan-generated-fallback-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 22px;
+    }
+    .boitoan-generated-fallback-actions button {
+      border: 1px solid rgba(201, 169, 97, .5);
+      border-radius: 999px;
+      background: rgba(255, 250, 240, .96);
+      color: var(--rdg-indigo, #24214b);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 13px;
+    }
+    .boitoan-generated-fallback-actions button:first-child {
+      background: var(--rdg-vermillion, #8b1f1f);
+      border-color: var(--rdg-vermillion, #8b1f1f);
+      color: #fffaf0;
+    }
     .boitoan-reading-fallback__card { display: flex; flex-direction: column; }
     .boitoan-reading-fallback__facts { order: 1; }
     .boitoan-reading-fallback__palaces { order: 2; }
@@ -485,8 +534,9 @@ export function applyMobileReadingP0Patch(html: string): string {
 <script ${MOBILE_READING_P0_PATCH_MARKER}>
   (() => {
     const compactDisclaimer = 'Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.'
+    const generatedFailCopy = 'Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.'
     const isMobile = () => window.matchMedia ? window.matchMedia('(max-width: 768px)').matches : window.innerWidth <= 768
-    const cleanText = (node) => (node?.innerText || node?.textContent || '').replace(/\s+/g, ' ').trim()
+    const cleanText = (node) => (node?.innerText || node?.textContent || '').replace(/\\s+/g, ' ').trim()
     const hasChartMarker = (node) => /THIÊN BÀN|Thiên Bàn/.test(cleanText(node))
     const hasSummaryMarker = (node) => {
       const text = cleanText(node)
@@ -497,6 +547,31 @@ export function applyMobileReadingP0Patch(html: string): string {
       const elements = Array.from(root.querySelectorAll('section, article, div, aside'))
       return elements.find((element) => predicate(element)) || null
     }
+    const ensureGeneratedFallbackActions = () => {
+      const paragraphs = Array.from(document.querySelectorAll('.rdg-module-content p, section p, article p, main p'))
+      paragraphs
+        .filter((paragraph) => cleanText(paragraph).includes(generatedFailCopy))
+        .forEach((paragraph) => {
+          if (paragraph.nextElementSibling?.matches?.('[data-boitoan-generated-fallback-actions="true"]')) return
+          const actions = document.createElement('div')
+          actions.className = 'boitoan-generated-fallback-actions'
+          actions.setAttribute('data-boitoan-generated-fallback-actions', 'true')
+          const retry = document.createElement('button')
+          retry.type = 'button'
+          retry.textContent = 'Thử lại'
+          retry.addEventListener('click', () => window.location.reload())
+          const chart = document.createElement('button')
+          chart.type = 'button'
+          chart.textContent = 'Xem lá số 12 cung'
+          chart.addEventListener('click', () => {
+            const lasoTab = Array.from(document.querySelectorAll('button.rdg-mobile-tab, button')).find((button) => /Lá số/.test(cleanText(button)))
+            if (lasoTab) lasoTab.click()
+            else document.querySelector('[data-boitoan-mobile-chart-first="true"]')?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+          })
+          actions.append(retry, chart)
+          paragraph.insertAdjacentElement('afterend', actions)
+        })
+    }
     const patchChartPanel = () => {
       if (!isMobile() || !document.body) return
       document.documentElement.setAttribute('data-boitoan-mobile-reading-order', 'chart-first')
@@ -504,10 +579,24 @@ export function applyMobileReadingP0Patch(html: string): string {
       const chartPanel = panels.find((panel) => hasChartMarker(panel))
       if (!chartPanel) return
       const directChildren = Array.from(chartPanel.children)
-      const chartBlock = directChildren.find((child) => hasChartMarker(child)) || firstMatchingDescendant(chartPanel, hasChartMarker)
+      const chartSvg = Array.from(chartPanel.querySelectorAll('svg')).find((svg) => /Mệnh|Quan Lộc|Tử Nữ|Phụ Mẫu|Phúc Đức/.test(cleanText(svg)))
+      const chartSquare = chartSvg?.parentElement || null
+      const chartBlock = (chartSquare?.parentElement && chartPanel.contains(chartSquare.parentElement) ? chartSquare.parentElement : null)
+        || directChildren.find((child) => hasChartMarker(child))
+        || firstMatchingDescendant(chartPanel, hasChartMarker)
       const summaryBlock = directChildren.find((child) => hasSummaryMarker(child)) || firstMatchingDescendant(chartPanel, hasSummaryMarker)
       if (!chartBlock) return
       chartBlock.setAttribute('data-boitoan-mobile-chart-first', 'true')
+      chartBlock.style.flex = '0 0 auto'
+      chartBlock.style.overflow = 'visible'
+      chartBlock.style.minHeight = 'auto'
+      chartBlock.style.height = 'auto'
+      if (chartSquare) {
+        chartSquare.setAttribute('data-boitoan-mobile-chart-square', 'true')
+        chartSquare.style.flex = '0 0 auto'
+        chartSquare.style.minHeight = 'min(calc(100vw - 40px), 560px)'
+        chartSquare.style.position = 'relative'
+      }
       chartPanel.style.display = 'flex'
       chartPanel.style.flexDirection = 'column'
       const shouldMoveBeforeSummary = summaryBlock && Boolean(summaryBlock.compareDocumentPosition(chartBlock) & Node.DOCUMENT_POSITION_FOLLOWING)
@@ -521,8 +610,9 @@ export function applyMobileReadingP0Patch(html: string): string {
         const note = document.createElement('p')
         note.setAttribute('data-boitoan-mobile-compact-disclaimer', 'true')
         note.textContent = compactDisclaimer
-        chartBlock.insertAdjacentElement('afterend', note)
+        ;(chartSquare || chartBlock).insertAdjacentElement('afterend', note)
       }
+      ensureGeneratedFallbackActions()
     }
     const start = () => {
       patchChartPanel()
@@ -532,6 +622,7 @@ export function applyMobileReadingP0Patch(html: string): string {
       setTimeout(patchChartPanel, 1000)
       setTimeout(patchChartPanel, 2500)
       setTimeout(patchChartPanel, 5000)
+      setTimeout(ensureGeneratedFallbackActions, 7500)
     }
     if (document.body) start()
     else document.addEventListener('DOMContentLoaded', start, { once: true })

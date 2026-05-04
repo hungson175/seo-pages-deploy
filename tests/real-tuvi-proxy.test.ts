@@ -194,7 +194,7 @@ describe('real tu vi API proxy mapping', () => {
   it('keeps mobile reading chart-first, shows safe analysis text, and surfaces chat access without enabling broken chat', () => {
     const upstream = [
       '<html><body><div class="rdg-root">',
-      '<aside data-mobile-hidden="laso"><div>THIÊN BÀN</div><svg aria-label="Lá số"></svg><div>Không khẳng định tương lai</div></aside>',
+      '<aside data-mobile-hidden="laso"><div style="padding:16px 20px 14px; flex:1 1 0%; overflow:auto; display:flex; flex-direction:column; min-height:0"><div>THIÊN BÀN</div><div style="position:relative;width:100%;aspect-ratio:1/1"><svg aria-label="Lá số"></svg></div><div>Không khẳng định tương lai</div></div></aside>',
       '<section data-mobile-hidden="luan"><p>Đang phân tích lá số và soạn luận giải…</p><p>(Quá trình này mất 30–60 giây)</p></section>',
       '<aside class="rdg-chat" data-mobile-hidden="thay"><textarea placeholder="Bạn muốn hỏi thêm điều gì?"></textarea></aside>',
       '<nav class="rdg-mobile-tabs"><button>Lá số</button><button>Luận giải</button><button>Hỏi</button></nav>',
@@ -208,6 +208,12 @@ describe('real tu vi API proxy mapping', () => {
     expect(patched).toContain('.rdg-root .rdg-panel[data-mobile-hidden="laso"]')
     expect(patched).toContain('display: flex !important')
     expect(patched).toContain('data-boitoan-mobile-chart-first')
+    expect(patched).toContain('data-boitoan-mobile-chart-square')
+    expect(patched).toContain('data-boitoan-generated-fallback-actions')
+    expect(patched).toContain('Thử lại')
+    expect(patched).toContain('Xem lá số 12 cung')
+    expect(patched).toContain('flex: 0 0 auto !important')
+    expect(patched).toContain('overflow: visible !important')
     expect(patched).toContain('data-boitoan-mobile-compact-disclaimer')
     expect(patched).toContain('data-boitoan-mobile-summary-below-chart')
     expect(patched).toContain('Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.')
@@ -232,10 +238,15 @@ describe('real tu vi API proxy mapping', () => {
     expect(fallback).toMatchObject({
       locked: true,
       hero: {
-        headline: 'Sự nghiệp & nguồn lực đang được mở sau',
+        headline: 'Sự nghiệp & nguồn lực chưa tạo được luận giải',
       },
     })
-    expect(JSON.stringify(fallback)).toContain('đang được hoàn thiện cho bản public')
+    expect(JSON.stringify(fallback)).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+    expect(JSON.stringify(fallback)).toContain('Thử lại')
+    expect(JSON.stringify(fallback)).toContain('Xem lá số 12 cung')
+    expect(JSON.stringify(fallback)).not.toContain('kiểm định')
+    expect(JSON.stringify(fallback)).not.toContain('mở công khai')
+    expect(JSON.stringify(fallback)).not.toContain('bản public')
     expect(JSON.stringify(fallback)).not.toContain('Đọc bản thân')
     expect(JSON.stringify(fallback)).not.toContain('49000')
     expect(JSON.stringify(fallback)).not.toContain('2 ngày làm việc')
@@ -264,7 +275,12 @@ describe('real tu vi API proxy mapping', () => {
 
       expect(response.status).toBe(200)
       expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
-      expect(text).toContain('đang được hoàn thiện cho bản public')
+      expect(text).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+      expect(text).toContain('Thử lại')
+      expect(text).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('đang được hoàn thiện cho bản public')
+      expect(text).not.toContain('đang kiểm định')
+      expect(text).not.toContain('mở công khai')
       expect(text).not.toContain('all 3 attempts failed')
       expect(text).not.toContain('suggested_packages')
       expect(text).not.toContain('49000')
@@ -296,7 +312,11 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.status).toBe(200)
       expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
       expect(text).toContain('Tìm hiểu bản thân')
-      expect(text).toContain('Phần luận giải này đang được kiểm định trước khi mở công khai')
+      expect(text).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+      expect(text).toContain('Thử lại')
+      expect(text).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('đang kiểm định')
+      expect(text).not.toContain('mở công khai')
       expect(text).not.toContain('all attempts failed')
       expect(text).not.toContain('suggested_packages')
       expect(text).not.toContain('49000')
@@ -328,7 +348,11 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
       expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('generated-readings-disabled')
       expect(text).toContain('Tìm hiểu bản thân')
-      expect(text).toContain('Phần luận giải này đang được kiểm định trước khi mở công khai')
+      expect(text).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+      expect(text).toContain('Thử lại')
+      expect(text).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('đang kiểm định')
+      expect(text).not.toContain('mở công khai')
       expect(text).not.toContain('suggested_packages')
     } finally {
       global.fetch = originalFetch

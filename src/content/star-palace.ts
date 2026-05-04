@@ -1048,10 +1048,108 @@ const BATCH_2B_1_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
   },
 }
 
+const BATCH_2B_2_DRAFT_ONLY_PROFILES: Record<string, StarPalaceDraftProfile> = {
+  [comboKey('liem-trinh', 'menh')]: {
+    intersectionThesis:
+      'Liêm Trinh đem sắc thái chính trực, ranh giới, tiêu chuẩn cá nhân và năng lực tự quản; cung Mệnh là khí chất gốc và cách một người tự đặt mình vào đời sống; câu hỏi hữu ích là tiêu chuẩn này đang giúp người xem sống có trách nhiệm hay đang khiến họ tự ép mình quá cứng.',
+    misreadWarning:
+      'Không nên đọc Liêm Trinh ở Mệnh như nhãn đạo đức, lời phán tính cách hoặc kết luận về kết quả đời sống. Cách đọc an toàn là xem cách người xem xây ranh giới, giữ lời hứa, xử lý áp lực, kiểm tra tam phương Mệnh - Quan - Tài và đối chiếu hành vi thật.',
+    contextChecklist: [
+      'So Mệnh với Thân Cung để biết tiêu chuẩn ban đầu có trưởng thành thành trách nhiệm tự quản không.',
+      'Kiểm tra tam hợp Mệnh - Quan Lộc - Tài Bạch để biết nguyên tắc cá nhân có đi cùng vai trò nghề và cách dùng nguồn lực thực tế không.',
+      'Xem Thiên Di đối chiếu để biết môi trường ngoài tiếp nhận sự thẳng thắn này như uy tín, khoảng cách hay lời mời cần mềm lại.',
+      'Đọc cùng Tử Vi, Vũ Khúc, Thái Dương, Cự Môn hoặc Tứ Hóa nếu có để phân biệt tự chủ, kỷ luật, minh bạch, lời nói và khả năng điều chỉnh.',
+      'Đối chiếu dữ kiện đời sống: cách người xem đặt ranh giới, nhận lỗi, giữ cam kết, sửa sai và xin phản hồi khi tiêu chuẩn của mình ảnh hưởng người khác.',
+      'Không dùng một sao ở Mệnh để đánh giá phẩm chất con người; cần toàn cục lá số và bối cảnh thực tế.',
+    ],
+    selfCheckQuestions: [
+      'Tiêu chuẩn nào thật sự giúp mình sống chính trực hơn, và tiêu chuẩn nào chỉ làm mình khó thở?',
+      'Ranh giới nào cần nói rõ bằng lời nhẹ nhưng dứt khoát trong tuần này?',
+      'Khi thấy điều chưa đúng, mình phản hồi để xây dựng hay để tự bảo vệ hình ảnh?',
+      'Mình có thói quen nhận phần trách nhiệm của mình trước khi yêu cầu người khác thay đổi không?',
+      'Ai có thể phản hồi giúp mình phân biệt chính trực với tự ép mình quá cứng?',
+    ],
+    sensitiveTopicFlags: ['relationship'],
+    contrastNotes: [
+      'Khác với Liêm Trinh ở Phu Thê, trọng tâm không nằm ở quan hệ đôi lứa mà ở khí chất tự thân: cách người xem giữ ranh giới, tiêu chuẩn và trách nhiệm với lựa chọn của mình.',
+      'Khác với Vũ Khúc ở Mệnh, Liêm Trinh không chỉ nói về kỷ luật nguồn lực; nó nhấn vào chuẩn mực nội tâm, sự tự soi và cách điều chỉnh khi tiêu chuẩn gặp cảm xúc.',
+      'Khác với Cự Môn ở Mệnh, Liêm Trinh không đặt trọng tâm vào lời nói; nó hỏi người xem sống theo điều mình cho là đúng bằng hành vi cụ thể nào.',
+    ],
+    summaryRows: [
+      { aspect: 'Từ khóa chính', meaning: 'Chính trực, ranh giới, tiêu chuẩn cá nhân, trách nhiệm và tự quản', readingCue: 'Đọc như bài học về cách giữ trục, không như nhãn đạo đức.' },
+      { aspect: 'Khi đọc thuận', meaning: 'Có xu hướng biết giữ nguyên tắc, chịu trách nhiệm với lời hứa, sửa sai có cấu trúc và không dễ đánh đổi giá trị cốt lõi.', readingCue: 'Kiểm tra Mệnh - Quan - Tài để biết tiêu chuẩn này có thành hành vi bền không.' },
+      { aspect: 'Khi cần cân bằng', meaning: 'Dễ tự ép mình, phản ứng mạnh khi thấy lệch chuẩn hoặc giữ khoảng cách vì sợ mất kiểm soát.', readingCue: 'Tìm dấu hiệu mềm lại, nhận phản hồi, phân biệt ranh giới với phòng thủ.' },
+      { aspect: 'Không nên hiểu là', meaning: 'Không có nghĩa người này tốt hơn, xấu hơn, hay sẽ gặp một kết quả cố định vì một sao ở Mệnh.', readingCue: 'Tránh mọi phán xét phẩm chất hoặc kết luận đời sống từ một tổ hợp riêng lẻ.' },
+      { aspect: 'Cần kiểm tra thêm', meaning: 'Thân Cung, Thiên Di, tam phương tứ chính, Tứ Hóa, phụ tinh và ví dụ hành vi thật khi có áp lực.', readingCue: 'Thiếu dữ kiện giờ sinh thì chỉ đọc như khung tham khảo.' },
+    ],
+    wrongVsBetterExamples: [
+      { wrong: 'Liêm Trinh ở Mệnh cho thấy người này bị đóng khung bởi một phẩm chất cố định.', better: 'Liêm Trinh ở Mệnh gợi câu hỏi về tiêu chuẩn, ranh giới và trách nhiệm; cần xem toàn lá số, môi trường và hành vi thật trước khi đưa nhận xét tham khảo.' },
+      { wrong: 'Có Liêm Trinh thì cứ nghiêm với bản thân và người khác là đúng.', better: 'Điểm mạnh chính trực chỉ bền khi đi cùng tự soi, biết nhận phản hồi, biết nói ranh giới rõ và vẫn giữ sự mềm trong đối thoại.' },
+      { wrong: 'Chỉ cần thấy Liêm Trinh ở Mệnh là kết luận được đường đời.', better: 'Một sao ở Mệnh không đủ để kết luận. Cần đọc Mệnh, Thân, Quan Lộc, Tài Bạch, Thiên Di, Tứ Hóa và bối cảnh câu hỏi.' },
+    ],
+    sections: [
+      {
+        key: 'core-interpretation',
+        content: [
+          'Liêm Trinh ở cung Mệnh nên được đọc như một bài học về tiêu chuẩn cá nhân và cách tự quản, không phải như nhãn phán xét con người. Liêm Trinh trong văn cảnh Tử Vi thường gợi sự chính trực, ý thức về ranh giới, nhu cầu phân biệt điều nên làm và điều nên dừng lại. Cung Mệnh lại là điểm nói về khí chất gốc, phản ứng đầu tiên và cách một người tự đứng vào đời sống. Khi hai lớp này gặp nhau, câu hỏi không phải là người này tốt hay xấu, mà là họ đang dùng tiêu chuẩn của mình để sống có trách nhiệm hay để làm mọi thứ quá căng.',
+          'Điểm khác với trang sao Liêm Trinh chung là bài này đặt trọng tâm vào chủ thể. Người xem có thể có cảm giác cần giữ trục, cần rõ đúng sai trong lựa chọn hằng ngày, hoặc cần một hệ giá trị đủ chắc để không trôi theo môi trường. Nhưng nếu đọc thiếu tam phương tứ chính, nội dung dễ thành lời phán cứng. Vì vậy trang này chỉ mang tính tham khảo, không phải lá số cá nhân, không phải lời tiên đoán và không thay thế việc đọc đủ Mệnh, Thân, cung đối chiếu, Tứ Hóa và bối cảnh sống thật.',
+        ],
+      },
+      {
+        key: 'strengths',
+        content: [
+          'Khi đọc thuận, Liêm Trinh ở Mệnh gợi khả năng giữ lời hứa với chính mình. Người xem có thể coi trọng sự rõ ràng, không thích làm việc nửa vời, và có nhu cầu hành động theo điều mình thấy đúng. Đây là điểm mạnh nếu nó đi thành hành vi kiểm chứng được: ghi rõ cam kết, nhận phần trách nhiệm của mình, đặt ranh giới trước khi quá tải và sửa sai khi nhận ra cách làm chưa phù hợp. Trong môi trường cần sự tin cậy, khí chất này giúp người khác cảm thấy có một trục chuẩn để dựa vào.',
+          'Cách phát huy an toàn là biến chính trực thành quy trình nhỏ thay vì áp lực lớn. Người xem có thể tự hỏi: điều gì là nguyên tắc không nên đánh đổi, điều gì chỉ là thói quen cũ, ai cần được nghe ranh giới của mình, và khi lỡ làm căng thì bước sửa nào là cụ thể. Nếu câu trả lời đi vào lịch, lời nói rõ, phản hồi và hành động bù đắp, Liêm Trinh ở Mệnh trở thành năng lực tự quản. Nếu chỉ dừng ở cảm giác mình phải luôn đúng, tổ hợp này dễ làm người xem mệt.',
+        ],
+      },
+      {
+        key: 'balancing-risks',
+        content: [
+          'Điểm cần cân bằng là xu hướng tự ép mình hoặc nhìn vấn đề quá nhị nguyên khi áp lực cao. Người có khí chất Liêm Trinh ở Mệnh trong bài đọc tham khảo có thể nhạy với sự thiếu nhất quán, khó bỏ qua điều lệch chuẩn, hoặc giữ khoảng cách khi chưa thấy đủ an toàn. Đây không phải kết luận cố định; nó chỉ là lời nhắc nên quan sát cách mình phản hồi khi thất vọng, khi bị góp ý hoặc khi người khác có giá trị khác mình.',
+          'Cách viết an toàn là dùng ngôn ngữ quản trị ranh giới, không dùng ngôn ngữ quy kết. Thay vì nói người xem sẽ rơi vào một kết quả nào đó, hãy nói họ nên kiểm tra ba việc: tiêu chuẩn của mình có được nói rõ không, có chừa chỗ cho người khác giải thích không, và sau khi phản hồi mình có còn mục tiêu xây dựng không. Khi ba câu hỏi này được giữ, sự nghiêm túc không biến thành áp lực vô ích.',
+          'Nội dung cũng không nên biến Liêm Trinh thành lời khuyên thay thế chuyên môn. Nếu chủ đề chạm đến sức khỏe, tài chính, hợp đồng, xung đột gia đình hoặc quyết định quan trọng, bài viết chỉ nên nhắc người đọc tìm nguồn tư vấn phù hợp. Tử Vi ở đây là khung văn hóa để tự quan sát tiêu chuẩn, ranh giới và trách nhiệm; nó không quyết định thay đời sống thật.',
+        ],
+      },
+      {
+        key: 'tam-phuong-tu-chinh',
+        content: [
+          'Tam phương của cung Mệnh nối với Quan Lộc và Tài Bạch, nên Liêm Trinh ở Mệnh không thể đọc rời công việc và nguồn lực. Nếu Mệnh có tiêu chuẩn cao nhưng Quan Lộc chưa rõ vai trò, người xem có thể bận giữ hình ảnh đúng đắn mà chưa biết ưu tiên việc nào. Nếu Tài Bạch thiếu nền quản trị, sự tự kiểm soát dễ thành căng thẳng vì mọi thứ đều phải dựa vào ý chí. Ngược lại, khi vai trò nghề và nguồn lực có cấu trúc, tiêu chuẩn cá nhân có thể biến thành uy tín và nhịp làm việc bền.',
+          'Thiên Di đối chiếu cho biết môi trường ngoài phản hồi sự chính trực này ra sao. Có môi trường quý người biết giữ nguyên tắc; có môi trường cần cách nói mềm hơn, cần giải thích bối cảnh nhiều hơn, hoặc cần người xem chấp nhận rằng mỗi người có nhịp trưởng thành khác nhau. Đọc tam phương tứ chính giúp trang không biến Liêm Trinh ở Mệnh thành nhãn cứng, mà thành bộ câu hỏi: tiêu chuẩn này đi cùng vai trò nào, nguồn lực nào, môi trường nào và hành vi nào.',
+          'Phúc Đức, Phụ Mẫu và các sao hội chiếu cũng cần được xem nếu muốn đọc sâu hơn. Một người có tiêu chuẩn mạnh có thể được nâng bởi nền gia đình, thầy bạn, trải nghiệm học tập hoặc hệ giá trị được rèn lâu dài. Cũng có khi tiêu chuẩn mạnh là cách tự bảo vệ sau nhiều trải nghiệm căng. Bài viết không kết luận nguyên nhân; nó chỉ nhắc người đọc kiểm tra thêm trước khi tự gắn nhãn cho mình.',
+        ],
+      },
+      {
+        key: 'self-check',
+        content: [
+          'Câu hỏi tự kiểm chứng nên rất gần với hành vi trong tuần. Khi thấy điều chưa ổn, mình đã nói nhu cầu bằng lời rõ chưa, hay chỉ im lặng rồi khó chịu? Khi đặt ranh giới, mình có nói điều mình sẽ làm thay vì chỉ yêu cầu người khác đổi không? Khi bị góp ý, mình có tìm phần dữ kiện hữu ích không? Những câu hỏi này giúp Liêm Trinh ở Mệnh trở thành gương tự soi thay vì áp lực phải hoàn hảo.',
+          'Một bài tập nhẹ là viết ba cột: điều mình coi trọng, hành vi cụ thể bảo vệ điều đó, và dấu hiệu cho thấy mình đang quá cứng. Ví dụ, nếu coi trọng sự đúng hẹn, hành vi cụ thể là xác nhận lịch sớm và báo khi cần đổi; dấu hiệu quá cứng là khó chấp nhận lý do hợp lý của người khác. Cách làm này giữ tinh thần chính trực nhưng thêm khả năng mềm lại.',
+          'Người đọc cũng nên hỏi một người tin cậy: khi mình giữ ranh giới, người khác cảm thấy được tôn trọng hay bị đẩy ra xa? Câu trả lời không dùng để tự trách, mà để chỉnh cách truyền đạt. Với Liêm Trinh ở Mệnh, sự trưởng thành nằm ở việc giữ trục mà vẫn biết đối thoại.',
+        ],
+      },
+      {
+        key: 'wrong-vs-better',
+        content: [
+          'Cách đọc sai là biến Liêm Trinh ở Mệnh thành một nhãn phẩm chất cố định. Cách đọc tốt hơn là nói: tổ hợp này gợi nhu cầu sống theo tiêu chuẩn, giữ ranh giới và tự quản; muốn biết nó giúp hay làm căng, cần xem Mệnh - Quan - Tài, Thiên Di, Thân Cung, Tứ Hóa và ví dụ hành vi thật.',
+          'Cách đọc sai khác là khuyên người xem phải nghiêm hơn trong mọi tình huống. Cách đọc tốt hơn là phân biệt nguyên tắc cốt lõi với phương pháp thể hiện. Có nguyên tắc cần giữ, nhưng cách nói, thời điểm nói và mức mềm khi nghe phản hồi vẫn có thể thay đổi. Đây là điểm giúp bài đọc có ích mà không trở thành mệnh lệnh.',
+          'Cách đọc sai thứ ba là lấy một sao ở Mệnh để thay thế toàn bộ lá số. Cách đọc tốt hơn là dùng Liêm Trinh như một cửa vào câu hỏi về trách nhiệm và ranh giới, rồi tiếp tục đọc toàn cục. Nếu chưa có giờ sinh hoặc chưa biết đủ cung sao, nên xem bài viết như tài liệu tham khảo để tự quan sát, không dùng để kết luận.',
+        ],
+      },
+      {
+        key: 'limits',
+        content: [
+          'Trang này không thay thế tư vấn y tế, tài chính, pháp lý hoặc quyết định quan trọng. Để đọc cá nhân cần ngày giờ sinh, giới tính, Cục, Mệnh Cung, Thân Cung, đủ 12 cung, Tứ Hóa, phụ tinh, đại hạn/tiểu hạn nếu có câu hỏi thời điểm, và bối cảnh đời sống thật. Người đọc nên dùng bài viết để quan sát cách mình giữ tiêu chuẩn, nói ranh giới, nhận trách nhiệm và sửa sai.',
+          'Nếu nội dung gợi ra cảm xúc nặng, người đọc nên tạm dừng và quay về câu hỏi thực tế: mình cần nghỉ, cần hỏi ai, cần ghi lại điều gì, cần xin phản hồi ở đâu. Tử Vi là ngôn ngữ văn hóa để suy ngẫm; phần hành động vẫn nên dựa trên dữ kiện, đối thoại và sự hỗ trợ phù hợp. Không nên dùng một đoạn diễn giải để tự kết luận về bản thân hoặc người khác.',
+        ],
+      },
+    ],
+  },
+}
+
 const REVIEWED_STAR_PALACE_DRAFT_PROFILES: Record<string, StarPalaceDraftProfile> = {
   ...FIRST_BATCH_DRAFT_PROFILES,
   ...BATCH_2A_DRAFT_PROFILES,
   ...BATCH_2B_1_DRAFT_PROFILES,
+  ...BATCH_2B_2_DRAFT_ONLY_PROFILES,
 }
 
 export function buildStarPalacePath(star: PriorityStarSlug, palace: PalaceSlug): string {
@@ -1200,10 +1298,12 @@ function buildStarPalaceInternalLinks(
       }
     })
 
+  const siblingLimit = star === 'liem-trinh' && palace === 'menh' ? siblingLinks.length : 3
+
   return [
     { href: starUrl, label: `Sao ${starName}`, relation: 'Nền tảng về chính tinh' },
     { href: palaceUrl, label: `Cung ${palaceName}`, relation: 'Nền tảng về cung vị' },
-    ...siblingLinks.slice(0, 3),
+    ...siblingLinks.slice(0, siblingLimit),
     { href: '/tu-vi/', label: 'Hub Tử Vi 2026', relation: 'Thư viện Tử Vi' },
     { href: '/lap-la-so/', label: 'Tìm hiểu cách lập lá số Tử Vi', relation: 'Cá nhân hóa theo ngày giờ sinh' },
   ]

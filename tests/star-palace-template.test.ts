@@ -40,6 +40,27 @@ const BATCH_2B_1_COMBINATIONS = [
   { star: 'thien-dong', palace: 'menh' },
 ] as const
 
+const LIEM_TRINH_MENH_BANNED_PATTERNS = [
+  /phạm pháp/i,
+  /tù tội/i,
+  /án tù/i,
+  /kiện tụng chắc chắn/i,
+  /hình phạt/i,
+  /tội lỗi/i,
+  /tội phạm/i,
+  /bạo lực/i,
+  /hung ác/i,
+  /nguy hiểm/i,
+  /tha hóa/i,
+  /đồi bại/i,
+  /xấu xa/i,
+  /chắc chắn/i,
+  /(?<!xác )định mệnh/i,
+  /số phải/i,
+  /không tránh khỏi/i,
+  /ắt sẽ/i,
+]
+
 function draftText(
   page:
     | NonNullable<ReturnType<typeof getStarPalaceDraftPage>>
@@ -253,6 +274,70 @@ describe('star×cung expansion template', () => {
 
     expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
     expect(getStarPalacePage('liem-trinh', 'phu-the')).toBeNull()
+  })
+
+  it('prepares Liêm Trinh×Mệnh as a reviewed draft while keeping the public route gated', () => {
+    const draft = getStarPalaceDraftPage('liem-trinh', 'menh')
+    const text = draftText(draft!)
+    const hrefs = draft?.internalLinks.map((link) => link.href) ?? []
+
+    expect(draft).not.toBeNull()
+    expect(draft?.status).toBe('draft-template')
+    expect(draft?.indexable).toBe(false)
+    expect(getStarPalacePage('liem-trinh', 'menh')).toBeNull()
+    expect(APPROVED_STAR_PALACE_COMBINATIONS).not.toContainEqual({
+      star: 'liem-trinh',
+      palace: 'menh',
+    })
+    expect(generateStaticParams()).not.toContainEqual({ star: 'liem-trinh', palace: 'menh' })
+    expect(starPalaceSitemap().map((entry) => entry.url)).not.toContain(
+      'https://boitoan.com.vn/sao/liem-trinh/cung/menh/'
+    )
+    expect(getStarPalaceWordCount(draft!), 'Liêm Trinh×Mệnh draft depth').toBeGreaterThanOrEqual(
+      MIN_STAR_PALACE_WORDS
+    )
+    expect(isStarPalaceReadyForIndex(draft!)).toBe(true)
+    expect(text).toContain('chính trực')
+    expect(text).toContain('ranh giới')
+    expect(text).toContain('trách nhiệm')
+    expect(text).toContain('tham khảo')
+    expect(text).toContain('không phải lời tiên đoán')
+    expect(text).toContain('tam phương')
+    expect(text).toContain('tam phương tứ chính')
+    expect(text).not.toContain('Tử Tức')
+    expect(text).not.toContain('tu_tuc')
+    expect(text).not.toContain('子息')
+    expect(hrefs).toContain('/sao/liem-trinh/')
+    expect(hrefs).toContain('/cung/menh/')
+    expect(hrefs).toContain('/lap-la-so/')
+
+    for (const approvedMenhHref of [
+      '/sao/tu-vi/cung/menh/',
+      '/sao/thai-duong/cung/menh/',
+      '/sao/thai-am/cung/menh/',
+      '/sao/vu-khuc/cung/menh/',
+      '/sao/thien-phu/cung/menh/',
+      '/sao/cu-mon/cung/menh/',
+      '/sao/thien-dong/cung/menh/',
+    ]) {
+      expect(hrefs).toContain(approvedMenhHref)
+    }
+  })
+
+  it('guards Liêm Trinh×Mệnh draft copy against crime, legal-outcome, violence, and deterministic claims', () => {
+    const draft = getStarPalaceDraftPage('liem-trinh', 'menh')
+    const text = draftText(draft!)
+    const compliance = validateComplianceContent(text, {
+      requireThamKhaoIfSubstantial: true,
+      substantialContentLength: 300,
+    })
+
+    expect(draft).not.toBeNull()
+    expect(compliance.errors).toEqual([])
+
+    for (const pattern of LIEM_TRINH_MENH_BANNED_PATTERNS) {
+      expect(text, `Liêm Trinh×Mệnh should avoid ${pattern}`).not.toMatch(pattern)
+    }
   })
 
   it('publishes only approved star×cung sitemap entries', () => {

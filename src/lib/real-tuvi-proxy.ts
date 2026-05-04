@@ -99,6 +99,33 @@ const GENERATED_READING_TABS = new Set([
 const LOCKED_READING_COPY =
   'Phần này đang được hoàn thiện cho bản public. Bạn có thể đọc mục Tìm hiểu bản thân và lá số 12 cung trước; Bói Toán sẽ mở thêm luận giải sau khi kiểm định nội dung.'
 
+type ReadingFallbackStar = {
+  name?: unknown
+  type?: unknown
+}
+
+type ReadingFallbackPalace = {
+  name?: unknown
+  chi?: unknown
+  stars?: ReadingFallbackStar[]
+  isMenh?: unknown
+  isThan?: unknown
+}
+
+type ReadingFallbackChart = {
+  name?: unknown
+  gender?: unknown
+  birthDate?: unknown
+  birthHour?: unknown
+  canNam?: unknown
+  chiNam?: unknown
+  cucSo?: unknown
+  menhCung?: unknown
+  menhChi?: unknown
+  thanChi?: unknown
+  palaces?: ReadingFallbackPalace[]
+}
+
 export function mapRealTuViApiPath(path: string[]): string {
   return `/${path
     .map((segment) => encodeURIComponent(API_SEGMENT_REWRITES[segment] ?? segment))
@@ -185,6 +212,157 @@ function responseHeaders(upstream: Response, contentType?: string): Headers {
   return headers
 }
 
+function safeText(value: unknown): string {
+  return sanitizeRealTuViApiText(String(value ?? '')).replace(/[<>&"']/g, (char) => {
+    if (char === '<') return '&lt;'
+    if (char === '>') return '&gt;'
+    if (char === '&') return '&amp;'
+    if (char === '"') return '&quot;'
+    return '&#39;'
+  })
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function mainStarNames(palace: ReadingFallbackPalace): string {
+  const stars = Array.isArray(palace.stars) ? palace.stars : []
+  const mainStars = stars
+    .filter((star) => star?.type === 'main')
+    .map((star) => safeText(star.name))
+    .filter(Boolean)
+
+  return mainStars.length > 0 ? mainStars.slice(0, 3).join(', ') : 'Đang cập nhật'
+}
+
+export function extractReadingChartId(pathname: string): string | null {
+  const match = pathname.match(/^\/reading\/([^/?#]+)/)
+  if (!match?.[1]) return null
+  try {
+    return decodeURIComponent(match[1])
+  } catch {
+    return match[1]
+  }
+}
+
+export function buildReadingServerFallback(chart: ReadingFallbackChart): string {
+  const palaces = Array.isArray(chart.palaces) ? chart.palaces : []
+  const palaceRows = palaces
+    .slice(0, 12)
+    .map((palace) => {
+      const flags = [
+        palace.isMenh ? '<span>Mệnh</span>' : '',
+        palace.isThan ? '<span>Thân</span>' : '',
+      ].filter(Boolean).join('')
+
+      return [
+        '<li class="boitoan-reading-fallback__palace">',
+        `<strong>${safeText(palace.name)}${palace.chi ? ` · ${safeText(palace.chi)}` : ''}</strong>`,
+        `<small>${mainStarNames(palace)}</small>`,
+        flags ? `<em>${flags}</em>` : '',
+        '</li>',
+      ].join('')
+    })
+    .join('')
+
+  const canChi = [chart.canNam, chart.chiNam].map(safeText).filter(Boolean).join(' ')
+  const fallback = `
+<section id="boitoan-reading-ssr-fallback" class="boitoan-reading-fallback" data-boitoan-reading-ssr-fallback>
+  <style>
+    .boitoan-reading-fallback{margin:0 auto;max-width:1120px;padding:24px 16px 40px;color:#251f18;background:#f9f3e7;font-family:Arial,"Helvetica Neue",sans-serif}
+    .boitoan-reading-fallback__card{border:1px solid rgba(168,127,46,.35);border-radius:24px;background:rgba(255,252,244,.96);box-shadow:0 18px 45px rgba(42,36,24,.12);padding:20px}
+    .boitoan-reading-fallback__eyebrow{margin:0 0 8px;color:#8b1f1f;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    .boitoan-reading-fallback h1{margin:0;color:#24214b;font-size:clamp(26px,5vw,42px);line-height:1.12}
+    .boitoan-reading-fallback p{color:#5f5548;line-height:1.65}
+    .boitoan-reading-fallback__facts{display:grid;gap:10px;margin:18px 0;grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}
+    .boitoan-reading-fallback__facts div{border:1px solid rgba(168,127,46,.25);border-radius:16px;background:#fffaf0;padding:12px}
+    .boitoan-reading-fallback__facts span{display:block;color:#786c5d;font-size:12px;text-transform:uppercase}
+    .boitoan-reading-fallback__facts strong{display:block;margin-top:4px;color:#24214b;font-size:16px}
+    .boitoan-reading-fallback__palaces{display:grid;gap:10px;margin:18px 0 0;padding:0;list-style:none;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .boitoan-reading-fallback__palace{border:1px solid rgba(36,33,75,.12);border-radius:16px;background:white;padding:12px}
+    .boitoan-reading-fallback__palace strong,.boitoan-reading-fallback__palace small{display:block}
+    .boitoan-reading-fallback__palace small{margin-top:4px;color:#5f5548;line-height:1.45}
+    .boitoan-reading-fallback__palace em{display:flex;gap:6px;margin-top:8px;font-style:normal}
+    .boitoan-reading-fallback__palace span{border-radius:999px;background:#24214b;color:#fff;padding:3px 8px;font-size:11px}
+    .boitoan-reading-fallback__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .boitoan-reading-fallback__actions a,.boitoan-reading-fallback__actions button{border-radius:999px;padding:10px 14px;text-decoration:none;font-weight:700}
+    .boitoan-reading-fallback__actions button{border:0;cursor:pointer;font:inherit}
+    .boitoan-reading-fallback__primary{background:#8b1f1f;color:#fff}
+    .boitoan-reading-fallback__secondary{border:1px solid rgba(36,33,75,.2);color:#24214b}
+  </style>
+  <div class="boitoan-reading-fallback__card">
+    <p class="boitoan-reading-fallback__eyebrow">Bản dự phòng đang hiển thị ngay</p>
+    <h1>Lá số đã tạo — bản tương tác đang được tải</h1>
+    <p>Nếu trình duyệt hoặc kết nối chưa tải kịp JavaScript, bạn vẫn có thể xem tóm tắt lá số bên dưới. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.</p>
+    <div class="boitoan-reading-fallback__facts" aria-label="Tóm tắt lá số">
+      <div><span>Họ tên</span><strong>${safeText(chart.name) || 'Bạn'}</strong></div>
+      <div><span>Giới tính</span><strong>${safeText(chart.gender) || 'Đang cập nhật'}</strong></div>
+      <div><span>Ngày sinh</span><strong>${safeText(chart.birthDate) || 'Đang cập nhật'}</strong></div>
+      <div><span>Giờ sinh</span><strong>${safeText(chart.birthHour) || 'Đang cập nhật'}</strong></div>
+      <div><span>Can Chi</span><strong>${canChi || 'Đang cập nhật'}</strong></div>
+      <div><span>Mệnh</span><strong>${safeText(chart.menhCung || chart.menhChi) || 'Đang cập nhật'}</strong></div>
+      <div><span>Thân</span><strong>${safeText(chart.thanChi) || 'Đang cập nhật'}</strong></div>
+      <div><span>Cục</span><strong>${safeText(chart.cucSo) || 'Đang cập nhật'}</strong></div>
+    </div>
+    ${palaceRows ? `<ul class="boitoan-reading-fallback__palaces" aria-label="Tóm tắt 12 cung">${palaceRows}</ul>` : ''}
+    <div class="boitoan-reading-fallback__actions">
+      <button class="boitoan-reading-fallback__primary" type="button" onclick="window.location.reload()">Tải lại bản tương tác</button>
+      <a class="boitoan-reading-fallback__secondary" href="/lap-la-so/">Lập lá số mới</a>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const fallback = document.getElementById('boitoan-reading-ssr-fallback')
+      if (!fallback || !document.body) return
+      const hasHydratedReading = () => {
+        const text = Array.from(document.body.children)
+          .filter((element) => element !== fallback && element.tagName !== 'SCRIPT')
+          .map((element) => element.innerText || '')
+          .join('\\n')
+        return text.includes('THIÊN BÀN') || text.includes('TÓM TẮT TRƯỚC KHI ĐỌC') || text.includes('Cung Mệnh tại')
+      }
+      const removeWhenReady = () => {
+        if (hasHydratedReading()) fallback.remove()
+      }
+      const observer = new MutationObserver(removeWhenReady)
+      observer.observe(document.body, { childList: true, subtree: true })
+      setTimeout(removeWhenReady, 1000)
+      setTimeout(removeWhenReady, 3000)
+    })()
+  </script>
+</section>`
+
+  return sanitizeRealTuViHtmlText(fallback)
+}
+
+export function injectReadingServerFallback(html: string, fallbackHtml: string): string {
+  if (!fallbackHtml || html.includes('data-boitoan-reading-ssr-fallback')) return html
+  const bodyStart = html.search(/<body(?:\\s[^>]*)?>/i)
+  if (bodyStart === -1) return `${fallbackHtml}${html}`
+  const bodyEnd = html.indexOf('>', bodyStart)
+  if (bodyEnd === -1) return `${fallbackHtml}${html}`
+  return `${html.slice(0, bodyEnd + 1)}${fallbackHtml}${html.slice(bodyEnd + 1)}`
+}
+
+async function fetchReadingServerFallbackHtml(chartId: string): Promise<string | null> {
+  const url = new URL(`/chart/${encodeURIComponent(chartId)}`, getRealTuViApiOrigin())
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      'user-agent': 'boitoan-reading-ssr-fallback',
+    },
+    cache: 'no-store',
+  })
+  if (!response.ok) return null
+
+  const text = sanitizeRealTuViApiText(await response.text())
+  const parsed: unknown = JSON.parse(text)
+  if (!isRecord(parsed)) return null
+  return buildReadingServerFallback(parsed)
+}
+
 export async function proxyRealTuViGet(pathname: string, request: NextRequest): Promise<Response> {
   const url = new URL(pathname, getRealTuViOrigin())
   url.search = request.nextUrl.search
@@ -199,7 +377,16 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
   })
   const contentType = upstream.headers.get('content-type') ?? ''
   if (contentType.includes('text/html')) {
-    const html = rewriteHtml(await upstream.text())
+    let html = rewriteHtml(await upstream.text())
+    const chartId = extractReadingChartId(pathname)
+    if (chartId) {
+      try {
+        const fallbackHtml = await fetchReadingServerFallbackHtml(chartId)
+        if (fallbackHtml) html = injectReadingServerFallback(html, fallbackHtml)
+      } catch {
+        // Keep the upstream reading page available even if the SSR safety net cannot load chart data.
+      }
+    }
     return new Response(html, {
       status: upstream.status,
       headers: responseHeaders(upstream, 'text/html; charset=utf-8'),

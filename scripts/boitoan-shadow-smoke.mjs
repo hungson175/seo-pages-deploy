@@ -159,6 +159,23 @@ async function lockedTabApiChecks(chartId) {
   }
 }
 
+async function readingHtmlFallbackCheck(chartId) {
+  const { response, text } = await fetchText(`/reading/${chartId}`)
+  record('reading_ssr_fallback_present', response.status === 200 &&
+    text.includes('data-boitoan-reading-ssr-fallback') &&
+    text.includes('Lá số đã tạo') &&
+    count(text, 'Tử Tức') === 0 &&
+    count(text, 'tu_tuc') === 0 &&
+    count(text, '子息') === 0, {
+    status: response.status,
+    hasFallbackMarker: text.includes('data-boitoan-reading-ssr-fallback'),
+    hasFallbackTitle: text.includes('Lá số đã tạo'),
+    tuTuc: count(text, 'Tử Tức'),
+    tuTucSlug: count(text, 'tu_tuc'),
+    ziXi: count(text, '子息'),
+  })
+}
+
 async function browserChecksFromChart(chartId) {
   if (!RUN_BROWSER || !chartId) return
   const browser = await chromium.launch({ headless: true })
@@ -248,6 +265,7 @@ try {
   await routeChecks()
   const { chartId } = await createChartViaApi()
   if (chartId) {
+    await readingHtmlFallbackCheck(chartId)
     await lockedTabApiChecks(chartId)
     await browserChecksFromChart(chartId)
   }

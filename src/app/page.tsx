@@ -22,26 +22,27 @@ export default function HomePage() {
       />
 
       <section className="mv-container pb-10 pt-4 sm:pt-6 lg:pb-14" data-testid="home-instant-chart-hero">
-        <div className="mv-hero-card mx-auto grid max-w-6xl gap-7 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <div>
-            <div className="mb-5 mv-seal">命</div>
+        <div className="mv-hero-card mx-auto grid max-w-6xl gap-4 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-7">
+          <div className="lg:col-start-1 lg:row-start-1">
+            <div className="mb-4 hidden mv-seal sm:inline-flex">命</div>
             <p className="mv-kicker">Bói Toán • Lập lá số Tử Vi</p>
-            <h1 className="mv-h1-large mt-4">Lập lá số ngay lập tức</h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-ink-soft">
-              Nhập ngày sinh và giờ sinh ngay tại đây để mở lá số và phần luận giải nền. SEO content và thư viện học Tử Vi được đưa xuống dưới để bạn không phải bấm vòng quanh.
+            <h1 className="mv-h1-large mt-3">Lập lá số ngay lập tức</h1>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-ink-soft sm:mt-5 sm:text-lg sm:leading-8">
+              Nhập ngày sinh và giờ sinh ngay tại đây để mở lá số và phần luận giải nền. Nội dung học Tử Vi được đưa xuống dưới để bạn không phải bấm vòng quanh.
             </p>
-            <div className="mt-5 grid gap-3 text-sm text-ink-soft sm:grid-cols-3">
-              <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">1.</strong> Nhập ngày giờ sinh</p>
-              <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">2.</strong> Bấm lập lá số</p>
-              <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">3.</strong> Xem trang luận giải</p>
-            </div>
           </div>
 
-          <div className="rounded-[2rem] border border-gold/30 bg-white/35 p-3">
+          <div className="rounded-[2rem] border border-gold/30 bg-white/35 p-3 lg:col-start-2 lg:row-span-2 lg:row-start-1" data-testid="home-chart-form-card">
             <HomeChartForm />
             <Link href="/lap-la-so/" className="mt-3 inline-flex text-sm font-semibold text-vermillion underline underline-offset-4">
               Mở bản lập lá số chi tiết
             </Link>
+          </div>
+
+          <div className="hidden gap-3 text-sm text-ink-soft sm:grid sm:grid-cols-3 lg:col-start-1 lg:row-start-2">
+            <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">1.</strong> Nhập ngày giờ sinh</p>
+            <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">2.</strong> Bấm lập lá số</p>
+            <p className="rounded-2xl border border-rule bg-ivory/70 p-3"><strong className="text-ink">3.</strong> Xem trang luận giải</p>
           </div>
         </div>
       </section>

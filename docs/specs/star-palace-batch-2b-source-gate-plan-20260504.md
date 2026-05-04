@@ -6,6 +6,14 @@ Batch 2A is live on OCI at exact SHA `d8c86e11` after SEO, Bói-Toán, Reviewer,
 
 This document prepares the next content sprint without changing production code or opening routes.
 
+## Consultant decisions recorded
+
+- SEO PASS for this source-gate plan with four required edits before implementation: draft 2B-1 internal-link matrix, 2B baseline keyword table, 2B GSC checkpoint placeholders, and inclusion of `/sao/liem-trinh/` in the foundation slice.
+- Bói-Toán APPROVES the split strategy: Foundation → 2B-1 → 2B-2.
+- Bói-Toán confirms `/sao/liem-trinh/` foundation page may be included in the first foundation slice; only `Liêm Trinh×Mệnh` star×cung remains gated until special review.
+- Bói-Toán confirms non-negotiable gates: no deterministic claims, no forbidden health/legal/finance/crime/violence language, keep `Tật Ách`, `Tử Nữ`, and sensitive Phu Thê combinations gated.
+
+
 ## Batch 2B candidate set
 
 Bói-Toán approved these four combinations as the Batch 2B backlog, but SEO flagged that they are **not code-ready** yet because their star foundation pages are not in `PRIORITY_STAR_SLUGS`:
@@ -52,6 +60,7 @@ Code scope:
   - `cu-mon`
   - `thien-dong`
   - `liem-trinh`
+- Include `/sao/liem-trinh/` in this foundation slice per SEO + Bói-Toán; this hub page is allowed because the foundation topic can be framed around integrity/boundaries without crime/violence claims.
 - Add safe `STAR_PROFILES` entries for those four stars in `src/content/stars.ts`.
 - Keep `src/content/star-palace-approved.json` unchanged during the foundation slice.
 - Regenerate `public/stars.xml`; do **not** change `public/star-palace.xml` in foundation slice except by generator parity if unchanged.
@@ -70,6 +79,39 @@ Tests to add/update:
   - one representative new foundation page 200/indexable and has CTA/internal links
 - Existing `star-palace-template.test.ts`
   - confirms 2B star×cung URLs remain gated until the next slice
+
+## Draft internal-link matrix — Batch 2B-1
+
+Every Batch 2B-1 star×cung page must link to its star hub, `Cung Mệnh` hub, a reviewed sibling/context page, and the chart CTA. This matrix is draft-only until the foundation slice passes.
+
+| Candidate page | Star hub | Palace hub | Sibling/context cross-link | CTA |
+|---|---|---|---|---|
+| `/sao/thien-phu/cung/menh/` | `/sao/thien-phu/` | `/cung/menh/` | `/sao/tu-vi/cung/menh/` and/or `/sao/tu-vi/cung/quan-loc/` | `/lap-la-so/` |
+| `/sao/cu-mon/cung/menh/` | `/sao/cu-mon/` | `/cung/menh/` | `/sao/thai-duong/cung/menh/` for speech/public-light contrast | `/lap-la-so/` |
+| `/sao/thien-dong/cung/menh/` | `/sao/thien-dong/` | `/cung/menh/` | `/sao/thai-am/cung/menh/` for softness/inner-rhythm contrast | `/lap-la-so/` |
+
+`Liêm Trinh×Mệnh` is intentionally absent from 2B-1; it stays in 2B-2 until special review.
+
+## Baseline keyword table — Batch 2B
+
+Capture baseline before any Batch 2B production deploy. If rank is not visible, write `not in top 100` rather than guessing.
+
+| Candidate URL | Target keyword | Baseline SERP position | Baseline date | 14-day delta target |
+|---|---|---:|---|---:|
+| `/sao/thien-phu/cung/menh/` | `sao thiên phủ ở cung mệnh` | TBD before deploy | TBD | +impressions / indexed |
+| `/sao/cu-mon/cung/menh/` | `sao cự môn ở cung mệnh` | TBD before deploy | TBD | +impressions / indexed |
+| `/sao/thien-dong/cung/menh/` | `sao thiên đồng ở cung mệnh` | TBD before deploy | TBD | +impressions / indexed |
+| `/sao/liem-trinh/cung/menh/` | `sao liêm trinh ở cung mệnh` | TBD before deploy | TBD | +impressions / indexed after special review |
+
+## GSC checkpoint placeholders — Batch 2B
+
+Fill exact dates only after a production deploy date exists.
+
+| Checkpoint | Timing | Owner proposal | Required checks |
+|---|---|---|---|
+| Pre-deploy baseline | T-0 before deploy | SEO-consultant input; PO records artifact | target keyword, current SERP position, URL readiness |
+| Day-7 GSC check | Deploy date + 7 days | SEO-consultant input; Gal dashboard approval | index coverage, URL Inspection on 2–3 sample URLs, impressions/clicks/position, Discovered-currently-not-indexed |
+| 14-day delta | Deploy date + 14 days | SEO-consultant input; Gal dashboard approval | target keyword movement, impressions delta, crawl anomalies, internal-link crawl evidence |
 
 ## Implementation checklist — Batch 2B-1
 
@@ -126,5 +168,5 @@ Batch 2B must capture baseline **before** production deploy if possible.
 ## Open decisions for Gal
 
 1. Approve docs-only Batch 2B-Foundation implementation slice?
-2. Should Liêm Trinh foundation page be included in the first foundation slice, or isolated behind its own special review even before `/sao/liem-trinh/` exists?
-3. Who owns Batch 2A keyword baseline/GSC Day-7 check: PO, SEO-consultant, or Gal dashboard?
+2. Resolved by SEO + Bói-Toán: include `/sao/liem-trinh/` in the first foundation slice; keep only `Liêm Trinh×Mệnh` gated for special review.
+3. Resolved by Bói-Toán suggestion: SEO-consultant owns keyword baseline/GSC monitoring inputs; Gal approves dashboard/decision use; PO wires repo artifacts/tests when needed.

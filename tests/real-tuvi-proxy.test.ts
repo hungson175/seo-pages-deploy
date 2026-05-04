@@ -1,10 +1,14 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
+  buildReadingServerFallback,
+  extractReadingChartId,
   getRealTuViApiOrigin,
   getRealTuViOrigin,
+  injectReadingServerFallback,
   lockedReadingFallback,
   mapRealTuViApiPath,
   proxyRealTuViApi,
+  proxyRealTuViGet,
   sanitizeRealTuViApiText,
   sanitizeRealTuViAssetText,
   sanitizeRealTuViHtmlText,
@@ -230,6 +234,113 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('generated-readings-disabled')
       expect(text).toContain('Tìm hiểu bản thân')
       expect(text).not.toContain('suggested_packages')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
+  it('extracts reading chart IDs for the SSR safety net only on reading pages', () => {
+    expect(extractReadingChartId('/reading/abc123')).toBe('abc123')
+    expect(extractReadingChartId('/reading/abc%20123')).toBe('abc 123')
+    expect(extractReadingChartId('/api/chart/abc123')).toBeNull()
+    expect(extractReadingChartId('/reading/')).toBeNull()
+  })
+
+  it('builds a no-JS reading fallback from chart data without leaking legacy Tử Tức naming', () => {
+    const fallback = buildReadingServerFallback({
+      name: 'Debug',
+      gender: 'Nam',
+      birthDate: '1990-01-01',
+      birthHour: 'Ngo',
+      canNam: 'Kỷ',
+      chiNam: 'Tỵ',
+      cucSo: 'Thổ Ngũ cục',
+      menhCung: 'Mệnh ở Mùi',
+      thanChi: 'Mùi',
+      palaces: [
+        {
+          name: 'Mệnh',
+          chi: 'Mùi',
+          stars: [{ name: 'Thiên Lương', type: 'main' }],
+          isMenh: true,
+          isThan: true,
+        },
+        {
+          name: 'Tử Tức',
+          chi: 'Thìn',
+          stars: [{ name: 'Tham Lang', type: 'main' }],
+        },
+      ],
+    })
+
+    expect(fallback).toContain('data-boitoan-reading-ssr-fallback')
+    expect(fallback).toContain('Lá số đã tạo')
+    expect(fallback).toContain('Debug')
+    expect(fallback).toContain('Thiên Lương')
+    expect(fallback).toContain('Tử Nữ')
+    expect(fallback).not.toContain('Tử Tức')
+    expect(fallback).toContain('không phải lời tiên đoán hay lời khẳng định tương lai')
+  })
+
+  it('injects the reading fallback into the HTML body before the loading-only shell', () => {
+    const html = '<html><head></head><body><main>Đang hiển thị lá số…</main></body></html>'
+    const injected = injectReadingServerFallback(html, '<section data-boitoan-reading-ssr-fallback>Fallback</section>')
+
+    expect(injected).toContain('<body><section data-boitoan-reading-ssr-fallback>Fallback</section><main>')
+    expect(injectReadingServerFallback(injected, '<section>Duplicate</section>')).toBe(injected)
+  })
+
+  it('adds a server-rendered reading fallback when proxied reading HTML is loading-only', async () => {
+    const originalFetch = global.fetch
+    const calls: string[] = []
+    process.env.REAL_TUVI_ORIGIN = 'http://real-web:3000'
+    process.env.REAL_TUVI_API_ORIGIN = 'http://api:8000'
+    global.fetch = async (input) => {
+      const url = String(input)
+      calls.push(url)
+      if (url === 'http://real-web:3000/reading/abc123') {
+        return new Response('<html><body><main>Đang hiển thị lá số…</main></body></html>', {
+          status: 200,
+          headers: { 'content-type': 'text/html; charset=utf-8' },
+        })
+      }
+      if (url === 'http://api:8000/chart/abc123') {
+        return new Response(JSON.stringify({
+          name: 'Debug',
+          gender: 'Nam',
+          birthDate: '1990-01-01',
+          birthHour: 'Ngo',
+          canNam: 'Kỷ',
+          chiNam: 'Tỵ',
+          cucSo: 'Thổ Ngũ cục',
+          menhCung: 'Mệnh ở Mùi',
+          thanChi: 'Mùi',
+          palaces: [
+            { name: 'Mệnh', chi: 'Mùi', stars: [{ name: 'Thiên Lương', type: 'main' }], isMenh: true },
+            { name: 'Tử Tức', chi: 'Thìn', stars: [{ name: 'Tham Lang', type: 'main' }] },
+          ],
+        }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
+      }
+      throw new Error(`unexpected fetch ${url}`)
+    }
+
+    try {
+      const response = await proxyRealTuViGet('/reading/abc123', {
+        headers: new Headers(),
+        nextUrl: { search: '' },
+      } as never)
+      const html = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(calls).toEqual(['http://real-web:3000/reading/abc123', 'http://api:8000/chart/abc123'])
+      expect(html).toContain('data-boitoan-reading-ssr-fallback')
+      expect(html).toContain('Lá số đã tạo')
+      expect(html).toContain('Tử Nữ')
+      expect(html).not.toContain('Tử Tức')
+      expect(html.indexOf('data-boitoan-reading-ssr-fallback')).toBeLessThan(html.indexOf('Đang hiển thị lá số'))
     } finally {
       global.fetch = originalFetch
     }

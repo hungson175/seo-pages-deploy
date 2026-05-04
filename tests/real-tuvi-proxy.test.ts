@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   applyChatVisibilityGate,
+  applyMobileReadingP0Patch,
   buildReadingServerFallback,
   extractReadingChartId,
   getRealTuViApiOrigin,
@@ -166,7 +167,7 @@ describe('real tu vi API proxy mapping', () => {
     expect(sanitized).not.toContain('7 ngày làm việc')
   })
 
-  it('keeps reading chat hidden by default until the production feature flag is explicitly enabled', () => {
+  it('keeps mobile chat visible as a disabled review card by default until the production feature flag is explicitly enabled', () => {
     delete process.env.REAL_TUVI_CHAT_ENABLED
     delete process.env.CHAT_ENABLED
 
@@ -182,9 +183,39 @@ describe('real tu vi API proxy mapping', () => {
     expect(gated).toContain('data-boitoan-chat-gate="disabled"')
     expect(gated).toContain('data-boitoan-chat-disabled')
     expect(gated).toContain('.rdg-chat')
-    expect(gated).toContain('data-boitoan-chat-hidden')
+    expect(gated).toContain('data-boitoan-chat-visible-card')
+    expect(gated).toContain('Hỏi thêm về lá số')
+    expect(gated).toContain('Tính năng hỏi đáp đang được kiểm định để tránh trả lời sai')
     expect(gated).not.toContain('Không thể kết nối')
     expect(gated).not.toContain('AI đang lỗi')
+  })
+
+
+  it('keeps mobile reading chart-first, shows safe analysis text, and surfaces chat access without enabling broken chat', () => {
+    const upstream = [
+      '<html><body><div class="rdg-root">',
+      '<aside data-mobile-hidden="laso"><div>THIÊN BÀN</div><svg aria-label="Lá số"></svg><div>Không khẳng định tương lai</div></aside>',
+      '<section data-mobile-hidden="luan"><p>Đang phân tích lá số và soạn luận giải…</p><p>(Quá trình này mất 30–60 giây)</p></section>',
+      '<aside class="rdg-chat" data-mobile-hidden="thay"><textarea placeholder="Bạn muốn hỏi thêm điều gì?"></textarea></aside>',
+      '<nav class="rdg-mobile-tabs"><button>Lá số</button><button>Luận giải</button><button>Hỏi</button></nav>',
+      '</div></body></html>',
+    ].join('')
+
+    const patched = applyMobileReadingP0Patch(upstream)
+
+    expect(patched).toContain('data-boitoan-mobile-p0-patch="true"')
+    expect(patched).toContain('data-boitoan-mobile-p0-patch')
+    expect(patched).toContain('.rdg-root .rdg-panel[data-mobile-hidden="laso"]')
+    expect(patched).toContain('display: flex !important')
+    expect(patched).toContain('data-boitoan-mobile-chart-first')
+    expect(patched).toContain('data-boitoan-mobile-compact-disclaimer')
+    expect(patched).toContain('data-boitoan-mobile-summary-below-chart')
+    expect(patched).toContain('Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.')
+    expect(patched).toContain('order: 1')
+    expect(patched).toContain('.boitoan-reading-fallback__disclaimer')
+    expect(patched).not.toContain('Không thể kết nối')
+    expect(patched).not.toContain('AI đang lỗi')
+    expect(patched.indexOf('THIÊN BÀN')).toBeLessThan(patched.indexOf('Không khẳng định tương lai'))
   })
 
   it('does not inject the chat visibility gate when chat is explicitly enabled', () => {
@@ -265,7 +296,7 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.status).toBe(200)
       expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
       expect(text).toContain('Tìm hiểu bản thân')
-      expect(text).toContain('đang được hoàn thiện')
+      expect(text).toContain('Phần luận giải này đang được kiểm định trước khi mở công khai')
       expect(text).not.toContain('all attempts failed')
       expect(text).not.toContain('suggested_packages')
       expect(text).not.toContain('49000')
@@ -297,6 +328,7 @@ describe('real tu vi API proxy mapping', () => {
       expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
       expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('generated-readings-disabled')
       expect(text).toContain('Tìm hiểu bản thân')
+      expect(text).toContain('Phần luận giải này đang được kiểm định trước khi mở công khai')
       expect(text).not.toContain('suggested_packages')
     } finally {
       global.fetch = originalFetch

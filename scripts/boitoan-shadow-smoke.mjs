@@ -160,6 +160,25 @@ async function lockedTabApiChecks(chartId) {
   }
 }
 
+async function tinhCachApiChecks(chartId) {
+  const { response, text } = await fetchText(`/api/chart/${chartId}/luan-giai/tinh-cach`)
+  record('tinh_cach_analysis_safe_body', response.status === 200 &&
+    text.includes('Tìm hiểu bản thân') &&
+    paywallMarkers(text).length === 0 &&
+    !text.includes('Không thể tải luận giải') &&
+    count(text, 'Tử Tức') === 0 &&
+    count(text, 'tu_tuc') === 0 &&
+    count(text, '子息') === 0, {
+    status: response.status,
+    fallbackHeader: response.headers.get('x-boitoan-proxy-fallback'),
+    hasAnalysisTitle: text.includes('Tìm hiểu bản thân'),
+    hasP0FallbackCopy: text.includes('Phần luận giải này đang được kiểm định trước khi mở công khai'),
+    paywallMarkers: paywallMarkers(text),
+    hasGenericError: text.includes('Không thể tải luận giải'),
+    tuTuc: count(text, 'Tử Tức') + count(text, 'tu_tuc') + count(text, '子息'),
+  })
+}
+
 async function readingHtmlFallbackCheck(chartId) {
   const { response, text } = await fetchText(`/reading/${chartId}`)
   record('reading_ssr_fallback_present', response.status === 200 &&
@@ -195,23 +214,59 @@ async function browserChecksFromChart(chartId) {
       metaRobots,
     })
 
+    const initialVisible = await page.locator('body').innerText()
+    const chartIndex = initialVisible.indexOf('THIÊN BÀN') >= 0 ? initialVisible.indexOf('THIÊN BÀN') : initialVisible.indexOf('Thiên Bàn')
+    const longDisclaimerIndex = initialVisible.indexOf('TÓM TẮT TRƯỚC KHI ĐỌC') >= 0 ? initialVisible.indexOf('TÓM TẮT TRƯỚC KHI ĐỌC') : initialVisible.indexOf('Không khẳng định tương lai')
+    record('reading_mobile_chart_first', chartIndex >= 0 && (longDisclaimerIndex === -1 || chartIndex < longDisclaimerIndex), {
+      chartIndex,
+      longDisclaimerIndex,
+      first300: initialVisible.slice(0, 300),
+    })
+
     if (EXPECT_CHAT_HIDDEN) {
-      await page.waitForTimeout(1000)
+      const hoiTab = page.getByRole('button', { name: /Hỏi/i }).first()
+      if (await hoiTab.count()) {
+        await hoiTab.click({ timeout: 30_000 })
+        await page.waitForTimeout(1000)
+      }
       const visible = await page.locator('body').innerText()
-      record('reading_chat_entrypoints_hidden', !visible.includes('Bạn muốn hỏi thêm điều gì') &&
+      const html = await page.content()
+      record('reading_chat_disabled_card_visible', visible.includes('Hỏi thêm về lá số') &&
+        html.includes('data-boitoan-chat-visible-card') &&
+        !visible.includes('Bạn muốn hỏi thêm điều gì') &&
         !visible.includes('Gợi ý hỏi Bói Toán') &&
-        !visible.includes('Không thể kết nối'), {
+        !visible.includes('Không thể kết nối') &&
+        !visible.includes('AI đang lỗi'), {
+        hasDisabledCard: visible.includes('Hỏi thêm về lá số'),
+        hasCardMarker: html.includes('data-boitoan-chat-visible-card'),
         hasChatPrompt: visible.includes('Bạn muốn hỏi thêm điều gì'),
         hasChatSuggestions: visible.includes('Gợi ý hỏi Bói Toán'),
         hasChatConnectionError: visible.includes('Không thể kết nối'),
+        hasAiError: visible.includes('AI đang lỗi'),
       })
     }
+
+    const luanTab = page.getByRole('button', { name: /Luận giải/i }).first()
+    if (await luanTab.count()) {
+      await luanTab.click({ timeout: 30_000 })
+      await page.waitForTimeout(1000)
+    }
+
+    const luanVisible = await page.locator('body').innerText()
+    record('reading_tinh_cach_visible_not_blank', luanVisible.includes('Tìm hiểu bản thân') &&
+      luanVisible.includes('Phần luận giải này đang được kiểm định trước khi mở công khai') &&
+      !luanVisible.includes('Không thể tải luận giải'), {
+      hasAnalysisTitle: luanVisible.includes('Tìm hiểu bản thân'),
+      hasP0FallbackCopy: luanVisible.includes('Phần luận giải này đang được kiểm định trước khi mở công khai'),
+      hasGenericError: luanVisible.includes('Không thể tải luận giải'),
+      sample: luanVisible.slice(0, 500),
+    })
 
     const buttons = await page.getByRole('button', { name: /Sự nghiệp/ }).count()
     if (buttons > 0) {
       const tabResponsePromise = page.waitForResponse((tabResponse) =>
         tabResponse.url().includes('/luan-giai/su-nghiep'),
-      { timeout: TIMEOUT_MS }).catch(() => null)
+      { timeout: UI_WAIT_MS }).catch(() => null)
       await page.getByRole('button', { name: /Sự nghiệp/ }).first().click({ timeout: 30_000 })
       const tabResponse = await tabResponsePromise
       await page.waitForFunction(() => {
@@ -243,25 +298,24 @@ async function browserFormFlow() {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } })
   attachBrowserDiagnostics(page, 'form-flow')
   try {
-    await page.goto(`${BASE_URL}/lap-la-so`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS })
-    await page.getByRole('button', { name: /Tiếp tục/i }).first().click({ timeout: 30_000 })
-    await page.getByPlaceholder('Ngày').waitFor({ state: 'visible', timeout: UI_WAIT_MS })
-    await page.getByPlaceholder('Ngày').fill('01')
-    await page.getByPlaceholder('Tháng').fill('01')
-    await page.getByPlaceholder('Năm').fill('1994')
-    await page.getByRole('button', { name: /Ngọ|Ngo|11h-13h/i }).first().click({ timeout: 30_000 })
-    await page.getByRole('button', { name: /Tiếp tục/i }).last().click({ timeout: 30_000 })
-    await page.getByRole('button', { name: /Dựng|DỰNG/i }).waitFor({ state: 'visible', timeout: UI_WAIT_MS })
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS })
+    await page.locator('#home-name, input[name="name"]').first().fill('Bạn', { timeout: 30_000 })
+    await page.locator('#home-birth-date, input[name="birthDate"]').first().fill('1994-01-01', { timeout: 30_000 })
+    await page.locator('#home-gender, select[name="gender"]').first().selectOption('Nam')
+    await page.locator('#home-birth-hour, select[name="birthHour"]').first().selectOption('Ngo')
     const chartResponsePromise = page.waitForResponse((response) =>
       response.url().includes('/api/chart') && response.request().method() === 'POST',
     { timeout: TIMEOUT_MS })
-    await page.getByRole('button', { name: /Dựng|DỰNG/i }).click({ timeout: 30_000 })
+    await page.getByRole('button', { name: /Lập lá số|LẬP LÁ SỐ|Dựng|DỰNG/i }).first().click({ timeout: 30_000 })
     const chartResponse = await chartResponsePromise
     const chartText = await chartResponse.text()
     await page.waitForURL(/\/reading\//, { timeout: TIMEOUT_MS })
-    record('form_flow_submit_opens_reading', chartResponse.status() === 200 && /\/reading\//.test(page.url()), {
+    await page.waitForTimeout(2000)
+    const visible = await page.locator('body').innerText()
+    record('form_flow_submit_opens_reading', chartResponse.status() === 200 && /\/reading\//.test(page.url()) && /THIÊN BÀN|Thiên Bàn/.test(visible), {
       chartStatus: chartResponse.status(),
       readingUrl: page.url(),
+      hasChart: /THIÊN BÀN|Thiên Bàn/.test(visible),
       tuTuc: count(chartText, 'Tử Tức') + count(chartText, 'tu_tuc') + count(chartText, '子息'),
       tuNu: count(chartText, 'Tử Nữ'),
     })
@@ -279,6 +333,7 @@ try {
   const { chartId } = await createChartViaApi()
   if (chartId) {
     await readingHtmlFallbackCheck(chartId)
+    await tinhCachApiChecks(chartId)
     await lockedTabApiChecks(chartId)
     await browserChecksFromChart(chartId)
   }

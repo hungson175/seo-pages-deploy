@@ -144,6 +144,132 @@ const GENERATED_READING_TABS = new Set([
 const LOCKED_READING_COPY =
   'Phần này đang được hoàn thiện cho bản public. Bạn có thể đọc mục Tìm hiểu bản thân và lá số 12 cung trước; Bói Toán sẽ mở thêm luận giải sau khi kiểm định nội dung.'
 
+const SAFE_READING_DISCLAIMER =
+  'Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.'
+const BLANK_READING_FALLBACK_COPY =
+  'Phần luận giải này đang được kiểm định trước khi mở công khai. Bạn vẫn có thể xem lá số 12 cung và phần tóm tắt trước.'
+const MOBILE_READING_P0_PATCH_MARKER = 'data-boitoan-mobile-p0-patch="true"'
+
+function safeReadingKeynotes(...items: string[]): string[] {
+  return items
+}
+
+function buildTinhCachSafeFallback(): Record<string, unknown> {
+  return {
+    hero: {
+      headline: 'Tìm hiểu bản thân — bản luận giải tóm tắt',
+      sub: `${BLANK_READING_FALLBACK_COPY} ${SAFE_READING_DISCLAIMER}`,
+    },
+    tinh_cach: {
+      basis: 'Đọc theo Mệnh, Thân, Cục và tam phương để lấy bối cảnh, không tách một sao thành kết luận cố định.',
+      hero_sub: 'Phần này giúp bạn nhìn các khuynh hướng nền: cách quan sát, cách phản ứng, điểm mạnh dễ dùng và phần nên rèn thêm.',
+      six_faces: {
+        section_title: 'Bản tóm tắt sáu mặt của Cung Mệnh',
+        items: [
+          {
+            icon: '命',
+            label: 'Mệnh',
+            title: 'Cách nhìn bản thân',
+            body: 'Cung Mệnh được đọc như điểm tựa để hiểu khí chất và thói quen phản ứng. Hãy dùng phần này để tự quan sát, không xem như nhãn dán cố định.',
+          },
+          {
+            icon: '身',
+            label: 'Thân',
+            title: 'Cách bước vào việc',
+            body: 'Cung Thân gợi cách bạn đem lựa chọn vào đời sống thực tế. Khi Mệnh và Thân cùng sáng, nên ưu tiên nhịp sống ổn định và có kiểm chứng.',
+          },
+          {
+            icon: '局',
+            label: 'Cục',
+            title: 'Nhịp vận hành',
+            body: 'Cục số được dùng như nền để cân nhịp nhanh/chậm khi đọc lá số. Đây là bối cảnh, không phải lời bảo đảm về kết quả.',
+          },
+          {
+            icon: '三',
+            label: 'Tam phương',
+            title: 'Không đọc đơn điểm',
+            body: 'Một cung luôn cần nhìn cùng tam phương/tứ chính. Cách đọc này giúp tránh kết luận vội từ một sao hoặc một vị trí riêng lẻ.',
+          },
+        ],
+      },
+      radar: {
+        traits: [
+          { label: 'Quan sát', value: 7, level: 'Mạnh', desc: 'Dễ nhận ra mẫu lặp trong công việc và quan hệ nếu dành thời gian ghi chép.' },
+          { label: 'Ổn định', value: 6, level: 'Trung bình', desc: 'Phù hợp nhịp tiến chậm, đều, có kiểm chứng thay vì đổi hướng quá nhanh.' },
+          { label: 'Biểu đạt', value: 5, level: 'Trung bình', desc: 'Nên nói rõ nhu cầu và giới hạn để người khác hiểu đúng ý.' },
+          { label: 'Tự chủ', value: 6, level: 'Mạnh', desc: 'Có lợi khi tự đặt nguyên tắc trước khi nhận lời hoặc chọn việc quan trọng.' },
+        ],
+      },
+      strengths: safeReadingKeynotes(
+        'Có xu hướng hợp với cách đọc chậm, nhìn toàn cục rồi mới quyết định.',
+        'Dễ phát huy khi mục tiêu được chia thành từng bước nhỏ và có thời gian kiểm chứng.',
+        'Có thể dùng phản hồi của người thân/cộng sự để soi lại điểm mù thay vì tự kết luận một chiều.',
+      ),
+      challenges: safeReadingKeynotes(
+        'Khi căng thẳng, nên tránh quyết định ngay trong lúc cảm xúc đang mạnh.',
+        'Nếu thấy nhiều tín hiệu trái chiều trong lá số, hãy ưu tiên quan sát hành vi thực tế.',
+        'Không dùng lá số để thay thế tư vấn chuyên môn hoặc quyết định quan trọng.',
+      ),
+      narrative_paragraphs: [
+        'Bản tóm tắt này đọc lá số như một tấm gương văn hóa. Trọng tâm là giúp bạn nhận ra khuynh hướng đang lặp lại trong cách nghĩ, cách chọn việc và cách giữ nhịp sống.',
+        'Nếu một nhận xét chưa khớp với trải nghiệm của bạn, hãy xem đó là câu hỏi để tự kiểm tra. Tử Vi hữu ích nhất khi được đọc cùng hoàn cảnh thật, không dùng để đóng khung con người.',
+      ],
+      advice_phases: [
+        { phase_num: '01', phase_label: 'Bắt đầu', phase_name: 'Ghi nhận dữ kiện', content: 'Ghi lại 2-3 tình huống gần đây khiến bạn phản ứng mạnh để so với phần Mệnh/Thân.' },
+        { phase_num: '02', phase_label: 'Tiếp theo', phase_name: 'Chọn một điểm rèn', content: 'Chọn một thói quen nhỏ có thể cải thiện trong 7 ngày thay vì cố thay đổi quá nhiều.' },
+      ],
+      ask_chips: [
+        'Bói Toán giải thích cung Mệnh giúp tôi',
+        'Tôi nên tự quan sát điều gì trước?',
+      ],
+    },
+    thu_thach: {
+      headline: 'Thử thách nên tự quan sát',
+      sub: 'Phần này nêu các điểm cần rèn theo cách mềm, không xem là dự báo cố định.',
+      basis: 'Đọc cùng Mệnh, Thân và tam phương.',
+      challenge_bars: [
+        { label: 'Kiên nhẫn', value: 6, level: 'Cần rèn' },
+        { label: 'Ranh giới', value: 5, level: 'Trung bình' },
+        { label: 'Nhịp nghỉ', value: 5, level: 'Trung bình' },
+      ],
+      overcome: safeReadingKeynotes('Biết dừng lại để nhìn toàn cục trước khi phản ứng.', 'Có thể học tốt từ trải nghiệm đã qua.'),
+      facing: safeReadingKeynotes('Dễ mệt nếu ôm quá nhiều kỳ vọng cùng lúc.', 'Nên tách điều mình kiểm soát được khỏi điều chỉ nên quan sát.'),
+      narrative_paragraphs: ['Thử thách trong lá số nên được đọc như lời nhắc về thói quen. Khi có kế hoạch nhỏ và đều, các điểm căng thường dễ xử lý hơn.'],
+      advice_phases: [{ phase_num: '01', phase_label: '7 ngày', phase_name: 'Giảm nhiễu', content: 'Chọn một việc cần nói rõ ranh giới hoặc một việc cần nghỉ đúng giờ.' }],
+    },
+    yeu_to: {
+      headline: 'Yếu tố tác động chính',
+      sub: 'Các yếu tố này giúp đặt lá số vào bối cảnh đời sống, không phải kết luận một chiều.',
+      basis: 'Ưu tiên tam phương/tứ chính và dữ kiện thực tế.',
+      influence_nodes: [
+        { label: 'Mệnh', strength: 'positive' },
+        { label: 'Thân', strength: 'positive' },
+        { label: 'Cục', strength: 'positive' },
+        { label: 'Môi trường', strength: 'neutral' },
+      ],
+      influence_bars: [
+        { label: 'Môi trường', value: 6, level: 'Trung bình' },
+        { label: 'Thói quen', value: 7, level: 'Mạnh' },
+      ],
+      power_factors: safeReadingKeynotes('Môi trường có nhịp ổn định giúp bạn dễ phát huy.', 'Khi có phản hồi rõ, bạn dễ điều chỉnh nhanh hơn.'),
+      limit_factors: safeReadingKeynotes('Quá nhiều lựa chọn cùng lúc có thể làm phân tán.', 'Không nên dùng một tín hiệu đơn lẻ để quyết định việc lớn.'),
+      narrative_paragraphs: ['Lá số chỉ là một lớp tham khảo. Điều quan trọng là đặt nó cạnh hoàn cảnh, năng lực và lựa chọn hiện tại của bạn.'],
+    },
+    no_nghiep: {
+      headline: 'Bài học cần chuyển hóa',
+      sub: 'Đọc theo nghĩa biểu tượng về trách nhiệm và cách ứng xử, không dùng để dọa nạt.',
+      basis: 'Khung tham khảo văn hóa.',
+      karma_bars: [
+        { label: 'Trách nhiệm', value: 6, level: 'Trung bình' },
+        { label: 'Buông bỏ', value: 5, level: 'Trung bình' },
+      ],
+      blessings: safeReadingKeynotes('Có thể chuyển hóa tốt khi nhận diện được mẫu lặp.', 'Biết xin hỗ trợ đúng lúc là một điểm mạnh.'),
+      karma_debts: safeReadingKeynotes('Không tự gánh mọi thứ một mình.', 'Tránh để cảm giác nợ nần chi phối quyết định quan trọng.'),
+      narrative_paragraphs: ['Trong bản đọc này, “nghiệp” được hiểu như bài học và mẫu hành vi cần quan sát, không phải lời phán xét hay kết luận về số phận.'],
+    },
+  }
+}
+
 type ReadingFallbackStar = {
   name?: unknown
   type?: unknown
@@ -214,6 +340,13 @@ export function lockedReadingFallback(path: string[]): Record<string, unknown> {
               : tab === 'cung' ? '12 cung'
                 : 'Luận giải'
 
+  if (tab === 'tinh-cach') {
+    return {
+      locked: true,
+      ...buildTinhCachSafeFallback(),
+    }
+  }
+
   return {
     locked: true,
     hero: {
@@ -243,42 +376,63 @@ export function lockedReadingFallback(path: string[]): Record<string, unknown> {
 function buildChatDisabledGate(): string {
   return `
 <style ${CHAT_DISABLED_GATE_MARKER}>
-  html[data-boitoan-chat-disabled="true"] .rdg-chat,
-  html[data-boitoan-chat-disabled="true"] [data-boitoan-chat-hidden="true"] {
+  html[data-boitoan-chat-disabled="true"] .rdg-chat textarea,
+  html[data-boitoan-chat-disabled="true"] .rdg-chat input,
+  html[data-boitoan-chat-disabled="true"] .rdg-chat form,
+  html[data-boitoan-chat-disabled="true"] .rdg-chat .rdg-input-like,
+  html[data-boitoan-chat-disabled="true"] .rdg-chat .rdg-prompt-btn,
+  html[data-boitoan-chat-disabled="true"] .rdg-chat .rdg-send-btn {
     display: none !important;
     visibility: hidden !important;
     pointer-events: none !important;
   }
+  html[data-boitoan-chat-disabled="true"] .boitoan-chat-disabled-card {
+    display: block !important;
+    margin: 18px;
+    padding: 18px;
+    border: 1px solid rgba(201,169,97,.55);
+    background: rgba(245,240,225,.96);
+    color: var(--rdg-ink, #1a1f3a);
+    font-family: var(--font-inter), 'Be Vietnam Pro', sans-serif;
+    line-height: 1.65;
+  }
+  html[data-boitoan-chat-disabled="true"] .boitoan-chat-disabled-card strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--rdg-vermillion, #8b1f1f);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+  }
+  html[data-boitoan-chat-disabled="true"] .boitoan-chat-disabled-card p {
+    margin: 0 0 12px;
+    color: var(--rdg-ink-soft, #5f5548);
+  }
+  html[data-boitoan-chat-disabled="true"] .boitoan-chat-disabled-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--rdg-ink-soft, #5f5548);
+  }
 </style>
 <script ${CHAT_DISABLED_GATE_MARKER}>
   (() => {
-    const hide = (element) => {
-      if (!element || element.getAttribute('data-boitoan-chat-hidden') === 'true') return
-      element.setAttribute('data-boitoan-chat-hidden', 'true')
-      element.setAttribute('aria-hidden', 'true')
-      if ('tabIndex' in element) element.tabIndex = -1
-    }
-    const normalize = (value) => String(value || '').replace(/\\s+/g, ' ').trim()
-    const isChatTabText = (text) => text === 'Hỏi' || text === '命 Hỏi' || text === 'HỎI' || text === '命 HỎI'
-    const isChatPromiseText = (text) =>
-      text.includes('Gợi ý hỏi Bói Toán') ||
-      text.includes('Bạn muốn hỏi thêm điều gì')
-    const hideChat = () => {
+    const cardHtml = '<section class="boitoan-chat-disabled-card" data-boitoan-chat-visible-card="true" aria-label="Hỏi đáp Bói Toán đang kiểm định"><strong>Hỏi thêm về lá số</strong><p>Tính năng hỏi đáp đang được kiểm định để tránh trả lời sai. Bạn có thể đọc phần tóm tắt và 12 cung trước; Bói Toán sẽ mở hỏi đáp khi ổn định hơn.</p><ul><li>Xem tóm tắt</li><li>Xem 12 cung</li><li>Nội dung tham khảo, không phải lời tiên đoán.</li></ul></section>'
+    const applyCard = () => {
       document.documentElement?.setAttribute('data-boitoan-chat-disabled', 'true')
-      document.querySelectorAll('.rdg-chat').forEach(hide)
-      document.querySelectorAll('button,[role="button"],a,textarea,input,form,aside').forEach((element) => {
-        const text = normalize(element.innerText || element.textContent)
-        if (!text) return
-        if (isChatTabText(text) || isChatPromiseText(text)) hide(element)
+      document.querySelectorAll('.rdg-chat').forEach((chat) => {
+        if (!chat.querySelector('[data-boitoan-chat-visible-card="true"]')) {
+          chat.innerHTML = cardHtml
+        }
+        chat.setAttribute('data-boitoan-chat-disabled-card', 'true')
+        chat.setAttribute('aria-label', 'Hỏi đáp Bói Toán đang kiểm định')
       })
     }
     const start = () => {
-      hideChat()
-      const observer = new MutationObserver(hideChat)
-      observer.observe(document.body, { childList: true, subtree: true, characterData: true })
-      setTimeout(hideChat, 500)
-      setTimeout(hideChat, 1500)
-      setTimeout(hideChat, 3000)
+      applyCard()
+      const observer = new MutationObserver(applyCard)
+      observer.observe(document.body, { childList: true, subtree: true })
+      setTimeout(applyCard, 500)
+      setTimeout(applyCard, 1500)
+      setTimeout(applyCard, 3000)
     }
     if (document.body) start()
     else document.addEventListener('DOMContentLoaded', start, { once: true })
@@ -294,6 +448,102 @@ export function applyChatVisibilityGate(html: string): string {
   const bodyEnd = html.indexOf('>', bodyStart)
   if (bodyEnd === -1) return `${gate}${html}`
   return `${html.slice(0, bodyEnd + 1)}${gate}${html.slice(bodyEnd + 1)}`
+}
+
+
+export function applyMobileReadingP0Patch(html: string): string {
+  if (html.includes(MOBILE_READING_P0_PATCH_MARKER)) return html
+  const patch = `
+<style ${MOBILE_READING_P0_PATCH_MARKER}>
+  @media (max-width: 768px) {
+    .rdg-root .rdg-app { align-items: stretch !important; }
+    .rdg-root .rdg-app > aside.rdg-panel:first-child { order: 1 !important; }
+    .rdg-root .rdg-app > section.rdg-panel { order: 2 !important; }
+    .rdg-root .rdg-app > aside.rdg-chat { order: 3 !important; }
+    .rdg-root .rdg-app > .rdg-mobile-tabs { order: 4 !important; }
+    .rdg-root .rdg-panel[data-mobile-hidden="laso"] { display: flex !important; }
+    .rdg-root [data-boitoan-mobile-chart-first="true"] { order: 1 !important; }
+    .rdg-root [data-boitoan-mobile-compact-disclaimer="true"] {
+      order: 2 !important;
+      margin: 10px 0 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(201, 169, 97, .38);
+      border-radius: 14px;
+      background: rgba(255, 250, 240, .92);
+      color: var(--rdg-ink-soft, #5f5548);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .rdg-root [data-boitoan-mobile-summary-below-chart="true"] { order: 3 !important; }
+    .boitoan-reading-fallback__card { display: flex; flex-direction: column; }
+    .boitoan-reading-fallback__facts { order: 1; }
+    .boitoan-reading-fallback__palaces { order: 2; }
+    .boitoan-reading-fallback__disclaimer { order: 3; margin-top: 14px; }
+    .boitoan-reading-fallback__actions { order: 4; }
+  }
+</style>
+<script ${MOBILE_READING_P0_PATCH_MARKER}>
+  (() => {
+    const compactDisclaimer = 'Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.'
+    const isMobile = () => window.matchMedia ? window.matchMedia('(max-width: 768px)').matches : window.innerWidth <= 768
+    const cleanText = (node) => (node?.innerText || node?.textContent || '').replace(/\s+/g, ' ').trim()
+    const hasChartMarker = (node) => /THIÊN BÀN|Thiên Bàn/.test(cleanText(node))
+    const hasSummaryMarker = (node) => {
+      const text = cleanText(node)
+      return text.includes('TÓM TẮT TRƯỚC KHI ĐỌC') || text.includes('Không khẳng định tương lai') || text.includes('Phương pháp:') || text.includes('Không bán nghi lễ')
+    }
+    const firstMatchingDescendant = (root, predicate) => {
+      if (!root) return null
+      const elements = Array.from(root.querySelectorAll('section, article, div, aside'))
+      return elements.find((element) => predicate(element)) || null
+    }
+    const patchChartPanel = () => {
+      if (!isMobile() || !document.body) return
+      document.documentElement.setAttribute('data-boitoan-mobile-reading-order', 'chart-first')
+      const panels = Array.from(document.querySelectorAll('.rdg-root .rdg-app > aside.rdg-panel, .rdg-root aside.rdg-panel'))
+      const chartPanel = panels.find((panel) => hasChartMarker(panel))
+      if (!chartPanel) return
+      const directChildren = Array.from(chartPanel.children)
+      const chartBlock = directChildren.find((child) => hasChartMarker(child)) || firstMatchingDescendant(chartPanel, hasChartMarker)
+      const summaryBlock = directChildren.find((child) => hasSummaryMarker(child)) || firstMatchingDescendant(chartPanel, hasSummaryMarker)
+      if (!chartBlock) return
+      chartBlock.setAttribute('data-boitoan-mobile-chart-first', 'true')
+      chartPanel.style.display = 'flex'
+      chartPanel.style.flexDirection = 'column'
+      const shouldMoveBeforeSummary = summaryBlock && Boolean(summaryBlock.compareDocumentPosition(chartBlock) & Node.DOCUMENT_POSITION_FOLLOWING)
+      if (shouldMoveBeforeSummary) {
+        chartPanel.insertBefore(chartBlock, summaryBlock)
+      }
+      if (summaryBlock) {
+        summaryBlock.setAttribute('data-boitoan-mobile-summary-below-chart', 'true')
+      }
+      if (!chartPanel.querySelector('[data-boitoan-mobile-compact-disclaimer="true"]')) {
+        const note = document.createElement('p')
+        note.setAttribute('data-boitoan-mobile-compact-disclaimer', 'true')
+        note.textContent = compactDisclaimer
+        chartBlock.insertAdjacentElement('afterend', note)
+      }
+    }
+    const start = () => {
+      patchChartPanel()
+      const observer = new MutationObserver(patchChartPanel)
+      observer.observe(document.body, { childList: true, subtree: true })
+      setTimeout(patchChartPanel, 250)
+      setTimeout(patchChartPanel, 1000)
+      setTimeout(patchChartPanel, 2500)
+      setTimeout(patchChartPanel, 5000)
+    }
+    if (document.body) start()
+    else document.addEventListener('DOMContentLoaded', start, { once: true })
+  })()
+</script>`
+  const headEnd = html.search(/<\/head>/i)
+  if (headEnd !== -1) return `${html.slice(0, headEnd)}${patch}${html.slice(headEnd)}`
+  const bodyStart = html.search(/<body(?:\s[^>]*)?>/i)
+  if (bodyStart === -1) return `${patch}${html}`
+  const bodyEnd = html.indexOf('>', bodyStart)
+  if (bodyEnd === -1) return `${patch}${html}`
+  return `${html.slice(0, bodyEnd + 1)}${patch}${html.slice(bodyEnd + 1)}`
 }
 
 function rewriteHtml(html: string, options: { gateChat?: boolean } = {}): string {
@@ -396,7 +646,7 @@ export function buildReadingServerFallback(chart: ReadingFallbackChart): string 
   <div class="boitoan-reading-fallback__card">
     <p class="boitoan-reading-fallback__eyebrow">Bản dự phòng đang hiển thị ngay</p>
     <h1>Lá số đã tạo — bản tương tác đang được tải</h1>
-    <p>Nếu trình duyệt hoặc kết nối chưa tải kịp JavaScript, bạn vẫn có thể xem tóm tắt lá số bên dưới. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.</p>
+    <p class="boitoan-reading-fallback__disclaimer" data-boitoan-disclaimer>Nếu trình duyệt hoặc kết nối chưa tải kịp JavaScript, bạn vẫn có thể xem tóm tắt lá số bên dưới. Nội dung chỉ mang tính tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.</p>
     <div class="boitoan-reading-fallback__facts" aria-label="Tóm tắt lá số">
       <div><span>Họ tên</span><strong>${safeText(chart.name) || 'Bạn'}</strong></div>
       <div><span>Giới tính</span><strong>${safeText(chart.gender) || 'Đang cập nhật'}</strong></div>
@@ -488,6 +738,7 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
       } catch {
         // Keep the upstream reading page available even if the SSR safety net cannot load chart data.
       }
+      html = applyMobileReadingP0Patch(html)
     }
     return new Response(html, {
       status: upstream.status,
@@ -502,6 +753,8 @@ export async function proxyRealTuViGet(pathname: string, request: NextRequest): 
 
 export function sanitizeRealTuViAssetText(text: string): string {
   return normalizeBirthHourCopyText(sanitizeRealTuViHtmlText(text))
+    .replaceAll('useState)("luan")', 'useState)("laso")')
+    .replaceAll('useState("luan")', 'useState("laso")')
     .replaceAll(
       'kh\\xf4ng phải lời khẳng định tương lai',
       'không phải lời tiên đoán hay lời khẳng định tương lai',

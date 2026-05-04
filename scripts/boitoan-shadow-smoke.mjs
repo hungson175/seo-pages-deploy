@@ -45,6 +45,19 @@ function hasFakeGeneratedPlaceholder(text) {
     String(text || '').includes('bản public')
 }
 
+function hasGenericFallbackReadingBody(text) {
+  return [
+    'bản luận giải tóm tắt',
+    'Bản tóm tắt sáu mặt',
+    'Cung Mệnh được đọc',
+    '6 chiều tính cách',
+    'ĐIỂM MẠNH BẨM SINH',
+    'Cung Mệnh biểu hiện sáu mặt',
+    'Hành trình rèn giũa tính cách',
+    'VÒNG TRÒN NGHIỆP LỰC',
+  ].some((marker) => String(text || '').includes(marker))
+}
+
 function paywallMarkers(text) {
   return ['suggested_packages', 'required_tab', '49000', 'Đọc bản thân'].filter((marker) =>
     String(text || '').includes(marker),
@@ -286,12 +299,14 @@ async function browserChecksFromChart(chartId) {
       luanVisible.includes('Thử lại') &&
       luanVisible.includes('Xem lá số 12 cung') &&
       !hasFakeGeneratedPlaceholder(luanVisible) &&
+      !hasGenericFallbackReadingBody(luanVisible) &&
       !luanVisible.includes('Không thể tải luận giải'), {
       hasAnalysisTitle: luanVisible.includes('Tìm hiểu bản thân'),
       hasRetryableFailCopy: luanVisible.includes('Chưa tạo được luận giải'),
       hasRetry: luanVisible.includes('Thử lại'),
       hasViewChart: luanVisible.includes('Xem lá số 12 cung'),
       hasFakeGeneratedPlaceholder: hasFakeGeneratedPlaceholder(luanVisible),
+      hasGenericFallbackReadingBody: hasGenericFallbackReadingBody(luanVisible),
       hasGenericError: luanVisible.includes('Không thể tải luận giải'),
       sample: luanVisible.slice(0, 500),
     })

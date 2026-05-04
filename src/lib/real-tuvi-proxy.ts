@@ -152,127 +152,17 @@ const BLANK_READING_FALLBACK_COPY =
   GENERATED_READING_FAIL_COPY
 const MOBILE_READING_P0_PATCH_MARKER = 'data-boitoan-mobile-p0-patch="true"'
 
-function safeReadingKeynotes(...items: string[]): string[] {
-  return items
-}
-
 function buildTinhCachSafeFallback(): Record<string, unknown> {
   return {
+    locked: true,
     hero: {
-      headline: 'Tìm hiểu bản thân — bản luận giải tóm tắt',
-      sub: `${BLANK_READING_FALLBACK_COPY} ${SAFE_READING_DISCLAIMER}`,
+      headline: 'Tìm hiểu bản thân chưa tạo được luận giải',
+      sub: `${GENERATED_READING_FAIL_COPY} ${SAFE_READING_DISCLAIMER}`,
     },
     retry_actions: [
       { label: GENERATED_READING_RETRY_LABEL, action: 'reload' },
       { label: GENERATED_READING_CHART_LABEL, action: 'open-chart' },
     ],
-    tinh_cach: {
-      basis: 'Đọc theo Mệnh, Thân, Cục và tam phương để lấy bối cảnh, không tách một sao thành kết luận cố định.',
-      hero_sub: 'Phần này giúp bạn nhìn các khuynh hướng nền: cách quan sát, cách phản ứng, điểm mạnh dễ dùng và phần nên rèn thêm.',
-      six_faces: {
-        section_title: 'Bản tóm tắt sáu mặt của Cung Mệnh',
-        items: [
-          {
-            icon: '命',
-            label: 'Mệnh',
-            title: 'Cách nhìn bản thân',
-            body: 'Cung Mệnh được đọc như điểm tựa để hiểu khí chất và thói quen phản ứng. Hãy dùng phần này để tự quan sát, không xem như nhãn dán cố định.',
-          },
-          {
-            icon: '身',
-            label: 'Thân',
-            title: 'Cách bước vào việc',
-            body: 'Cung Thân gợi cách bạn đem lựa chọn vào đời sống thực tế. Khi Mệnh và Thân cùng sáng, nên ưu tiên nhịp sống ổn định và có kiểm chứng.',
-          },
-          {
-            icon: '局',
-            label: 'Cục',
-            title: 'Nhịp vận hành',
-            body: 'Cục số được dùng như nền để cân nhịp nhanh/chậm khi đọc lá số. Đây là bối cảnh, không phải lời bảo đảm về kết quả.',
-          },
-          {
-            icon: '三',
-            label: 'Tam phương',
-            title: 'Không đọc đơn điểm',
-            body: 'Một cung luôn cần nhìn cùng tam phương/tứ chính. Cách đọc này giúp tránh kết luận vội từ một sao hoặc một vị trí riêng lẻ.',
-          },
-        ],
-      },
-      radar: {
-        traits: [
-          { label: 'Quan sát', value: 7, level: 'Mạnh', desc: 'Dễ nhận ra mẫu lặp trong công việc và quan hệ nếu dành thời gian ghi chép.' },
-          { label: 'Ổn định', value: 6, level: 'Trung bình', desc: 'Phù hợp nhịp tiến chậm, đều, có kiểm chứng thay vì đổi hướng quá nhanh.' },
-          { label: 'Biểu đạt', value: 5, level: 'Trung bình', desc: 'Nên nói rõ nhu cầu và giới hạn để người khác hiểu đúng ý.' },
-          { label: 'Tự chủ', value: 6, level: 'Mạnh', desc: 'Có lợi khi tự đặt nguyên tắc trước khi nhận lời hoặc chọn việc quan trọng.' },
-        ],
-      },
-      strengths: safeReadingKeynotes(
-        'Có xu hướng hợp với cách đọc chậm, nhìn toàn cục rồi mới quyết định.',
-        'Dễ phát huy khi mục tiêu được chia thành từng bước nhỏ và có thời gian kiểm chứng.',
-        'Có thể dùng phản hồi của người thân/cộng sự để soi lại điểm mù thay vì tự kết luận một chiều.',
-      ),
-      challenges: safeReadingKeynotes(
-        'Khi căng thẳng, nên tránh quyết định ngay trong lúc cảm xúc đang mạnh.',
-        'Nếu thấy nhiều tín hiệu trái chiều trong lá số, hãy ưu tiên quan sát hành vi thực tế.',
-        'Không dùng lá số để thay thế tư vấn chuyên môn hoặc quyết định quan trọng.',
-      ),
-      narrative_paragraphs: [
-        'Bản tóm tắt này đọc lá số như một tấm gương văn hóa. Trọng tâm là giúp bạn nhận ra khuynh hướng đang lặp lại trong cách nghĩ, cách chọn việc và cách giữ nhịp sống.',
-        'Nếu một nhận xét chưa khớp với trải nghiệm của bạn, hãy xem đó là câu hỏi để tự kiểm tra. Tử Vi hữu ích nhất khi được đọc cùng hoàn cảnh thật, không dùng để đóng khung con người.',
-      ],
-      advice_phases: [
-        { phase_num: '01', phase_label: 'Bắt đầu', phase_name: 'Ghi nhận dữ kiện', content: 'Ghi lại 2-3 tình huống gần đây khiến bạn phản ứng mạnh để so với phần Mệnh/Thân.' },
-        { phase_num: '02', phase_label: 'Tiếp theo', phase_name: 'Chọn một điểm rèn', content: 'Chọn một thói quen nhỏ có thể cải thiện trong 7 ngày thay vì cố thay đổi quá nhiều.' },
-      ],
-      ask_chips: [
-        'Bói Toán giải thích cung Mệnh giúp tôi',
-        'Tôi nên tự quan sát điều gì trước?',
-      ],
-    },
-    thu_thach: {
-      headline: 'Thử thách nên tự quan sát',
-      sub: 'Phần này nêu các điểm cần rèn theo cách mềm, không xem là dự báo cố định.',
-      basis: 'Đọc cùng Mệnh, Thân và tam phương.',
-      challenge_bars: [
-        { label: 'Kiên nhẫn', value: 6, level: 'Cần rèn' },
-        { label: 'Ranh giới', value: 5, level: 'Trung bình' },
-        { label: 'Nhịp nghỉ', value: 5, level: 'Trung bình' },
-      ],
-      overcome: safeReadingKeynotes('Biết dừng lại để nhìn toàn cục trước khi phản ứng.', 'Có thể học tốt từ trải nghiệm đã qua.'),
-      facing: safeReadingKeynotes('Dễ mệt nếu ôm quá nhiều kỳ vọng cùng lúc.', 'Nên tách điều mình kiểm soát được khỏi điều chỉ nên quan sát.'),
-      narrative_paragraphs: ['Thử thách trong lá số nên được đọc như lời nhắc về thói quen. Khi có kế hoạch nhỏ và đều, các điểm căng thường dễ xử lý hơn.'],
-      advice_phases: [{ phase_num: '01', phase_label: '7 ngày', phase_name: 'Giảm nhiễu', content: 'Chọn một việc cần nói rõ ranh giới hoặc một việc cần nghỉ đúng giờ.' }],
-    },
-    yeu_to: {
-      headline: 'Yếu tố tác động chính',
-      sub: 'Các yếu tố này giúp đặt lá số vào bối cảnh đời sống, không phải kết luận một chiều.',
-      basis: 'Ưu tiên tam phương/tứ chính và dữ kiện thực tế.',
-      influence_nodes: [
-        { label: 'Mệnh', strength: 'positive' },
-        { label: 'Thân', strength: 'positive' },
-        { label: 'Cục', strength: 'positive' },
-        { label: 'Môi trường', strength: 'neutral' },
-      ],
-      influence_bars: [
-        { label: 'Môi trường', value: 6, level: 'Trung bình' },
-        { label: 'Thói quen', value: 7, level: 'Mạnh' },
-      ],
-      power_factors: safeReadingKeynotes('Môi trường có nhịp ổn định giúp bạn dễ phát huy.', 'Khi có phản hồi rõ, bạn dễ điều chỉnh nhanh hơn.'),
-      limit_factors: safeReadingKeynotes('Quá nhiều lựa chọn cùng lúc có thể làm phân tán.', 'Không nên dùng một tín hiệu đơn lẻ để quyết định việc lớn.'),
-      narrative_paragraphs: ['Lá số chỉ là một lớp tham khảo. Điều quan trọng là đặt nó cạnh hoàn cảnh, năng lực và lựa chọn hiện tại của bạn.'],
-    },
-    no_nghiep: {
-      headline: 'Bài học cần chuyển hóa',
-      sub: 'Đọc theo nghĩa biểu tượng về trách nhiệm và cách ứng xử, không dùng để dọa nạt.',
-      basis: 'Khung tham khảo văn hóa.',
-      karma_bars: [
-        { label: 'Trách nhiệm', value: 6, level: 'Trung bình' },
-        { label: 'Buông bỏ', value: 5, level: 'Trung bình' },
-      ],
-      blessings: safeReadingKeynotes('Có thể chuyển hóa tốt khi nhận diện được mẫu lặp.', 'Biết xin hỗ trợ đúng lúc là một điểm mạnh.'),
-      karma_debts: safeReadingKeynotes('Không tự gánh mọi thứ một mình.', 'Tránh để cảm giác nợ nần chi phối quyết định quan trọng.'),
-      narrative_paragraphs: ['Trong bản đọc này, “nghiệp” được hiểu như bài học và mẫu hành vi cần quan sát, không phải lời phán xét hay kết luận về số phận.'],
-    },
   }
 }
 
@@ -524,6 +414,9 @@ export function applyMobileReadingP0Patch(html: string): string {
       border-color: var(--rdg-vermillion, #8b1f1f);
       color: #fffaf0;
     }
+    [data-boitoan-generated-fallback-body-hidden="true"] {
+      display: none !important;
+    }
     .boitoan-reading-fallback__card { display: flex; flex-direction: column; }
     .boitoan-reading-fallback__facts { order: 1; }
     .boitoan-reading-fallback__palaces { order: 2; }
@@ -552,7 +445,26 @@ export function applyMobileReadingP0Patch(html: string): string {
       paragraphs
         .filter((paragraph) => cleanText(paragraph).includes(generatedFailCopy))
         .forEach((paragraph) => {
-          if (paragraph.nextElementSibling?.matches?.('[data-boitoan-generated-fallback-actions="true"]')) return
+          const module = paragraph.closest('.rdg-module-content') || paragraph.closest('section') || paragraph.parentElement
+          let topLevelBlock = paragraph
+          while (module && topLevelBlock.parentElement && topLevelBlock.parentElement !== module) {
+            topLevelBlock = topLevelBlock.parentElement
+          }
+          const failStateBlock = paragraph.parentElement || paragraph
+          const hideAfter = (anchor) => {
+            let sibling = anchor?.nextElementSibling || null
+            while (sibling) {
+              sibling.setAttribute('data-boitoan-generated-fallback-body-hidden', 'true')
+              sibling = sibling.nextElementSibling
+            }
+          }
+          if (paragraph.nextElementSibling?.matches?.('[data-boitoan-generated-fallback-actions="true"]')) {
+            if (module && topLevelBlock.parentElement === module) {
+              hideAfter(topLevelBlock)
+            }
+            hideAfter(failStateBlock)
+            return
+          }
           const actions = document.createElement('div')
           actions.className = 'boitoan-generated-fallback-actions'
           actions.setAttribute('data-boitoan-generated-fallback-actions', 'true')
@@ -570,6 +482,10 @@ export function applyMobileReadingP0Patch(html: string): string {
           })
           actions.append(retry, chart)
           paragraph.insertAdjacentElement('afterend', actions)
+          if (module && topLevelBlock.parentElement === module) {
+            hideAfter(topLevelBlock)
+          }
+          hideAfter(failStateBlock)
         })
     }
     const patchChartPanel = () => {

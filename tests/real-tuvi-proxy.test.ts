@@ -25,6 +25,7 @@ describe('real tu vi API proxy mapping', () => {
   const originalGeneratedReadingsMode = process.env.REAL_TUVI_GENERATED_READINGS_MODE
   const originalRealTuViChatEnabled = process.env.REAL_TUVI_CHAT_ENABLED
   const originalChatEnabled = process.env.CHAT_ENABLED
+  const originalNodeEnv = process.env.NODE_ENV
 
   afterEach(() => {
     if (originalPrivacyContactEmail === undefined) {
@@ -57,9 +58,10 @@ describe('real tu vi API proxy mapping', () => {
     } else {
       process.env.CHAT_ENABLED = originalChatEnabled
     }
+    process.env.NODE_ENV = originalNodeEnv
   })
 
-  it('maps frontend API routes directly to the Railway backend root', () => {
+  it('maps frontend API routes directly to the real app backend root', () => {
     expect(mapRealTuViApiPath(['chart'])).toBe('/chart')
     expect(mapRealTuViApiPath(['chart', 'abc123'])).toBe('/chart/abc123')
     expect(mapRealTuViApiPath(['can-chi'])).toBe('/can-chi')
@@ -67,12 +69,20 @@ describe('real tu vi API proxy mapping', () => {
     expect(mapRealTuViApiPath(['feedback'])).toBe('/feedback')
   })
 
-  it('allows OCI-SG containers to override real app upstream origins via env', () => {
+  it('allows local/test fallback but refuses legacy Vercel/Railway defaults in production', () => {
     delete process.env.REAL_TUVI_ORIGIN
     delete process.env.REAL_TUVI_API_ORIGIN
+    process.env.NODE_ENV = 'test'
     expect(getRealTuViOrigin()).toBe('https://web-neon-tau-79.vercel.app')
     expect(getRealTuViApiOrigin()).toBe('https://horoscope-production-987b.up.railway.app')
 
+    process.env.NODE_ENV = 'production'
+    expect(() => getRealTuViOrigin()).toThrow(/REAL_TUVI_ORIGIN is required in production/)
+    expect(() => getRealTuViApiOrigin()).toThrow(/REAL_TUVI_API_ORIGIN is required in production/)
+  })
+
+  it('requires OCI-SG containers to set real app upstream origins explicitly in production', () => {
+    process.env.NODE_ENV = 'production'
     process.env.REAL_TUVI_ORIGIN = 'http://real-web:3000'
     process.env.REAL_TUVI_API_ORIGIN = 'http://api:8000'
 

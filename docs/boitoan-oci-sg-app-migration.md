@@ -7,13 +7,13 @@ Infra lead: John
 
 ## Current app topology
 
-`boitoan.com.vn` top-level app (`seo-pages-team`) currently serves static SEO pages directly and proxies the real Tử Vi app:
+`boitoan.com.vn` top-level app (`seo-pages-team`) now serves production traffic from OCI via Caddy. It serves static SEO pages directly and proxies the real Tử Vi app through explicit OCI upstream env vars:
 
-- `/lap-la-so`, `/reading/*`, `/quyen-rieng-tu`: proxied HTML from `REAL_TUVI_ORIGIN` (currently Vercel real app fallback).
+- `/lap-la-so`, `/reading/*`, `/quyen-rieng-tu`: proxied HTML from `REAL_TUVI_ORIGIN=http://real-web:3000` in production.
 - `/real-tuvi-assets/*`: proxied real-app static assets.
-- `/api/*`: proxied to `REAL_TUVI_API_ORIGIN` (currently Railway backend fallback) with safety rewrites.
+- `/api/*`: proxied to `REAL_TUVI_API_ORIGIN=http://api:8000` in production with safety rewrites.
 
-For OCI-SG, removing Vercel/Railway assumptions requires three app services, not just one:
+Production must not silently fall back to the old Vercel/Railway upstreams. The code now refuses missing `REAL_TUVI_ORIGIN` / `REAL_TUVI_API_ORIGIN` when `NODE_ENV=production`; legacy defaults are local/test-only. The service topology has three app services:
 
 1. `web`: this SEO/public Next.js app.
 2. `real-web`: `sample_code/horoscope/web` Next.js app used as the upstream for `/lap-la-so` and `/reading` HTML/assets.
@@ -32,7 +32,7 @@ REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback
 NODE_ENV=production
 ```
 
-Defaults remain current external services so local/dev behavior does not change unless env overrides are set. Keep `REAL_TUVI_GENERATED_READINGS_MODE` unset when approved live generation is available; set it to `safe-fallback` for public shadow or cutover contexts that must avoid live LLM/generated calls.
+Local/test defaults may still point at historical external services for developer convenience, but production fails closed if `REAL_TUVI_ORIGIN` or `REAL_TUVI_API_ORIGIN` is missing. Keep `REAL_TUVI_GENERATED_READINGS_MODE` unset when approved live generation is available; set it to `safe-fallback` only for shadow contexts that must avoid live LLM/generated calls.
 
 Server-only env vars for `real-web`:
 
@@ -228,3 +228,9 @@ Run on 2026-05-03 after the P0 `/lap-la-so` hotfix deploy:
 - P1 pre-cutover fix follow-up: top-level proxy now supports an explicit generated-reading safe mode (`REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback`) that returns the existing safe fallback for generated `luan-giai` tabs, including `tinh-cach`, without calling upstream. Even when safe mode is unset, upstream `tinh-cach` 5xx `all attempts failed` responses map to the same safe fallback instead of surfacing 503. A narrow static-media rewrite covers only real-web font preload paths shaped like `/_next/static/media/<16-hex>-s.p.woff2` and rewrites them to `/real-tuvi-assets/_next/static/media/...`; this avoids a broad `/_next/*` proxy that could collide with top-level Next assets. The smoke can now enforce zero browser network 404s and zero generated reading 5xx responses with `SHADOW_SMOKE_STRICT_BROWSER_DIAGNOSTICS=1` after John rebuilds shadow web from this commit.
 
 No OCI DNS switch, Caddy change, or production deployment was performed.
+
+## Legacy deploy cleanup note (2026-05-05)
+
+- `npm run deploy:vercel` is retained only as an emergency legacy rollback helper and refuses to run unless `BOSS_APPROVED_LEGACY_VERCEL_DEPLOY=true` is set with explicit Boss/Gal approval.
+- Normal production deploy is OCI web/API image deploy by exact commit SHA; do not use Vercel for routine releases.
+- Historical Railway/Vercel docs remain archival unless explicitly updated for OCI.

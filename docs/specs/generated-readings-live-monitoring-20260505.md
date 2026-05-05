@@ -92,7 +92,41 @@ Initial expectation:
 
 - One first-time generated `Luận giải` can call multiple LLM sections in parallel.
 - One chat turn can call the model multiple times because tool rounds/final JSON are used.
-- If traffic grows, add a cheap quota/rate limiter before expanding access.
+- Before scheduled provider-consuming smoke or expanded traffic, keep API-side
+  rate/cost guards enabled and reviewed.
+
+## Source-safe rate/cost guard candidate
+
+No-deploy branch candidate: nested horoscope API branch
+`feat/generated-readings-provider-safety-20260505`.
+
+Planned/env knobs are server-side only and must not print secrets:
+
+| Env knob | Default | Meaning |
+| --- | ---: | --- |
+| `BOITOAN_PROVIDER_LIMITS_ENABLED` | `1` | Master enable switch for process-local guards. |
+| `BOITOAN_CHAT_PER_IP_HOUR` | `20` | Per-IP chat request allowance per hour. |
+| `BOITOAN_CHAT_PER_CHART_HOUR` | `12` | Per-chart chat request allowance per hour. |
+| `BOITOAN_GENERATION_PER_IP_HOUR` | `60` | Per-IP generated-reading request allowance per hour. |
+| `BOITOAN_GENERATION_PER_CHART_HOUR` | `24` | Per-chart generated-reading request allowance per hour. |
+| `BOITOAN_PROVIDER_DAILY_CALL_CAP` | `400` | Daily live provider-call cap per API process; `0` blocks all live provider calls, `-1` disables the daily cap only. |
+
+Fail-closed public copy:
+
+- Request limit: `Bói Toán đang có nhiều lượt xem/hỏi về lá số. Lá số của bạn đã an lập; vui lòng thử lại sau ít phút.`
+- Daily provider cap: `Bói Toán tạm dừng tạo luận giải mới để bảo vệ hệ thống. Lá số của bạn vẫn xem được; vui lòng thử lại sau.`
+
+Implementation notes:
+
+- Counters are process-local fixed-window counters. This is acceptable as an
+  immediate source-safe cap before scheduled smoke; move to Redis/Postgres
+  before raising traffic limits or running multiple API replicas.
+- Logs include scope, dimension, model, counts, and hashed IP/chart keys only.
+  Raw IP, chart IDs, provider keys, and prompts are not logged.
+- Replay/VCR clients bypass the provider-call cap so tests stay free and
+  deterministic.
+- Web proxy should keep mapping 429/503 into the existing honest retryable UI;
+  do not reintroduce pseudo-reading placeholder bodies.
 
 Alert thresholds for first 24h:
 
@@ -140,10 +174,21 @@ Then restart web only. This hides chat entrypoints again.
 
 If provider key is compromised or cost spikes, remove/rotate `LUAN_GIAI_LLM_API_KEY` in the secure OCI env and restart API. Never print the key.
 
+## Manual monitoring only for now
+
+Do **not** install q6h cron yet. Until the rate/cost guard candidate is reviewed
+and deployed, run manual live smoke only when Gal/Boss requests it.
+
+If schedule is later approved, start with:
+
+- Daily max initially, not q6h.
+- One generated tab + one chat question only.
+- Abort/alert on provider cap, forbidden output, or visible fallback regression.
+
 ## Next hardening backlog
 
-- Add automated scheduled live smoke that writes artifacts to `/tmp` and alerts Gal on failure.
-- Add rate limiting per chart/session for chat and generated retries.
+- Review/deploy source-safe rate limiting per IP/chart and daily provider-call cap.
+- Add automated scheduled live smoke that writes artifacts to `/tmp` and alerts Gal on failure only after rate/cost guards are live.
 - Add metrics for LLM call count, latency, cache hit/miss, safety validation failures.
 - Add language-quality sanitizer for mixed-language responses.
 - Add CMO/Bói-Toán review sample pack after 24h live traffic.

@@ -330,6 +330,127 @@ describe('real tu vi API proxy mapping', () => {
     }
   })
 
+  it('maps generated-reading 429 rate limits to honest retryable fallback without leaking upstream detail', async () => {
+    const originalFetch = global.fetch
+    global.fetch = async () =>
+      new Response(JSON.stringify({
+        detail: 'Bói Toán đang có nhiều lượt xem lá số. Lá số của bạn đã an lập; vui lòng thử lại sau ít phút.',
+        internal: 'provider daily budget counter debug should never show',
+      }), {
+        status: 429,
+        headers: { 'content-type': 'application/json' },
+      })
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chart', 'abc123', 'luan-giai', 'tinh-cach'],
+        {
+          method: 'GET',
+          headers: new Headers(),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new ArrayBuffer(0),
+        } as never,
+      )
+      const text = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
+      expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('generated-reading-rate-limited')
+      expect(text).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+      expect(text).toContain('Thử lại')
+      expect(text).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('provider')
+      expect(text).not.toContain('budget')
+      expect(text).not.toContain('debug')
+      expect(text).not.toContain('bản luận giải tóm tắt')
+      expect(text).not.toContain('Bản tóm tắt sáu mặt')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
+  it('maps generated-reading 503 daily caps to honest retryable fallback without provider/cost leakage', async () => {
+    const originalFetch = global.fetch
+    global.fetch = async () =>
+      new Response(JSON.stringify({
+        detail: 'Bói Toán tạm dừng tạo luận giải mới để bảo vệ hệ thống. Lá số của bạn vẫn xem được; vui lòng thử lại sau.',
+        provider: 'openai',
+        cost: 'redacted internal budget',
+      }), {
+        status: 503,
+        headers: { 'content-type': 'application/json' },
+      })
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chart', 'abc123', 'luan-giai', 'su-nghiep'],
+        {
+          method: 'GET',
+          headers: new Headers(),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new ArrayBuffer(0),
+        } as never,
+      )
+      const text = await response.text()
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('locked-reading')
+      expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('provider-daily-cap')
+      expect(text).toContain('Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.')
+      expect(text).toContain('Thử lại')
+      expect(text).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('openai')
+      expect(text).not.toContain('provider')
+      expect(text).not.toContain('cost')
+      expect(text).not.toContain('budget')
+      expect(text).not.toContain('bản luận giải tóm tắt')
+      expect(text).not.toContain('Bản tóm tắt sáu mặt')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
+  it('maps chat 429/503 rate caps to visible friendly chat reply without provider leakage', async () => {
+    const originalFetch = global.fetch
+    global.fetch = async () =>
+      new Response(JSON.stringify({
+        detail: 'Bói Toán đang có nhiều lượt hỏi về lá số này. Lá số của bạn đã an lập; vui lòng thử lại sau ít phút.',
+        provider: 'openai',
+        cost: 'debug',
+      }), {
+        status: 429,
+        headers: { 'content-type': 'application/json' },
+      })
+
+    try {
+      const response = await proxyRealTuViApi(
+        ['chat'],
+        {
+          method: 'POST',
+          headers: new Headers({ 'content-type': 'application/json' }),
+          nextUrl: { search: '' },
+          arrayBuffer: async () => new TextEncoder().encode('{}').buffer,
+        } as never,
+      )
+      const text = await response.text()
+      const payload = JSON.parse(text) as { reply: string; suggestions: string[] }
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('x-boitoan-proxy-fallback')).toBe('chat-retryable-rate-limit')
+      expect(response.headers.get('x-boitoan-proxy-fallback-reason')).toBe('chat-rate-limited')
+      expect(payload.reply).toContain('Bói Toán đang có nhiều lượt hỏi')
+      expect(payload.reply).toContain('Lá số của bạn đã an lập')
+      expect(payload.suggestions).toContain('Xem lá số 12 cung')
+      expect(text).not.toContain('openai')
+      expect(text).not.toContain('provider')
+      expect(text).not.toContain('cost')
+      expect(text).not.toContain('debug')
+      expect(text).not.toContain('Không thể kết nối')
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
+
   it('can short-circuit generated readings to safe fallback without calling upstream', async () => {
     const originalFetch = global.fetch
     process.env.REAL_TUVI_GENERATED_READINGS_MODE = 'safe-fallback'

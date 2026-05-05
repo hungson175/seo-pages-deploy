@@ -145,6 +145,10 @@ const GENERATED_READING_FAIL_COPY =
   'Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.'
 const GENERATED_READING_RETRY_LABEL = 'Thử lại'
 const GENERATED_READING_CHART_LABEL = 'Xem lá số 12 cung'
+const CHAT_RATE_LIMIT_FALLBACK_COPY =
+  'Bói Toán đang có nhiều lượt hỏi về lá số này. Lá số của bạn đã an lập; vui lòng thử lại sau ít phút.'
+const CHAT_DAILY_CAP_FALLBACK_COPY =
+  'Bói Toán tạm dừng tạo câu trả lời mới để bảo vệ hệ thống. Lá số của bạn vẫn xem được; vui lòng thử lại sau.'
 
 const SAFE_READING_DISCLAIMER =
   'Nội dung tham khảo, không phải lời tiên đoán hay lời khẳng định tương lai.'
@@ -211,11 +215,43 @@ function isLockedReadingResponse(status: number, path: string[], text: string): 
 }
 
 function isGeneratedReadingUnavailableResponse(status: number, path: string[], text: string): boolean {
-  if (status < 500) return false
   if (!path.includes('luan-giai')) return false
   const tab = path[path.indexOf('luan-giai') + 1] ?? ''
   if (!GENERATED_READING_TABS.has(tab)) return false
+  if (status === 429) return true
+  if (status === 503 && /tạm dừng tạo luận giải mới|nhiều lượt xem lá số/i.test(text)) return true
+  if (status < 500) return false
   return text.includes('all 3 attempts failed') || text.includes('all attempts failed')
+}
+
+function generatedFallbackReason(status: number, text: string): string {
+  if (status === 429) return 'generated-reading-rate-limited'
+  if (/tạm dừng tạo luận giải mới/i.test(text)) return 'provider-daily-cap'
+  return 'generated-reading-unavailable'
+}
+
+function isChatRateOrCapResponse(status: number, path: string[], text: string): boolean {
+  if (path.length !== 1 || path[0] !== 'chat') return false
+  if (status !== 429 && status !== 503) return false
+  return /nhiều lượt hỏi|tạm dừng tạo luận giải mới|tạm dừng tạo câu trả lời mới/i.test(text)
+}
+
+function chatRateOrCapFallback(text: string): Record<string, unknown> {
+  const reply = /tạm dừng tạo/i.test(text)
+    ? CHAT_DAILY_CAP_FALLBACK_COPY
+    : CHAT_RATE_LIMIT_FALLBACK_COPY
+  return {
+    reply,
+    citations: [],
+    messagesUsed: 0,
+    quotaRemaining: 0,
+    tool_context: null,
+    followup_question: null,
+    suggestions: [
+      'Xem lá số 12 cung',
+      'Thử lại sau ít phút',
+    ],
+  }
 }
 
 function shouldShortCircuitGeneratedReading(path: string[]): boolean {
@@ -843,6 +879,17 @@ export async function proxyRealTuViApi(path: string[], request: NextRequest): Pr
         headers: {
           ...Object.fromEntries(responseHeaders(upstream, 'application/json; charset=utf-8')),
           'x-boitoan-proxy-fallback': 'locked-reading',
+          'x-boitoan-proxy-fallback-reason': generatedFallbackReason(upstream.status, text),
+        },
+      })
+    }
+    if (isChatRateOrCapResponse(upstream.status, path, text)) {
+      return new Response(JSON.stringify(chatRateOrCapFallback(text)), {
+        status: 200,
+        headers: {
+          ...Object.fromEntries(responseHeaders(upstream, 'application/json; charset=utf-8')),
+          'x-boitoan-proxy-fallback': 'chat-retryable-rate-limit',
+          'x-boitoan-proxy-fallback-reason': upstream.status === 429 ? 'chat-rate-limited' : 'provider-daily-cap',
         },
       })
     }

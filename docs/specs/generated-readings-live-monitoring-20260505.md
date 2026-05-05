@@ -49,6 +49,37 @@ Current baseline from 2026-05-05 10:34 +07:
 - recent 30m: `generated_safety_fail=0`, `error_like=0`
 - recent LLM calls returned HTTP 200
 
+
+## Scheduled smoke implementation
+
+Source-safe script added in `scripts/boitoan-live-generated-smoke.mjs` and exposed as:
+
+```bash
+npm run smoke:boitoan-live-generated
+```
+
+Default behavior:
+
+- Opens `https://boitoan.com.vn` with a mobile viewport.
+- Uses the fixed Boss/Gal sample: Sơn / Nam / `1984-05-17` / `Tý sớm`.
+- Submits the chart form and verifies `/reading/{chartId}`.
+- Verifies chart-first mobile order.
+- Clicks `Luận giải` and requires real generated text, not the retry-only fallback.
+- Clicks `Hỏi`, sends one short question, and requires `/api/chat` 200 plus a visible answer.
+- Runs forbidden-output scans for `Tử Tức`, deterministic, medical, legal, financial, death, `giải hạn`, internal tool traces, and teacher/con wording.
+- Writes JSON + PNG screenshots under `/tmp/boitoan_live_generated_smoke_<timestamp>/`.
+
+Useful env overrides:
+
+```bash
+BOITOAN_BASE_URL=https://boitoan.com.vn \
+BOITOAN_LIVE_SMOKE_CHAT=1 \
+BOITOAN_LIVE_SMOKE_GENERATED=1 \
+npm run smoke:boitoan-live-generated
+```
+
+Cost note: the generated sections are cache-backed by chart signature, but chat sends a real provider request. For cron, start with every 6 hours or daily until rate limits/cost budgets are approved.
+
 ## Cost watch
 
 Signals:

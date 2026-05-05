@@ -79,6 +79,23 @@ describe('priority star foundation pages', () => {
     }
   })
 
+  it('does not expose internal writer notes on public star pages', () => {
+    const leakedWriterNotes = [
+      'Bài viết dùng cho SEO tĩnh và người mới học Tử Vi',
+      'không giả lập lá số cá nhân khi chưa có ngày sinh, giờ sinh',
+      'Chỉ xem là ví dụ về cách đọc chính tinh; mỗi lá số có bộ sao riêng.',
+      'Nội dung được viết cho SEO tĩnh và người mới học Tử Vi',
+      'SEO tĩnh',
+    ]
+
+    for (const slug of PRIORITY_STAR_SLUGS) {
+      const text = pageText(getStarFoundationPage(slug)!)
+      for (const note of leakedWriterNotes) {
+        expect(text, `${slug} should not leak ${note}`).not.toContain(note)
+      }
+    }
+  })
+
   it('avoids deterministic, medical, and financial-promise wording', () => {
     const forbiddenPatterns = [
       /chắc chắn/i,

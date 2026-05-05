@@ -536,7 +536,6 @@ function buildRichStarPage(profile: StarProfile): StarFoundationPage {
   const name = profile.name
   const intro = [
     `Sao ${name} (${profile.hanTu}) là một chính tinh quan trọng trong Tử Vi Đẩu Số. Bài viết này giải thích ý nghĩa sao ${name} theo hướng thực tế: ${profile.role}, cách đọc trong Mệnh Cung, Thân Cung, Quan Lộc, Tài Bạch và các tổ hợp sao thường gặp.`,
-    `Nội dung được viết cho SEO tĩnh và người mới học Tử Vi, nên không giả lập lá số cá nhân khi chưa có ngày sinh, giờ sinh. Bạn có thể dùng trang này như bản nền để hiểu ngôn ngữ Tử Vi trước khi đi vào từng cung và từng vòng vận.`,
     METHOD_NOTE,
   ]
 

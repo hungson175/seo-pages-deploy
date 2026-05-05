@@ -496,7 +496,6 @@ function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
 
   const intro = [
     `Cung ${name} (${profile.hanTu}) là cung thứ ${profile.order} trong vòng 12 cung Tử Vi theo thứ tự Mệnh, Phụ Mẫu, Phúc Đức, Điền Trạch, Quan Lộc, Nô Bộc, Thiên Di, Tật Ách, Tài Bạch, Tử Nữ, Phu Thê, Huynh Đệ. Trang này giải thích cung ${name} theo hướng thực tế: ${profile.represents}.`,
-    `Bài viết dùng cho SEO tĩnh và người mới học Tử Vi, nên không giả lập lá số cá nhân khi chưa có ngày sinh, giờ sinh, giới tính và dữ liệu an sao đầy đủ. Bạn có thể dùng trang này như bản nền để hiểu cách đọc cung, sao chiếu và tam phương tứ chính trước khi đi vào lá số riêng.`,
     PALACE_METHOD_NOTE,
   ]
 
@@ -519,7 +518,7 @@ function buildPalacePage(profile: PalaceProfile): PalaceFoundationPage {
     {
       aspect: 'Sao nên đọc cùng',
       meaning: starNames,
-      readingCue: 'Chỉ xem là ví dụ về cách đọc chính tinh; mỗi lá số có bộ sao riêng.',
+      readingCue: 'Đọc cùng cung tọa thủ, tam phương tứ chính và bối cảnh đời sống thật.',
     },
     {
       aspect: 'Lưu ý cân bằng',

@@ -84,6 +84,23 @@ describe('12 cung foundation pages', () => {
     }
   })
 
+  it('does not expose internal writer notes on public palace pages', () => {
+    const leakedWriterNotes = [
+      'Bài viết dùng cho SEO tĩnh và người mới học Tử Vi',
+      'không giả lập lá số cá nhân khi chưa có ngày sinh, giờ sinh',
+      'Chỉ xem là ví dụ về cách đọc chính tinh; mỗi lá số có bộ sao riêng.',
+      'Nội dung được viết cho SEO tĩnh và người mới học Tử Vi',
+      'SEO tĩnh',
+    ]
+
+    for (const slug of PALACE_SLUGS) {
+      const text = pageText(getPalaceFoundationPage(slug)!)
+      for (const note of leakedWriterNotes) {
+        expect(text, `${slug} should not leak ${note}`).not.toContain(note)
+      }
+    }
+  })
+
   it('uses the audited 4-apart tam hợp geometry for all 12 palaces', () => {
     const expectedTamHop: Record<string, string> = {
       menh: 'Mệnh - Quan Lộc - Tài Bạch',

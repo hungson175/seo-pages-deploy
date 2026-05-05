@@ -44,7 +44,7 @@ const FAQS = [
   {
     question: 'Khi nào nên dùng công cụ lập lá số chi tiết?',
     answer:
-      'Khi cần đọc sâu theo ngày giờ sinh và 12 cung, bạn có thể tìm hiểu công cụ lập lá số. Trang hiện tại ưu tiên nội dung tử vi theo tuổi để Google dễ lập chỉ mục.',
+      'Khi cần đọc sâu theo ngày giờ sinh và 12 cung, bạn có thể dùng công cụ lập lá số cá nhân. Trang này tập trung phân tích theo tuổi và năm sinh để bạn nắm được bức tranh tổng thể trước.',
   },
 ]
 
@@ -124,7 +124,7 @@ export default function TuViHubPage() {
           <div className="mv-hero-card">
             <div className="mb-5 mv-seal">命</div>
             <p className="mv-kicker">
-              Tử vi 2026 theo tuổi • Nội dung tĩnh cho Google indexing
+              Tử vi 2026 theo tuổi
             </p>
             <h1 className="mv-h1-large">
               Tử Vi 2026 - Xem Lá Số Tử Vi Online
@@ -173,11 +173,11 @@ export default function TuViHubPage() {
       <section className="mv-container pb-14">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="mv-kicker">Thư viện minh họa 12 cung</p>
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-navy">12 hình ảnh dùng lại cho hệ nội dung Tử Vi</h2>
+            <p className="mv-kicker">Khám phá 12 cung Tử Vi</p>
+            <h2 className="mt-2 font-serif text-3xl font-semibold text-navy">Mỗi cung một câu chuyện — đọc sâu hơn về cung của bạn</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-ink-soft">
-            Bộ hình minh họa được tạo theo phong cách editorial mềm, không chữ trong ảnh, dùng lại cho các bài cung và các phần đọc theo công việc, tài chính, quan hệ, nhịp sống.
+            12 cung trong lá số Tử Vi từ Mệnh đến Huynh Đệ, mỗi cung phản ánh một khía cạnh cuộc sống. Nhấn vào cung để đọc ý nghĩa, sao chiếu và cách đọc theo tinh thần tam phương tứ chính.
           </p>
         </div>
 
@@ -195,7 +195,7 @@ export default function TuViHubPage() {
             <h2 className="mt-2 font-serif text-3xl font-semibold text-navy">Tử vi 2026 theo năm sinh</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-ink-soft">
-            24 trang theo năm sinh và giới tính đã có đủ cho 12 con giáp, mỗi trang có nội dung riêng, meta, schema và liên kết nội bộ để Google đọc được cấu trúc chủ đề.
+            Chọn năm sinh và giới tính để đọc phân tích công danh, tài lộc, tình duyên và sức khỏe năm 2026 theo truyền thống Tử Vi Đẩu Số.
           </p>
         </div>
 

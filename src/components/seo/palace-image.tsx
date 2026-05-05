@@ -39,7 +39,13 @@ export function PalaceImageFigure({
         image
       )}
       <figcaption className={compact ? 'px-4 py-3' : 'px-5 py-4'}>
-        <p className="font-semibold text-ink">{asset.caption}</p>
+        {linkToPalace ? (
+          <Link href={`/cung/${asset.slug}/`} className="font-semibold text-ink hover:text-vermillion transition-colors">
+            {asset.caption}
+          </Link>
+        ) : (
+          <p className="font-semibold text-ink">{asset.caption}</p>
+        )}
         {!compact && <p className="mt-1 text-sm leading-6 text-ink-soft">{asset.visualTheme}.</p>}
       </figcaption>
     </figure>

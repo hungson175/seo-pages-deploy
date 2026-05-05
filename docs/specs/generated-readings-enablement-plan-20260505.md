@@ -1,0 +1,123 @@
+# Generated readings enablement plan — 2026-05-05
+
+Status: no-deploy planning branch only. Do not change production env or enable live generated tabs from this document alone.
+
+## Current production truth
+
+- Live web image: `boitoan-web:5cb5eeba`.
+- Real app/API images: `29e1989`.
+- `REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback` is set on OCI, so the top-level web proxy intentionally short-circuits `/api/chart/{chartId}/luan-giai/*` generated-tab calls to the honest retryable failure state.
+- The deployed P0 fix removed fake/pseudo reading content. It did **not** enable real generated readings.
+- OCI app env shape currently does not expose an LLM provider key to the API container. Do not print or commit any key.
+
+## Root cause of missing real generated tabs
+
+Generated readings already exist in `sample_code/horoscope/be/app/routers/chart.py`:
+
+- `/chart/{chart_id}/luan_giai/tinh_cach`
+- `/chart/{chart_id}/luan_giai/su_nghiep`
+- `/chart/{chart_id}/luan_giai/tinh_duyen`
+- `/chart/{chart_id}/luan_giai/dai_van/{idx}`
+- `/chart/{chart_id}/luan_giai/tieu_han/{dai_idx}/{year_offset}`
+- `/chart/{chart_id}/luan_giai/cung/{chi}`
+
+Those routes call `cached_llm_compose()` and then section generators in `be/app/services/luan_giai/*`.
+
+The provider client is hard-coded in `be/app/services/luan_giai/common.py`:
+
+```python
+api_key = os.getenv("DEEPSEEK_API_KEY")
+base_url = "https://api.deepseek.com"
+model = "deepseek-chat"
+```
+
+So production needs both:
+
+1. web proxy safe-fallback mode disabled or changed away from `safe-fallback`; and
+2. API container receives an approved `DEEPSEEK_API_KEY` or code is updated to support an approved OpenAI-compatible provider/env mapping.
+
+## Exact access/decision needed before live generation
+
+One of these must be true:
+
+### Option A — preferred for minimal code
+
+- Add an approved DeepSeek key to `/opt/boitoan/.env` as `DEEPSEEK_API_KEY`.
+- Keep value secret; never echo it.
+- Restart API and web with `REAL_TUVI_GENERATED_READINGS_MODE` unset or set to a future explicit `live` value.
+
+### Option B — provider abstraction before env change
+
+- Update backend to support env-driven OpenAI-compatible config:
+  - `LUAN_GIAI_LLM_API_KEY`
+  - `LUAN_GIAI_LLM_BASE_URL`
+  - `LUAN_GIAI_LLM_MODEL`
+  - keep `DEEPSEEK_API_KEY` as backward-compatible fallback.
+- Then use an approved key/provider in OCI env.
+
+Local env has some non-enterprise personal/provider key names available, but they are not printed here. Do **not** use `MOMO_ENTERPRISE_ANTHROPIC_API_KEY`; this is not a MoMo company project.
+
+## Risk notes
+
+- `tinh_cach` makes 4 parallel LLM calls.
+- `su_nghiep` makes 5 parallel LLM calls.
+- `tinh_duyen` makes 7 parallel LLM calls.
+- Tokens are currently high (`max_tokens` up to 16k/14k/12k per section). Enabling all tabs at once can be slow/costly.
+- Results are DB-cached in `chart_readings` by `(signature, tab, section, cache_version)` through `cached_llm_compose()`.
+- First request can be slow; UI must keep honest slow/fail copy and retry per tab.
+
+## TDD/VCR implementation gate before live
+
+1. Provider-config tests in backend:
+   - no key -> explicit safe error, no secret in message/log.
+   - key present -> OpenAI-compatible client uses configured base/model.
+   - fallback to `DEEPSEEK_API_KEY` remains supported.
+
+2. VCR/replay guard:
+   - Add recorded/mocked integration for one `tinh_cach` section response.
+   - Default tests must replay/mock, not call live provider.
+   - Live record mode must require an explicit env flag, e.g. `LUAN_GIAI_LIVE_RECORD=1`.
+
+3. Domain safety validator:
+   - Reject `Tử Tức`, `tu_tuc`, `子息`.
+   - Reject deterministic/death/medical/financial/legal/giải hạn/guarantee language.
+   - Require `tham khảo` / `không phải lời tiên đoán` / conditional framing.
+   - For generated tab launch, Bói-Toán + Reviewer must pass sample outputs.
+
+4. Web/proxy tests:
+   - safe-fallback mode still works and remains honest.
+   - live mode does not short-circuit.
+   - provider 5xx maps to honest fail state, no pseudo-reading body.
+   - no paywall/package JSON leak.
+
+5. Blackbox before deploy:
+   - staging/OCI loopback only first.
+   - create chart -> open reading -> click `Tìm hiểu bản thân`.
+   - verify generated body is real, not fallback, min 300 words/tab if domain gate keeps that requirement.
+   - verify `/reading` stays `noindex,nofollow`, private cache, 0 `Tử Tức`.
+
+## Recommended phased rollout
+
+### Phase 1 — backend/provider readiness, no production live calls
+
+- Implement provider config abstraction and tests.
+- Add replay/mocked provider integration for one generated tab.
+- Add domain safety validator for generated outputs.
+- Keep production `REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback`.
+
+### Phase 2 — staging live smoke with bounded cost
+
+- Add approved provider key to staging/OCI loopback only.
+- Disable safe-fallback only for staging web.
+- Run one chart + one `tinh_cach` tab smoke.
+- Save sanitized evidence only: status, word count, safety checks, response time, cache hit on second request. No birth data/key/raw prompt in public report.
+
+### Phase 3 — production enablement decision
+
+- If staging live smoke passes SEO/CMO/Bói-Toán/Reviewer gates, deploy exact API/web env change.
+- Start with `tinh_cach` only if code supports per-tab gating; otherwise keep all tabs disabled until cost/latency accepted.
+- Keep retryable fail state as fallback.
+
+## Immediate recommendation
+
+Do not flip production env yet. First implement Phase 1 as a no-deploy code branch, because production currently lacks an approved provider env and the current code has no VCR/replay guard for live generated calls.

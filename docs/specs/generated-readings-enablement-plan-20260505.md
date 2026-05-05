@@ -121,3 +121,15 @@ Local env has some non-enterprise personal/provider key names available, but the
 ## Immediate recommendation
 
 Do not flip production env yet. First implement Phase 1 as a no-deploy code branch, because production currently lacks an approved provider env and the current code has no VCR/replay guard for live generated calls.
+
+## CMO trust/copy acceptance added after Phase 1 approval
+
+Before any production enablement, send the exact SHA and artifact to CMO. Acceptance must prove:
+
+- **Success state:** visible line says `Luận giải được tạo từ lá số đã an lập; nội dung mang tính tham khảo, không khẳng định tương lai.`
+- **Slow state:** calm/progress-honest copy says `Bói Toán đang viết phần luận giải này từ lá số của bạn. Thường mất vài giây; đừng đóng trang.`
+- **Fail state:** honest retryable copy says `Chưa tạo được luận giải. Lá số của bạn đã được an lập; vui lòng thử tạo lại phần này.` and preserves chart access.
+- **No pseudo-reading fallback:** when generation fails, do not render generic reading body as if it were a real generated reading.
+- **No provider/API leakage:** hide raw provider errors, package/paywall JSON, stack traces, status codes, or retry internals from users.
+- **Per-tab failure only:** one failed tab must not blank the chart or other tabs.
+- **Safety language:** no deterministic, medical, financial, legal, death, `giải hạn`, guarantee, or `Tử Tức` claims.

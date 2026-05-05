@@ -4,6 +4,12 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_FILE="$ROOT_DIR/.env.vercel"
 
+if [[ "${BOSS_APPROVED_LEGACY_VERCEL_DEPLOY:-}" != "true" ]]; then
+  echo "Refusing legacy Vercel deploy. OCI is the production deploy path for boitoan.com.vn." >&2
+  echo "Set BOSS_APPROVED_LEGACY_VERCEL_DEPLOY=true only with explicit Boss/Gal rollback approval." >&2
+  exit 64
+fi
+
 if [[ ! -f "$ENV_FILE" ]]; then
   echo "Missing $ENV_FILE. Create it with: VERCEL_TOKEN=<fresh-token>" >&2
   exit 1

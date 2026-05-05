@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 
-const DEFAULT_REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
-const DEFAULT_REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
+const LEGACY_REAL_TUVI_ORIGIN = 'https://web-neon-tau-79.vercel.app'
+const LEGACY_REAL_TUVI_API_ORIGIN = 'https://horoscope-production-987b.up.railway.app'
 const REAL_TUVI_ASSET_PREFIX = '/real-tuvi-assets'
 const DEFAULT_PRIVACY_CONTACT_EMAIL = 'privacy@boitoan.com.vn'
 const PRIVACY_CONTACT_COPY =
@@ -30,12 +30,23 @@ const LEGACY_TU_TUC_REWRITES: Array<[RegExp, string]> = [
   [/子息/g, '子女'],
 ]
 
+function getRequiredRealTuViUpstreamEnv(name: 'REAL_TUVI_ORIGIN' | 'REAL_TUVI_API_ORIGIN', legacyDevFallback: string): string {
+  const value = process.env[name]?.trim()
+  if (value) return value
+
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(`${name} is required in production; refusing legacy Vercel/Railway fallback`)
+  }
+
+  return legacyDevFallback
+}
+
 export function getRealTuViOrigin(): string {
-  return process.env.REAL_TUVI_ORIGIN?.trim() || DEFAULT_REAL_TUVI_ORIGIN
+  return getRequiredRealTuViUpstreamEnv('REAL_TUVI_ORIGIN', LEGACY_REAL_TUVI_ORIGIN)
 }
 
 export function getRealTuViApiOrigin(): string {
-  return process.env.REAL_TUVI_API_ORIGIN?.trim() || DEFAULT_REAL_TUVI_API_ORIGIN
+  return getRequiredRealTuViUpstreamEnv('REAL_TUVI_API_ORIGIN', LEGACY_REAL_TUVI_API_ORIGIN)
 }
 
 export function isRealTuViChatEnabled(): boolean {

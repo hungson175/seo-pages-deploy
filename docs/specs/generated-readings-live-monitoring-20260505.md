@@ -14,8 +14,12 @@ Scope: Bói Toán `/reading/{chartId}` generated tabs and mobile chat. This is a
 - LLM model: `gpt-4o-mini`
 - Provider key: set in OCI env, redacted; **not** MoMo enterprise key
 - Production host: OCI, not Vercel
-- Latest source-safe health check: 2026-05-06, no generated safety failures
-  or provider/error-like logs in the prior 30 minutes.
+- Latest source-safe health check: 2026-05-06 10:01 +07, no generated
+  safety failures or provider/error-like logs in the prior 30 minutes.
+- Latest source-safe provider/cost log watch: 2026-05-06 11:04 +07 over
+  prior 6 hours: `provider_reservations=3`, `daily_blocked=0`,
+  `openai_completion_posts=3`, request-limit blocks `0`, cache hit rate `1`,
+  safety failures `0`, error-like logs `0`, alerts `none`.
 
 ## User-facing acceptance gates
 
@@ -96,6 +100,31 @@ Initial expectation:
 - One chat turn can call the model multiple times because tool rounds/final JSON are used.
 - Before scheduled provider-consuming smoke or expanded traffic, keep API-side
   rate/cost guards enabled and reviewed.
+
+### Source-safe provider/cost log watch
+
+No-provider-call parser added in `scripts/boitoan-provider-cost-watch.mjs` and
+exposed as:
+
+```bash
+ssh oci-sg 'docker logs --since 6h boitoan-api-1 2>&1' \
+  | npm run watch:boitoan-provider-cost -- --fail-on-alert
+```
+
+The script reads existing API logs only; it does **not** submit charts, open
+chat, call providers, or print raw log lines/secrets. It summarizes:
+
+- `provider_daily_cap` reservations/blocks and 80% cap warnings.
+- per-IP/per-chart request-limit counts and blocks.
+- chat response/slow/failure counts, provider-call totals, and latency.
+- generated-reading route status counts and latency.
+- `llm_cache` hit/miss/race-loss counts and hit rate.
+- generated safety failures, provider/error-like logs, and direct OpenAI
+  completions POST markers when present.
+
+Use `--json` for machine-readable output. Use `--fail-on-alert` for cron/CI
+style checks after Gal approves an alert transport. This parser is safe to run
+manually because it consumes logs only, unlike the generated+chat smoke.
 
 ## Source-safe rate/cost guard
 

@@ -2,13 +2,35 @@
 
 Status: no-deploy planning branch only. Do not change production env or enable live generated tabs from this document alone.
 
+### Phase 1 — COMPLETE (2026-05-06)
+
+All Phase 1 criteria verified — 14/14 backend tests pass, all web proxy tests pass:
+
+- ✅ Provider config abstraction: `LuanGiaiLLMConfig` + `get_llm_config()` in `common.py`, env-driven with `LUAN_GIAI_LLM_*` + `DEEPSEEK_API_KEY` fallback
+- ✅ VCR/replay guard: `ReplayLLMClient` + `LUAN_GIAI_LLM_REPLAY_PATH`, fixture at `tests/fixtures/llm_replay/tinh_cach_section.json`
+- ✅ Domain safety validator: `safety.py` — rejects Tử Tức, deterministic/death/medical/legal/guarantee claims, requires tham khảo + conditional framing
+- ✅ Provider limits: `provider_limits.py` — per-IP/chart rate limits, daily cap, `wrap_provider_client`
+- ✅ Web proxy: safe-fallback short-circuit works, no paywall/package JSON leak, rate limit → honest copy
+- ✅ No secrets in logs/errors (explicit `sk-` not-in-repr checks)
+
+### Phase 2 — COMPLETE (verified 2026-05-06)
+
+Production is live with `REAL_TUVI_GENERATED_READINGS_MODE=live` and `LUAN_GIAI_LLM_API_KEY` set in OCI env. Model: `gpt-4o-mini`. Provider limits deployed. Live monitoring doc at `generated-readings-live-monitoring-20260505.md` covers health checks, smoke tests, rollback procedures.
+
+### Phase 3 — ACTIVE MONITORING
+
+Production enablement is live. Ongoing monitoring per `generated-readings-live-monitoring-20260505.md`:
+- Live smoke script: `scripts/boitoan-live-generated-smoke.mjs`
+- Health check: SSH to OCI, check container status + API error logs
+- Rollback: set `REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback`, restart web
+
 ## Current production truth
 
-- Live web image: `boitoan-web:5cb5eeba`.
-- Real app/API images: `29e1989`.
-- `REAL_TUVI_GENERATED_READINGS_MODE=safe-fallback` is set on OCI, so the top-level web proxy intentionally short-circuits `/api/chart/{chartId}/luan-giai/*` generated-tab calls to the honest retryable failure state.
-- The deployed P0 fix removed fake/pseudo reading content. It did **not** enable real generated readings.
-- OCI app env shape currently does not expose an LLM provider key to the API container. Do not print or commit any key.
+- Live web image: `boitoan-web:af726fbb`.
+- Real app/API images: `boitoan-api:4d2c5e7`, `boitoan-real-web:29e1989`.
+- `REAL_TUVI_GENERATED_READINGS_MODE=live` — generated readings are enabled.
+- API has `LUAN_GIAI_LLM_API_KEY` set (OpenAI-compatible, `sk-proj-` prefix), model `gpt-4o-mini`.
+- Provider key is NOT the MoMo enterprise key. Do not print or commit any key.
 
 ## Root cause of missing real generated tabs
 

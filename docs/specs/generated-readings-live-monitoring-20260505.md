@@ -1,19 +1,21 @@
 # Generated Readings + Chat Live Monitoring Guard — 2026-05-05
 
-Status: **live on OCI** after emergency fix.
+Status: **live on OCI** with source-safe provider limits deployed.
 
 Scope: Bói Toán `/reading/{chartId}` generated tabs and mobile chat. This is an operations guard, not a new feature release.
 
 ## Current live shape
 
-- Web image: `boitoan-web:5cb5eeba`
-- API image: `boitoan-api:cea1f8c`
+- Web image: `boitoan-web:af726fbb`
+- API image: `boitoan-api:4d2c5e7`
 - Real-web image: `boitoan-real-web:29e1989`
 - Generated readings mode: `live`
 - Chat UI: enabled
 - LLM model: `gpt-4o-mini`
 - Provider key: set in OCI env, redacted; **not** MoMo enterprise key
 - Production host: OCI, not Vercel
+- Latest source-safe health check: 2026-05-06, no generated safety failures
+  or provider/error-like logs in the prior 30 minutes.
 
 ## User-facing acceptance gates
 
@@ -41,13 +43,13 @@ ssh oci-sg 'echo "containers:"; \
   docker logs --since 5m boitoan-api-1 2>&1 | tail -40 | sed -E "s/sk-[A-Za-z0-9_-]+/sk-REDACTED/g"'
 ```
 
-Current baseline from 2026-05-05 10:34 +07:
+Current baseline from 2026-05-06 health check:
 
-- `boitoan-api:cea1f8c` healthy
-- `boitoan-web:5cb5eeba` running
+- `boitoan-api:4d2c5e7` healthy
+- `boitoan-web:af726fbb` running
 - `boitoan-real-web:29e1989` healthy
-- recent 30m: `generated_safety_fail=0`, `error_like=0`
-- recent LLM calls returned HTTP 200
+- recent 30m: `requests_seen=0`, `generated_safety_fail=0`, `error_like=0`
+- recent log tail only showed API `/health` 200 checks
 
 
 ## Scheduled smoke implementation
@@ -95,12 +97,10 @@ Initial expectation:
 - Before scheduled provider-consuming smoke or expanded traffic, keep API-side
   rate/cost guards enabled and reviewed.
 
-## Source-safe rate/cost guard candidate
+## Source-safe rate/cost guard
 
-No-deploy branch candidate: nested horoscope API branch
-`feat/generated-readings-provider-safety-20260505`.
-
-Planned/env knobs are server-side only and must not print secrets:
+Provider guards are deployed in `boitoan-api:4d2c5e7`. Env knobs are
+server-side only and must not print secrets:
 
 | Env knob | Default | Meaning |
 | --- | ---: | --- |
@@ -176,8 +176,10 @@ If provider key is compromised or cost spikes, remove/rotate `LUAN_GIAI_LLM_API_
 
 ## Manual monitoring only for now
 
-Do **not** install q6h cron yet. Until the rate/cost guard candidate is reviewed
-and deployed, run manual live smoke only when Gal/Boss requests it.
+Do **not** install q6h cron yet. Provider limits are deployed, but scheduled
+provider-consuming smoke still needs explicit Gal approval because chat sends a
+real provider request and output review still benefits from human sampling.
+Run manual live smoke only when Gal/Boss requests it.
 
 If schedule is later approved, start with:
 
@@ -187,7 +189,8 @@ If schedule is later approved, start with:
 
 ## Next hardening backlog
 
-- Review/deploy source-safe rate limiting per IP/chart and daily provider-call cap.
+- Optional: move source-safe provider limits from process-local counters to
+  Redis/Postgres before raising traffic or running multiple API replicas.
 - Add automated scheduled live smoke that writes artifacts to `/tmp` and alerts Gal on failure only after rate/cost guards are live.
 - Add metrics for LLM call count, latency, cache hit/miss, safety validation failures.
 - Add language-quality sanitizer for mixed-language responses.

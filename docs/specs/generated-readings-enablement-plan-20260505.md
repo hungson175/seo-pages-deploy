@@ -1,6 +1,11 @@
 # Generated readings enablement plan — 2026-05-05
 
-Status: no-deploy planning branch only. Do not change production env or enable live generated tabs from this document alone.
+Status: **Phase 1–3 complete; production live; active monitoring only**.
+
+This file started as the no-deploy enablement plan. As of 2026-05-06, the
+production truth is the Phase 2/3 status below: generated readings are live on
+OCI with provider limits deployed. Historical pre-live sections are retained for
+provenance and must not be read as current blockers.
 
 ### Phase 1 — COMPLETE (2026-05-06)
 
@@ -32,7 +37,7 @@ Production enablement is live. Ongoing monitoring per `generated-readings-live-m
 - API has `LUAN_GIAI_LLM_API_KEY` set (OpenAI-compatible, `sk-proj-` prefix), model `gpt-4o-mini`.
 - Provider key is NOT the MoMo enterprise key. Do not print or commit any key.
 
-## Root cause of missing real generated tabs
+## Pre-live root cause of missing real generated tabs — RESOLVED
 
 Generated readings already exist in `sample_code/horoscope/be/app/routers/chart.py`:
 
@@ -58,7 +63,7 @@ So production needs both:
 1. web proxy safe-fallback mode disabled or changed away from `safe-fallback`; and
 2. API container receives an approved `DEEPSEEK_API_KEY` or code is updated to support an approved OpenAI-compatible provider/env mapping.
 
-## Exact access/decision needed before live generation
+## Pre-live access/provider decision — RESOLVED by Option B
 
 One of these must be true:
 
@@ -140,9 +145,12 @@ Local env has some non-enterprise personal/provider key names available, but the
 - Start with `tinh_cach` only if code supports per-tab gating; otherwise keep all tabs disabled until cost/latency accepted.
 - Keep retryable fail state as fallback.
 
-## Immediate recommendation
+## Historical recommendation — SUPERSEDED
 
-Do not flip production env yet. First implement Phase 1 as a no-deploy code branch, because production currently lacks an approved provider env and the current code has no VCR/replay guard for live generated calls.
+The original recommendation was to avoid flipping production before Phase 1.
+That is now superseded: Phase 1–3 have been completed and production is live.
+Future work should follow the live monitoring guard, cost/output watch, and
+rollback procedures in `generated-readings-live-monitoring-20260505.md`.
 
 ## CMO trust/copy acceptance added after Phase 1 approval
 

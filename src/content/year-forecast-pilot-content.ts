@@ -165,7 +165,6 @@ function genderVoiceFor(
   evidence: YearForecastDomainEvidence,
   voice: AnimalVoice,
 ): GenderVoice {
-  const role = genderNoun(seed)
   const age = evidence.lifeStage.age
   const canCue = `Can ${evidence.thienCan}`
   const chiCue = `Chi ${evidence.diaChi}`
@@ -173,28 +172,28 @@ function genderVoiceFor(
 
   if (seed.gender === 'nam') {
     return {
-      openingFrame: `${role} tuổi âm ${age} giữ uy tín bằng phân quyền rõ, không lấy vai trụ cột làm lý do ôm hết việc`,
-      workAction: `đưa ${canCue} vào một chuẩn bàn giao, gắn ${cungCue} với chỉ số kết quả và người kiểm tra`,
-      moneyAction: `xếp quỹ dự phòng trước, dùng nạp âm ${evidence.napAm.name} để đặt mốc dừng cho khoản lớn`,
-      relationshipAction: `nói rõ áp lực của tuổi ${seed.animal}, tránh để ${voice.risk} thành khoảng cách trong nhà`,
-      wellbeingAction: `giữ lịch nghỉ sau mỗi mốc việc lớn, nhất là khi ${chiCue} khiến nhịp sống dễ đổi nhanh`,
+      openingFrame: 'giữ uy tín bằng phân quyền rõ, không lấy vai trụ cột làm lý do ôm hết việc',
+      workAction: `đưa ${canCue} của ${seed.canChi} vào một chuẩn bàn giao, gắn ${cungCue} với chỉ số kết quả và người kiểm tra`,
+      moneyAction: `xếp quỹ dự phòng trước, dùng nạp âm ${evidence.napAm.name} ở tuổi ${seed.canChi} để đặt mốc dừng cho khoản lớn`,
+      relationshipAction: `nói rõ áp lực của tuổi ${seed.animal} trong ${seed.canChi}, tránh để ${voice.risk} thành khoảng cách trong nhà`,
+      wellbeingAction: `giữ lịch nghỉ sau mỗi mốc việc lớn, nhất là khi ${chiCue} của ${seed.canChi} khiến nhịp sống dễ đổi nhanh`,
       decisionFilter: `ưu tiên việc tăng uy tín bền, giảm quyết định chỉ để chứng minh bản lĩnh ở tuổi ${age}`,
       careerGuardrail: `không mở rộng nhanh khi ${canCue} ở tuổi âm ${age} chưa có số liệu và người hỗ trợ đủ rõ`,
-      relationshipFrame: `người thân cần thấy sự hiện diện đều của ${articleContext(seed, evidence)}, không chỉ phần trách nhiệm tài chính`,
-      appReason: `lá số cá nhân kiểm tra sâu hơn Quan Lộc, Tài Bạch và cách ${articleContextWithCung(seed, evidence)} phân bổ trách nhiệm`,
+      relationshipFrame: 'người thân cần thấy sự hiện diện đều, không chỉ phần trách nhiệm tài chính',
+      appReason: `lá số cá nhân kiểm tra sâu hơn Quan Lộc, Tài Bạch và cách ${cungCue} của ${seed.canChi} phân bổ trách nhiệm`,
     }
   }
 
   return {
-    openingFrame: `${role} tuổi âm ${age} giữ quyền tự chủ, ranh giới cảm xúc và nhịp chăm sóc bản thân`,
-    workAction: `chọn đúng ưu tiên, bảo vệ thời gian sâu và nối ${canCue} với một kỳ vọng được nói rõ`,
-      moneyAction: `ghi dòng tiền nhỏ, dùng nạp âm ${evidence.napAm.name} để giữ quỹ an tâm trước khoản phát sinh`,
-      relationshipAction: `nói nhu cầu hỗ trợ sớm, tránh để ${voice.risk} biến thành nghĩa vụ im lặng`,
-      wellbeingAction: `giữ khoảng nghỉ không mặc cảm, đặc biệt khi ${chiCue} làm lịch sinh hoạt dễ bị kéo lệch`,
-      decisionFilter: `giữ việc tăng tự chủ, nói lại điều kiện với việc chỉ vì cả nể ở tuổi ${age}`,
-      careerGuardrail: `đừng để sự linh hoạt của ${articleContext(seed, evidence)} thành gánh việc thiếu ranh giới hoặc thiếu ghi nhận`,
-      relationshipFrame: `người thân cần lắng nghe và chia sẻ việc nhà lẫn cảm xúc với ${articleContext(seed, evidence)}`,
-      appReason: `lá số cá nhân kiểm tra sâu hơn Mệnh, Phu Thê và nhịp tự chủ của ${articleContextWithCung(seed, evidence)}`,
+    openingFrame: 'giữ quyền tự chủ, ranh giới cảm xúc và nhịp chăm sóc bản thân',
+    workAction: `chọn đúng ưu tiên, bảo vệ thời gian sâu và nối ${canCue} của ${seed.canChi} với một kỳ vọng được nói rõ`,
+    moneyAction: `ghi dòng tiền nhỏ, dùng nạp âm ${evidence.napAm.name} ở tuổi ${seed.canChi} để giữ quỹ an tâm trước khoản phát sinh`,
+    relationshipAction: `nói nhu cầu hỗ trợ sớm trong tuổi ${seed.animal} của ${seed.canChi}, tránh để ${voice.risk} biến thành nghĩa vụ im lặng`,
+    wellbeingAction: `giữ khoảng nghỉ không mặc cảm, đặc biệt khi ${chiCue} của ${seed.canChi} làm lịch sinh hoạt dễ bị kéo lệch`,
+    decisionFilter: `giữ việc tăng tự chủ, nói lại điều kiện với việc chỉ vì cả nể ở tuổi ${age}`,
+    careerGuardrail: `đừng để sự linh hoạt của ${canCue} ở ${cungCue} thành gánh việc thiếu ranh giới hoặc thiếu ghi nhận`,
+    relationshipFrame: 'người thân cần lắng nghe và chia sẻ việc nhà lẫn cảm xúc',
+    appReason: `lá số cá nhân kiểm tra sâu hơn Mệnh, Phu Thê và nhịp tự chủ của ${cungCue} trong ${seed.canChi}`,
   }
 }
 
@@ -226,16 +225,28 @@ function genderNoun(seed: SeoForecastSeed): string {
   return seed.gender === 'nam' ? 'nam mạng' : 'nữ mạng'
 }
 
+function compactGender(seed: SeoForecastSeed): string {
+  return seed.gender === 'nam' ? 'nam' : 'nữ'
+}
+
 function audience(seed: SeoForecastSeed): string {
   return `${seed.canChi} ${seed.year} ${genderNoun(seed)}`
 }
 
 function articleContext(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
-  return `${genderNoun(seed)} tuổi âm ${evidence.lifeStage.age}`
+  return `${seed.canChi} ${seed.year} ${genderNoun(seed)}`
 }
 
 function articleContextWithCung(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
-  return `${articleContext(seed, evidence)}, Cung ${evidence.cungMenh.name}`
+  return `Cung ${evidence.cungMenh.name}`
+}
+
+function readerVariant(seed: SeoForecastSeed): string {
+  return seed.gender === 'nam' ? 'bản nam' : 'bản nữ'
+}
+
+function lifeStagePhrase(evidence: YearForecastDomainEvidence): string {
+  return `tuổi âm ${evidence.lifeStage.age}`
 }
 
 function voiceFor(seed: SeoForecastSeed): AnimalVoice {
@@ -259,16 +270,17 @@ function buildMethodNote(seed: SeoForecastSeed, evidence: YearForecastDomainEvid
 }
 
 function careerLensFor(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
-  const context = articleContext(seed, evidence)
+  const variant = readerVariant(seed)
+  const age = lifeStagePhrase(evidence)
   if (seed.gender === 'nam') {
-    return `Với ${context}, nạp âm ${evidence.napAm.name} nên được đưa vào vai trò tạo chuẩn, quản trị nguồn lực và đo kết quả rõ; ${evidence.napAm.careerLens.toLowerCase()}`
+    return `Với ${variant} của ${seed.canChi} ở ${age}, nạp âm ${evidence.napAm.name} nên được đưa vào vai trò tạo chuẩn, quản trị nguồn lực và đo kết quả rõ; ${evidence.napAm.careerLens.toLowerCase()}`
   }
 
-  return `Với ${context}, nạp âm ${evidence.napAm.name} nên được dùng để chuẩn hóa quy trình, bảo vệ thời gian sâu và quản lý dòng tiền gia đình/công việc; ${evidence.napAm.careerLens.toLowerCase()}`
+  return `Với ${variant} của ${seed.canChi} ở ${age}, nạp âm ${evidence.napAm.name} nên được dùng để chuẩn hóa quy trình, bảo vệ thời gian sâu và quản lý dòng tiền gia đình/công việc; ${evidence.napAm.careerLens.toLowerCase()}`
 }
 
 function moneyLensFor(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
-  return `${articleContext(seed, evidence)} nên đọc tài chính qua nạp âm ${evidence.napAm.name}: ${evidence.napAm.moneyLens}`
+  return `Bản mệnh tuổi ${seed.canChi} trong ${readerVariant(seed)} nên đọc tài chính qua nạp âm ${evidence.napAm.name} và Cung ${evidence.cungMenh.name}: ${evidence.napAm.moneyLens}`
 }
 
 function buildCtaModules(
@@ -278,6 +290,7 @@ function buildCtaModules(
 ): YearForecastCtaModule[] {
   const genderVoice = genderVoiceFor(seed, evidence, voice)
   const role = genderNoun(seed)
+  const compactRole = compactGender(seed)
   const context = articleContext(seed, evidence)
   const contextWithCung = articleContextWithCung(seed, evidence)
 
@@ -293,24 +306,24 @@ function buildCtaModules(
     {
       placement: 'mid-article',
       heading: `Thuật toán phát hiện thêm khi có giờ sinh`,
-      body: `Dữ liệu năm sinh của ${contextWithCung} mới cho thấy nạp âm và Cung mệnh. Nhập ngày giờ sinh để Bói Toán đọc tiếp vị trí sao trong lá số riêng, nhất là khi bạn muốn kiểm tra ${genderVoice.decisionFilter}.`,
-      buttonLabel: `Thử lá số ${seed.canChi}`,
+      body: `Dữ liệu năm sinh mới cho thấy nạp âm ${evidence.napAm.name} và ${contextWithCung}. Nhập ngày giờ sinh để Bói Toán đọc tiếp vị trí sao trong lá số riêng, nhất là khi bạn muốn kiểm tra ${genderVoice.decisionFilter}.`,
+      buttonLabel: `Thử lá số ${seed.canChi} ${compactRole}`,
       href: '/lap-la-so/',
-      complianceNote: `${context}: thuật toán tham khảo, không phải kết luận số mệnh.`,
+      complianceNote: 'Thuật toán tham khảo, không phải kết luận số mệnh.',
     },
     {
       placement: 'end-of-article',
-      heading: `Bạn đã đọc xong tổng quan tuổi ${seed.canChi} ${role}`,
-      body: `Nếu ${context} muốn xem phần khác biệt của chính mình, hãy lập lá số cá nhân để an Mệnh Cung, Thân Cung, Cục và các sao tại 12 cung; ${genderVoice.appReason}.`,
-      buttonLabel: `Xem lá số ${seed.canChi} ${role} sâu hơn`,
+      heading: `Bạn đã đọc xong tổng quan ${seed.canChi} ${compactRole}`,
+      body: `Nếu muốn xem phần khác biệt của chính mình, hãy lập lá số cá nhân để an Mệnh Cung, Thân Cung, Cục và các sao tại 12 cung; ${genderVoice.appReason}.`,
+      buttonLabel: `Xem lá số ${seed.canChi} ${compactRole} sâu hơn`,
       href: '/lap-la-so/',
-      complianceNote: `${context}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
+      complianceNote: 'Ứng dụng tham khảo, không thay thế tư vấn chuyên môn.',
     },
     {
       placement: 'sticky-mobile',
-      heading: `${seed.canChi} ${role}: xem theo giờ sinh`,
-      body: `Bài tổng quan cho ${context} đã có theo năm sinh; lá số cá nhân giúp đọc sâu hơn theo ngày giờ sinh.`,
-      buttonLabel: `Lập lá số ${seed.canChi} ${role}`,
+      heading: `Xem ${seed.canChi} ${compactRole} theo giờ sinh`,
+      body: `Bài tổng quan theo năm sinh đã có cho ${seed.canChi} ${compactRole}; lá số cá nhân giúp đọc sâu hơn theo ngày giờ sinh.`,
+      buttonLabel: `Lập lá số ${seed.canChi} ${compactRole}`,
       href: '/lap-la-so/',
       complianceNote: 'Tham khảo, không thay thế tư vấn chuyên môn.',
     },
@@ -319,154 +332,156 @@ function buildCtaModules(
 
 function buildSummaryRows(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): SummaryRow[] {
   const genderVoice = genderVoiceFor(seed, evidence, voice)
-  const role = genderNoun(seed)
-  const context = articleContext(seed, evidence)
+  const variant = readerVariant(seed)
+  const age = lifeStagePhrase(evidence)
+  const contextWithCung = articleContextWithCung(seed, evidence)
 
   return [
     {
       aspect: 'Nền vận',
-      trend: `${context}: Can ${evidence.thienCan} gặp ${evidence.targetYearCanChi} là ${evidence.thienCanRelationToBinh.label}; Chi ${evidence.diaChi} gặp Ngọ là ${evidence.diaChiRelationToNgo.label}.`,
-      action: `Với ${context}, bạn nên đọc hai lớp này cùng lúc, không tách may rủi khỏi hành động hằng ngày; ${genderVoice.decisionFilter}.`,
+      trend: `Can ${evidence.thienCan} của ${seed.canChi} trong ${variant} gặp ${evidence.targetYearCanChi} là ${evidence.thienCanRelationToBinh.label}; Chi ${evidence.diaChi} gặp Ngọ là ${evidence.diaChiRelationToNgo.label}; ${contextWithCung} là lớp nền để đọc chậm lại.`,
+      action: `Ở ${age}, bạn nên đọc hai lớp này cùng lúc, không tách may rủi khỏi hành động hằng ngày; ${genderVoice.decisionFilter}.`,
     },
     {
       aspect: 'Công việc',
       trend: careerLensFor(seed, evidence),
-      action: `Bản mệnh ở ${context} nên chọn một việc trọng tâm để làm sâu, rồi ${genderVoice.workAction}.`,
+      action: `Bản mệnh ở ${contextWithCung}, ${age}, trong ${variant} nên chọn một việc trọng tâm để làm sâu, rồi ${genderVoice.workAction}.`,
     },
     {
       aspect: 'Tài chính',
       trend: moneyLensFor(seed, evidence),
-      action: `Với ${context}, hãy tách tiền dự phòng, tiền sinh hoạt và tiền thử nghiệm; ${genderVoice.moneyAction}.`,
+      action: `Với nạp âm ${evidence.napAm.name} ở ${age} của ${seed.canChi}, hãy tách tiền dự phòng, tiền sinh hoạt và tiền thử nghiệm; ${genderVoice.moneyAction}.`,
     },
     {
       aspect: 'Tình cảm / gia đạo',
-      trend: `${context} thuộc tuổi ${seed.animal} có thế mạnh ${voice.strength}, nhưng rủi ro là ${voice.risk}.`,
-      action: `${context} nên dùng cách nói rõ ràng hơn để người thân hiểu điều mình đang gánh; ${genderVoice.relationshipAction}.`,
+      trend: `Người tuổi ${seed.animal} của ${seed.canChi} trong ${variant} có thế mạnh ${voice.strength}, nhưng rủi ro là ${voice.risk}.`,
+      action: `Bạn nên dùng cách nói rõ ràng hơn ở ${contextWithCung}, ${age}, trong ${variant} để người thân hiểu điều mình đang gánh; ${genderVoice.relationshipAction}.`,
     },
     {
       aspect: 'Thân tâm',
-      trend: `${articleContextWithCung(seed, evidence)} cần nền sinh hoạt đủ ổn để quyết định không lệch.`,
-      action: `Ở ${context}, hãy xem giấc ngủ, vận động và khoảng nghỉ như một phần của kế hoạch năm; ${genderVoice.wellbeingAction}.`,
+      trend: `${contextWithCung} trong tuổi ${seed.canChi} của ${variant} cần nền sinh hoạt đủ ổn để quyết định không lệch khi ${evidence.diaChiRelationToNgo.label.toLowerCase()}.`,
+      action: `Ở ${age} của ${seed.canChi} trong ${variant}, hãy xem giấc ngủ, vận động và khoảng nghỉ như một phần của kế hoạch năm; ${genderVoice.wellbeingAction}.`,
     },
   ]
 }
 
 function buildIntro(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): string[] {
-  const label = audience(seed)
   const genderVoice = genderVoiceFor(seed, evidence, voice)
-  const role = genderNoun(seed)
-  const context = articleContext(seed, evidence)
+  const variant = readerVariant(seed)
+  const age = lifeStagePhrase(evidence)
+  const contextWithCung = articleContextWithCung(seed, evidence)
 
   return [
-    `${label} bước vào năm ${evidence.targetYearCanChi} với nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Với ${context}, bài này không xem một câu tốt xấu; Bói Toán đặt các lớp Can Chi, nạp âm, Cung mệnh và tuổi âm vào cùng một khung tham khảo để bạn tự chọn cách hành động tỉnh táo hơn.`,
-    `Ở ${context}, bản mệnh đang ở giai đoạn ${evidence.lifeStage.bucket}: ${evidence.lifeStage.focus}. Với ${role}, ${genderVoice.openingFrame}.`,
-    `Riêng ${context} thuộc tuổi ${seed.animal}, thế mạnh là ${voice.strength}, còn điểm cần canh là ${voice.risk}. Thuật toán phát hiện cho ${context}: ${evidence.thienCanRelationToBinh.detail} Đồng thời với ${context}, ${evidence.diaChiRelationToNgo.detail} Vì vậy với ${context}, năm 2026 nên được đọc như một bản đồ ra quyết định, không phải lời hứa chắc chắn về vận hạn.`,
+    `Năm ${evidence.targetYearCanChi} đặt tuổi ${seed.canChi} trong ${variant} trước nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và ${contextWithCung} thuộc ${evidence.cungMenh.element}. Trong ${variant} của tuổi ${seed.canChi}, bài này không xem một câu tốt xấu; Bói Toán đặt Can ${evidence.thienCan}, Chi ${evidence.diaChi}, nạp âm và Cung mệnh vào cùng một khung tham khảo để bạn tự chọn cách hành động tỉnh táo hơn.`,
+    `Ở ${age}, bản mệnh thuộc ${contextWithCung} trong ${variant} của ${seed.canChi} đang ở giai đoạn ${evidence.lifeStage.bucket}: ${evidence.lifeStage.focus}. Với tuổi ${seed.canChi}, điểm cần giữ là ${genderVoice.openingFrame}.`,
+    `Riêng tuổi ${seed.animal} của ${seed.canChi} trong ${variant}, thế mạnh là ${voice.strength}, còn điểm cần canh là ${voice.risk}. Thuật toán phát hiện theo Can ${evidence.thienCan}, ${contextWithCung} và ${variant}: ${evidence.thienCanRelationToBinh.detail} Đồng thời ở lớp Chi ${evidence.diaChi} của ${seed.canChi} trong ${variant}, ${evidence.diaChiRelationToNgo.detail} Vì vậy năm 2026 của ${seed.canChi} trong ${variant} nên được đọc như một bản đồ ra quyết định, không phải lời hứa chắc chắn về vận hạn.`,
   ]
 }
 
 function buildSections(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): YearForecastSection[] {
   const genderVoice = genderVoiceFor(seed, evidence, voice)
-  const context = articleContext(seed, evidence)
+  const age = lifeStagePhrase(evidence)
+  const variant = readerVariant(seed)
   const contextWithCung = articleContextWithCung(seed, evidence)
 
   return [
     {
-      heading: `Tổng quan riêng cho tuổi ${seed.canChi} ${seed.genderLabel}`,
+      heading: `Tổng quan theo Can ${evidence.thienCan} và Cung ${evidence.cungMenh.name} của ${seed.canChi}`,
       content: [
-        `Với ${context}, ba nét con giáp cần dùng đúng chỗ là: ${evidence.animalTraits.traits.join(', ')}. Các nét này hữu ích khi năm 2026 đòi hỏi vừa quan sát nhanh vừa giữ nền ổn định theo ${contextWithCung}.`,
-        `Với ${context}, Bói Toán không gộp bài này vào một bài tuổi ${seed.animal} chung, vì Can ${evidence.thienCan}, Chi ${evidence.diaChi}, nạp âm ${evidence.napAm.name} và Cung ${evidence.cungMenh.name} tạo ra một cấu trúc riêng. Điểm đáng đọc của ${context} là cách biến ưu thế ${voice.strength} thành hành động có giới hạn, đồng thời nhớ rằng ${genderVoice.openingFrame}.`,
+        `Ba nét con giáp của ${seed.canChi} trong ${variant} cần dùng đúng chỗ là: ${evidence.animalTraits.traits.join(', ')}. Các nét này hữu ích khi năm 2026 đòi hỏi tuổi ${seed.canChi} trong ${variant} vừa quan sát nhanh vừa giữ nền ổn định theo ${contextWithCung}.`,
+        `Bói Toán không gộp bài này vào một bài tuổi ${seed.animal} chung, vì Can ${evidence.thienCan}, Chi ${evidence.diaChi}, nạp âm ${evidence.napAm.name} và Cung ${evidence.cungMenh.name} tạo ra một cấu trúc riêng cho ${variant}. Điểm đáng đọc của ${seed.canChi} trong ${variant} là cách biến ưu thế ${voice.strength} thành hành động có giới hạn, đồng thời nhớ rằng ${genderVoice.openingFrame}.`,
       ],
     },
     {
       heading: `Thiên Can ${evidence.thienCan} gặp Bính: ${evidence.thienCanRelationToBinh.label}`,
       content: [
-        `Lớp Thiên Can cho ${context} thấy ${evidence.thienCanRelationToBinh.detail} Tín hiệu này hữu ích khi bạn cần chọn việc nuôi tương lai, thay vì chạy theo mọi lời mời có vẻ cấp bách ở ${context}.`,
-        `Bản mệnh ở ${context} nên áp dụng gợi ý này bằng một nguyên tắc rõ: ${evidence.thienCanRelationToBinh.recommendationLens} Nếu quyết định mới chưa làm rõ uy tín, dòng tiền hoặc trách nhiệm gia đình, hãy để nó qua một vòng kiểm tra nữa và nhớ ${genderVoice.decisionFilter}.`,
+        `Lớp Thiên Can của ${seed.canChi} trong ${variant} cho thấy ${evidence.thienCanRelationToBinh.detail} Với ${seed.canChi} ở ${contextWithCung}, tín hiệu này hữu ích khi bạn cần chọn việc nuôi tương lai, thay vì chạy theo mọi lời mời có vẻ cấp bách trong ${variant}.`,
+        `Bản mệnh trong ${variant} nên áp dụng gợi ý này bằng một nguyên tắc rõ ở ${age}: ${evidence.thienCanRelationToBinh.recommendationLens} Nếu quyết định mới chưa làm rõ uy tín, dòng tiền hoặc trách nhiệm gia đình, hãy để nó qua một vòng kiểm tra nữa và nhớ ${genderVoice.decisionFilter}.`,
       ],
     },
     {
       heading: `Địa Chi ${evidence.diaChi} gặp Ngọ: ${evidence.diaChiRelationToNgo.label}`,
       content: [
-        `Lớp Địa Chi của ${context} cho thấy ${evidence.diaChiRelationToNgo.detail} Với ${contextWithCung}, điều này không nên đọc thành tốt xấu tuyệt đối, mà nên đọc thành kiểu áp lực cần quản trị trong năm Bính Ngọ.`,
-        `Với ${context}, bạn có thể dùng khuyến nghị này theo hướng: ${evidence.diaChiRelationToNgo.recommendationLens} Khi bối cảnh đổi nhanh, một câu hỏi nhỏ nhưng hữu ích cho ${contextWithCung} là việc này cần tiến, cần dừng hay cần nói lại điều kiện; ${genderVoice.careerGuardrail}.`,
+        `Lớp Địa Chi của ${seed.canChi} trong ${variant} cho thấy ${evidence.diaChiRelationToNgo.detail} Với ${contextWithCung} của tuổi ${seed.canChi} trong ${variant}, điều này không nên đọc thành tốt xấu tuyệt đối, mà nên đọc thành kiểu áp lực cần quản trị trong năm Bính Ngọ.`,
+        `Bạn có thể dùng khuyến nghị này theo hướng ở ${age} trong ${variant}: ${evidence.diaChiRelationToNgo.recommendationLens} Khi bối cảnh đổi nhanh, một câu hỏi nhỏ nhưng hữu ích cho ${contextWithCung} là việc này cần tiến, cần dừng hay cần nói lại điều kiện; ${genderVoice.careerGuardrail}.`,
       ],
     },
     {
       heading: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} và nạp âm ${evidence.napAm.name}`,
       content: [
-        `Theo bảng Cung mệnh chuẩn, ${contextWithCung} thuộc ${evidence.cungMenh.element}. Khi đặt cạnh nạp âm ${evidence.napAm.name}, Bói Toán đọc được cho ${context} một trục nền giúp bạn hiểu mình nên giữ chuẩn ở đâu và nên mềm ở đâu.`,
-        `Trong nghề nghiệp, ${careerLensFor(seed, evidence)} Phần nghề còn cần nhớ: ${genderVoice.careerGuardrail}. Trong tài chính, ${moneyLensFor(seed, evidence)} Lời khuyên an toàn cho ${contextWithCung} là đưa mọi khoản lớn về giấy tờ, mốc dừng và người kiểm tra chéo.`,
+        `Theo bảng Cung mệnh chuẩn, ${contextWithCung} thuộc ${evidence.cungMenh.element}. Khi đặt cạnh nạp âm ${evidence.napAm.name} ở ${age} của ${seed.canChi} trong ${variant}, Bói Toán đọc được một trục nền giúp bạn hiểu mình nên giữ chuẩn ở đâu và nên mềm ở đâu.`,
+        `Trong nghề nghiệp, ${careerLensFor(seed, evidence)} Phần nghề còn cần nhớ: ${genderVoice.careerGuardrail}. Trong tài chính, ${moneyLensFor(seed, evidence)} Lời khuyên an toàn cho ${contextWithCung} của ${seed.canChi} trong ${variant} là đưa mọi khoản lớn về giấy tờ, mốc dừng và người kiểm tra chéo.`,
       ],
     },
     {
-      heading: `Công danh, tài chính và Tài lộc của ${genderNoun(seed)} tuổi ${evidence.lifeStage.age}`,
+      heading: `Công danh, tài chính và Tài lộc ở ${age}`,
       content: [
-        `Ở tuổi ${evidence.lifeStage.age}, bạn nên biến đặc điểm ${voice.strength} thành cách làm có hệ thống: ${voice.workStyle}. Đây là phần life-stage riêng cho ${context}, không phải lời khuyên chung cho mọi nhóm 36-45 hay 26-35; ${genderVoice.workAction}.`,
-        `${context} nên chọn một mục tiêu nghề nghiệp, một mục tiêu tiền bạc và một mục tiêu thân tâm cho năm 2026. Với ${context}, mỗi mục tiêu cần một hành động hằng tuần, vì thuật toán tham khảo chỉ có giá trị khi quay về lịch làm việc thật; ${genderVoice.moneyAction}.`,
+        `Ở ${age} của ${seed.canChi} trong ${variant}, bạn nên biến đặc điểm ${voice.strength} thành cách làm có hệ thống: ${voice.workStyle}. Đây là phần life-stage riêng theo giai đoạn ${evidence.lifeStage.bucket}, không phải lời khuyên chung cho mọi nhóm 36-45 hay 26-35; ${genderVoice.workAction}.`,
+        `Bạn nên chọn một mục tiêu nghề nghiệp, một mục tiêu tiền bạc và một mục tiêu thân tâm cho năm 2026 của ${seed.canChi} trong ${variant}. Với nạp âm ${evidence.napAm.name}, mỗi mục tiêu cần một hành động hằng tuần, vì thuật toán tham khảo chỉ có giá trị khi quay về lịch làm việc thật; ${genderVoice.moneyAction}.`,
       ],
     },
     {
       heading: `Tình duyên, gia đạo và Sức khỏe nền của tuổi ${seed.animal}`,
       content: [
-        `Trong quan hệ, ${context} nên chú ý cách ${voice.relationshipStyle}. ${context} thuộc tuổi ${seed.animal} có thể rất đáng tin khi đã nhận trách nhiệm, nhưng năm Bính Ngọ cần thêm khả năng nói rõ giới hạn trước khi mệt; ${genderVoice.relationshipFrame}.`,
-        `Về sức khỏe nền, ${contextWithCung} nên ${voice.recoveryStyle}. Với ${context}, phần này chỉ là nhắc nhở sinh hoạt theo năm sinh, không thay thế tư vấn y tế hoặc kiểm tra chuyên môn khi có dấu hiệu bất thường; ${genderVoice.wellbeingAction}.`,
+        `Trong quan hệ của ${seed.canChi} ở ${variant}, bạn nên chú ý cách ${voice.relationshipStyle}. Tuổi ${seed.animal} của ${seed.canChi} trong ${variant} có thể rất đáng tin khi đã nhận trách nhiệm, nhưng năm Bính Ngọ cần thêm khả năng nói rõ giới hạn trước khi mệt; ${genderVoice.relationshipFrame}.`,
+        `Về sức khỏe nền, ${contextWithCung} của ${seed.canChi} trong ${variant} nên ${voice.recoveryStyle}. Phần này chỉ là nhắc nhở sinh hoạt theo năm sinh, không thay thế tư vấn y tế hoặc kiểm tra chuyên môn khi có dấu hiệu bất thường; ${genderVoice.wellbeingAction}.`,
       ],
     },
     {
       heading: `Lời khuyên khi dùng bài tuổi ${seed.canChi} trước khi lập lá số cá nhân`,
       content: [
-        `Theo Tam Hợp Phái / 《紫微斗数全书》, bài này chỉ đọc các lớp tổng quan theo năm sinh và giới tính của ${context}. Lá số cá nhân của ${contextWithCung} vẫn cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí sao trong 12 cung, nên ${genderVoice.appReason}.`,
-        `Bạn có thể dùng bài viết như bản đồ thảo luận cho ${context}: ghi lại điều cần làm, điều cần hỏi người thân và điều cần kiểm chứng bằng dữ liệu riêng. Khi muốn đọc sâu hơn, hãy lập lá số cá nhân thay vì suy luận toàn bộ cuộc đời từ năm sinh; ${genderVoice.decisionFilter}.`,
+        `Theo Tam Hợp Phái / 《紫微斗数全书》, bài này chỉ đọc các lớp tổng quan theo năm sinh và giới tính của tuổi ${seed.canChi} trong ${variant}. Lá số cá nhân của ${contextWithCung} trong bài ${seed.canChi} vẫn cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí sao trong 12 cung, nên ${genderVoice.appReason}.`,
+        `Bạn có thể dùng bài viết như bản đồ thảo luận cho ${seed.canChi} trong ${variant}: ghi lại điều cần làm, điều cần hỏi người thân và điều cần kiểm chứng bằng dữ liệu riêng. Khi muốn đọc sâu hơn, hãy lập lá số cá nhân thay vì suy luận toàn bộ cuộc đời từ năm sinh; ${genderVoice.decisionFilter}.`,
       ],
     },
   ]
 }
 
 function buildFaqs(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): Array<{ question: string; answer: string }> {
-  const label = audience(seed)
   const voice = voiceFor(seed)
   const genderVoice = genderVoiceFor(seed, evidence, voice)
-  const role = genderNoun(seed)
-  const context = articleContext(seed, evidence)
+  const variant = readerVariant(seed)
+  const compactRole = compactGender(seed)
+  const age = lifeStagePhrase(evidence)
   const contextWithCung = articleContextWithCung(seed, evidence)
   const templateIndex = (seed.year + (seed.gender === 'nam' ? 0 : 1)) % 3
 
   const relationAnswerTemplates = [
-    `Điểm chính của ${context} nằm ở nhịp Can ${evidence.thienCan} và Chi ${evidence.diaChi}: Can gặp Bính là ${evidence.thienCanRelationToBinh.label}, Chi gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Bạn nên xem đây là bản đồ chọn hành động; ${genderVoice.decisionFilter}.`,
-    `Có hai lớp cần đọc cùng lúc cho ${contextWithCung}. Với ${context}, Thiên Can báo ${evidence.thienCanRelationToBinh.label}, còn Địa Chi báo ${evidence.diaChiRelationToNgo.label}; vì vậy bản mệnh nên đi từng bước và kiểm chứng bằng việc thật, không xem như lời tiên đoán cố định.`,
-    `Bói Toán đọc năm Bính Ngọ qua cả Can và Chi của ${context}: ${evidence.thienCanRelationToBinh.detail} Ở lớp Chi của ${context}, ${evidence.diaChiRelationToNgo.detail} Lời nhắc thực tế là ${genderVoice.decisionFilter}.`,
+    `Điểm chính của tuổi ${seed.canChi} trong ${variant} nằm ở nhịp Can ${evidence.thienCan} và Chi ${evidence.diaChi}: Can gặp Bính là ${evidence.thienCanRelationToBinh.label}, Chi gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Bạn nên xem đây là bản đồ chọn hành động; ${genderVoice.decisionFilter}.`,
+    `Có hai lớp cần đọc cùng lúc cho ${contextWithCung} của tuổi ${seed.canChi} trong ${variant}. Ở ${age}, Thiên Can báo ${evidence.thienCanRelationToBinh.label}, còn Địa Chi báo ${evidence.diaChiRelationToNgo.label}; vì vậy bản mệnh nên đi từng bước và kiểm chứng bằng việc thật, không xem như lời tiên đoán cố định.`,
+    `Bói Toán đọc năm Bính Ngọ của ${seed.canChi} qua cả Can ${evidence.thienCan} và Chi ${evidence.diaChi}: ${evidence.thienCanRelationToBinh.detail} Ở lớp ${variant} của ${seed.canChi}, ${evidence.diaChiRelationToNgo.detail} Lời nhắc thực tế là ${genderVoice.decisionFilter}.`,
   ]
   const cungAnswerTemplates = [
-    `${contextWithCung} đặt trọng tâm vào môi trường sống, cách giữ lời, quy tắc tiền bạc và nhịp nghỉ. Với ${context}, lớp này chỉ là tham khảo theo Cung mệnh, không thay lá số cá nhân.`,
-    `Khi nhìn qua ${contextWithCung} thuộc ${evidence.cungMenh.element}, bạn nên hỏi mình đang giữ nền ở đâu và bị lệch ở đâu. Điểm cần nhớ là ${genderVoice.openingFrame}.`,
-    `Cung ${evidence.cungMenh.name} không cho kết luận cố định với ${context}; nó chỉ gợi ý cách đặt nền quyết định. Bản mệnh ở ${contextWithCung} nên dùng lớp này để kiểm tra thói quen sống, tiền bạc và cách nghỉ ngơi.`,
+    `${contextWithCung} của ${seed.canChi} đặt trọng tâm vào môi trường sống, cách giữ lời, quy tắc tiền bạc và nhịp nghỉ. Với ${variant} của ${seed.canChi}, lớp này chỉ là tham khảo theo Cung mệnh, không thay lá số cá nhân.`,
+    `Khi nhìn qua ${contextWithCung} thuộc ${evidence.cungMenh.element} ở bài ${seed.canChi}, bạn nên hỏi mình đang giữ nền ở đâu và bị lệch ở đâu. Điểm cần nhớ ở ${age} là ${genderVoice.openingFrame}.`,
+    `Cung ${evidence.cungMenh.name} không cho kết luận cố định với ${seed.canChi}; nó chỉ gợi ý cách đặt nền quyết định. Bản mệnh ở ${contextWithCung}, ${age}, nên dùng lớp này để kiểm tra thói quen sống, tiền bạc và cách nghỉ ngơi.`,
   ]
   const napAmAnswerTemplates = [
-    `Nạp âm ${evidence.napAm.name} giúp ${context} định hướng cách dùng năng lực trong nghề và cách giữ dòng tiền. Lời nhắc an toàn là ${genderVoice.moneyAction}.`,
-    `Với nạp âm ${evidence.napAm.name}, phần công việc của ${context} nên đi theo hướng hợp năng lực tích lũy; phần tiền bạc cần ngân sách và mốc dừng rõ. Khi quyết định lớn của ${context}, bạn vẫn nên hỏi chuyên gia phù hợp.`,
-    `Lời nhắc từ nạp âm ${evidence.napAm.name} cho ${context}: nghề nghiệp cần chọn đúng vai trò, còn tài chính cần thấy rõ dòng tiền. Bói Toán chỉ đưa góc tham khảo cho ${contextWithCung}, không thay tư vấn tài chính chuyên môn.`,
+    `Nạp âm ${evidence.napAm.name} giúp tuổi ${seed.canChi} định hướng cách dùng năng lực trong nghề và cách giữ dòng tiền. Lời nhắc an toàn cho ${contextWithCung} là ${genderVoice.moneyAction}.`,
+    `Với nạp âm ${evidence.napAm.name} của ${seed.canChi}, phần công việc nên đi theo hướng hợp năng lực tích lũy; phần tiền bạc cần ngân sách và mốc dừng rõ. Khi quyết định lớn ở ${age}, bạn vẫn nên hỏi chuyên gia phù hợp.`,
+    `Lời nhắc từ nạp âm ${evidence.napAm.name} trong bài ${seed.canChi}: nghề nghiệp cần chọn đúng vai trò, còn tài chính cần thấy rõ dòng tiền. Bói Toán chỉ đưa góc tham khảo cho ${contextWithCung} ở ${age}, không thay tư vấn tài chính chuyên môn.`,
   ]
 
   return [
     {
-      question: `${seed.canChi} ${seed.genderLabel} gặp năm Bính Ngọ 2026 có điểm gì đáng chú ý?`,
+      question: `${seed.canChi} ${compactRole} gặp năm Bính Ngọ 2026 có điểm gì đáng chú ý?`,
       answer: relationAnswerTemplates[templateIndex],
     },
     {
-      question: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} gợi ý gì cho tuổi ${seed.canChi} ${seed.genderLabel}?`,
+      question: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} gợi ý gì cho tuổi ${seed.canChi} ${compactRole}?`,
       answer: cungAnswerTemplates[templateIndex],
     },
     {
-      question: `Nạp âm ${evidence.napAm.name} gợi gì cho ${genderNoun(seed)} tuổi ${seed.canChi}?`,
+      question: `Nạp âm ${evidence.napAm.name} gợi gì trong bài tuổi ${seed.canChi} ${compactRole}?`,
       answer: napAmAnswerTemplates[templateIndex],
     },
     {
-      question: `Bài ${label} này có phải kết luận số mệnh cá nhân không?`,
-      answer: `Không. Bài ${label} là nội dung tham khảo theo năm sinh và giới tính; nó không thay thế tư vấn chuyên môn hoặc lá số cá nhân có ngày giờ sinh.`,
+      question: `Bài tuổi ${seed.canChi} ${compactRole} năm 2026 này có phải kết luận số mệnh cá nhân không?`,
+      answer: `Không. Bài này là nội dung tham khảo theo năm sinh và giới tính; với ${contextWithCung} của ${seed.canChi} trong ${variant}, nó không thay thế tư vấn chuyên môn hoặc lá số cá nhân có ngày giờ sinh.`,
     },
     {
-      question: `Bài tổng quan tuổi ${seed.canChi} ${seed.genderLabel} khác gì lá số cá nhân trên app Bói Toán?`,
-      answer: `Bài tổng quan này đọc theo năm sinh và giới tính của ${context}. Với ${context}, lá số cá nhân trên app Bói Toán cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí 108 sao tại 12 cung, nên phù hợp hơn khi bạn muốn xem phần riêng của mình; ${genderVoice.appReason}.`,
+      question: `Bài tổng quan tuổi ${seed.canChi} ${compactRole} khác gì lá số cá nhân trên app Bói Toán?`,
+      answer: `Bài tổng quan ${seed.canChi} ${compactRole} đọc theo năm sinh và giới tính. Với ${contextWithCung} ở ${age}, lá số cá nhân trên app Bói Toán cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí 108 sao tại 12 cung, nên phù hợp hơn khi bạn muốn xem phần riêng của mình; ${genderVoice.appReason}.`,
     },
   ]
 }

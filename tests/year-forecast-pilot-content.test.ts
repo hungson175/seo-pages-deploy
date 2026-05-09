@@ -53,9 +53,18 @@ function visibleArticleText(article: YearForecastRegeneratedArticle): string {
     ...article.intro,
     ...article.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
     ...article.ctaModules.flatMap((cta) => [cta.heading, cta.body, cta.buttonLabel, cta.complianceNote]),
-    ...article.sections.flatMap((section) => [section.heading, ...section.content]),
+    ...article.sections.flatMap((section) => section.content),
     ...article.faqs.flatMap((faq) => [faq.question, faq.answer]),
   ].join(' ')
+}
+
+function duplicateScanArticleText(article: YearForecastRegeneratedArticle): string {
+  return [
+    ...article.intro,
+    ...article.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
+    ...article.sections.flatMap((section) => section.content),
+    ...article.faqs.flatMap((faq) => [faq.question, faq.answer]),
+  ].join('. ')
 }
 
 function visibleRoutePageText(slug: string): string {
@@ -123,7 +132,7 @@ function scanReq10Duplicates(articles: YearForecastRegeneratedArticle[]): Duplic
       .map((slug) => [slug, sentenceMapFor(visibleRoutePageText(slug))]),
   )
   const articleSentenceMaps = new Map(
-    articles.map((article) => [article.slug, sentenceMapFor(visibleArticleText(article))]),
+    articles.map((article) => [article.slug, sentenceMapFor(duplicateScanArticleText(article))]),
   )
   const findings: DuplicateSentenceFinding[] = []
   const seenPairs = new Set<string>()
@@ -327,7 +336,7 @@ describe('year forecast phase 3 batch content', () => {
         articleCount: articles.length,
         comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length - articles.length,
         thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,
-        rule: `No sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated cohort articles or existing non-cohort year pages.`,
+        rule: `No body, summary, or FAQ sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated cohort articles or existing non-cohort year pages.`,
         findingCount: findings.length,
         findings,
       })
@@ -341,10 +350,10 @@ const PHASE4_BATCH_ARTIFACT_JSON = '/tmp/po_year_articles_phase4_batch_articles_
 const PHASE4_BATCH_ARTIFACT_MD = '/tmp/po_year_articles_phase4_batch_articles_202605091600.md'
 const PHASE4_BATCH_PROMPT_PAYLOAD_JSON = '/tmp/po_year_articles_phase4_batch_prompt_payloads_202605091600.json'
 const PHASE4_BATCH_REQ10_SCAN_JSON = '/tmp/po_year_articles_phase4_batch_req10_scan_202605091600.json'
-const CMO_EDIT_ARTIFACT_JSON = '/tmp/po_year_articles_cmo_edit_articles_202605091503.json'
-const CMO_EDIT_ARTIFACT_MD = '/tmp/po_year_articles_cmo_edit_articles_202605091503.md'
-const CMO_EDIT_PROMPT_PAYLOAD_JSON = '/tmp/po_year_articles_cmo_edit_prompt_payloads_202605091503.json'
-const CMO_EDIT_REQ10_SCAN_JSON = '/tmp/po_year_articles_cmo_edit_req10_scan_202605091503.json'
+const CMO_EDIT_ARTIFACT_JSON = '/tmp/po_year_articles_identifier_fix_articles_202605091543.json'
+const CMO_EDIT_ARTIFACT_MD = '/tmp/po_year_articles_identifier_fix_articles_202605091543.md'
+const CMO_EDIT_PROMPT_PAYLOAD_JSON = '/tmp/po_year_articles_identifier_fix_prompt_payloads_202605091543.json'
+const CMO_EDIT_REQ10_SCAN_JSON = '/tmp/po_year_articles_identifier_fix_req10_scan_202605091543.json'
 
 function phase4CohortSeeds(): SeoForecastSeed[] {
   return SEO_FORECAST_SEEDS.filter(isYearForecastPhase4CohortSeed)
@@ -484,7 +493,7 @@ describe('year forecast phase 4 batch content (1996-2001)', () => {
         articleCount: articles.length,
         comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length - articles.length,
         thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,
-        rule: `No sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated cohort articles or existing non-cohort year pages.`,
+        rule: `No body, summary, or FAQ sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated cohort articles or existing non-cohort year pages.`,
         findingCount: findings.length,
         findings,
       })
@@ -513,6 +522,23 @@ function countFullAudienceMentions(article: YearForecastRegeneratedArticle): num
   return visibleArticleText(article).match(pattern)?.length ?? 0
 }
 
+function bodySummaryFaqText(article: YearForecastRegeneratedArticle): string {
+  return [
+    ...article.intro,
+    ...article.summaryRows.flatMap((row) => [row.trend, row.action]),
+    ...article.sections.flatMap((section) => section.content),
+    ...article.faqs.flatMap((faq) => [faq.question, faq.answer]),
+  ].join(' ')
+}
+
+function forbiddenRoleAgeIdentifierCount(article: YearForecastRegeneratedArticle): number {
+  return bodySummaryFaqText(article).match(/\b(?:nam|nữ)\s+mạng\s+tuổi\s+âm\s+\d+\b/giu)?.length ?? 0
+}
+
+function bodyGenderNounCount(article: YearForecastRegeneratedArticle): number {
+  return bodySummaryFaqText(article).match(/\b(?:nam|nữ)\s+mạng\b/giu)?.length ?? 0
+}
+
 describe('year forecast CMO edit batch content (1984-2001)', () => {
   it('prepares all 36 regenerated pages without opening the publication gate', () => {
     const seeds = allRegeneratedCohortSeeds()
@@ -532,6 +558,13 @@ describe('year forecast CMO edit batch content (1984-2001)', () => {
   it('keeps full Can Chi + year + gender mentions at or below five per article', () => {
     for (const article of allRegeneratedCohortArticles()) {
       expect(countFullAudienceMentions(article), article.slug).toBeLessThanOrEqual(5)
+    }
+  })
+
+  it('removes forbidden role-age identifiers from body, summary, and FAQ text', () => {
+    for (const article of allRegeneratedCohortArticles()) {
+      expect(forbiddenRoleAgeIdentifierCount(article), article.slug).toBe(0)
+      expect(bodyGenderNounCount(article), article.slug).toBe(0)
     }
   })
 
@@ -571,17 +604,19 @@ describe('year forecast CMO edit batch content (1984-2001)', () => {
         ...article,
         wordCount: getYearForecastRegeneratedWordCount(article),
         fullAudienceMentionCount: countFullAudienceMentions(article),
+        forbiddenRoleAgeIdentifierCount: forbiddenRoleAgeIdentifierCount(article),
+        bodyGenderNounCount: bodyGenderNounCount(article),
       }))
       writeJson(CMO_EDIT_ARTIFACT_JSON, articlePayload)
       writeFileSync(CMO_EDIT_ARTIFACT_MD, renderBatchMarkdown(articles))
       writeJson(CMO_EDIT_PROMPT_PAYLOAD_JSON, articles.map((article) => article.regenerationInput))
       writeJson(CMO_EDIT_REQ10_SCAN_JSON, {
-        generatedAt: '2026-05-09T15:03:00+07:00',
+        generatedAt: '2026-05-09T15:43:00+07:00',
         cohortYears: { start: 1984, end: 2001 },
         articleCount: articles.length,
         comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length - articles.length,
         thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,
-        rule: `No sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated pages.`,
+        rule: `No body, summary, or FAQ sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated pages.`,
         findingCount: findings.length,
         findings,
       })

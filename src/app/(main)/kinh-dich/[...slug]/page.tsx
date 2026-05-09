@@ -27,19 +27,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     })
   }
 
-  return {
-    ...buildMetadata({
-      title: page.title,
-      description: page.description,
-      path: page.path,
-      pageType: 'hub',
-      truncate: false,
-    }),
-    robots: {
-      index: false,
-      follow: true,
-    },
-  }
+  return buildMetadata({
+    title: page.title,
+    description: page.description,
+    path: page.path,
+    pageType: 'hub',
+    truncate: false,
+  })
 }
 
 export default async function KinhDichPilotRoute({

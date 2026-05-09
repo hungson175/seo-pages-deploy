@@ -28,4 +28,8 @@
     <loc>https://boitoan.com.vn/tools.xml</loc>
     <lastmod>2026-05-02</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>https://boitoan.com.vn/kinh-dich.xml</loc>
+    <lastmod>2026-05-09</lastmod>
+  </sitemap>
 </sitemapindex>

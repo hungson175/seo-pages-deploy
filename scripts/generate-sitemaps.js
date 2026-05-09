@@ -37,6 +37,7 @@ const lastmod = '2026-05-02'
 const tuviLastmod = '2026-05-05'
 const starsLastmod = '2026-05-04'
 const starPalaceLastmod = '2026-05-04'
+const kinhDichLastmod = '2026-05-09'
 
 function toSlug(input) {
   return input
@@ -151,6 +152,19 @@ const starPalaceUrls = approvedStarPalaceCombinations.map((combo) => ({
   priority: '0.68',
 }))
 
+const kinhDichPilotUrls = [
+  { path: '/kinh-dich/gieo-que/', priority: '0.8' },
+  { path: '/kinh-dich/gieo-que/luc-hao/', priority: '0.7' },
+  { path: '/kinh-dich/hoi/cong-viec/', priority: '0.7' },
+  { path: '/kinh-dich/hoi/tinh-duyen/', priority: '0.7' },
+  { path: '/kinh-dich/64-que/', priority: '0.7' },
+].map((item) => ({
+  loc: `${base}${item.path}`,
+  lastmod: kinhDichLastmod,
+  changefreq: 'weekly',
+  priority: item.priority,
+}))
+
 const publicDir = path.join(__dirname, '..', 'public')
 fs.mkdirSync(publicDir, { recursive: true })
 
@@ -161,6 +175,11 @@ fs.writeFileSync(path.join(publicDir, 'tools.xml'), buildSitemap(toolsUrls))
 fs.writeFileSync(path.join(publicDir, 'palaces.xml'), buildSitemap(palaceUrls))
 fs.writeFileSync(path.join(publicDir, 'star-palace.xml'), buildSitemap(starPalaceUrls))
 fs.writeFileSync(
+  path.join(publicDir, 'kinh-dich.xml'),
+  buildSitemap(kinhDichPilotUrls)
+)
+
+fs.writeFileSync(
   path.join(publicDir, 'sitemap-index.xml'),
   buildSitemapIndex([
     { loc: `${base}/sitemap.xml`, lastmod },
@@ -170,6 +189,7 @@ fs.writeFileSync(
     ...(starPalaceUrls.length > 0 ? [{ loc: `${base}/star-palace.xml`, lastmod: starPalaceLastmod }] : []),
     { loc: `${base}/gieoque.xml`, lastmod },
     { loc: `${base}/tools.xml`, lastmod },
+    { loc: `${base}/kinh-dich.xml`, lastmod: kinhDichLastmod },
   ])
 )
 

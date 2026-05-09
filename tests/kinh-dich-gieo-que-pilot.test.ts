@@ -10,7 +10,7 @@ import {
 } from '../src/app/(main)/kinh-dich/[...slug]/page'
 import { KinhDichPilotPageView } from '../src/components/kinh-dich/kinh-dich-pilot-page'
 import { QUE_CONTENT } from '../src/content/que'
-import routes from '../src/content/routes.json'
+import rootSitemap from '../src/app/sitemap'
 import {
   KING_WEN_HEXAGRAM_NAMES,
   KINH_DICH_PILOT_PAGES,
@@ -383,7 +383,7 @@ describe('Kinh Dịch gieo quẻ 5-page pilot', () => {
     }
   })
 
-  it('keeps review posture: static allow-list, self-canonical, noindex/follow, sitemap excluded', async () => {
+  it('publishes the approved pilot: static allow-list, self-canonical, index/follow, sitemap included', async () => {
     expect(dynamicParams).toBe(false)
     expect(generateStaticParams()).toEqual(
       KINH_DICH_PILOT_PAGES.map((page) => ({ slug: page.slugSegments })),
@@ -395,25 +395,13 @@ describe('Kinh Dịch gieo quẻ 5-page pilot', () => {
       })
       expect(metadata.title, page.path).toBe(page.title)
       expect(metadata.description, page.path).toBe(page.description)
-      expect(metadata.robots, page.path).toEqual({ index: false, follow: true })
+      expect(metadata.robots, page.path).toEqual({ index: true, follow: true })
       expect(metadata.alternates?.canonical?.toString(), page.path).toBe(`https://boitoan.com.vn${page.path}`)
     }
 
-    const routeAllowLists = [
-      ...routes.queSlugs.map((slug) => `/que/${slug}/`),
-      ...routes.toolSlugs.map((slug) => `/${slug}/`),
-      ...routes.hubSlugs.map((slug) => `/${slug}/`),
-    ]
+    const sitemapUrls = rootSitemap().map((entry) => entry.url)
     for (const path of EXPECTED_PATHS) {
-      expect(routeAllowLists, `${path} should not be in sitemap-backed allow-lists`).not.toContain(path)
-    }
-
-    for (const sitemapFile of ['public/sitemap-index.xml', 'public/gieoque.xml', 'public/tools.xml']) {
-      if (!existsSync(sitemapFile)) continue
-      const sitemapXml = readFileSync(sitemapFile, 'utf8')
-      for (const path of EXPECTED_PATHS) {
-        expect(sitemapXml, `${sitemapFile} should exclude ${path}`).not.toContain(path)
-      }
+      expect(sitemapUrls, `${path} should be in the root sitemap`).toContain(`https://boitoan.com.vn${path}`)
     }
   })
 

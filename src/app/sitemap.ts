@@ -3,6 +3,7 @@ import { PRIORITY_STAR_SLUGS } from '@/content/stars'
 import { PALACE_SLUGS } from '@/content/palaces'
 import { ANIMAL_HUB_SLUGS } from '@/content/animal-hubs'
 import { getApprovedStarPalacePages } from '@/content/star-palace'
+import { KINH_DICH_PILOT_PAGES } from '@/content/kinh-dich-gieo-que-pilot'
 
 export const dynamic = 'force-static'
 
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tuviLastmod = '2026-05-05'
   const starsLastmod = '2026-05-04'
   const starPalaceLastmod = '2026-05-04'
+  const kinhDichLastmod = '2026-05-09'
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: lastmod, changeFrequency: 'daily', priority: 1 },
@@ -47,5 +49,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.68,
   }))
 
-  return [...staticPages, ...animalHubPages, ...saoPages, ...palacePages, ...starPalacePages]
+  const kinhDichPages: MetadataRoute.Sitemap = KINH_DICH_PILOT_PAGES.map((page) => ({
+    url: `${base}${page.path}`,
+    lastModified: kinhDichLastmod,
+    changeFrequency: 'weekly' as const,
+    priority: page.path === '/kinh-dich/gieo-que/' ? 0.8 : 0.7,
+  }))
+
+  return [
+    ...staticPages,
+    ...animalHubPages,
+    ...saoPages,
+    ...palacePages,
+    ...starPalacePages,
+    ...kinhDichPages,
+  ]
 }

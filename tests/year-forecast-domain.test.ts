@@ -41,6 +41,7 @@ describe('year forecast domain evidence phase 1', () => {
       expect(evidence.lifeStage.focus, `${seed.slug} life stage`).toBeTruthy()
       expect(evidence.animalTraits.traits, `${seed.slug} animal traits`).toHaveLength(3)
       expect(evidence.animalTraits.sentences, `${seed.slug} animal trait sentences`).toHaveLength(3)
+      expect(evidence.cungMenh.validationStatus, `${seed.slug} Cung mệnh validation`).toBe('boi_toan_spec')
     }
   })
 
@@ -78,7 +79,7 @@ describe('year forecast domain evidence phase 1', () => {
       thienCan: 'Giáp',
       diaChi: 'Tý',
       napAm: { name: 'Hải Trung Kim', element: 'Kim' },
-      cungMenh: { name: 'Khôn', element: 'Thổ', validationStatus: 'boi_toan_spec' },
+      cungMenh: { name: 'Đoài', element: 'Kim', validationStatus: 'boi_toan_spec' },
       lifeStage: { age: 43, bucket: '36-45' },
       thienCanRelationToBinh: { label: 'Tương sinh' },
       diaChiRelationToNgo: { label: 'Tương xung' },
@@ -88,23 +89,37 @@ describe('year forecast domain evidence phase 1', () => {
       thienCan: 'Ất',
       diaChi: 'Sửu',
       napAm: { name: 'Hải Trung Kim', element: 'Kim' },
-      cungMenh: { name: 'Khôn', element: 'Thổ', validationStatus: 'boi_toan_spec' },
+      cungMenh: { name: 'Ly', element: 'Hỏa', validationStatus: 'boi_toan_spec' },
       lifeStage: { age: 42, bucket: '36-45' },
       thienCanRelationToBinh: { label: 'Tương sinh' },
       diaChiRelationToNgo: { label: 'Tương hại' },
     })
 
     expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-dan-1986-nam')!)).toMatchObject({
-      cungMenh: { name: 'Đoài', element: 'Kim', validationStatus: 'boi_toan_spec' },
+      cungMenh: { name: 'Khôn', element: 'Thổ', validationStatus: 'boi_toan_spec' },
       thienCanRelationToBinh: { label: 'Tỷ kiên' },
       diaChiRelationToNgo: { label: 'Tam hợp' },
     })
 
     expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-hoi-1995-nam')!)).toMatchObject({
-      cungMenh: { name: 'Càn', element: 'Kim', validationStatus: 'boi_toan_spec' },
+      cungMenh: { name: 'Khôn', element: 'Thổ', validationStatus: 'boi_toan_spec' },
       lifeStage: { age: 32, bucket: '26-35' },
       diaChiRelationToNgo: { label: 'Tương hại' },
     })
+
+    expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-thin-2000-nam')!)).toMatchObject({
+      cungMenh: { name: 'Ly', element: 'Hỏa', validationStatus: 'boi_toan_spec' },
+    })
+    expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-thin-2000-nu')!)).toMatchObject({
+      cungMenh: { name: 'Càn', element: 'Kim', validationStatus: 'boi_toan_spec' },
+    })
+    expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-ti-2001-nam')!)).toMatchObject({
+      cungMenh: { name: 'Cấn', element: 'Thổ', validationStatus: 'boi_toan_spec' },
+    })
+    expect(deriveYearForecastDomainEvidence(SEO_FORECAST_SEEDS.find((seed) => seed.slug === 'tuoi-ti-2001-nu')!)).toMatchObject({
+      cungMenh: { name: 'Đoài', element: 'Kim', validationStatus: 'boi_toan_spec' },
+    })
+
   })
 
   it('builds offline regeneration inputs without calling any LLM provider', () => {
@@ -119,7 +134,7 @@ describe('year forecast domain evidence phase 1', () => {
       thienCan: 'Giáp',
       diaChi: 'Tý',
       napAm: { name: 'Hải Trung Kim' },
-      cungMenh: { name: 'Khôn' },
+      cungMenh: { name: 'Đoài' },
       methodCitation: 'Tam Hợp Phái / 《紫微斗数全书》',
     })
     expect(input.generationInstruction).toContain('do not copy')

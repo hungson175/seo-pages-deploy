@@ -109,7 +109,7 @@ interface CungMenhSeed {
   sourceNote: string
 }
 
-export const YEAR_FORECAST_DOMAIN_SOURCE_VERSION = 'phase1-20260509-boitoan-spec-202605090815'
+export const YEAR_FORECAST_DOMAIN_SOURCE_VERSION = 'phase1-20260509-cung-phi-hotfix-202605091005'
 export const YEAR_FORECAST_TARGET_YEAR = 2026 as const
 export const YEAR_FORECAST_TARGET_CAN_CHI = 'Bính Ngọ' as const
 
@@ -137,85 +137,82 @@ export const CUNG_MENH_ELEMENT: Record<string, string> = {
   Khôn: 'Thổ',
 }
 
-const SPEC_APPENDIX_A_MALE_SOURCE =
-  'Bói-Toán regeneration spec /tmp/boitoan_year_articles_regen_spec_202605090815.txt Appendix A'
-const DRAFT_FEMALE_SOURCE =
-  'Bói-Toán spec examples for 1984 nữ Tốn and 1985 nữ Khôn; remaining female rows are Phase-1 draft lookup rows requiring domain validation before article publication'
-const PATTERN_EXTENSION_SOURCE =
-  'Phase-1 deterministic extension of Appendix A pattern for existing BY-2A seed coverage; requires Bói-Toán validation before publication'
+const CANONICAL_CUNG_PHI_SOURCE = 'Canonical Bát Trạch Cung Phi formula; Bói-Toán validation /tmp/boitoan_female_cung_menh_validation_202605091005.txt'
+const CUNG_PHI_2000_2001_SOURCE =
+  '21st-century formula (majority convention); Bói-Toán validation /tmp/boitoan_female_cung_menh_validation_202605091005.txt'
 
 export const CUNG_MENH_BY_YEAR_GENDER: Record<number, Record<YearForecastGender, CungMenhSeed>> = {
   1984: {
-    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Tốn', validationStatus: 'boi_toan_spec', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (simphongthuy.vn, dogovinhvuong.com)` },
+    nu: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (simphongthuy.vn, xaydungso.vn)` },
   },
   1985: {
-    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (thegioiphongthuy.com, careerlink.vn)` },
+    nu: { name: 'Ly', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (thegioiphongthuy.com, phongthuyso.vn)` },
   },
   1986: {
-    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khảm', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (phongthuybta.com, thienmenh.net)` },
+    nu: { name: 'Khảm', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (phongthuybta.com, tuvisomenh.com.vn)` },
   },
   1987: {
-    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Ly', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Tốn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1988: {
-    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Tốn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Chấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Chấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1989: {
-    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khôn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Tốn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1990: {
-    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khảm', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khảm', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (dogovinhvuong.com, memart.vn, phongthuybta.com)` },
+    nu: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (dogovinhvuong.com, memart.vn)` },
   },
   1991: {
-    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Ly', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Ly', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1992: {
-    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Tốn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1993: {
-    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khôn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1994: {
-    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khảm', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Ly', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1995: {
-    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Ly', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (interstellas.com.vn, thegioiphongthuy.com, tuoiam.com)` },
+    nu: { name: 'Khảm', validationStatus: 'boi_toan_spec', sourceNote: `${CANONICAL_CUNG_PHI_SOURCE}; web-verified (kinhdoanh.ahamove.com, thegioiphongthuy.com)` },
   },
   1996: {
-    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Tốn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Tốn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1997: {
-    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khôn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Chấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Chấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1998: {
-    nam: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Khảm', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khôn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Tốn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   1999: {
-    nam: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: SPEC_APPENDIX_A_MALE_SOURCE },
-    nu: { name: 'Ly', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: DRAFT_FEMALE_SOURCE },
+    nam: { name: 'Khảm', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
+    nu: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: CANONICAL_CUNG_PHI_SOURCE },
   },
   2000: {
-    nam: { name: 'Khôn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: PATTERN_EXTENSION_SOURCE },
-    nu: { name: 'Tốn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: PATTERN_EXTENSION_SOURCE },
+    nam: { name: 'Ly', validationStatus: 'boi_toan_spec', sourceNote: `${CUNG_PHI_2000_2001_SOURCE}; minority convention would use Khảm` },
+    nu: { name: 'Càn', validationStatus: 'boi_toan_spec', sourceNote: `${CUNG_PHI_2000_2001_SOURCE}; minority convention would use Cấn` },
   },
   2001: {
-    nam: { name: 'Cấn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: PATTERN_EXTENSION_SOURCE },
-    nu: { name: 'Khôn', validationStatus: 'draft_requires_boi_toan_validation', sourceNote: PATTERN_EXTENSION_SOURCE },
+    nam: { name: 'Cấn', validationStatus: 'boi_toan_spec', sourceNote: `${CUNG_PHI_2000_2001_SOURCE}; minority convention would use Ly` },
+    nu: { name: 'Đoài', validationStatus: 'boi_toan_spec', sourceNote: `${CUNG_PHI_2000_2001_SOURCE}; minority convention would use Càn` },
   },
 }
 
@@ -575,7 +572,6 @@ export function getYearForecastPublicationGate(evidence: YearForecastDomainEvide
     reason: 'Legacy year-forecast renderer is copy-heavy and may not be used as approved production copy.',
     blockers: [
       'full_article_regeneration_required',
-      'female_cung_menh_rows_need_boi_toan_validation',
       'sentence_similarity_scan_required_for_req_10',
       `domain_evidence_ready_for_${evidence.slug}`,
     ],

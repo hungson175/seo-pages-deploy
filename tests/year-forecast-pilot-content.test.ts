@@ -10,10 +10,12 @@ import {
 import {
   YEAR_FORECAST_PHASE2_PILOT_SLUGS,
   YEAR_FORECAST_PHASE3_COHORT_YEARS,
+  YEAR_FORECAST_PHASE4_COHORT_YEARS,
   getYearForecastPilotArticle,
   getYearForecastRegeneratedArticle,
   getYearForecastRegeneratedWordCount,
   isYearForecastPhase3CohortSeed,
+  isYearForecastPhase4CohortSeed,
   type YearForecastRegeneratedArticle,
 } from '../src/content/year-forecast-pilot-content'
 
@@ -199,7 +201,7 @@ describe('year forecast phase 3 batch content', () => {
       expect(seeds.map((seed) => seed.slug)).toContain(slug)
       expect(getYearForecastPilotArticle(seedFor(slug))).not.toBeNull()
     }
-    expect(getYearForecastRegeneratedArticle(seedFor('tuoi-ty-1996-nam'))).toBeNull()
+    expect(getYearForecastRegeneratedArticle(seedFor('tuoi-ty-1996-nam'))).not.toBeNull()
   })
 
   it('uses deterministic domain evidence and route-integrates regenerated content for the cohort', () => {
@@ -317,6 +319,159 @@ describe('year forecast phase 3 batch content', () => {
       writeJson(BATCH_REQ10_SCAN_JSON, {
         generatedAt: '2026-05-09T14:21:00+07:00',
         cohortYears: YEAR_FORECAST_PHASE3_COHORT_YEARS,
+        articleCount: articles.length,
+        comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length - articles.length,
+        thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,
+        rule: `No sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across regenerated cohort articles or existing non-cohort year pages.`,
+        findingCount: findings.length,
+        findings,
+      })
+    }
+
+    expect(findings).toEqual([])
+  })
+})
+
+const PHASE4_BATCH_ARTIFACT_JSON = '/tmp/po_year_articles_phase4_batch_articles_202605091600.json'
+const PHASE4_BATCH_ARTIFACT_MD = '/tmp/po_year_articles_phase4_batch_articles_202605091600.md'
+const PHASE4_BATCH_PROMPT_PAYLOAD_JSON = '/tmp/po_year_articles_phase4_batch_prompt_payloads_202605091600.json'
+const PHASE4_BATCH_REQ10_SCAN_JSON = '/tmp/po_year_articles_phase4_batch_req10_scan_202605091600.json'
+
+function phase4CohortSeeds(): SeoForecastSeed[] {
+  return SEO_FORECAST_SEEDS.filter(isYearForecastPhase4CohortSeed)
+}
+
+function phase4CohortArticles(): YearForecastRegeneratedArticle[] {
+  return phase4CohortSeeds().map((seed) => {
+    const article = getYearForecastRegeneratedArticle(seed)
+    expect(article, seed.slug).not.toBeNull()
+    return article!
+  })
+}
+
+describe('year forecast phase 4 batch content (1996-2001)', () => {
+  it('prepares exactly the 1996-2001 cohort', () => {
+    const seeds = phase4CohortSeeds()
+    expect(YEAR_FORECAST_PHASE4_COHORT_YEARS).toEqual({ start: 1996, end: 2001 })
+    expect(seeds).toHaveLength(12)
+    expect(new Set(seeds.map((seed) => seed.slug)).size).toBe(12)
+  })
+
+  it('uses deterministic domain evidence and route-integrates regenerated content for the cohort', () => {
+    for (const article of phase4CohortArticles()) {
+      const seed = seedFor(article.slug)
+      const text = visibleArticleText(article)
+      const page = getSeoForecastPage(article.slug)
+
+      expect(article.contentOrigin).toBe('phase4-batch-offline-regenerated')
+      expect(article.reviewStatus).toBe('needs-domain-copy-seo-review')
+      expect(article.regenerationInput.slug).toBe(article.slug)
+      expect(article.domainEvidence.canChi).toBe(seed.canChi)
+      expect(article.domainEvidence.napAm.name).toBe(seed.element)
+      expect(page?.contentOrigin, article.slug).toBe('regenerated-domain-content')
+      expect(page?.regenerationStatus, article.slug).toBe('phase3-batch-review-ready')
+      expect(page?.h1, article.slug).toBe(article.h1)
+      expect(page?.sections[0].heading, article.slug).toBe(article.sections[0].heading)
+      expect(text).not.toMatch(/bài pilot|pilot này|hotfix|deploy|regeneration/i)
+      for (const legacySeedFragment of [seed.tone, seed.career, seed.money, seed.love, seed.health, seed.advice]) {
+        expect(text, `${article.slug} should not copy legacy seed fragment`).not.toContain(legacySeedFragment)
+      }
+    }
+  })
+
+  it('includes REQ-1..REQ-9 evidence in every regenerated article body and FAQ', () => {
+    for (const article of phase4CohortArticles()) {
+      const evidence = article.domainEvidence
+      const text = visibleArticleText(article)
+
+      expect(text).toContain(evidence.canChi)
+      expect(text).toContain(evidence.napAm.name)
+      expect(text).toContain(evidence.cungMenh.name)
+      expect(text).toContain(evidence.genderLabel)
+      expect(text).toContain(evidence.thienCan)
+      expect(text).toContain('Bính')
+      expect(text).toContain(evidence.diaChi)
+      expect(text).toContain('Ngọ')
+      for (const trait of evidence.animalTraits.traits) {
+        expect(text).toContain(trait)
+      }
+      expect(text).toContain(String(evidence.lifeStage.age))
+      expect(text).toContain(evidence.lifeStage.focus)
+      expect(text).toMatch(/công việc|nghề|vai trò|kỹ năng/)
+      expect(text).toMatch(/tài chính|tiền|dòng tiền|ngân sách/)
+      expect(text).toContain('Tam Hợp Phái')
+      expect(text).toContain('紫微斗数全书')
+      expect(article.faqs.map((faq) => `${faq.question} ${faq.answer}`).join(' ')).toContain(evidence.canChi)
+    }
+  })
+
+  it('adds AI-native wrapper, top disclaimer, app FAQ, and conversion CTAs', () => {
+    for (const article of phase4CohortArticles()) {
+      const allCtas = article.ctaModules
+      const text = visibleArticleText(article)
+
+      expect(article.topDisclaimer).toContain('Ứng dụng giải trí')
+      expect(article.topDisclaimer).toContain('không phải lời tiên đoán')
+      expect(article.aiNativeWrapper).toContain('Thuật toán Bói Toán')
+      expect(article.aiNativeWrapper).toContain('50+ cổ thư')
+      expect(allCtas.map((cta) => cta.placement).sort()).toEqual([
+        'after-summary',
+        'end-of-article',
+        'mid-article',
+        'sticky-mobile',
+      ])
+      expect(allCtas.every((cta) => cta.href === '/lap-la-so/')).toBe(true)
+      expect(article.stickyMobileCta.placement).toBe('sticky-mobile')
+      expect(article.stickyMobileCta.complianceNote).toBe('Tham khảo, không thay thế tư vấn chuyên môn.')
+      expect(text).toContain('lá số cá nhân trên app Bói Toán')
+      expect(text).toMatch(/thuật toán phát hiện/i)
+      expect(text).toMatch(/miễn phí/i)
+    }
+  })
+
+  it('varies career-lens phrasing by gender even when nạp âm is shared', () => {
+    const grouped = new Map<string, YearForecastRegeneratedArticle[]>()
+    for (const article of phase4CohortArticles()) {
+      const group = grouped.get(article.domainEvidence.napAm.name) ?? []
+      group.push(article)
+      grouped.set(article.domainEvidence.napAm.name, group)
+    }
+
+    for (const [napAm, articles] of grouped.entries()) {
+      const male = articles.find((article) => article.domainEvidence.gender === 'nam')
+      const female = articles.find((article) => article.domainEvidence.gender === 'nu')
+      if (!male || !female) continue
+      const maleCareer = male.summaryRows.find((row) => row.aspect === 'Công việc')?.trend
+      const femaleCareer = female.summaryRows.find((row) => row.aspect === 'Công việc')?.trend
+      expect(maleCareer, `${napAm} male career`).toBeTruthy()
+      expect(femaleCareer, `${napAm} female career`).toBeTruthy()
+      expect(maleCareer, `${napAm} gender phrasing differs`).not.toBe(femaleCareer)
+    }
+  })
+
+  it('keeps regenerated cohort prose in reviewable SEO length range', () => {
+    for (const article of phase4CohortArticles()) {
+      const words = getYearForecastRegeneratedWordCount(article)
+      expect(words, `${article.slug} word count`).toBeGreaterThanOrEqual(1500)
+      expect(words, `${article.slug} word count`).toBeLessThanOrEqual(2600)
+    }
+  })
+
+  it('passes prepared REQ-10 duplicate sentence scan against batch and existing year pages', () => {
+    const articles = phase4CohortArticles()
+    const findings = scanReq10Duplicates(articles)
+
+    if (process.env.WRITE_YEAR_BATCH_ARTIFACTS === '1') {
+      const articlePayload = articles.map((article) => ({
+        ...article,
+        wordCount: getYearForecastRegeneratedWordCount(article),
+      }))
+      writeJson(PHASE4_BATCH_ARTIFACT_JSON, articlePayload)
+      writeFileSync(PHASE4_BATCH_ARTIFACT_MD, renderBatchMarkdown(articles))
+      writeJson(PHASE4_BATCH_PROMPT_PAYLOAD_JSON, articles.map((article) => article.regenerationInput))
+      writeJson(PHASE4_BATCH_REQ10_SCAN_JSON, {
+        generatedAt: '2026-05-09T16:00:00+07:00',
+        cohortYears: YEAR_FORECAST_PHASE4_COHORT_YEARS,
         articleCount: articles.length,
         comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length - articles.length,
         thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,

@@ -13,6 +13,7 @@ export const YEAR_FORECAST_PHASE2_PILOT_SLUGS = [
 ] as const
 
 export const YEAR_FORECAST_PHASE3_COHORT_YEARS = { start: 1984, end: 1995 } as const
+export const YEAR_FORECAST_PHASE4_COHORT_YEARS = { start: 1996, end: 2001 } as const
 
 export type YearForecastPhase2PilotSlug = (typeof YEAR_FORECAST_PHASE2_PILOT_SLUGS)[number]
 
@@ -188,8 +189,16 @@ function isPhase3CohortSeed(seed: SeoForecastSeed): boolean {
   return seed.year >= YEAR_FORECAST_PHASE3_COHORT_YEARS.start && seed.year <= YEAR_FORECAST_PHASE3_COHORT_YEARS.end
 }
 
+function isPhase4CohortSeed(seed: SeoForecastSeed): boolean {
+  return seed.year >= YEAR_FORECAST_PHASE4_COHORT_YEARS.start && seed.year <= YEAR_FORECAST_PHASE4_COHORT_YEARS.end
+}
+
 export function isYearForecastPhase3CohortSeed(seed: SeoForecastSeed): boolean {
   return isPhase3CohortSeed(seed)
+}
+
+export function isYearForecastPhase4CohortSeed(seed: SeoForecastSeed): boolean {
+  return isPhase4CohortSeed(seed)
 }
 
 function isPilotSlug(slug: string): slug is YearForecastPhase2PilotSlug {
@@ -435,7 +444,7 @@ function articleWordCount(
 }
 
 export function getYearForecastRegeneratedArticle(seed: SeoForecastSeed): YearForecastRegeneratedArticle | null {
-  if (!isPhase3CohortSeed(seed)) return null
+  if (!isPhase3CohortSeed(seed) && !isPhase4CohortSeed(seed)) return null
 
   const domainEvidence = deriveYearForecastDomainEvidence(seed)
   const regenerationInput = buildYearForecastRegenerationInput(seed)
@@ -464,7 +473,7 @@ export function getYearForecastRegeneratedArticle(seed: SeoForecastSeed): YearFo
     intro: buildIntro(seed, domainEvidence, voice),
     sections: buildSections(seed, domainEvidence, voice),
     faqs: buildFaqs(seed, domainEvidence),
-    contentOrigin: 'phase3-batch-offline-regenerated',
+    contentOrigin: isPhase4CohortSeed(seed) ? 'phase4-batch-offline-regenerated' : 'phase3-batch-offline-regenerated',
     reviewStatus: 'needs-domain-copy-seo-review',
   }
 }

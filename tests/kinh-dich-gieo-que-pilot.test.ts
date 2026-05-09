@@ -38,7 +38,7 @@ const SEO_SPEC: Record<string, { title: string; description: string; links: stri
   '/kinh-dich/gieo-que/': {
     title: 'Gieo Quẻ Kinh Dịch — Miễn Phí, Không Cần Ngày Sinh | Bói Toán',
     description:
-      'Gieo quẻ Kinh Dịch miễn phí trên Bói Toán: đặt câu hỏi, nhận đáp án trong 30 giây. Không cần ngày sinh. Thuật toán AI + 50+ cổ thư.',
+      'Gieo quẻ Kinh Dịch miễn phí trên Bói Toán: đặt câu hỏi, nhận góc nhìn trong 30 giây. Không cần ngày sinh. Thuật toán AI + 50+ cổ thư.',
     links: [
       '/kinh-dich/gieo-que/luc-hao/',
       '/kinh-dich/hoi/cong-viec/',
@@ -86,7 +86,7 @@ const SEO_SPEC: Record<string, { title: string; description: string; links: stri
   '/kinh-dich/64-que/': {
     title: '64 Quẻ Kinh Dịch — Ý Nghĩa & Cách Gieo Quẻ | Bói Toán',
     description:
-      '64 quẻ Kinh Dịch: ý nghĩa từng quẻ, cách gieo và luận giải theo Dịch Lý, Việt Dịch và Mai Hoa. Bảng tra cứu đầy đủ nhất.',
+      '64 quẻ Kinh Dịch: 6 quẻ đã rà soát + danh sách đầy đủ, cách gieo và luận giải theo nguồn kiểm chứng. Tra cứu an toàn.',
     links: [
       '/kinh-dich/gieo-que/',
       '/kinh-dich/gieo-que/luc-hao/',
@@ -205,10 +205,16 @@ function scanDuplicateSentences(pages: KinhDichPilotPage[]) {
 }
 
 function renderedJsonLdTypes(page: KinhDichPilotPage): string[] {
+  return renderedJsonLdData(page)
+    .map((data) => data['@type'])
+    .filter((type): type is string => typeof type === 'string')
+}
+
+function renderedJsonLdData(page: KinhDichPilotPage): Array<Record<string, unknown>> {
   const { container } = render(createElement(KinhDichPilotPageView, { page }))
   return Array.from(container.querySelectorAll('script[type="application/ld+json"]'))
-    .map((script) => JSON.parse(script.textContent ?? '{}')['@type'])
-    .filter(Boolean)
+    .map((script) => JSON.parse(script.textContent ?? '{}') as Record<string, unknown>)
+    .filter((data) => typeof data['@type'] === 'string')
 }
 
 function renderedVisibleText(page: KinhDichPilotPage): string {
@@ -313,6 +319,66 @@ describe('Kinh Dịch gieo quẻ 5-page pilot', () => {
       }
       if (!SEO_SPEC[page.path].schema.includes('WebApplication')) {
         expect(jsonLdTypes, `${page.path} no unrequested WebApplication schema`).not.toContain('WebApplication')
+      }
+    }
+  })
+
+  it('verifies publication-prep JSON-LD field details without flipping indexation', () => {
+    for (const page of KINH_DICH_PILOT_PAGES) {
+      const schemas = renderedJsonLdData(page)
+
+      if (page.path === '/kinh-dich/gieo-que/luc-hao/') {
+        const howTo = schemas.find((schema) => schema['@type'] === 'HowTo')
+        expect(howTo, page.path).toBeDefined()
+        expect(howTo?.name, page.path).toBe(page.h1)
+        expect(howTo?.description, page.path).toBe(page.description)
+        expect(howTo?.inLanguage, page.path).toBe('vi')
+
+        const steps = (howTo?.step ?? []) as Array<Record<string, unknown>>
+        expect(steps, page.path).toHaveLength(5)
+        expect(steps.map((step) => step.name), page.path).toEqual([
+          'Chuẩn bị ba đồng xu',
+          'Tập trung câu hỏi',
+          'Tung sáu lần',
+          'Ghi kết quả',
+          'Tra quẻ',
+        ])
+        for (const step of steps) {
+          expect(step['@type'], page.path).toBe('HowToStep')
+          expect(typeof step.name, page.path).toBe('string')
+          expect(String(step.name).length, page.path).toBeGreaterThan(0)
+          expect(typeof step.text, page.path).toBe('string')
+          expect(String(step.text).length, page.path).toBeGreaterThan(20)
+        }
+      }
+
+      if (page.schemaTypes.includes('Article')) {
+        const article = schemas.find((schema) => schema['@type'] === 'Article')
+        expect(article, page.path).toBeDefined()
+        expect(article?.headline, page.path).toBe(page.h1)
+        expect(article?.description, page.path).toBe(page.description)
+        expect(article?.url, page.path).toBe(`https://boitoan.com.vn${page.path}`)
+        expect(article?.datePublished, page.path).toBe('2026-05-09')
+        expect(article?.dateModified, page.path).toBe('2026-05-09')
+        expect(article?.inLanguage, page.path).toBe('vi')
+        expect((article?.author as Record<string, unknown>)?.name, page.path).toBe('Bói Toán')
+        expect((article?.publisher as Record<string, unknown>)?.name, page.path).toBe('Bói Toán')
+      }
+
+      const faqPage = schemas.find((schema) => schema['@type'] === 'FAQPage')
+      expect(faqPage, page.path).toBeDefined()
+      const mainEntity = (faqPage?.mainEntity ?? []) as Array<Record<string, unknown>>
+      expect(mainEntity, page.path).toHaveLength(page.faqs.length)
+      expect(mainEntity.map((entry) => entry.name), page.path).toEqual(
+        page.faqs.map((faq) => faq.question),
+      )
+      expect(JSON.stringify(faqPage), page.path).not.toContain(page.topDisclaimer)
+      for (const [index, entry] of mainEntity.entries()) {
+        expect(entry['@type'], page.path).toBe('Question')
+        expect((entry.acceptedAnswer as Record<string, unknown>)?.['@type'], page.path).toBe('Answer')
+        expect((entry.acceptedAnswer as Record<string, unknown>)?.text, page.path).toBe(
+          page.faqs[index].answer,
+        )
       }
     }
   })

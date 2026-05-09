@@ -184,7 +184,7 @@ export const KINH_DICH_PILOT_PAGES: KinhDichPilotPage[] = [
     title: 'Gieo Quẻ Kinh Dịch — Miễn Phí, Không Cần Ngày Sinh | Bói Toán',
     h1: 'Gieo Quẻ Kinh Dịch — Miễn Phí, Không Cần Ngày Sinh | Bói Toán',
     description:
-      'Gieo quẻ Kinh Dịch miễn phí trên Bói Toán: đặt câu hỏi, nhận đáp án trong 30 giây. Không cần ngày sinh. Thuật toán AI + 50+ cổ thư.',
+      'Gieo quẻ Kinh Dịch miễn phí trên Bói Toán: đặt câu hỏi, nhận góc nhìn trong 30 giây. Không cần ngày sinh. Thuật toán AI + 50+ cổ thư.',
     schemaTypes: ['WebApplication', 'FAQPage'],
     kicker: 'Kinh Dịch • Công cụ miễn phí',
     primaryKeyword: 'gieo quẻ kinh dịch',
@@ -301,10 +301,11 @@ export const KINH_DICH_PILOT_PAGES: KinhDichPilotPage[] = [
       },
     ],
     howToSteps: [
-      { name: 'Đặt câu hỏi', text: 'Viết một câu hỏi cụ thể trước khi tung xu.' },
-      { name: 'Tung sáu lần', text: 'Mỗi lần tạo một hào, ghi từ dưới lên trên.' },
-      { name: 'Xác định hào động', text: 'Đánh dấu hào chuyển để biết có cần đọc quẻ biến hay không.' },
-      { name: 'Đọc theo ngữ cảnh', text: 'Đối chiếu kết quả với dữ kiện thực tế và lựa chọn hành động nhỏ.' },
+      { name: 'Chuẩn bị ba đồng xu', text: 'Dùng ba đồng xu thật hoặc bộ sinh số tương đương, thống nhất mặt âm/dương trước khi bắt đầu.' },
+      { name: 'Tập trung câu hỏi', text: 'Viết một câu hỏi cụ thể, một chủ đề, tránh đổi câu hỏi giữa chừng.' },
+      { name: 'Tung sáu lần', text: 'Mỗi lần tạo một hào, ghi từ dưới lên trên để tạo đủ sáu hào.' },
+      { name: 'Ghi kết quả', text: 'Đánh dấu rõ hào tĩnh, hào động và không sửa lại thứ tự sau khi đã ghi.' },
+      { name: 'Tra quẻ', text: 'Đối chiếu quẻ chủ, hào động và quẻ biến với ngữ cảnh thực tế trước khi đọc gợi ý.' },
     ],
     faqs: [
       {
@@ -485,7 +486,7 @@ export const KINH_DICH_PILOT_PAGES: KinhDichPilotPage[] = [
     title: '64 Quẻ Kinh Dịch — Ý Nghĩa & Cách Gieo Quẻ | Bói Toán',
     h1: '64 Quẻ Kinh Dịch — Ý Nghĩa & Cách Gieo Quẻ | Bói Toán',
     description:
-      '64 quẻ Kinh Dịch: ý nghĩa từng quẻ, cách gieo và luận giải theo Dịch Lý, Việt Dịch và Mai Hoa. Bảng tra cứu đầy đủ nhất.',
+      '64 quẻ Kinh Dịch: 6 quẻ đã rà soát + danh sách đầy đủ, cách gieo và luận giải theo nguồn kiểm chứng. Tra cứu an toàn.',
     schemaTypes: ['Article', 'FAQPage'],
     kicker: 'Evergreen hub • 64 quẻ',
     primaryKeyword: '64 quẻ kinh dịch',

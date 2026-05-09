@@ -19,15 +19,28 @@ export interface YearForecastPilotSection {
   content: string[]
 }
 
+export interface YearForecastCtaModule {
+  placement: 'after-summary' | 'mid-article' | 'end-of-article' | 'sticky-mobile'
+  heading: string
+  body: string
+  buttonLabel: string
+  href: '/lap-la-so/'
+  complianceNote: string
+}
+
 export interface YearForecastPilotArticle {
   slug: YearForecastPhase2PilotSlug
   title: string
   h1: string
   description: string
+  topDisclaimer: string
+  aiNativeWrapper: string
   methodNote: string
   domainEvidence: YearForecastDomainEvidence
   regenerationInput: YearForecastRegenerationInput
   summaryRows: SummaryRow[]
+  ctaModules: YearForecastCtaModule[]
+  stickyMobileCta: YearForecastCtaModule
   intro: string[]
   sections: YearForecastPilotSection[]
   faqs: Array<{ question: string; answer: string }>
@@ -37,7 +50,18 @@ export interface YearForecastPilotArticle {
 
 type PilotDraftFactory = (seed: SeoForecastSeed, evidence: YearForecastDomainEvidence) => Omit<
   YearForecastPilotArticle,
-  'slug' | 'title' | 'h1' | 'description' | 'domainEvidence' | 'regenerationInput' | 'contentOrigin' | 'reviewStatus'
+  | 'slug'
+  | 'title'
+  | 'h1'
+  | 'description'
+  | 'topDisclaimer'
+  | 'aiNativeWrapper'
+  | 'domainEvidence'
+  | 'regenerationInput'
+  | 'ctaModules'
+  | 'stickyMobileCta'
+  | 'contentOrigin'
+  | 'reviewStatus'
 >
 
 function isPilotSlug(slug: string): slug is YearForecastPhase2PilotSlug {
@@ -49,14 +73,74 @@ function buildTitle(seed: SeoForecastSeed): string {
 }
 
 function standardMethodNote(evidence: YearForecastDomainEvidence): string {
-  return `Bản pilot cho ${evidence.canChi} ${evidence.genderLabel} dùng Can Chi, nạp âm, Cung mệnh, quan hệ với năm ${evidence.targetYearCanChi} và tham chiếu Tam Hợp Phái / 《紫微斗数全书》; đây là nội dung tham khảo, không phải lời tiên đoán.`
+  return `Bài phân tích cho ${evidence.canChi} ${evidence.genderLabel} dùng Can Chi, nạp âm, Cung mệnh, quan hệ với năm ${evidence.targetYearCanChi} và tham chiếu Tam Hợp Phái / 《紫微斗数全书》; đây là nội dung tham khảo, không phải lời tiên đoán.`
 }
 
-function articleWordCount(article: Pick<YearForecastPilotArticle, 'h1' | 'intro' | 'summaryRows' | 'sections' | 'faqs'>): number {
+function buildTopDisclaimer(evidence: YearForecastDomainEvidence): string {
+  return `Ứng dụng giải trí và thuật toán tham khảo: bài ${evidence.canChi} ${evidence.genderLabel} năm 2026 không phải lời tiên đoán, không thay thế lá số cá nhân hoặc tư vấn chuyên môn.`
+}
+
+function buildAiNativeWrapper(evidence: YearForecastDomainEvidence): string {
+  return `Thuật toán Bói Toán tổng hợp riêng cho tuổi ${evidence.canChi} từ 50+ cổ thư Tử Vi truyền thống, gồm Tam Hợp Phái và 《紫微斗数全书》, rồi đối chiếu nạp âm ${evidence.napAm.name}, Cung ${evidence.cungMenh.name} và năm ${evidence.targetYearCanChi}.`
+}
+
+function buildCtaModules(evidence: YearForecastDomainEvidence): YearForecastCtaModule[] {
+  return [
+    {
+      placement: 'after-summary',
+      heading: `Muốn xem ${evidence.canChi} theo ngày giờ sinh?`,
+      body: `Bài ${evidence.canChi} ${evidence.genderLabel} này là tổng quan theo năm sinh. Lá số cá nhân trên Bói Toán cho tuổi ${evidence.canChi} cần ngày giờ sinh để an Mệnh, Thân, Cục và 12 cung cho riêng bạn.`,
+      buttonLabel: 'Lập lá số — miễn phí lượt đầu',
+      href: '/lap-la-so/',
+      complianceNote: `${evidence.canChi}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
+    },
+    {
+      placement: 'mid-article',
+      heading: `Thuật toán phát hiện thêm khi có giờ sinh`,
+      body: `Với ${evidence.canChi}, dữ liệu năm sinh mới cho thấy nạp âm và Cung mệnh. Nhập ngày giờ sinh của tuổi ${evidence.canChi} để Bói Toán đọc tiếp vị trí sao trong lá số riêng.`,
+      buttonLabel: 'Thử lập lá số cá nhân',
+      href: '/lap-la-so/',
+      complianceNote: `${evidence.canChi}: thuật toán tham khảo, không phải kết luận số mệnh.`,
+    },
+    {
+      placement: 'end-of-article',
+      heading: `Bạn đã đọc xong tổng quan ${evidence.canChi}`,
+      body: `Riêng tuổi ${evidence.canChi}, nếu muốn xem phần khác biệt của chính bạn, hãy lập lá số cá nhân để an Mệnh Cung, Thân Cung, Cục và các sao tại 12 cung.`,
+      buttonLabel: 'Xem lá số chính xác hơn',
+      href: '/lap-la-so/',
+      complianceNote: `${evidence.canChi}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
+    },
+    {
+      placement: 'sticky-mobile',
+      heading: `${evidence.canChi}: xem theo giờ sinh`,
+      body: `Tổng quan đã đủ để định hướng; lá số cá nhân giúp đọc sâu hơn theo ngày giờ sinh.`,
+      buttonLabel: 'Lập lá số',
+      href: '/lap-la-so/',
+      complianceNote: 'Tham khảo.',
+    },
+  ]
+}
+
+function buildAppComparisonFaq(evidence: YearForecastDomainEvidence): { question: string; answer: string } {
+  return {
+    question: `Bài tổng quan ${evidence.canChi} khác gì lá số cá nhân trên app Bói Toán?`,
+    answer: `Bài ${evidence.canChi} này đọc theo năm sinh và giới tính. Lá số cá nhân trên app Bói Toán cho ${evidence.canChi} cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí 108 sao tại 12 cung, nên phù hợp hơn khi bạn muốn xem phần riêng của mình.`,
+  }
+}
+
+function articleWordCount(
+  article: Pick<
+    YearForecastPilotArticle,
+    'h1' | 'topDisclaimer' | 'aiNativeWrapper' | 'intro' | 'summaryRows' | 'ctaModules' | 'sections' | 'faqs'
+  >,
+): number {
   const text = [
     article.h1,
+    article.topDisclaimer,
+    article.aiNativeWrapper,
     ...article.intro,
     ...article.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
+    ...article.ctaModules.flatMap((cta) => [cta.heading, cta.body, cta.buttonLabel, cta.complianceNote]),
     ...article.sections.flatMap((section) => [section.heading, ...section.content]),
     ...article.faqs.flatMap((faq) => [faq.question, faq.answer]),
   ].join(' ')
@@ -67,7 +151,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
   'tuoi-ty-1984-nam': (_seed, evidence) => ({
     methodNote: standardMethodNote(evidence),
     intro: [
-      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào năm ${evidence.targetYearCanChi} với hai tín hiệu cần đọc cùng nhau: nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây không phải kiểu xem một câu tốt xấu; bài pilot này chỉ gom các lớp thông tin nền để người đọc tự chọn cách hành động tỉnh táo hơn.`,
+      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào năm ${evidence.targetYearCanChi} với hai tín hiệu cần đọc cùng nhau: nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây không phải kiểu xem một câu tốt xấu; phần này gom các lớp thông tin nền để bạn chọn cách hành động tỉnh táo hơn.`,
       `Ở tuổi âm ${evidence.lifeStage.age}, trọng tâm của nam Giáp Tý không còn là chứng minh mình làm được nhiều việc. Giai đoạn ${evidence.lifeStage.bucket} nghiêng về ${evidence.lifeStage.focus}, nên năm 2026 nên được dùng để rà lại hệ thống trách nhiệm, dòng tiền, sức bền và vai trò trong gia đình.`,
       `${evidence.thienCanRelationToBinh.detail} Đồng thời ${evidence.diaChiRelationToNgo.detail} Vì thế một năm có lực đẩy cũng có lực va chạm; càng muốn tiến nhanh, bản mệnh càng nên đặt nguyên tắc trước khi bước vào cam kết lớn.`,
     ],
@@ -130,7 +214,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
       {
         heading: 'Công việc và vai trò trụ cột ở tuổi 43',
         content: [
-          `${evidence.lifeStage.adviceLens} Ở tuổi ${evidence.lifeStage.age}, nam Giáp Tý thường không thiếu kinh nghiệm; cái thiếu dễ là thời gian yên tĩnh để chọn việc cần bỏ. Nếu công việc hiện tại có quá nhiều đầu mối phụ thuộc vào mình, năm này nên biến tri thức cá nhân thành checklist, tài liệu, người kế nhiệm hoặc quy trình bàn giao.`,
+          `Ở tuổi ${evidence.lifeStage.age}, năng lực xoay xở của Tý cần được đặt vào hệ thống riêng: biến phản xạ nhanh thành checklist, lịch bàn giao và quy trình lặp lại được. Nam Giáp Tý thường không thiếu kinh nghiệm; cái thiếu dễ là thời gian yên tĩnh để chọn việc cần bỏ.`,
           `Một dấu hiệu thuận là khi bản mệnh có thể nghỉ một ngày mà hệ thống vẫn chạy. Một dấu hiệu cần chỉnh là mọi người chỉ tìm đến mình khi có lỗi, còn thành quả thì không ai biết cách đo. Tử vi ứng dụng ở đây không hứa chức vụ; nó nhắc người đọc đưa vận trình về hành động quản trị cụ thể.`,
         ],
       },
@@ -145,7 +229,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
         heading: 'Gợi ý thực hành theo quý',
         content: [
           `Quý đầu nên kiểm kê các cam kết đang chiếm thời gian. Quý giữa nên chọn một hệ thống để cải tiến sâu, chẳng hạn quy trình làm việc, ngân sách gia đình hoặc cách chăm khách hàng. Quý cuối nên đóng việc dang dở và ghi lại bài học, đặc biệt là những quyết định từng khiến bản mệnh mất ngủ.`,
-          `Theo tinh thần Tam Hợp Phái / 《紫微斗数全书》, bài này chỉ đọc các lớp tổng quan theo năm sinh và giới tính. Lá số cá nhân vẫn cần ngày giờ sinh, Mệnh Cung, Thân Cung và vị trí sao. Vì vậy người đọc nên dùng bản pilot như bản đồ thảo luận, không dùng nó để thay quyết định chuyên môn.`,
+          `Theo tinh thần Tam Hợp Phái / 《紫微斗数全书》, bài này chỉ đọc các lớp tổng quan theo năm sinh và giới tính. Lá số cá nhân vẫn cần ngày giờ sinh, Mệnh Cung, Thân Cung và vị trí sao. Vì vậy bạn nên dùng bài này như bản đồ thảo luận, không dùng nó để thay quyết định chuyên môn.`,
         ],
       },
     ],
@@ -163,7 +247,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
         answer: 'Hải Trung Kim cần giữ nền trước khi mở rộng. Nam mạng nên ưu tiên dự phòng, minh bạch giấy tờ và tránh góp vốn chỉ vì nể quan hệ.',
       },
       {
-        question: 'Bài pilot này có thay lá số cá nhân không?',
+        question: 'Bài này có thay lá số cá nhân không?',
         answer: 'Không. Đây là nội dung tham khảo theo năm sinh và giới tính; lá số cá nhân cần ngày giờ sinh để an đủ cung và sao.',
       },
     ],
@@ -172,7 +256,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
   'tuoi-suu-1985-nu': (_seed, evidence) => ({
     methodNote: standardMethodNote(evidence),
     intro: [
-      `Nữ mạng ${evidence.canChi} sinh năm ${evidence.year} đi vào năm ${evidence.targetYearCanChi} với cấu trúc nền rất khác Giáp Tý: nạp âm vẫn là ${evidence.napAm.name}, nhưng Cung mệnh chuyển sang ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Bài pilot này viết lại từ dữ liệu domain, không dùng lại những đoạn mô tả cũ theo giới tính.`,
+      `Nữ mạng ${evidence.canChi} sinh năm ${evidence.year} đi vào năm ${evidence.targetYearCanChi} với cấu trúc nền rất khác Giáp Tý: nạp âm vẫn là ${evidence.napAm.name}, nhưng Cung mệnh chuyển sang ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Bài này được viết từ dữ liệu Can Chi, nạp âm và Cung mệnh riêng, không dựa vào mô tả chung theo giới tính.`,
       `Tuổi âm ${evidence.lifeStage.age} đặt nữ Ất Sửu vào giai đoạn ${evidence.lifeStage.bucket}, nơi ${evidence.lifeStage.focus} quan trọng hơn việc chịu đựng thêm cho yên nhà. Nếu năm trước đã quen làm người giữ nhịp cho nhiều người, 2026 nên là năm đặt lại ranh giới mềm nhưng rõ.`,
       `${evidence.thienCanRelationToBinh.detail} Song song đó, ${evidence.diaChiRelationToNgo.detail} Hai lớp này cho thấy năm mới không nhất thiết nặng, nhưng đòi hỏi bản mệnh nói sớm điều chưa ổn và không để trách nhiệm âm thầm trở thành mệt mỏi kéo dài.`,
     ],
@@ -235,7 +319,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
       {
         heading: 'Tuổi 42: củng cố sự nghiệp mà không quên đời sống riêng',
         content: [
-          `${evidence.lifeStage.adviceLens} Với nữ mạng ở tuổi ${evidence.lifeStage.age}, câu chuyện không chỉ là thăng tiến. Đó còn là cách giữ một đời sống riêng đủ mạnh để công việc, gia đình và trách nhiệm chăm sóc không nuốt mất tiếng nói cá nhân.`,
+          `Ở tuổi ${evidence.lifeStage.age}, sự bền bỉ của Sửu cần ranh giới cụ thể: biết đâu là trách nhiệm của mình và đâu là phần người khác cần tự gánh. Với nữ mạng Ất Sửu, câu chuyện không chỉ là thăng tiến mà còn là giữ một đời sống riêng đủ mạnh.`,
           `Một mục tiêu đẹp cho năm 2026 là có lịch cố định cho việc học, nghỉ và kiểm tra tài chính. Nếu bản mệnh đang kinh doanh nhỏ, làm dịch vụ hoặc giữ vai trò điều phối, hãy tách rõ giờ trả lời người khác và giờ làm việc sâu. Ranh giới thời gian chính là một dạng tài sản.`,
         ],
       },
@@ -260,7 +344,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
         answer: `Ất gặp Bính có thế ${evidence.thienCanRelationToBinh.label}, còn Sửu gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Trọng tâm là nuôi việc tốt nhưng không để trách nhiệm nhỏ tích lại thành ấm ức.`,
       },
       {
-        question: 'Cung Ly Hỏa có ý nghĩa gì trong bài pilot này?',
+        question: 'Cung Ly Hỏa có ý nghĩa gì trong bài này?',
         answer: 'Ly Hỏa nhấn vào sự sáng rõ. Nữ mạng nên nói nhu cầu, lịch nghỉ, tiền chung và ranh giới bằng ngôn ngữ dễ hiểu hơn.',
       },
       {
@@ -277,9 +361,9 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
   'tuoi-dan-1986-nam': (_seed, evidence) => ({
     methodNote: standardMethodNote(evidence),
     intro: [
-      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào ${evidence.targetYearCanChi} với nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây là một lá bài khác hẳn hai pilot trước: khí Hỏa của nạp âm gặp năm Hỏa, còn Dần gặp Ngọ tạo thế tam hợp thúc đẩy hành động.`,
+      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào ${evidence.targetYearCanChi} với nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây là cấu trúc có khí Hỏa nổi bật: nạp âm gặp năm Hỏa, còn Dần gặp Ngọ tạo thế tam hợp thúc đẩy hành động.`,
       `Tuổi âm ${evidence.lifeStage.age} đặt nam Bính Dần trong giai đoạn ${evidence.lifeStage.bucket}: ${evidence.lifeStage.focus}. Nếu bản mệnh đang đứng trước cơ hội mở rộng, năm 2026 nên hỏi cách mở nào làm hệ thống mạnh hơn, chứ không chỉ hỏi cơ hội nào khiến mình thấy hưng phấn hơn.`,
-      `${evidence.thienCanRelationToBinh.detail} Cùng lúc, ${evidence.diaChiRelationToNgo.detail} Hai lớp tín hiệu đều tăng khí thế, vì vậy bài pilot này tập trung vào quản trị lửa: dùng nó để xây, không dùng nó để đốt hết nhịp nghỉ và quan hệ quan trọng.`,
+      `${evidence.thienCanRelationToBinh.detail} Cùng lúc, ${evidence.diaChiRelationToNgo.detail} Hai lớp tín hiệu đều tăng khí thế, vì vậy bài này tập trung vào quản trị lửa: dùng nó để xây, không dùng nó để đốt hết nhịp nghỉ và quan hệ quan trọng.`,
     ],
     summaryRows: [
       {
@@ -333,15 +417,15 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
       {
         heading: 'Cung Khôn Thổ giữ nền cho Lư Trung Hỏa',
         content: [
-          `Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element} là chi tiết quan trọng sau hotfix Cung phi. Khôn Thổ nhắc nam Bính Dần rằng mọi ngọn lửa đều cần nền đỡ. Nếu muốn dẫn dắt người khác, trước hết phải có lịch, quy tắc, tài chính và sức khỏe đủ ổn để người khác tin mình đi đường dài.`,
+          `Theo bảng Cung mệnh chuẩn, ${evidence.canChi} ${evidence.genderLabel} có Cung ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Khôn Thổ nhắc nam Bính Dần rằng mọi ngọn lửa đều cần nền đỡ. Nếu muốn dẫn dắt người khác, trước hết phải có lịch, quy tắc, tài chính và sức khỏe đủ ổn để người khác tin mình đi đường dài.`,
           `Về nghề, ${evidence.napAm.careerLens} Về tiền, ${evidence.napAm.moneyLens} Đây là lời nhắc rất trực tiếp: bản mệnh có thể kiếm nhanh trong năm có khí thế, nhưng giữ được hay không phụ thuộc vào trần rủi ro, kỷ luật ghi chép và khả năng nói không với cuộc chơi quá nóng.`,
         ],
       },
       {
         heading: 'Tuổi 41: chuyển từ người xông lên sang người dựng hệ thống',
         content: [
-          `${evidence.lifeStage.adviceLens} Ở tuổi ${evidence.lifeStage.age}, một phần bản lĩnh nằm ở khả năng không tự làm hết. Nếu bản mệnh đang là người giỏi nhất trong một khâu, nhiệm vụ của năm 2026 là biến khâu đó thành cách làm mà người khác học được.`,
-          `Dấu hiệu tiến bộ không chỉ là doanh thu, chức vụ hoặc số dự án. Dấu hiệu tiến bộ còn là đội nhóm bớt phụ thuộc vào tâm trạng của mình, gia đình ít phải đoán lịch của mình và bản thân có thể nghỉ mà không thấy mọi thứ sắp đổ. Đó là kiểu mạnh phù hợp với tuổi 41 hơn kiểu mạnh luôn căng dây.`,
+          `Ở tuổi ${evidence.lifeStage.age}, khí thế tiên phong của Dần cần một chiếc phanh tốt: biến năng lượng cá nhân thành động lực nhóm, không phải gánh việc thay người khác. Nếu bản mệnh đang là người giỏi nhất trong một khâu, nhiệm vụ của năm 2026 là biến khâu đó thành cách làm mà người khác học được.`,
+          `Một dấu hiệu bạn đang quản trị tốt không chỉ nằm ở doanh thu, chức vụ hoặc số dự án. Dấu hiệu rõ hơn là đội nhóm bớt phụ thuộc vào tâm trạng của mình, gia đình ít phải đoán lịch của mình và bản thân có thể nghỉ mà không thấy mọi thứ sắp đổ. Đó là kiểu mạnh phù hợp với tuổi 41 hơn kiểu mạnh luôn căng dây.`,
         ],
       },
       {
@@ -355,7 +439,7 @@ const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = 
         heading: 'Khuyến nghị thực hành cho năm tam hợp',
         content: [
           `Quý đầu nên chọn một mục tiêu mở rộng và viết ra lý do không chọn các mục tiêu còn lại. Quý giữa nên triển khai thử với ngân sách giới hạn. Quý cuối nên kiểm tra điều gì làm mình tự hào và điều gì làm mình quá tải, vì cả hai đều là dữ liệu quan trọng.`,
-          `Theo Tam Hợp Phái / 《紫微斗数全书》, bài pilot này vẫn chỉ là nội dung tham khảo theo năm sinh và giới tính. Nó không thay thế lá số cá nhân, tư vấn y tế, pháp lý hay tài chính. Giá trị thực tế nằm ở việc biến tín hiệu văn hóa thành câu hỏi quản trị đời sống.`,
+          `Theo Tam Hợp Phái / 《紫微斗数全书》, bài này vẫn chỉ là nội dung tham khảo theo năm sinh và giới tính. Nó không thay thế lá số cá nhân, tư vấn y tế, pháp lý hay tài chính. Giá trị thực tế nằm ở việc biến tín hiệu văn hóa thành câu hỏi quản trị đời sống.`,
         ],
       },
     ],
@@ -387,17 +471,28 @@ export function getYearForecastPilotArticle(seed: SeoForecastSeed): YearForecast
   const regenerationInput = buildYearForecastRegenerationInput(seed)
   const draft = PILOT_FACTORIES[seed.slug](seed, domainEvidence)
   const title = buildTitle(seed)
+  const ctaModules = buildCtaModules(domainEvidence)
+  const stickyMobileCta = ctaModules.find((module) => module.placement === 'sticky-mobile')
+
+  if (!stickyMobileCta) {
+    throw new Error(`Missing sticky mobile CTA for ${seed.slug}`)
+  }
 
   return {
     slug: seed.slug,
     title,
     h1: title,
-    description: `Pilot nội dung mới cho ${title}: dùng Can Chi, nạp âm, Cung mệnh, quan hệ với Bính Ngọ và life-stage evidence; chưa duyệt để deploy.`,
+    description: `Bài phân tích tử vi 2026 cho ${title}: dùng Can Chi, nạp âm, Cung mệnh, quan hệ với Bính Ngọ và giai đoạn tuổi để định hướng tham khảo.`,
+    topDisclaimer: buildTopDisclaimer(domainEvidence),
+    aiNativeWrapper: buildAiNativeWrapper(domainEvidence),
     domainEvidence,
     regenerationInput,
+    ctaModules,
+    stickyMobileCta,
     contentOrigin: 'phase2-pilot-offline-regenerated',
     reviewStatus: 'needs-domain-copy-seo-review',
     ...draft,
+    faqs: [...draft.faqs, buildAppComparisonFaq(domainEvidence)],
   }
 }
 

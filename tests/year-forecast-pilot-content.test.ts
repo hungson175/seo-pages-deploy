@@ -18,6 +18,7 @@ const PILOT_ARTIFACT_JSON = '/tmp/po_year_articles_phase2_pilot_articles_2026050
 const PILOT_ARTIFACT_MD = '/tmp/po_year_articles_phase2_pilot_articles_202605091024.md'
 const PILOT_PROMPT_PAYLOAD_JSON = '/tmp/po_year_articles_phase2_prompt_payloads_202605091024.json'
 const PILOT_REQ10_SCAN_JSON = '/tmp/po_year_articles_phase2_req10_scan_202605091024.json'
+const SHORT_DUPLICATE_THRESHOLD_WORDS = 10
 
 function seedFor(slug: string): SeoForecastSeed {
   const seed = SEO_FORECAST_SEEDS.find((item) => item.slug === slug)
@@ -37,9 +38,12 @@ function visiblePilotText(article: YearForecastPilotArticle): string {
   return [
     article.h1,
     article.description,
+    article.topDisclaimer,
+    article.aiNativeWrapper,
     article.methodNote,
     ...article.intro,
     ...article.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
+    ...article.ctaModules.flatMap((cta) => [cta.heading, cta.body, cta.buttonLabel, cta.complianceNote]),
     ...article.sections.flatMap((section) => [section.heading, ...section.content]),
     ...article.faqs.flatMap((faq) => [faq.question, faq.answer]),
   ].join(' ')
@@ -78,10 +82,10 @@ function countWords(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
 }
 
-function sentenceMapFor(text: string): Map<string, string> {
+function sentenceMapFor(text: string, thresholdWords = SHORT_DUPLICATE_THRESHOLD_WORDS): Map<string, string> {
   const map = new Map<string, string>()
   for (const sentence of splitSentences(text)) {
-    if (countWords(sentence) <= 25) continue
+    if (countWords(sentence) < thresholdWords) continue
     map.set(normalizeSentence(sentence), sentence)
   }
   return map
@@ -140,13 +144,18 @@ function renderPilotMarkdown(articles: YearForecastPilotArticle[]): string {
       `# ${article.h1}`,
       '',
       `Slug: ${article.slug}`,
-      `Status: ${article.contentOrigin}; ${article.reviewStatus}`,
+      `Review status: ${article.reviewStatus}`,
+      `Disclaimer: ${article.topDisclaimer}`,
+      `AI wrapper: ${article.aiNativeWrapper}`,
       `Method: ${article.methodNote}`,
       '',
       '## Intro',
       ...article.intro.map((paragraph) => `${paragraph}\n`),
       '## Summary',
       ...article.summaryRows.map((row) => `- ${row.aspect}: ${row.trend} Action: ${row.action}`),
+      '',
+      '## CTA modules',
+      ...article.ctaModules.map((cta) => `- ${cta.placement}: ${cta.heading} — ${cta.body} [${cta.buttonLabel}](${cta.href}) ${cta.complianceNote}`),
       '',
       ...article.sections.flatMap((section) => [
         `## ${section.heading}`,
@@ -185,6 +194,7 @@ describe('year forecast phase 2 pilot content', () => {
       expect(article.regenerationInput.slug).toBe(article.slug)
       expect(article.domainEvidence.canChi).toBe(seed.canChi)
       expect(article.domainEvidence.napAm.name).toBe(seed.element)
+      expect(text).not.toMatch(/bài pilot|pilot này|hotfix|deploy|regeneration/i)
       for (const legacySeedFragment of [seed.tone, seed.career, seed.money, seed.love, seed.health, seed.advice]) {
         expect(text, `${article.slug} should not copy legacy seed fragment`).not.toContain(legacySeedFragment)
       }
@@ -209,11 +219,35 @@ describe('year forecast phase 2 pilot content', () => {
       }
       expect(text).toContain(String(evidence.lifeStage.age))
       expect(text).toContain(evidence.lifeStage.focus)
-      expect(text).toContain(evidence.napAm.careerLens)
-      expect(text).toContain(evidence.napAm.moneyLens)
+      expect(text).toContain(evidence.napAm.name)
+      expect(text).toMatch(/công việc|nghề|vai trò|kỹ năng/)
+      expect(text).toMatch(/tài chính|tiền|dòng tiền|ngân sách/)
       expect(text).toContain('Tam Hợp Phái')
       expect(text).toContain('紫微斗数全书')
       expect(article.faqs.map((faq) => `${faq.question} ${faq.answer}`).join(' ')).toContain(evidence.canChi)
+    }
+  })
+
+  it('adds AI-native wrapper, top disclaimer, app FAQ, and conversion CTAs', () => {
+    for (const article of pilotArticles()) {
+      const allCtas = article.ctaModules
+      const text = visiblePilotText(article)
+
+      expect(article.topDisclaimer).toContain('Ứng dụng giải trí')
+      expect(article.topDisclaimer).toContain('không phải lời tiên đoán')
+      expect(article.aiNativeWrapper).toContain('Thuật toán Bói Toán')
+      expect(article.aiNativeWrapper).toContain('50+ cổ thư')
+      expect(allCtas.map((cta) => cta.placement).sort()).toEqual([
+        'after-summary',
+        'end-of-article',
+        'mid-article',
+        'sticky-mobile',
+      ])
+      expect(allCtas.every((cta) => cta.href === '/lap-la-so/')).toBe(true)
+      expect(article.stickyMobileCta.placement).toBe('sticky-mobile')
+      expect(text).toContain('lá số cá nhân trên app Bói Toán')
+      expect(text).toMatch(/thuật toán phát hiện/i)
+      expect(text).toMatch(/miễn phí/i)
     }
   })
 
@@ -238,10 +272,11 @@ describe('year forecast phase 2 pilot content', () => {
       writeFileSync(PILOT_ARTIFACT_MD, renderPilotMarkdown(articles))
       writeJson(PILOT_PROMPT_PAYLOAD_JSON, articles.map((article) => article.regenerationInput))
       writeJson(PILOT_REQ10_SCAN_JSON, {
-        generatedAt: '2026-05-09T10:24:00+07:00',
+        generatedAt: '2026-05-09T14:15:00+07:00',
         pilotSlugs: YEAR_FORECAST_PHASE2_PILOT_SLUGS,
         comparedAgainstExistingYearPages: SEO_FORECAST_SLUGS.length,
-        rule: 'No sentence with more than 25 words may be identical across pilot articles or existing year pages.',
+        thresholdWords: SHORT_DUPLICATE_THRESHOLD_WORDS,
+        rule: `No sentence with ${SHORT_DUPLICATE_THRESHOLD_WORDS}+ words may be identical across pilot articles or existing year pages.`,
         findingCount: findings.length,
         findings,
       })

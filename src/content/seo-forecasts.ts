@@ -1,5 +1,13 @@
 import rawForecasts from './seo-forecasts.json'
 import { toSlug } from '@/lib/slug'
+import {
+  buildYearForecastRegenerationInput,
+  deriveYearForecastDomainEvidence,
+  getYearForecastPublicationGate,
+  type YearForecastDomainEvidence,
+  type YearForecastPublicationGate,
+  type YearForecastRegenerationInput,
+} from './year-forecast-domain'
 
 export interface SeoForecastSeed {
   slug: string
@@ -29,6 +37,9 @@ export interface InternalLink {
   relation: string
 }
 
+export type ForecastContentOrigin = 'legacy-template-gated' | 'regenerated-domain-content'
+export type ForecastRegenerationStatus = 'phase1-domain-evidence-ready' | 'approved-for-publication'
+
 export interface SeoForecastPage extends SeoForecastSeed {
   title: string
   h1: string
@@ -44,6 +55,11 @@ export interface SeoForecastPage extends SeoForecastSeed {
   sections: Array<{ heading: string; content: string[] }>
   faqs: Array<{ question: string; answer: string }>
   internalLinks: InternalLink[]
+  domainEvidence: YearForecastDomainEvidence
+  regenerationInput: YearForecastRegenerationInput
+  contentOrigin: ForecastContentOrigin
+  regenerationStatus: ForecastRegenerationStatus
+  publicationGate: YearForecastPublicationGate
 }
 
 export const SEO_FORECAST_SEEDS = rawForecasts as SeoForecastSeed[]
@@ -66,6 +82,9 @@ export function getForecastLegacyPath(seed: SeoForecastSeed): string {
 
 export const SEO_FORECAST_SLUGS = SEO_FORECAST_SEEDS.map((item) => item.slug)
 export const SEO_FORECAST_CANONICAL_SLUGS = SEO_FORECAST_SEEDS.map(getCanonicalForecastSlug)
+
+const YEAR_FORECAST_CONTENT_ORIGIN: ForecastContentOrigin = 'legacy-template-gated'
+const YEAR_FORECAST_REGENERATION_STATUS: ForecastRegenerationStatus = 'phase1-domain-evidence-ready'
 
 const seedByLegacySlug = new Map(SEO_FORECAST_SEEDS.map((item) => [item.slug, item]))
 const seedByCanonicalSlug = new Map(
@@ -164,6 +183,9 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
   const seed = getSeoForecastSeed(slug)
   if (!seed) return null
 
+  const domainEvidence = deriveYearForecastDomainEvidence(seed)
+  const regenerationInput = buildYearForecastRegenerationInput(seed)
+  const publicationGate = getYearForecastPublicationGate(domainEvidence)
   const age = vietnameseAge(seed)
   const canonicalSlug = getCanonicalForecastSlug(seed)
   const animalHubSlug = getAnimalHubSlug(seed)
@@ -286,5 +308,18 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
       },
     ],
     internalLinks: buildInternalLinks(seed),
+    domainEvidence,
+    regenerationInput,
+    contentOrigin: YEAR_FORECAST_CONTENT_ORIGIN,
+    regenerationStatus: YEAR_FORECAST_REGENERATION_STATUS,
+    publicationGate,
   }
+}
+
+export function isSeoForecastReadyForPublication(page: SeoForecastPage): boolean {
+  return (
+    page.contentOrigin === 'regenerated-domain-content' &&
+    page.regenerationStatus === 'approved-for-publication' &&
+    page.publicationGate.status !== 'blocked_pending_regeneration'
+  )
 }

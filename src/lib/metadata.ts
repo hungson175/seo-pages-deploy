@@ -12,6 +12,7 @@ interface PageMetaInput {
   path: string
   ogImage?: string
   pageType?: PageType
+  truncate?: boolean
 }
 
 const BASE_URL = 'https://boitoan.com.vn'
@@ -58,9 +59,10 @@ export function buildMetadata({
   path,
   ogImage,
   pageType,
+  truncate = true,
 }: PageMetaInput): Metadata {
   const fullTitle = buildTitle(title)
-  const truncatedDesc = truncateDescription(description)
+  const truncatedDesc = truncate ? truncateDescription(description) : description
   const fullUrl = buildFullUrl(path)
 
   return {

@@ -8,6 +8,10 @@ import {
   type YearForecastPublicationGate,
   type YearForecastRegenerationInput,
 } from './year-forecast-domain'
+import {
+  getYearForecastRegeneratedArticle,
+  type YearForecastCtaModule,
+} from './year-forecast-pilot-content'
 
 export interface SeoForecastSeed {
   slug: string
@@ -38,7 +42,10 @@ export interface InternalLink {
 }
 
 export type ForecastContentOrigin = 'legacy-template-gated' | 'regenerated-domain-content'
-export type ForecastRegenerationStatus = 'phase1-domain-evidence-ready' | 'approved-for-publication'
+export type ForecastRegenerationStatus =
+  | 'phase1-domain-evidence-ready'
+  | 'phase3-batch-review-ready'
+  | 'approved-for-publication'
 
 export interface SeoForecastPage extends SeoForecastSeed {
   title: string
@@ -55,6 +62,10 @@ export interface SeoForecastPage extends SeoForecastSeed {
   sections: Array<{ heading: string; content: string[] }>
   faqs: Array<{ question: string; answer: string }>
   internalLinks: InternalLink[]
+  topDisclaimer?: string
+  aiNativeWrapper?: string
+  ctaModules?: YearForecastCtaModule[]
+  stickyMobileCta?: YearForecastCtaModule
   domainEvidence: YearForecastDomainEvidence
   regenerationInput: YearForecastRegenerationInput
   contentOrigin: ForecastContentOrigin
@@ -84,7 +95,7 @@ export const SEO_FORECAST_SLUGS = SEO_FORECAST_SEEDS.map((item) => item.slug)
 export const SEO_FORECAST_CANONICAL_SLUGS = SEO_FORECAST_SEEDS.map(getCanonicalForecastSlug)
 
 const YEAR_FORECAST_CONTENT_ORIGIN: ForecastContentOrigin = 'legacy-template-gated'
-const YEAR_FORECAST_REGENERATION_STATUS: ForecastRegenerationStatus = 'phase1-domain-evidence-ready'
+const YEAR_FORECAST_REGENERATION_STATUS = 'phase1-domain-evidence-ready' as const
 
 const seedByLegacySlug = new Map(SEO_FORECAST_SEEDS.map((item) => [item.slug, item]))
 const seedByCanonicalSlug = new Map(
@@ -185,7 +196,11 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
 
   const domainEvidence = deriveYearForecastDomainEvidence(seed)
   const regenerationInput = buildYearForecastRegenerationInput(seed)
-  const publicationGate = getYearForecastPublicationGate(domainEvidence)
+  const regeneratedArticle = getYearForecastRegeneratedArticle(seed)
+  const publicationGate = getYearForecastPublicationGate(
+    domainEvidence,
+    regeneratedArticle ? 'phase3-batch-review-ready' : YEAR_FORECAST_REGENERATION_STATUS,
+  )
   const age = vietnameseAge(seed)
   const canonicalSlug = getCanonicalForecastSlug(seed)
   const animalHubSlug = getAnimalHubSlug(seed)
@@ -225,21 +240,25 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
 
   return {
     ...seed,
-    title,
-    h1,
-    description,
-    methodNote,
+    title: regeneratedArticle?.title ?? title,
+    h1: regeneratedArticle?.h1 ?? h1,
+    description: regeneratedArticle?.description ?? description,
+    methodNote: regeneratedArticle?.methodNote ?? methodNote,
     canonicalSlug,
     urlPath: getForecastCanonicalPath(seed),
     legacyUrlPath: getForecastLegacyPath(seed),
     animalHubSlug,
     animalHubPath: `/tu-vi/${animalHubSlug}/`,
-    intro: [
+    topDisclaimer: regeneratedArticle?.topDisclaimer,
+    aiNativeWrapper: regeneratedArticle?.aiNativeWrapper,
+    ctaModules: regeneratedArticle?.ctaModules,
+    stickyMobileCta: regeneratedArticle?.stickyMobileCta,
+    intro: regeneratedArticle?.intro ?? [
       `Bài viết này phân tích xu hướng Tử Vi năm 2026 cho tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} theo khung tham khảo truyền thống. Đây là bản xem theo năm sinh, giới tính và con giáp, không phải lá số cá nhân đã an đủ 12 cung. Một lá số riêng còn cần ngày sinh, giờ sinh, Mệnh Cung, Thân Cung, Cục và vị trí các sao. Vì vậy nội dung dưới đây nên được dùng như bản tổng quan giúp bạn tự soi lại công việc, tiền bạc, gia đạo và sức khỏe trong năm mới.`,
       `Người sinh năm ${seed.year} thuộc tuổi ${seed.canChi}, nạp âm ${seed.element}; trong năm Bính Ngọ 2026 bước vào khoảng ${age} tuổi theo cách tính tuổi âm. Ở giai đoạn này, câu hỏi quan trọng không còn là “năm nay tốt hay xấu” một cách tuyệt đối, mà là phần nào cần chủ động, phần nào nên đi chậm, phần nào phải đặt ranh giới rõ.`,
     ],
-    summaryRows,
-    sections: [
+    summaryRows: regeneratedArticle?.summaryRows ?? summaryRows,
+    sections: regeneratedArticle?.sections ?? [
       {
         heading: 'Tổng quan năm 2026',
         content: [
@@ -289,7 +308,7 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
         ],
       },
     ],
-    faqs: [
+    faqs: regeneratedArticle?.faqs ?? [
       {
         question: `Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026 có tốt không?`,
         answer: `Năm 2026 có cả điểm thuận và điểm cần chú ý. Với tuổi ${seed.canChi}, trọng tâm là ${seed.advice}. Mức độ tốt xấu còn phụ thuộc lựa chọn cá nhân, môi trường sống và lá số theo ngày giờ sinh.`,
@@ -310,8 +329,8 @@ export function getSeoForecastPage(slug: string): SeoForecastPage | null {
     internalLinks: buildInternalLinks(seed),
     domainEvidence,
     regenerationInput,
-    contentOrigin: YEAR_FORECAST_CONTENT_ORIGIN,
-    regenerationStatus: YEAR_FORECAST_REGENERATION_STATUS,
+    contentOrigin: regeneratedArticle ? 'regenerated-domain-content' : YEAR_FORECAST_CONTENT_ORIGIN,
+    regenerationStatus: regeneratedArticle ? 'phase3-batch-review-ready' : YEAR_FORECAST_REGENERATION_STATUS,
     publicationGate,
   }
 }
@@ -320,6 +339,6 @@ export function isSeoForecastReadyForPublication(page: SeoForecastPage): boolean
   return (
     page.contentOrigin === 'regenerated-domain-content' &&
     page.regenerationStatus === 'approved-for-publication' &&
-    page.publicationGate.status !== 'blocked_pending_regeneration'
+    page.publicationGate.status === 'open'
   )
 }

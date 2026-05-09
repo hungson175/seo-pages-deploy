@@ -19,6 +19,21 @@ import { PalaceImageFigure } from '@/components/seo/palace-image'
 
 const BASE_URL = 'https://boitoan.com.vn'
 const LAST_UPDATED = '2026-05-05'
+type ForecastPage = NonNullable<ReturnType<typeof getSeoForecastPage>>
+type ForecastCta = NonNullable<ForecastPage['ctaModules']>[number]
+
+function ForecastCtaCard({ cta, className = '' }: { cta: ForecastCta; className?: string }) {
+  return (
+    <section className={`mv-cta ${className}`}>
+      <h2 className="mv-section-title-light">{cta.heading}</h2>
+      <p className="mx-auto mt-3 max-w-2xl leading-7">{cta.body}</p>
+      <Link href={cta.href} className="mv-button-primary mt-5">
+        {cta.buttonLabel}
+      </Link>
+      <p className="mt-3 text-xs text-ivory/70">{cta.complianceNote}</p>
+    </section>
+  )
+}
 
 export function generateStaticParams() {
   return SEO_FORECAST_CANONICAL_SLUGS.map((slug) => ({ slug }))
@@ -121,6 +136,16 @@ export default async function TuViForecastPage({
           <h1 className="mv-h1">
             {page.h1}
           </h1>
+          {page.topDisclaimer && (
+            <p className="mv-note mt-5">
+              {page.topDisclaimer}
+            </p>
+          )}
+          {page.aiNativeWrapper && (
+            <p className="mt-4 leading-8 text-ivory/80">
+              {page.aiNativeWrapper}
+            </p>
+          )}
           <div className="mv-lede">
             {page.intro.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -173,6 +198,12 @@ export default async function TuViForecastPage({
           </div>
         </section>
 
+        {page.ctaModules
+          ?.filter((cta) => cta.placement === 'after-summary')
+          .map((cta) => (
+            <ForecastCtaCard key={cta.placement} cta={cta} className="mt-8" />
+          ))}
+
         <section className="mv-card mt-8">
           <h2 className="mv-section-title">Vì sao bài theo tuổi chỉ là tổng quan?</h2>
           <p className="mt-4 leading-8 text-ink-soft">
@@ -186,26 +217,33 @@ export default async function TuViForecastPage({
         <MethodLimitModule pageType="forecast" className="mt-8" />
 
         <div className="mt-8 space-y-8">
-          {page.sections.map((section) => {
+          {page.sections.map((section, index) => {
             const palaceImage = getPalaceImageForForecastSection(section.heading)
 
             return (
-              <section key={section.heading} className="mv-card">
-                <h2 className="mv-section-title">{section.heading}</h2>
-                {palaceImage && (
-                  <PalaceImageFigure
-                    asset={palaceImage}
-                    compact
-                    linkToPalace
-                    className="mt-5"
-                  />
-                )}
-                <div className="mv-body">
-                  {section.content.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+              <div key={section.heading} className="space-y-8">
+                <section className="mv-card">
+                  <h2 className="mv-section-title">{section.heading}</h2>
+                  {palaceImage && (
+                    <PalaceImageFigure
+                      asset={palaceImage}
+                      compact
+                      linkToPalace
+                      className="mt-5"
+                    />
+                  )}
+                  <div className="mv-body">
+                    {section.content.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </section>
+                {index === 2 && page.ctaModules
+                  ?.filter((cta) => cta.placement === 'mid-article')
+                  .map((cta) => (
+                    <ForecastCtaCard key={cta.placement} cta={cta} />
                   ))}
-                </div>
-              </section>
+              </div>
             )
           })}
         </div>
@@ -240,6 +278,12 @@ export default async function TuViForecastPage({
           </div>
         </section>
 
+        {page.ctaModules
+          ?.filter((cta) => cta.placement === 'end-of-article')
+          .map((cta) => (
+            <ForecastCtaCard key={cta.placement} cta={cta} className="mt-10" />
+          ))}
+
         <ConversionCTA pageType="forecast" className="mt-10" />
 
         <TrustBox variant="short" className="mt-8" />
@@ -247,6 +291,20 @@ export default async function TuViForecastPage({
         <p className="mv-disclaimer mt-10">
           * Nội dung chỉ mang tính chất tham khảo, không phải lời tiên đoán. Bói Toán là nội dung giải trí và thuật toán tham khảo theo văn hóa Tử Vi; không dùng bài viết này để thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định quan trọng.
         </p>
+
+        {page.stickyMobileCta && (
+          <div className="fixed inset-x-3 bottom-3 z-40 rounded-2xl border border-gold/30 bg-navy/95 p-3 shadow-2xl md:hidden">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-ivory">{page.stickyMobileCta.heading}</p>
+                <p className="text-xs text-ivory/70">{page.stickyMobileCta.complianceNote}</p>
+              </div>
+              <Link href={page.stickyMobileCta.href} className="mv-button-primary shrink-0 px-3 py-2 text-xs">
+                {page.stickyMobileCta.buttonLabel}
+              </Link>
+            </div>
+          </div>
+        )}
       </article>
     </main>
   )

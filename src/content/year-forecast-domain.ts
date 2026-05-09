@@ -97,7 +97,7 @@ export interface YearForecastRegenerationInput {
 }
 
 export interface YearForecastPublicationGate {
-  status: 'blocked_pending_regeneration' | 'open'
+  status: 'blocked_pending_regeneration' | 'blocked_pending_review' | 'open'
   reason: string
   blockers: string[]
   evidenceReady: RequirementId[]
@@ -566,7 +566,23 @@ export function buildYearForecastRegenerationInput(seed: YearForecastSeedInput):
   }
 }
 
-export function getYearForecastPublicationGate(evidence: YearForecastDomainEvidence): YearForecastPublicationGate {
+export function getYearForecastPublicationGate(
+  evidence: YearForecastDomainEvidence,
+  stage: 'phase1-domain-evidence-ready' | 'phase3-batch-review-ready' = 'phase1-domain-evidence-ready',
+): YearForecastPublicationGate {
+  if (stage === 'phase3-batch-review-ready') {
+    return {
+      status: 'blocked_pending_review',
+      reason: 'Phase 3 cohort prose is route-integrated for review only; publication still needs domain/SEO approval and an intentional sitemap/noindex flip.',
+      blockers: [
+        'domain_copy_seo_review_required',
+        'intentional_publication_flip_required',
+        `phase3_batch_ready_for_${evidence.slug}`,
+      ],
+      evidenceReady: REQUIREMENT_IDS,
+    }
+  }
+
   return {
     status: 'blocked_pending_regeneration',
     reason: 'Legacy year-forecast renderer is copy-heavy and may not be used as approved production copy.',

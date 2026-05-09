@@ -32,9 +32,12 @@ function wordCount(text: string): number {
 function visiblePageText(page: NonNullable<ReturnType<typeof getSeoForecastPage>>): string {
   return [
     page.h1,
+    page.topDisclaimer ?? '',
+    page.aiNativeWrapper ?? '',
     page.methodNote,
     ...page.intro,
     ...page.summaryRows.flatMap((row) => [row.aspect, row.trend, row.action]),
+    ...(page.ctaModules ?? []).flatMap((cta) => [cta.heading, cta.body, cta.buttonLabel, cta.complianceNote]),
     ...page.sections.flatMap((section) => [section.heading, ...section.content]),
     ...page.faqs.flatMap((faq) => [faq.question, faq.answer]),
   ].join(' ')
@@ -142,7 +145,13 @@ describe('static SEO forecast content', () => {
       expect(page?.intro.length).toBeGreaterThanOrEqual(2)
       expect(page?.summaryRows).toHaveLength(5)
       expect(page?.sections).toHaveLength(7)
-      expect(page?.sections[0].heading).toBe('Tổng quan năm 2026')
+      if (page?.contentOrigin === 'regenerated-domain-content') {
+        expect(page.sections[0].heading).toContain(seed.canChi)
+        expect(page.regenerationStatus).toBe('phase3-batch-review-ready')
+        expect(page.publicationGate.status).toBe('blocked_pending_review')
+      } else {
+        expect(page?.sections[0].heading).toBe('Tổng quan năm 2026')
+      }
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Công danh')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Tài lộc')
       expect(page?.sections.map((section) => section.heading).join(' ')).toContain('Tình duyên')
@@ -160,8 +169,9 @@ describe('static SEO forecast content', () => {
       const page = getSeoForecastPage(slug)
       expect(page).not.toBeNull()
       const count = wordCount(visiblePageText(page!))
+      const maxWords = page!.contentOrigin === 'regenerated-domain-content' ? 2800 : 2000
       expect(count, `${slug} word count`).toBeGreaterThanOrEqual(1500)
-      expect(count, `${slug} word count`).toBeLessThanOrEqual(2000)
+      expect(count, `${slug} word count`).toBeLessThanOrEqual(maxWords)
     }
   })
 

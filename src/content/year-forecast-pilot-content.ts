@@ -12,9 +12,11 @@ export const YEAR_FORECAST_PHASE2_PILOT_SLUGS = [
   'tuoi-dan-1986-nam',
 ] as const
 
+export const YEAR_FORECAST_PHASE3_COHORT_YEARS = { start: 1984, end: 1995 } as const
+
 export type YearForecastPhase2PilotSlug = (typeof YEAR_FORECAST_PHASE2_PILOT_SLUGS)[number]
 
-export interface YearForecastPilotSection {
+export interface YearForecastSection {
   heading: string
   content: string[]
 }
@@ -28,8 +30,8 @@ export interface YearForecastCtaModule {
   complianceNote: string
 }
 
-export interface YearForecastPilotArticle {
-  slug: YearForecastPhase2PilotSlug
+export interface YearForecastRegeneratedArticle {
+  slug: string
   title: string
   h1: string
   description: string
@@ -42,27 +44,153 @@ export interface YearForecastPilotArticle {
   ctaModules: YearForecastCtaModule[]
   stickyMobileCta: YearForecastCtaModule
   intro: string[]
-  sections: YearForecastPilotSection[]
+  sections: YearForecastSection[]
   faqs: Array<{ question: string; answer: string }>
-  contentOrigin: 'phase2-pilot-offline-regenerated'
+  contentOrigin: 'phase3-batch-offline-regenerated'
   reviewStatus: 'needs-domain-copy-seo-review'
 }
 
-type PilotDraftFactory = (seed: SeoForecastSeed, evidence: YearForecastDomainEvidence) => Omit<
-  YearForecastPilotArticle,
-  | 'slug'
-  | 'title'
-  | 'h1'
-  | 'description'
-  | 'topDisclaimer'
-  | 'aiNativeWrapper'
-  | 'domainEvidence'
-  | 'regenerationInput'
-  | 'ctaModules'
-  | 'stickyMobileCta'
-  | 'contentOrigin'
-  | 'reviewStatus'
->
+export type YearForecastPilotArticle = YearForecastRegeneratedArticle
+
+interface AnimalVoice {
+  strength: string
+  risk: string
+  workStyle: string
+  relationshipStyle: string
+  recoveryStyle: string
+}
+
+interface GenderVoice {
+  openingFrame: string
+  workAction: string
+  moneyAction: string
+  relationshipAction: string
+  wellbeingAction: string
+  decisionFilter: string
+  careerGuardrail: string
+  relationshipFrame: string
+  appReason: string
+}
+
+const ANIMAL_VOICE: Record<string, AnimalVoice> = {
+  Tý: {
+    strength: 'xoay xở nhanh khi bối cảnh đổi chiều',
+    risk: 'ôm quá nhiều đầu mối vì tin mình xử lý được hết',
+    workStyle: 'biến phản xạ nhanh thành checklist, lịch bàn giao và dữ liệu kiểm tra',
+    relationshipStyle: 'nói sớm điều đang gánh để người thân không phải đoán qua sự im lặng',
+    recoveryStyle: 'giảm lịch hẹn phụ và giữ một khung ngủ ổn định',
+  },
+  Sửu: {
+    strength: 'bền bỉ với việc dài hơi và giữ chữ tín',
+    risk: 'chịu thay phần người khác tới khi thành ấm ức',
+    workStyle: 'đặt ranh giới trách nhiệm trước khi nhận thêm vai trò mới',
+    relationshipStyle: 'biến sự chăm lo thành thỏa thuận rõ thay vì hy sinh âm thầm',
+    recoveryStyle: 'xếp lịch nghỉ như một cam kết thật, không phải phần thưởng sau cùng',
+  },
+  Dần: {
+    strength: 'tiên phong khi cần mở đường và kéo khí thế nhóm',
+    risk: 'nhầm tốc độ với bản lĩnh rồi tự đẩy mình quá căng',
+    workStyle: 'biến năng lượng cá nhân thành động lực nhóm có người phản biện',
+    relationshipStyle: 'hạ giọng trước khi góp ý để sự thẳng thắn không thành áp đặt',
+    recoveryStyle: 'đưa vận động, ngủ nghỉ và khoảng trống gia đình vào kế hoạch',
+  },
+  Mão: {
+    strength: 'nhạy cảm với bầu không khí và biết giữ hòa khí',
+    risk: 'né xung đột tới khi nhu cầu cá nhân bị mờ đi',
+    workStyle: 'dùng sự tinh tế để sửa quy trình nhỏ trước khi vấn đề lớn hơn',
+    relationshipStyle: 'nói ranh giới bằng câu mềm nhưng cụ thể',
+    recoveryStyle: 'giữ không gian yên tĩnh để nạp lại cảm xúc sau nhiều tương tác',
+  },
+  Thìn: {
+    strength: 'nhìn được bức tranh lớn và thích việc có quy mô',
+    risk: 'kỳ vọng quá rộng khiến việc nhỏ bị bỏ sót',
+    workStyle: 'chia tầm nhìn thành mốc ngắn có người chịu trách nhiệm',
+    relationshipStyle: 'đừng để người thân chỉ nghe kế hoạch lớn mà thiếu thời gian gần gũi',
+    recoveryStyle: 'giảm việc ngoài lề để thân tâm không bị kéo bởi quá nhiều dự án',
+  },
+  Tỵ: {
+    strength: 'quan sát sâu và biết tính đường dài',
+    risk: 'giữ kín quá lâu khiến người khác khó đồng hành',
+    workStyle: 'biến phân tích thầm lặng thành bản kế hoạch đủ rõ cho đội nhóm',
+    relationshipStyle: 'chia sẻ một phần lo lắng trước khi nó thành khoảng cách',
+    recoveryStyle: 'tắt bớt nguồn thông tin nhiễu để đầu óc có thời gian lọc lại',
+  },
+  Ngọ: {
+    strength: 'chủ động, nhanh và thích tự do hành động',
+    risk: 'tự tạo áp lực phải luôn ở phía trước',
+    workStyle: 'đặt phanh cho tham vọng bằng ngân sách và lịch nghỉ rõ',
+    relationshipStyle: 'cho người thân biết mình cần tự do ở đâu và cam kết ở đâu',
+    recoveryStyle: 'giảm nhịp di chuyển để cơ thể không phải chạy theo cảm hứng',
+  },
+  Mùi: {
+    strength: 'biết chăm nền, giữ sự ấm áp và nhìn chi tiết mềm',
+    risk: 'gánh cảm xúc của người khác rồi quên nhu cầu riêng',
+    workStyle: 'đặt ranh giới chăm sóc để việc tốt không thành nghĩa vụ vô hạn',
+    relationshipStyle: 'nói rõ phần mình cần được hỗ trợ, không chỉ hỗ trợ người khác',
+    recoveryStyle: 'dành thời gian cho việc nuôi lại cảm hứng và giấc ngủ đều',
+  },
+  Thân: {
+    strength: 'linh hoạt, thực dụng và giỏi tìm đường vòng',
+    risk: 'nhảy quá nhanh giữa nhiều hướng nên khó đi sâu',
+    workStyle: 'chọn một thí nghiệm chính và ghi dữ liệu trước khi đổi chiến thuật',
+    relationshipStyle: 'giảm đùa né khi câu chuyện cần sự cam kết rõ',
+    recoveryStyle: 'giữ một khoảng không màn hình để đầu óc bớt tản mạn',
+  },
+  Dậu: {
+    strength: 'kỷ luật, chú ý chi tiết và trọng chuẩn mực',
+    risk: 'căng với lỗi nhỏ rồi làm mất nhịp hợp tác',
+    workStyle: 'dùng tiêu chuẩn để nâng chất lượng, không dùng tiêu chuẩn để gây áp lực',
+    relationshipStyle: 'khen điều đúng trước khi sửa điều lệch',
+    recoveryStyle: 'để lịch sinh hoạt có khoảng mềm thay vì kiểm soát mọi phút',
+  },
+  Tuất: {
+    strength: 'trung thành, có cảm thức công bằng và bảo vệ nhóm',
+    risk: 'ôm vai người giữ lẽ phải đến mức mệt',
+    workStyle: 'chuyển tinh thần trách nhiệm thành nguyên tắc phân vai rõ',
+    relationshipStyle: 'nói điều mình cần chứ không chỉ bảo vệ điều người khác cần',
+    recoveryStyle: 'tách việc cần chiến đấu khỏi việc nên buông để giữ sức',
+  },
+  Hợi: {
+    strength: 'rộng lượng, trực giác tốt và dễ tạo sự dễ chịu',
+    risk: 'cả nể rồi để tiền bạc hoặc thời gian bị rò rỉ',
+    workStyle: 'đưa sự mềm mỏng vào lịch và ngân sách có giới hạn',
+    relationshipStyle: 'giữ lòng tốt nhưng yêu cầu thỏa thuận rõ hơn',
+    recoveryStyle: 'cân bằng hưởng thụ với kỷ luật thân tâm nhẹ nhàng',
+  },
+}
+
+const GENDER_VOICE: Record<SeoForecastSeed['gender'], GenderVoice> = {
+  nam: {
+    openingFrame: 'giữ uy tín, phân quyền rõ và bớt ôm vai trụ cột',
+    workAction: 'rõ quyền quyết định, chuẩn bàn giao và chỉ số kết quả',
+    moneyAction: 'ưu tiên quỹ dự phòng, hợp đồng rõ và giới hạn bảo lãnh',
+    relationshipAction: 'nói thẳng áp lực trách nhiệm thay vì tự gồng rồi xa cách',
+    wellbeingAction: 'đặt lịch nghỉ, giảm làm bù ban đêm và kiểm tra sức bền',
+    decisionFilter: 'giữ việc tăng uy tín, giảm việc chỉ để chứng minh bản lĩnh',
+    careerGuardrail: 'đừng mở rộng nhanh khi thiếu người hỗ trợ hoặc số liệu kiểm chứng',
+    relationshipFrame: 'người thân cần thấy sự hiện diện, không chỉ trách nhiệm tài chính',
+    appReason: 'lá số cá nhân kiểm tra sâu hơn Quan Lộc, Tài Bạch và trách nhiệm',
+  },
+  nu: {
+    openingFrame: 'giữ quyền tự chủ, ranh giới cảm xúc và nhịp chăm sóc mình',
+    workAction: 'chọn đúng ưu tiên, bảo vệ thời gian sâu và nói rõ kỳ vọng',
+    moneyAction: 'ghi dòng tiền nhỏ, giới hạn chi cảm xúc và giữ quỹ an tâm',
+    relationshipAction: 'nói nhu cầu hỗ trợ sớm, tránh chu đáo thành nghĩa vụ im lặng',
+    wellbeingAction: 'nghỉ không mặc cảm, chia sẻ việc chăm sóc và giữ nhu cầu riêng',
+    decisionFilter: 'giữ việc tăng tự chủ, nói lại điều kiện với việc vì cả nể',
+    careerGuardrail: 'đừng để linh hoạt thành gánh việc thiếu ranh giới',
+    relationshipFrame: 'người thân cần lắng nghe và chia sẻ việc nhà lẫn cảm xúc',
+    appReason: 'lá số cá nhân kiểm tra sâu hơn Mệnh, Phu Thê và nhịp tự chủ',
+  },
+}
+
+function isPhase3CohortSeed(seed: SeoForecastSeed): boolean {
+  return seed.year >= YEAR_FORECAST_PHASE3_COHORT_YEARS.start && seed.year <= YEAR_FORECAST_PHASE3_COHORT_YEARS.end
+}
+
+export function isYearForecastPhase3CohortSeed(seed: SeoForecastSeed): boolean {
+  return isPhase3CohortSeed(seed)
+}
 
 function isPilotSlug(slug: string): slug is YearForecastPhase2PilotSlug {
   return YEAR_FORECAST_PHASE2_PILOT_SLUGS.includes(slug as YearForecastPhase2PilotSlug)
@@ -72,65 +200,224 @@ function buildTitle(seed: SeoForecastSeed): string {
   return `Tử vi tuổi ${seed.canChi} ${seed.year} ${seed.genderLabel} năm 2026`
 }
 
-function standardMethodNote(evidence: YearForecastDomainEvidence): string {
-  return `Bài phân tích cho ${evidence.canChi} ${evidence.genderLabel} dùng Can Chi, nạp âm, Cung mệnh, quan hệ với năm ${evidence.targetYearCanChi} và tham chiếu Tam Hợp Phái / 《紫微斗数全书》; đây là nội dung tham khảo, không phải lời tiên đoán.`
+function genderNoun(seed: SeoForecastSeed): string {
+  return seed.gender === 'nam' ? 'nam mạng' : 'nữ mạng'
 }
 
-function buildTopDisclaimer(evidence: YearForecastDomainEvidence): string {
-  return `Ứng dụng giải trí và thuật toán tham khảo: bài ${evidence.canChi} ${evidence.genderLabel} năm 2026 không phải lời tiên đoán, không thay thế lá số cá nhân hoặc tư vấn chuyên môn.`
+function audience(seed: SeoForecastSeed): string {
+  return `${seed.canChi} ${seed.year} ${genderNoun(seed)}`
 }
 
-function buildAiNativeWrapper(evidence: YearForecastDomainEvidence): string {
-  return `Thuật toán Bói Toán tổng hợp riêng cho tuổi ${evidence.canChi} từ 50+ cổ thư Tử Vi truyền thống, gồm Tam Hợp Phái và 《紫微斗数全书》, rồi đối chiếu nạp âm ${evidence.napAm.name}, Cung ${evidence.cungMenh.name} và năm ${evidence.targetYearCanChi}.`
+function voiceFor(seed: SeoForecastSeed): AnimalVoice {
+  const voice = ANIMAL_VOICE[seed.animal]
+  if (!voice) throw new Error(`Missing animal voice for ${seed.animal}`)
+  return voice
 }
 
-function buildCtaModules(evidence: YearForecastDomainEvidence): YearForecastCtaModule[] {
+function genderVoiceFor(seed: SeoForecastSeed): GenderVoice {
+  return GENDER_VOICE[seed.gender]
+}
+
+function buildTopDisclaimer(seed: SeoForecastSeed): string {
+  return `Ứng dụng giải trí và thuật toán tham khảo: bài ${audience(seed)} năm 2026 không phải lời tiên đoán, không thay thế lá số cá nhân hoặc tư vấn chuyên môn. Với ${audience(seed)}, bài theo năm sinh không thể kết luận về sao tại Mệnh Cung khi chưa có ngày giờ sinh.`
+}
+
+function buildAiNativeWrapper(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
+  return `Thuật toán Bói Toán tổng hợp riêng cho ${audience(seed)} từ 50+ cổ thư Tử Vi truyền thống, gồm Tam Hợp Phái và 《紫微斗数全书》, rồi đối chiếu nạp âm ${evidence.napAm.name}, Cung ${evidence.cungMenh.name} và năm ${evidence.targetYearCanChi}.`
+}
+
+function buildMethodNote(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
+  return `Bài phân tích ${audience(seed)} dùng Can Chi, nạp âm, Cung mệnh, quan hệ với năm ${evidence.targetYearCanChi} và tham chiếu Tam Hợp Phái / 《紫微斗数全书》; đây là nội dung tham khảo, không phải lời tiên đoán.`
+}
+
+function careerLensFor(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
+  if (seed.gender === 'nam') {
+    return `Với ${audience(seed)}, nạp âm ${evidence.napAm.name} nên được đưa vào vai trò tạo chuẩn, quản trị nguồn lực và đo kết quả rõ; ${evidence.napAm.careerLens.toLowerCase()}`
+  }
+
+  return `Với ${audience(seed)}, nạp âm ${evidence.napAm.name} nên được dùng để chuẩn hóa quy trình, bảo vệ thời gian sâu và quản lý dòng tiền gia đình/công việc; ${evidence.napAm.careerLens.toLowerCase()}`
+}
+
+function moneyLensFor(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
+  return `${audience(seed)} nên đọc tài chính qua nạp âm ${evidence.napAm.name}: ${evidence.napAm.moneyLens}`
+}
+
+function buildCtaModules(seed: SeoForecastSeed): YearForecastCtaModule[] {
+  const label = audience(seed)
+  const genderVoice = genderVoiceFor(seed)
+
   return [
     {
       placement: 'after-summary',
-      heading: `Muốn xem ${evidence.canChi} theo ngày giờ sinh?`,
-      body: `Bài ${evidence.canChi} ${evidence.genderLabel} này là tổng quan theo năm sinh. Lá số cá nhân trên Bói Toán cho tuổi ${evidence.canChi} cần ngày giờ sinh để an Mệnh, Thân, Cục và 12 cung cho riêng bạn.`,
-      buttonLabel: 'Lập lá số — miễn phí lượt đầu',
+      heading: `Muốn xem ${label} theo ngày giờ sinh?`,
+      body: `Bài ${label} này là tổng quan theo năm sinh. Lá số cá nhân trên Bói Toán cho ${label} cần ngày giờ sinh để an Mệnh, Thân, Cục và 12 cung cho riêng bạn; ${genderVoice.appReason}.`,
+      buttonLabel: `Lập lá số ${label} — miễn phí lượt đầu`,
       href: '/lap-la-so/',
-      complianceNote: `${evidence.canChi}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
+      complianceNote: `${label}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
     },
     {
       placement: 'mid-article',
-      heading: `Thuật toán phát hiện thêm khi có giờ sinh`,
-      body: `Với ${evidence.canChi}, dữ liệu năm sinh mới cho thấy nạp âm và Cung mệnh. Nhập ngày giờ sinh của tuổi ${evidence.canChi} để Bói Toán đọc tiếp vị trí sao trong lá số riêng.`,
-      buttonLabel: 'Thử lập lá số cá nhân',
+      heading: `Thuật toán phát hiện thêm cho ${label}`,
+      body: `Với ${label}, dữ liệu năm sinh mới cho thấy nạp âm và Cung mệnh. Nhập ngày giờ sinh của ${label} để Bói Toán đọc tiếp vị trí sao trong lá số riêng, nhất là khi bạn muốn kiểm tra ${genderVoice.decisionFilter}.`,
+      buttonLabel: `Thử lá số ${label}`,
       href: '/lap-la-so/',
-      complianceNote: `${evidence.canChi}: thuật toán tham khảo, không phải kết luận số mệnh.`,
+      complianceNote: `${label}: thuật toán tham khảo, không phải kết luận số mệnh.`,
     },
     {
       placement: 'end-of-article',
-      heading: `Bạn đã đọc xong tổng quan ${evidence.canChi}`,
-      body: `Riêng tuổi ${evidence.canChi}, nếu muốn xem phần khác biệt của chính bạn, hãy lập lá số cá nhân để an Mệnh Cung, Thân Cung, Cục và các sao tại 12 cung.`,
-      buttonLabel: 'Xem lá số chính xác hơn',
+      heading: `Bạn đã đọc xong tổng quan ${label}`,
+      body: `Riêng ${label}, nếu muốn xem phần khác biệt của chính bạn, hãy lập lá số cá nhân để an Mệnh Cung, Thân Cung, Cục và các sao tại 12 cung; ${genderVoice.appReason}.`,
+      buttonLabel: `Xem lá số ${label} sâu hơn`,
       href: '/lap-la-so/',
-      complianceNote: `${evidence.canChi}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
+      complianceNote: `${label}: ứng dụng tham khảo, không thay thế tư vấn chuyên môn.`,
     },
     {
       placement: 'sticky-mobile',
-      heading: `${evidence.canChi}: xem theo giờ sinh`,
-      body: `Tổng quan đã đủ để định hướng; lá số cá nhân giúp đọc sâu hơn theo ngày giờ sinh.`,
-      buttonLabel: 'Lập lá số',
+      heading: `${label}: xem theo giờ sinh`,
+      body: `${label} đã có tổng quan theo năm sinh; lá số cá nhân giúp đọc sâu hơn theo ngày giờ sinh.`,
+      buttonLabel: `Lập lá số ${label}`,
       href: '/lap-la-so/',
-      complianceNote: 'Tham khảo.',
+      complianceNote: 'Tham khảo, không thay thế tư vấn chuyên môn.',
     },
   ]
 }
 
-function buildAppComparisonFaq(evidence: YearForecastDomainEvidence): { question: string; answer: string } {
-  return {
-    question: `Bài tổng quan ${evidence.canChi} khác gì lá số cá nhân trên app Bói Toán?`,
-    answer: `Bài ${evidence.canChi} này đọc theo năm sinh và giới tính. Lá số cá nhân trên app Bói Toán cho ${evidence.canChi} cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí 108 sao tại 12 cung, nên phù hợp hơn khi bạn muốn xem phần riêng của mình.`,
-  }
+function buildSummaryRows(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): SummaryRow[] {
+  const label = audience(seed)
+  const genderVoice = genderVoiceFor(seed)
+
+  return [
+    {
+      aspect: 'Nền vận',
+      trend: `${label} gặp ${evidence.targetYearCanChi}: Can ${evidence.thienCan} là ${evidence.thienCanRelationToBinh.label}, Chi ${evidence.diaChi} là ${evidence.diaChiRelationToNgo.label}.`,
+      action: `${label} nên đọc hai lớp này cùng lúc, không tách riêng may rủi khỏi cách hành động hằng ngày; ${genderVoice.decisionFilter}.`,
+    },
+    {
+      aspect: 'Công việc',
+      trend: careerLensFor(seed, evidence),
+      action: `${label} nên chọn một việc trọng tâm để làm sâu, rồi ${genderVoice.workAction}.`,
+    },
+    {
+      aspect: 'Tài chính',
+      trend: moneyLensFor(seed, evidence),
+      action: `${label} cần tách tiền dự phòng, tiền sinh hoạt và tiền thử nghiệm; ${genderVoice.moneyAction}.`,
+    },
+    {
+      aspect: 'Tình cảm / gia đạo',
+      trend: `${label} thuộc tuổi ${seed.animal} có thế mạnh ${voice.strength}, nhưng rủi ro là ${voice.risk}.`,
+      action: `${label} nên dùng cách nói rõ ràng hơn để người thân hiểu điều mình đang gánh; ${genderVoice.relationshipAction}.`,
+    },
+    {
+      aspect: 'Thân tâm',
+      trend: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} của ${label} cần nền sinh hoạt đủ ổn để quyết định không lệch.`,
+      action: `${label} nên xem giấc ngủ, vận động và khoảng nghỉ như một phần của kế hoạch năm; ${genderVoice.wellbeingAction}.`,
+    },
+  ]
+}
+
+function buildIntro(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): string[] {
+  const label = audience(seed)
+  const genderVoice = genderVoiceFor(seed)
+
+  return [
+    `${label} bước vào năm ${evidence.targetYearCanChi} với nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Với ${label}, bài này không xem một câu tốt xấu; Bói Toán đặt các lớp Can Chi, nạp âm, Cung mệnh và tuổi âm vào cùng một khung tham khảo để bạn tự chọn cách hành động tỉnh táo hơn.`,
+    `Ở tuổi âm ${evidence.lifeStage.age}, ${label} đang ở giai đoạn ${evidence.lifeStage.bucket}: ${evidence.lifeStage.focus}. Với ${label}, ${genderVoice.openingFrame}.`,
+    `Riêng ${label} thuộc tuổi ${seed.animal}, thế mạnh là ${voice.strength}, còn điểm cần canh là ${voice.risk}. Thuật toán phát hiện cho ${label}: ${evidence.thienCanRelationToBinh.detail} Đồng thời với ${label}, ${evidence.diaChiRelationToNgo.detail} Vì vậy ${label} năm 2026 nên được đọc như một bản đồ ra quyết định, không phải lời hứa chắc chắn về vận hạn.`,
+  ]
+}
+
+function buildSections(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence, voice: AnimalVoice): YearForecastSection[] {
+  const label = audience(seed)
+  const genderVoice = genderVoiceFor(seed)
+
+  return [
+    {
+      heading: `Tổng quan riêng cho ${label}`,
+      content: [
+        `${label} mang ba nét con giáp cần dùng đúng chỗ: ${evidence.animalTraits.traits.join(', ')}. Với ${label}, các nét này hữu ích khi năm 2026 đòi hỏi vừa quan sát nhanh vừa giữ nền ổn định.`,
+        `Bói Toán không gộp ${label} vào một bài tuổi ${seed.animal} chung, vì Can ${evidence.thienCan}, Chi ${evidence.diaChi}, nạp âm ${evidence.napAm.name} và Cung ${evidence.cungMenh.name} tạo ra một cấu trúc riêng. Điểm đáng đọc của ${label} là cách biến ưu thế ${voice.strength} thành hành động có giới hạn, đồng thời nhớ rằng ${genderVoice.openingFrame}.`,
+      ],
+    },
+    {
+      heading: `Thiên Can ${evidence.thienCan} gặp Bính: ${evidence.thienCanRelationToBinh.label}`,
+      content: [
+        `Với ${label}, lớp Thiên Can cho thấy ${evidence.thienCanRelationToBinh.detail} Với ${label}, tín hiệu này hữu ích khi bạn cần chọn việc nuôi tương lai, thay vì chạy theo mọi lời mời có vẻ cấp bách.`,
+        `${label} nên áp dụng gợi ý này bằng một nguyên tắc rõ: ${evidence.thienCanRelationToBinh.recommendationLens} Nếu ${label} đứng trước quyết định mới chưa làm rõ uy tín, dòng tiền hoặc trách nhiệm gia đình, hãy để nó qua một vòng kiểm tra nữa và nhớ ${genderVoice.decisionFilter}.`,
+      ],
+    },
+    {
+      heading: `Địa Chi ${evidence.diaChi} gặp Ngọ: ${evidence.diaChiRelationToNgo.label}`,
+      content: [
+        `Với ${label}, lớp Địa Chi cho thấy ${evidence.diaChiRelationToNgo.detail} Với ${label}, điều này không nên đọc thành tốt xấu tuyệt đối, mà nên đọc thành kiểu áp lực cần quản trị trong năm Bính Ngọ.`,
+        `${label} có thể dùng khuyến nghị này theo hướng: ${evidence.diaChiRelationToNgo.recommendationLens} Khi ${label} gặp bối cảnh đổi nhanh, một câu hỏi nhỏ nhưng hữu ích là việc này cần tiến, cần dừng hay cần nói lại điều kiện; ${genderVoice.careerGuardrail}.`,
+      ],
+    },
+    {
+      heading: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} và nạp âm ${evidence.napAm.name}`,
+      content: [
+        `Theo bảng Cung mệnh chuẩn, ${label} có Cung ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Khi đặt cạnh nạp âm ${evidence.napAm.name} của ${label}, Bói Toán đọc được một trục nền giúp bạn hiểu mình nên giữ chuẩn ở đâu và nên mềm ở đâu.`,
+        `Trong nghề nghiệp, ${careerLensFor(seed, evidence)} Với ${label}, phần nghề còn cần nhớ: ${genderVoice.careerGuardrail}. Trong tài chính, ${moneyLensFor(seed, evidence)} Với ${label}, lời khuyên an toàn là đưa mọi khoản lớn về giấy tờ, mốc dừng và người kiểm tra chéo.`,
+      ],
+    },
+    {
+      heading: `Công danh, tài chính và Tài lộc ở tuổi ${evidence.lifeStage.age}`,
+      content: [
+        `Ở tuổi ${evidence.lifeStage.age}, ${label} nên biến đặc điểm ${voice.strength} thành cách làm có hệ thống: ${voice.workStyle}. Đây là phần life-stage riêng của ${label}, không phải lời khuyên chung cho mọi tuổi trong cùng nhóm 36-45 hay 26-35; ${genderVoice.workAction}.`,
+        `${label} nên chọn một mục tiêu nghề nghiệp, một mục tiêu tiền bạc và một mục tiêu thân tâm cho năm 2026. Với ${label}, mỗi mục tiêu cần một hành động hằng tuần, vì thuật toán tham khảo chỉ có giá trị khi quay về lịch làm việc thật; ${genderVoice.moneyAction}.`,
+      ],
+    },
+    {
+      heading: `Tình duyên, gia đạo và Sức khỏe nền của tuổi ${seed.animal}`,
+      content: [
+        `Trong quan hệ, ${label} nên chú ý cách ${voice.relationshipStyle}. Với ${label}, tuổi ${seed.animal} có thể rất đáng tin khi đã nhận trách nhiệm, nhưng năm Bính Ngọ cần thêm khả năng nói rõ giới hạn trước khi mệt; ${genderVoice.relationshipFrame}.`,
+        `Về sức khỏe nền, ${label} nên ${voice.recoveryStyle}. Với ${label}, phần này chỉ là nhắc nhở sinh hoạt theo năm sinh, không thay thế tư vấn y tế hoặc kiểm tra chuyên môn khi có dấu hiệu bất thường; ${genderVoice.wellbeingAction}.`,
+      ],
+    },
+    {
+      heading: `Lời khuyên khi dùng bài ${label} trước khi lập lá số cá nhân`,
+      content: [
+        `Theo Tam Hợp Phái / 《紫微斗数全书》, bài ${label} chỉ đọc các lớp tổng quan theo năm sinh và giới tính. Với ${label}, lá số cá nhân vẫn cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí sao trong 12 cung, nên ${genderVoice.appReason}.`,
+        `Bạn có thể dùng bài ${label} như bản đồ thảo luận: ghi lại điều cần làm, điều cần hỏi người thân và điều cần kiểm chứng bằng dữ liệu riêng. Khi ${label} muốn đọc sâu hơn, hãy lập lá số cá nhân thay vì suy luận toàn bộ cuộc đời từ năm sinh; ${genderVoice.decisionFilter}.`,
+      ],
+    },
+  ]
+}
+
+function buildFaqs(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): Array<{ question: string; answer: string }> {
+  const label = audience(seed)
+  const genderVoice = genderVoiceFor(seed)
+
+  return [
+    {
+      question: `${label} gặp năm Bính Ngọ 2026 có điểm gì đáng chú ý?`,
+      answer: `${label} có Can ${evidence.thienCan} gặp Bính là ${evidence.thienCanRelationToBinh.label}, còn Chi ${evidence.diaChi} gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Với ${label}, bạn nên đọc hai lớp này cùng nhau để chọn cách hành động, không xem như lời tiên đoán cố định; ${genderVoice.decisionFilter}.`,
+    },
+    {
+      question: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} gợi ý gì cho ${label}?`,
+      answer: `Cung ${evidence.cungMenh.name} của ${label} nhắc bạn chú ý nền quyết định: môi trường sống, cách giữ lời, quy tắc tiền bạc và nhịp nghỉ. Với ${label}, đây là lớp tham khảo theo Cung mệnh, không thay lá số cá nhân; ${genderVoice.openingFrame}.`,
+    },
+    {
+      question: `Nạp âm ${evidence.napAm.name} của ${label} ảnh hưởng thế nào tới công việc và tiền bạc?`,
+      answer: `Với ${label}, nạp âm ${evidence.napAm.name} giúp định hướng cách dùng năng lực trong nghề và cách giữ dòng tiền. Với ${label}, Bói Toán vẫn khuyến nghị ghi ngân sách, kiểm tra rủi ro và hỏi chuyên gia khi quyết định tài chính lớn; ${genderVoice.moneyAction}.`,
+    },
+    {
+      question: `Bài ${label} này có phải kết luận số mệnh cá nhân không?`,
+      answer: `Không. Bài ${label} là nội dung tham khảo theo năm sinh và giới tính; nó không thay thế tư vấn chuyên môn hoặc lá số cá nhân có ngày giờ sinh.`,
+    },
+    {
+      question: `Bài tổng quan ${label} khác gì lá số cá nhân trên app Bói Toán?`,
+      answer: `Bài ${label} này đọc theo năm sinh và giới tính. Lá số cá nhân trên app Bói Toán cho ${label} cần ngày giờ sinh để an Mệnh Cung, Thân Cung, Cục và vị trí 108 sao tại 12 cung, nên phù hợp hơn khi bạn muốn xem phần riêng của mình; ${genderVoice.appReason}.`,
+    },
+  ]
+}
+
+function buildDescription(seed: SeoForecastSeed, evidence: YearForecastDomainEvidence): string {
+  return `Bài phân tích tử vi 2026 cho ${audience(seed)}: công việc, tài chính, tình duyên, sức khỏe theo Can ${evidence.thienCan}, Chi ${evidence.diaChi}, nạp âm ${evidence.napAm.name} và Cung ${evidence.cungMenh.name}.`
 }
 
 function articleWordCount(
   article: Pick<
-    YearForecastPilotArticle,
+    YearForecastRegeneratedArticle,
     'h1' | 'topDisclaimer' | 'aiNativeWrapper' | 'intro' | 'summaryRows' | 'ctaModules' | 'sections' | 'faqs'
   >,
 ): number {
@@ -147,331 +434,14 @@ function articleWordCount(
   return text.trim().split(/\s+/).filter(Boolean).length
 }
 
-const PILOT_FACTORIES: Record<YearForecastPhase2PilotSlug, PilotDraftFactory> = {
-  'tuoi-ty-1984-nam': (_seed, evidence) => ({
-    methodNote: standardMethodNote(evidence),
-    intro: [
-      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào năm ${evidence.targetYearCanChi} với hai tín hiệu cần đọc cùng nhau: nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây không phải kiểu xem một câu tốt xấu; phần này gom các lớp thông tin nền để bạn chọn cách hành động tỉnh táo hơn.`,
-      `Ở tuổi âm ${evidence.lifeStage.age}, trọng tâm của nam Giáp Tý không còn là chứng minh mình làm được nhiều việc. Giai đoạn ${evidence.lifeStage.bucket} nghiêng về ${evidence.lifeStage.focus}, nên năm 2026 nên được dùng để rà lại hệ thống trách nhiệm, dòng tiền, sức bền và vai trò trong gia đình.`,
-      `${evidence.thienCanRelationToBinh.detail} Đồng thời ${evidence.diaChiRelationToNgo.detail} Vì thế một năm có lực đẩy cũng có lực va chạm; càng muốn tiến nhanh, bản mệnh càng nên đặt nguyên tắc trước khi bước vào cam kết lớn.`,
-    ],
-    summaryRows: [
-      {
-        aspect: 'Trọng tâm vận trình',
-        trend: `Giáp gặp Bính là ${evidence.thienCanRelationToBinh.label}, nhưng Tý gặp Ngọ là ${evidence.diaChiRelationToNgo.label}.`,
-        action: 'Dùng năng lực tổ chức để nuôi mục tiêu lớn, đồng thời tránh phản ứng nóng khi lịch trình bị đảo chiều.',
-      },
-      {
-        aspect: 'Công việc',
-        trend: evidence.napAm.careerLens,
-        action: 'Chọn một hệ thống cần củng cố, giao bớt việc lặp lại và đo kết quả bằng mốc quý thay vì cảm giác bận.',
-      },
-      {
-        aspect: 'Tài chính',
-        trend: evidence.napAm.moneyLens,
-        action: 'Tách quỹ gia đình, quỹ dự phòng và quỹ thử nghiệm; khoản đứng tên hộ hoặc góp vốn nể nang cần dừng lại để kiểm tra.',
-      },
-      {
-        aspect: 'Quan hệ',
-        trend: `Tính ${evidence.animalTraits.traits[0]} của tuổi Tý giúp xoay xở, nhưng dễ làm người thân nghĩ bản mệnh không cần hỗ trợ.`,
-        action: 'Nói rõ điều mình đang gánh trước khi im lặng biến thành khoảng cách.',
-      },
-      {
-        aspect: 'Sức bền',
-        trend: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} cần nền sinh hoạt ổn định để giữ quyết định không lệch.`,
-        action: 'Lên lịch nghỉ trước, không chờ kiệt sức mới xin khoảng trống.',
-      },
-    ],
-    sections: [
-      {
-        heading: 'Tổng quan riêng cho Giáp Tý nam mạng',
-        content: [
-          `Giáp Tý mang hình ảnh người biết gom từng cơ hội nhỏ thành lợi thế dài hạn. Khi nạp âm ${evidence.napAm.name} được đọc trong bối cảnh năm Bính Ngọ, điểm đáng chú ý không phải là may mắn bất ngờ, mà là khả năng giữ chuẩn khi bên ngoài thay đổi nhanh. Bản mệnh nên coi 2026 như năm kiểm tra độ chắc của lịch làm việc, nguyên tắc tiền bạc và cách phân quyền.`,
-          `Tuổi Tý có nét ${evidence.animalTraits.traits.join(', ')}. Ba nét này tạo lợi thế khi xử lý việc khó, nhưng cũng khiến nam mạng dễ tự nhận mình phải biết trước mọi rủi ro. Nếu một kế hoạch đòi hỏi quá nhiều phán đoán ngầm, hãy đưa nó ra giấy, chia thành giả định rõ ràng và chỉ mở rộng sau khi dữ liệu đầu tiên đủ tin cậy.`,
-        ],
-      },
-      {
-        heading: 'Thiên Can Giáp gặp Bính: dùng sinh lực cho đúng việc',
-        content: [
-          `${evidence.thienCanRelationToBinh.detail} Lớp tương sinh này thuận cho học thêm, nâng cấp hệ thống và đưa kinh nghiệm cá nhân thành phương pháp có thể lặp lại. Tuy nhiên sinh lực không đồng nghĩa với ôm thêm mọi lời nhờ vả. Nếu bản mệnh đang ở vai trò quản lý hoặc trụ cột, năm này càng cần biết việc nào nuôi tương lai và việc nào chỉ nuôi cảm giác mình còn kiểm soát được mọi thứ.`,
-          `${evidence.thienCanRelationToBinh.recommendationLens} Một lựa chọn tốt trong năm 2026 nên vượt qua ba câu hỏi: có giúp tăng uy tín thật không, có làm dòng tiền bền hơn không, và có giảm rối cho gia đình không. Nếu chỉ thỏa mãn sĩ diện hoặc cảm giác thắng nhanh, nên đặt nó vào danh sách theo dõi thay vì triển khai ngay.`,
-        ],
-      },
-      {
-        heading: 'Địa Chi Tý xung Ngọ: tránh để tốc độ kéo lệch nền',
-        content: [
-          `${evidence.diaChiRelationToNgo.detail} Với nam Giáp Tý, xung không nên hiểu là xấu tuyệt đối; nó là dấu hiệu cần chủ động sắp lại nhịp. Năm này dễ xuất hiện việc phải đổi lịch, đổi vai, hoặc xử lý một cam kết cũ đã không còn phù hợp. Cách đi an toàn là không phủ nhận biến động, nhưng cũng không quyết định trong lúc tự ái bị chạm.`,
-          `${evidence.diaChiRelationToNgo.recommendationLens} Khi có xung, bản mệnh nên dùng nguyên tắc họp ngắn, ghi rõ quyết định và hẹn ngày rà soát. Việc này nghe khô, nhưng rất hợp với tuổi Tý vì nó biến sự nhanh nhạy thành hệ thống, thay vì để trí nhớ và cảm giác gánh quá nhiều vai trò cùng lúc.`,
-        ],
-      },
-      {
-        heading: 'Cung mệnh Đoài Kim và nạp âm Hải Trung Kim',
-        content: [
-          `Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element} đặt trọng tâm vào chuẩn mực, lời nói và khả năng cắt bỏ phần thừa. Nạp âm ${evidence.napAm.name} cũng thuộc ${evidence.napAm.element}, nên bài học nổi bật là Kim cần được luyện trong trật tự, không phải cứ thêm áp lực là tốt. Nam mạng nên chọn môi trường có quy tắc rõ, hợp đồng rõ và tiêu chí đánh giá minh bạch.`,
-          `Trong công việc, ${evidence.napAm.careerLens} Trong tiền bạc, ${evidence.napAm.moneyLens} Vì vậy năm 2026 nên giảm các khoản đầu tư chỉ dựa trên quan hệ thân quen. Một khoản có vẻ nhỏ nhưng thiếu giấy tờ vẫn có thể làm mòn sự an tâm của cả gia đình.`,
-        ],
-      },
-      {
-        heading: 'Công việc và vai trò trụ cột ở tuổi 43',
-        content: [
-          `Ở tuổi ${evidence.lifeStage.age}, năng lực xoay xở của Tý cần được đặt vào hệ thống riêng: biến phản xạ nhanh thành checklist, lịch bàn giao và quy trình lặp lại được. Nam Giáp Tý thường không thiếu kinh nghiệm; cái thiếu dễ là thời gian yên tĩnh để chọn việc cần bỏ.`,
-          `Một dấu hiệu thuận là khi bản mệnh có thể nghỉ một ngày mà hệ thống vẫn chạy. Một dấu hiệu cần chỉnh là mọi người chỉ tìm đến mình khi có lỗi, còn thành quả thì không ai biết cách đo. Tử vi ứng dụng ở đây không hứa chức vụ; nó nhắc người đọc đưa vận trình về hành động quản trị cụ thể.`,
-        ],
-      },
-      {
-        heading: 'Gia đạo, sức khỏe nền và cách hạ áp lực',
-        content: [
-          `Tuổi Tý thường xử lý lo lắng bằng cách làm thêm một việc nữa. Năm Bính Ngọ lại dễ kích hoạt nhịp nhanh, nên người thân có thể chỉ thấy bản mệnh bận, chứ không thấy phần mệt ở phía sau. Cách hóa giải không phải than thở, mà là nói rõ việc nào cần chia lại, khoản nào đang gây áp lực và lúc nào mình cần nghỉ thật sự.`,
-          `Phần sức khỏe trong bài theo năm sinh chỉ là nhắc nhở giữ nền, không thay thế tư vấn y tế. Nam mạng nên ưu tiên ngủ đúng giờ hơn, đi bộ đều, giảm các cuộc hẹn không cần thiết và kiểm tra chuyên môn khi có dấu hiệu bất thường. Khi thân tâm ổn, quyết định tài chính và gia đình cũng ít bị kéo bởi cảm giác thiếu an toàn.`,
-        ],
-      },
-      {
-        heading: 'Gợi ý thực hành theo quý',
-        content: [
-          `Quý đầu nên kiểm kê các cam kết đang chiếm thời gian. Quý giữa nên chọn một hệ thống để cải tiến sâu, chẳng hạn quy trình làm việc, ngân sách gia đình hoặc cách chăm khách hàng. Quý cuối nên đóng việc dang dở và ghi lại bài học, đặc biệt là những quyết định từng khiến bản mệnh mất ngủ.`,
-          `Theo tinh thần Tam Hợp Phái / 《紫微斗数全书》, bài này chỉ đọc các lớp tổng quan theo năm sinh và giới tính. Lá số cá nhân vẫn cần ngày giờ sinh, Mệnh Cung, Thân Cung và vị trí sao. Vì vậy bạn nên dùng bài này như bản đồ thảo luận, không dùng nó để thay quyết định chuyên môn.`,
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: 'Nam Giáp Tý 1984 gặp năm Bính Ngọ 2026 có điểm gì đáng chú ý?',
-        answer: `Điểm chính là Giáp gặp Bính có thế ${evidence.thienCanRelationToBinh.label}, còn Tý gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Một bên giúp nuôi động lực, một bên buộc bản mệnh quản trị va chạm tốt hơn.`,
-      },
-      {
-        question: 'Cung mệnh Đoài Kim gợi ý gì cho cách làm việc?',
-        answer: 'Đoài Kim hợp với lời nói rõ, chuẩn mực rõ và tiêu chí rõ. Năm 2026 nên giảm quyết định cảm tính, tăng hợp đồng, checklist và cơ chế kiểm tra chéo.',
-      },
-      {
-        question: 'Hải Trung Kim nên chú ý tài chính thế nào?',
-        answer: 'Hải Trung Kim cần giữ nền trước khi mở rộng. Nam mạng nên ưu tiên dự phòng, minh bạch giấy tờ và tránh góp vốn chỉ vì nể quan hệ.',
-      },
-      {
-        question: 'Bài này có thay lá số cá nhân không?',
-        answer: 'Không. Đây là nội dung tham khảo theo năm sinh và giới tính; lá số cá nhân cần ngày giờ sinh để an đủ cung và sao.',
-      },
-    ],
-  }),
-
-  'tuoi-suu-1985-nu': (_seed, evidence) => ({
-    methodNote: standardMethodNote(evidence),
-    intro: [
-      `Nữ mạng ${evidence.canChi} sinh năm ${evidence.year} đi vào năm ${evidence.targetYearCanChi} với cấu trúc nền rất khác Giáp Tý: nạp âm vẫn là ${evidence.napAm.name}, nhưng Cung mệnh chuyển sang ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Bài này được viết từ dữ liệu Can Chi, nạp âm và Cung mệnh riêng, không dựa vào mô tả chung theo giới tính.`,
-      `Tuổi âm ${evidence.lifeStage.age} đặt nữ Ất Sửu vào giai đoạn ${evidence.lifeStage.bucket}, nơi ${evidence.lifeStage.focus} quan trọng hơn việc chịu đựng thêm cho yên nhà. Nếu năm trước đã quen làm người giữ nhịp cho nhiều người, 2026 nên là năm đặt lại ranh giới mềm nhưng rõ.`,
-      `${evidence.thienCanRelationToBinh.detail} Song song đó, ${evidence.diaChiRelationToNgo.detail} Hai lớp này cho thấy năm mới không nhất thiết nặng, nhưng đòi hỏi bản mệnh nói sớm điều chưa ổn và không để trách nhiệm âm thầm trở thành mệt mỏi kéo dài.`,
-    ],
-    summaryRows: [
-      {
-        aspect: 'Nền vận',
-        trend: `Ất gặp Bính là ${evidence.thienCanRelationToBinh.label}; Sửu gặp Ngọ là ${evidence.diaChiRelationToNgo.label}.`,
-        action: 'Nuôi việc tốt bằng sự đều đặn, nhưng xử lý sớm cảm giác bị thiệt hoặc phải gánh hộ.',
-      },
-      {
-        aspect: 'Công việc',
-        trend: `Với nữ Ất Sửu, ${evidence.napAm.careerLens}`,
-        action: 'Chọn vai trò có chuẩn đầu ra rõ, tránh ôm cả việc chuyên môn lẫn phần cảm xúc của tập thể.',
-      },
-      {
-        aspect: 'Tài chính',
-        trend: `Riêng dòng tiền của nữ Ất Sửu nên nhớ: ${evidence.napAm.moneyLens}`,
-        action: 'Ghi ngân sách theo nhóm nhu cầu, đặt giới hạn cho khoản chi vì thương người hoặc vì muốn giữ hòa khí.',
-      },
-      {
-        aspect: 'Tình cảm',
-        trend: `Tuổi Sửu có nét ${evidence.animalTraits.traits[1]}, nên tình cảm cần hành động bền hơn lời hứa đẹp.`,
-        action: 'Trao đổi việc nhà, tiền chung và thời gian nghỉ bằng câu cụ thể, không chờ người khác tự hiểu.',
-      },
-      {
-        aspect: 'Thân tâm',
-        trend: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} cần ánh sáng rõ ràng, không hợp với bầu không khí lửng lơ.`,
-        action: 'Dọn một mối bận tâm tồn đọng trước khi nhận thêm trách nhiệm mới.',
-      },
-    ],
-    sections: [
-      {
-        heading: 'Tổng quan dành riêng cho Ất Sửu nữ mạng',
-        content: [
-          `Ất Sửu thường được nhìn bằng hình ảnh bền bỉ, nhưng nếu chỉ nói bền bỉ thì quá ít. Ba nét con giáp nổi bật ở đây là ${evidence.animalTraits.traits.join(', ')}. Năm Bính Ngọ khiến những nét này cần được dùng có giới hạn; càng đáng tin, bản mệnh càng phải biết đâu là phần của mình và đâu là phần người khác cần tự trưởng thành.`,
-          `Nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} không phải lớp thông tin trang trí. Nó nhắc nữ mạng về năng lực tích lũy kín đáo, giữ giá trị bên trong và làm việc tốt khi môi trường đủ trật tự. Nếu năm 2026 có biến động, câu hỏi nên đặt ra là điều gì cần giữ, điều gì cần nói ra và điều gì nên trả lại cho đúng người chịu trách nhiệm.`,
-        ],
-      },
-      {
-        heading: 'Ất gặp Bính: nuôi lửa mà không tự đốt mình',
-        content: [
-          `${evidence.thienCanRelationToBinh.detail} Với nữ Ất Sửu, thế tương sinh này thuận cho việc học một kỹ năng mới, nâng chất lượng dịch vụ, hoặc đưa kinh nghiệm chăm sóc thành giá trị nghề nghiệp. Tuy vậy Mộc sinh Hỏa cũng có thể thành hình ảnh bản mệnh đem sức mình nuôi nhịp của người khác quá lâu.`,
-          `${evidence.thienCanRelationToBinh.recommendationLens} Trước mỗi lời nhờ vả, nên hỏi mình có thật sự muốn nhận hay chỉ sợ làm người khác buồn. Một năm tốt không phải năm không ai phiền mình, mà là năm bản mệnh biết dùng sự tử tế đúng liều lượng và không đánh mất thời gian hồi phục.`,
-        ],
-      },
-      {
-        heading: 'Sửu gặp Ngọ: nhận diện những va chạm âm thầm',
-        content: [
-          `${evidence.diaChiRelationToNgo.detail} Tương hại thường không ồn ào như xung, nhưng dễ thành cảm giác ấm ức vì những điều nhỏ lặp lại. Nữ Ất Sửu nên đặc biệt chú ý các thỏa thuận không thành lời: ai trả khoản nào, ai chăm việc nào, ai được nghỉ và ai luôn phải linh động.`,
-          `${evidence.diaChiRelationToNgo.recommendationLens} Cách hóa giải phù hợp là viết lại cam kết bằng ngôn ngữ nhẹ. Không cần biến mọi cuộc nói chuyện thành tranh luận; chỉ cần đủ rõ để người thân, đồng nghiệp hoặc đối tác biết ranh giới mới nằm ở đâu.`,
-        ],
-      },
-      {
-        heading: 'Cung Ly Hỏa và cách làm sáng nhu cầu thật',
-        content: [
-          `Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element} khiến năm 2026 nhấn vào sự minh bạch. Ly không hợp với việc giấu mãi điều mình cần rồi hy vọng người khác tự nhận ra. Khi thông tin rõ, nữ Ất Sửu dễ lấy lại cảm giác chủ động; khi thông tin mờ, bản mệnh dễ rơi vào vai người âm thầm chịu thiệt.`,
-          `Trong nghề nghiệp, ${evidence.napAm.careerLens} Điều này phù hợp với người biết giữ chuẩn, xử lý chi tiết và tạo niềm tin qua thời gian. Ở riêng nữ Ất Sửu, ${evidence.napAm.moneyLens} Vì thế bản mệnh nên có bảng dòng tiền đơn giản, không cần cầu kỳ nhưng phải nhìn được khoản nào đang chi vì thương và khoản nào thật sự giúp tương lai.`,
-        ],
-      },
-      {
-        heading: 'Tuổi 42: củng cố sự nghiệp mà không quên đời sống riêng',
-        content: [
-          `Ở tuổi ${evidence.lifeStage.age}, sự bền bỉ của Sửu cần ranh giới cụ thể: biết đâu là trách nhiệm của mình và đâu là phần người khác cần tự gánh. Với nữ mạng Ất Sửu, câu chuyện không chỉ là thăng tiến mà còn là giữ một đời sống riêng đủ mạnh.`,
-          `Một mục tiêu đẹp cho năm 2026 là có lịch cố định cho việc học, nghỉ và kiểm tra tài chính. Nếu bản mệnh đang kinh doanh nhỏ, làm dịch vụ hoặc giữ vai trò điều phối, hãy tách rõ giờ trả lời người khác và giờ làm việc sâu. Ranh giới thời gian chính là một dạng tài sản.`,
-        ],
-      },
-      {
-        heading: 'Gia đạo và tình cảm: tử tế nhưng không tự xóa mình',
-        content: [
-          `Tuổi Sửu có xu hướng chứng minh tình thương bằng hành động bền bỉ. Điểm mạnh này quý, nhưng năm Ngọ có thể làm nổi lên cảm giác mình cho nhiều hơn nhận. Thay vì giữ trong lòng tới lúc mệt, nữ Ất Sửu nên chọn một cuộc nói chuyện ngắn mỗi tuần về việc đang vướng, khoản chi đang lo hoặc sự hỗ trợ mình cần.`,
-          `Nếu độc thân, tiêu chí không nên chỉ là người kia có cảm xúc hay không. Hãy nhìn cách họ tôn trọng lịch của bạn, cách họ nói về tiền, và cách họ xử lý khi bạn từ chối. Nếu đã có gia đình, đừng xem bình yên là trạng thái không ai nói gì; bình yên thật cần sự công bằng có thể nhìn thấy.`,
-        ],
-      },
-      {
-        heading: 'Khuyến nghị thực hành cho năm 2026',
-        content: [
-          `Quý đầu nên dọn một nghĩa vụ cũ. Quý giữa nên đưa kỹ năng hoặc sản phẩm của mình ra thị trường bằng cách nhỏ, đo được và không làm cạn sức. Quý cuối nên nhìn lại khoản tiền nào giúp mình tự do hơn, khoản nào chỉ giữ hình ảnh chu đáo trước mặt người khác.`,
-          `Theo Tam Hợp Phái / 《紫微斗数全书》, bài theo năm sinh không thể thay lá số cá nhân vì thiếu ngày giờ sinh và vị trí sao tại 12 cung. Nội dung này vì vậy chỉ nên dùng để soi thói quen, đặt câu hỏi và chuẩn bị cuộc nói chuyện cần thiết với người liên quan.`,
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: 'Nữ Ất Sửu 1985 gặp Bính Ngọ 2026 nên chú ý gì nhất?',
-        answer: `Ất gặp Bính có thế ${evidence.thienCanRelationToBinh.label}, còn Sửu gặp Ngọ là ${evidence.diaChiRelationToNgo.label}. Trọng tâm là nuôi việc tốt nhưng không để trách nhiệm nhỏ tích lại thành ấm ức.`,
-      },
-      {
-        question: 'Cung Ly Hỏa có ý nghĩa gì trong bài này?',
-        answer: 'Ly Hỏa nhấn vào sự sáng rõ. Nữ mạng nên nói nhu cầu, lịch nghỉ, tiền chung và ranh giới bằng ngôn ngữ dễ hiểu hơn.',
-      },
-      {
-        question: 'Hải Trung Kim có hợp với đầu tư mạo hiểm không?',
-        answer: 'Bài này không khuyến nghị đầu tư mạo hiểm. Hải Trung Kim nên giữ nền, kiểm tra giấy tờ và ưu tiên quỹ an toàn trước khi mở rộng.',
-      },
-      {
-        question: 'Có cần ngày giờ sinh để xem kỹ hơn không?',
-        answer: 'Có. Bài này chỉ là tổng quan theo năm sinh và giới tính; lá số cá nhân cần ngày giờ sinh để an Mệnh, Thân, Cục và sao.',
-      },
-    ],
-  }),
-
-  'tuoi-dan-1986-nam': (_seed, evidence) => ({
-    methodNote: standardMethodNote(evidence),
-    intro: [
-      `Nam mạng ${evidence.canChi} sinh năm ${evidence.year} bước vào ${evidence.targetYearCanChi} với nạp âm ${evidence.napAm.name} thuộc ${evidence.napAm.element} và Cung mệnh ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Đây là cấu trúc có khí Hỏa nổi bật: nạp âm gặp năm Hỏa, còn Dần gặp Ngọ tạo thế tam hợp thúc đẩy hành động.`,
-      `Tuổi âm ${evidence.lifeStage.age} đặt nam Bính Dần trong giai đoạn ${evidence.lifeStage.bucket}: ${evidence.lifeStage.focus}. Nếu bản mệnh đang đứng trước cơ hội mở rộng, năm 2026 nên hỏi cách mở nào làm hệ thống mạnh hơn, chứ không chỉ hỏi cơ hội nào khiến mình thấy hưng phấn hơn.`,
-      `${evidence.thienCanRelationToBinh.detail} Cùng lúc, ${evidence.diaChiRelationToNgo.detail} Hai lớp tín hiệu đều tăng khí thế, vì vậy bài này tập trung vào quản trị lửa: dùng nó để xây, không dùng nó để đốt hết nhịp nghỉ và quan hệ quan trọng.`,
-    ],
-    summaryRows: [
-      {
-        aspect: 'Nền vận',
-        trend: `Bính gặp Bính là ${evidence.thienCanRelationToBinh.label}; Dần gặp Ngọ là ${evidence.diaChiRelationToNgo.label}.`,
-        action: 'Cho phép mình tiến, nhưng mỗi bước mở rộng phải có người phản biện và giới hạn rủi ro.',
-      },
-      {
-        aspect: 'Công việc',
-        trend: evidence.napAm.careerLens,
-        action: 'Chọn chiến trường có đòn bẩy rõ, tránh nhảy giữa nhiều ý tưởng chỉ vì ý tưởng nào cũng tạo cảm giác mạnh.',
-      },
-      {
-        aspect: 'Tài chính',
-        trend: evidence.napAm.moneyLens,
-        action: 'Đặt trần thử nghiệm, ghi rõ mốc dừng và không dùng tiền dự phòng để chứng minh bản lĩnh.',
-      },
-      {
-        aspect: 'Quan hệ',
-        trend: `Tuổi Dần có nét ${evidence.animalTraits.traits[0]} và ${evidence.animalTraits.traits[1]}.`,
-        action: 'Khi dẫn dắt, hãy nói rõ kỳ vọng; khi bất đồng, hãy giảm tốc trước khi kết luận người khác chậm.',
-      },
-      {
-        aspect: 'Sức bền',
-        trend: `Cung ${evidence.cungMenh.name} ${evidence.cungMenh.element} cần nền ổn định để Hỏa khí không thành nóng vội.`,
-        action: 'Đưa giấc ngủ, vận động và khoảng trống gia đình vào kế hoạch như chỉ số vận hành.',
-      },
-    ],
-    sections: [
-      {
-        heading: 'Tổng quan riêng cho Bính Dần nam mạng',
-        content: [
-          `Bính Dần thường không thiếu ý chí. Ba nét con giáp nổi bật là ${evidence.animalTraits.traits.join(', ')}, nên khi gặp năm Bính Ngọ, bản mệnh dễ thấy nhiều cánh cửa cùng mở. Điểm cần nhớ là cơ hội thật không chỉ làm mình phấn khích; nó phải chịu được lịch triển khai, ngân sách và trách nhiệm sau khi hào hứng ban đầu đi qua.`,
-          `Nạp âm ${evidence.napAm.name} khiến câu chuyện nghề nghiệp mang màu của lửa trong lò: lửa có ích khi được đặt trong khuôn, còn lửa tràn ra ngoài thì làm hao sức. Năm 2026 vì thế hợp với người biết biến tham vọng thành quy trình, chứ không hợp với kiểu lao lên để thắng cảm giác bị chậm.`,
-        ],
-      },
-      {
-        heading: 'Bính gặp Bính: khí thế mạnh cần có phanh',
-        content: [
-          `${evidence.thienCanRelationToBinh.detail} Tỷ kiên tạo cảm giác tự chủ, nhưng cũng làm cái tôi dễ nổi rõ. Nam Bính Dần nên xem mọi quyết định lớn qua lăng kính đội nhóm: nếu chỉ mình thấy đúng, cần thêm dữ liệu; nếu người khác góp ý mà mình lập tức khó chịu, có thể vấn đề nằm ở tốc độ phản ứng.`,
-          `${evidence.thienCanRelationToBinh.recommendationLens} Năm này nên có một người phản biện đủ tin, một bảng rủi ro đủ thẳng, và một mốc dừng đủ cụ thể. Khi ba điều đó có mặt, khí thế Bính Hỏa mới trở thành năng lượng xây dựng thay vì vòng xoáy tự chứng minh.`,
-        ],
-      },
-      {
-        heading: 'Dần tam hợp Ngọ: cơ hội mở rộng có điều kiện',
-        content: [
-          `${evidence.diaChiRelationToNgo.detail} Tam hợp đem lại cảm giác thuận đà, đặc biệt với các việc cần xuất hiện, thuyết phục, bán hàng, lãnh đạo hoặc bắt đầu dự án mới. Tuy nhiên thuận đà không có nghĩa là mọi cửa đều nên đi vào. Bản mệnh cần chọn cửa phù hợp với nguồn lực thật.`,
-          `${evidence.diaChiRelationToNgo.recommendationLens} Nếu một dự án yêu cầu bản mệnh làm gấp đôi mà không có thêm người, nó chưa hẳn là cơ hội. Nếu một quan hệ hợp tác chỉ khen tầm nhìn nhưng né chi tiết tiền bạc, nên chậm lại. Tam hợp tốt nhất khi được đặt trong thỏa thuận rõ ràng.`,
-        ],
-      },
-      {
-        heading: 'Cung Khôn Thổ giữ nền cho Lư Trung Hỏa',
-        content: [
-          `Theo bảng Cung mệnh chuẩn, ${evidence.canChi} ${evidence.genderLabel} có Cung ${evidence.cungMenh.name} thuộc ${evidence.cungMenh.element}. Khôn Thổ nhắc nam Bính Dần rằng mọi ngọn lửa đều cần nền đỡ. Nếu muốn dẫn dắt người khác, trước hết phải có lịch, quy tắc, tài chính và sức khỏe đủ ổn để người khác tin mình đi đường dài.`,
-          `Về nghề, ${evidence.napAm.careerLens} Về tiền, ${evidence.napAm.moneyLens} Đây là lời nhắc rất trực tiếp: bản mệnh có thể kiếm nhanh trong năm có khí thế, nhưng giữ được hay không phụ thuộc vào trần rủi ro, kỷ luật ghi chép và khả năng nói không với cuộc chơi quá nóng.`,
-        ],
-      },
-      {
-        heading: 'Tuổi 41: chuyển từ người xông lên sang người dựng hệ thống',
-        content: [
-          `Ở tuổi ${evidence.lifeStage.age}, khí thế tiên phong của Dần cần một chiếc phanh tốt: biến năng lượng cá nhân thành động lực nhóm, không phải gánh việc thay người khác. Nếu bản mệnh đang là người giỏi nhất trong một khâu, nhiệm vụ của năm 2026 là biến khâu đó thành cách làm mà người khác học được.`,
-          `Một dấu hiệu bạn đang quản trị tốt không chỉ nằm ở doanh thu, chức vụ hoặc số dự án. Dấu hiệu rõ hơn là đội nhóm bớt phụ thuộc vào tâm trạng của mình, gia đình ít phải đoán lịch của mình và bản thân có thể nghỉ mà không thấy mọi thứ sắp đổ. Đó là kiểu mạnh phù hợp với tuổi 41 hơn kiểu mạnh luôn căng dây.`,
-        ],
-      },
-      {
-        heading: 'Tình cảm và gia đạo khi Hỏa khí tăng',
-        content: [
-          `Nam Bính Dần khi áp lực thường muốn giải quyết nhanh, nhưng người thân không phải lúc nào cũng cần giải pháp ngay. Có lúc họ cần được nghe rằng bản mệnh đang lo gì, sợ gì, hoặc cần khoảng lặng nào. Năm Ngọ có thể làm lời nói sắc hơn, nên hãy chậm một nhịp trước khi biến sự thẳng thắn thành áp đặt.`,
-          `Nếu đang trong quan hệ ổn định, nên có lịch bàn chuyện tiền, chuyện con cái hoặc chuyện chăm sóc cha mẹ bằng giọng bình tĩnh. Nếu độc thân, đừng xem người theo kịp tốc độ của mình là tiêu chí duy nhất. Người phù hợp còn cần biết cùng mình hạ nhiệt đúng lúc.`,
-        ],
-      },
-      {
-        heading: 'Khuyến nghị thực hành cho năm tam hợp',
-        content: [
-          `Quý đầu nên chọn một mục tiêu mở rộng và viết ra lý do không chọn các mục tiêu còn lại. Quý giữa nên triển khai thử với ngân sách giới hạn. Quý cuối nên kiểm tra điều gì làm mình tự hào và điều gì làm mình quá tải, vì cả hai đều là dữ liệu quan trọng.`,
-          `Theo Tam Hợp Phái / 《紫微斗数全书》, bài này vẫn chỉ là nội dung tham khảo theo năm sinh và giới tính. Nó không thay thế lá số cá nhân, tư vấn y tế, pháp lý hay tài chính. Giá trị thực tế nằm ở việc biến tín hiệu văn hóa thành câu hỏi quản trị đời sống.`,
-        ],
-      },
-    ],
-    faqs: [
-      {
-        question: 'Nam Bính Dần 1986 gặp Bính Ngọ 2026 có thuận không?',
-        answer: `Có lực thuận vì Dần gặp Ngọ là ${evidence.diaChiRelationToNgo.label}, nhưng Bính gặp Bính là ${evidence.thienCanRelationToBinh.label} nên bản mệnh phải quản trị cái tôi và tốc độ.`,
-      },
-      {
-        question: 'Cung Khôn Thổ ảnh hưởng gì tới cách hành động?',
-        answer: 'Khôn Thổ nhắc người đọc xây nền trước khi mở rộng. Lịch, ngân sách, đội nhóm và sức khỏe cần đủ chắc để Hỏa khí không thành nóng vội.',
-      },
-      {
-        question: 'Lư Trung Hỏa nên chú ý tài chính thế nào?',
-        answer: 'Lư Trung Hỏa có động lực mạnh, nhưng tiền bạc cần trần thử nghiệm và mốc dừng rõ. Không nên dùng quỹ an toàn cho quyết định muốn chứng minh bản lĩnh.',
-      },
-      {
-        question: 'Bài này có kết luận số mệnh cá nhân không?',
-        answer: 'Không. Đây là bản tham khảo theo năm sinh; muốn đọc cá nhân cần ngày giờ sinh và đầy đủ lá số.',
-      },
-    ],
-  }),
-}
-
-export function getYearForecastPilotArticle(seed: SeoForecastSeed): YearForecastPilotArticle | null {
-  if (!isPilotSlug(seed.slug)) return null
+export function getYearForecastRegeneratedArticle(seed: SeoForecastSeed): YearForecastRegeneratedArticle | null {
+  if (!isPhase3CohortSeed(seed)) return null
 
   const domainEvidence = deriveYearForecastDomainEvidence(seed)
   const regenerationInput = buildYearForecastRegenerationInput(seed)
-  const draft = PILOT_FACTORIES[seed.slug](seed, domainEvidence)
   const title = buildTitle(seed)
-  const ctaModules = buildCtaModules(domainEvidence)
+  const voice = voiceFor(seed)
+  const ctaModules = buildCtaModules(seed)
   const stickyMobileCta = ctaModules.find((module) => module.placement === 'sticky-mobile')
 
   if (!stickyMobileCta) {
@@ -482,20 +452,32 @@ export function getYearForecastPilotArticle(seed: SeoForecastSeed): YearForecast
     slug: seed.slug,
     title,
     h1: title,
-    description: `Bài phân tích tử vi 2026 cho ${title}: dùng Can Chi, nạp âm, Cung mệnh, quan hệ với Bính Ngọ và giai đoạn tuổi để định hướng tham khảo.`,
-    topDisclaimer: buildTopDisclaimer(domainEvidence),
-    aiNativeWrapper: buildAiNativeWrapper(domainEvidence),
+    description: buildDescription(seed, domainEvidence),
+    topDisclaimer: buildTopDisclaimer(seed),
+    aiNativeWrapper: buildAiNativeWrapper(seed, domainEvidence),
+    methodNote: buildMethodNote(seed, domainEvidence),
     domainEvidence,
     regenerationInput,
+    summaryRows: buildSummaryRows(seed, domainEvidence, voice),
     ctaModules,
     stickyMobileCta,
-    contentOrigin: 'phase2-pilot-offline-regenerated',
+    intro: buildIntro(seed, domainEvidence, voice),
+    sections: buildSections(seed, domainEvidence, voice),
+    faqs: buildFaqs(seed, domainEvidence),
+    contentOrigin: 'phase3-batch-offline-regenerated',
     reviewStatus: 'needs-domain-copy-seo-review',
-    ...draft,
-    faqs: [...draft.faqs, buildAppComparisonFaq(domainEvidence)],
   }
 }
 
+export function getYearForecastPilotArticle(seed: SeoForecastSeed): YearForecastPilotArticle | null {
+  if (!isPilotSlug(seed.slug)) return null
+  return getYearForecastRegeneratedArticle(seed)
+}
+
 export function getYearForecastPilotWordCount(article: YearForecastPilotArticle): number {
+  return articleWordCount(article)
+}
+
+export function getYearForecastRegeneratedWordCount(article: YearForecastRegeneratedArticle): number {
   return articleWordCount(article)
 }

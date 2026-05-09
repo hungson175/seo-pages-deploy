@@ -141,17 +141,17 @@ describe('year forecast domain evidence phase 1', () => {
     expect(input.generationInstruction).toContain('spin')
   })
 
-  it('gates the current copy-heavy renderer pending full regeneration and duplicate-sentence scan', () => {
+  it('keeps the 1984-1995 cohort blocked from publication after Phase 3 route integration', () => {
     for (const seed of PHASE1_SEEDS_1984_1995) {
       const page = getSeoForecastPage(seed.slug)
       expect(page, seed.slug).not.toBeNull()
-      expect(page?.contentOrigin, seed.slug).toBe('legacy-template-gated')
-      expect(page?.regenerationStatus, seed.slug).toBe('phase1-domain-evidence-ready')
-      expect(page?.publicationGate.status, seed.slug).toBe('blocked_pending_regeneration')
-      expect(page?.publicationGate.blockers, seed.slug).toContain('full_article_regeneration_required')
-      expect(page?.publicationGate.blockers, seed.slug).toContain('sentence_similarity_scan_required_for_req_10')
+      expect(page?.contentOrigin, seed.slug).toBe('regenerated-domain-content')
+      expect(page?.regenerationStatus, seed.slug).toBe('phase3-batch-review-ready')
+      expect(page?.publicationGate.status, seed.slug).toBe('blocked_pending_review')
+      expect(page?.publicationGate.blockers, seed.slug).toContain('domain_copy_seo_review_required')
+      expect(page?.publicationGate.blockers, seed.slug).toContain('intentional_publication_flip_required')
       expect(page?.publicationGate.evidenceReady, seed.slug).toEqual(REQUIREMENT_IDS)
-      expect(page?.domainEvidence.requirementEvidence['REQ-10'], seed.slug).toContain('không mở xuất bản')
+      expect(page?.publicationGate.reason, seed.slug).toContain('route-integrated for review only')
       expect(isSeoForecastReadyForPublication(page!), seed.slug).toBe(false)
     }
   })

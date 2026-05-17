@@ -8,21 +8,53 @@ dist/
 _next/
 
 # Environment / deployment secrets
-.env
-.env.local
-.env.*.local
-.env.vercel
+.env*
+!.env.example
+!.env.sample
 .vercel/
+
+# Keys, tokens, cookies, auth/session state
+keys/
+tokens/
+secrets/
+*.key
+*.pem
+*.p8
+*.p12
+*.pfx
+*.token
+*.secret
+*credentials*.json
+*service-account*.json
+cookies/
+*.cookies
+*.cookies.json
+auth-state*/
+storage-state*/
+*auth-state*.json
+*storage-state*.json
+.auth/
+playwright/.auth/
 
 # Test and browser artifacts
 test-results/
 playwright-report/
 playwright/.cache/
 .playwright-cli/
+screenshots/
+**/screenshots/
 
-# Logs
+# Generated logs / eval runs
 *.log
 npm-debug.log*
+logs/
+generated-logs/
+generated_logs/
+eval-runs/
+eval_runs/
+runs/eval*/
+tmp/
+tmp-*/
 
 # IDE / OS
 .vscode/
